@@ -70,7 +70,7 @@
     "recharts": "^2.10.3",
     "string-to-color": "^2.2.2",
     "styled-jsx": "^5.1.6",
-    "turbo": "1.10.13"
+    "turbo": "latest"
   },
   "engines": {
     "node": ">=18.x",

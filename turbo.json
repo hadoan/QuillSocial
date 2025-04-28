@@ -1,62 +1,100 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "globalDependencies": [
+    "yarn.lock"
+  ],
+  "tasks": {
     "@quillsocial/prisma#build": {
       "cache": false
     },
     "@quillsocial/prisma#db-migrate": {
       "cache": false,
-      "dependsOn": ["@quillsocial/prisma#db-up"],
-      "inputs": ["./schema.prisma", "./migrations/**/*.sql"]
+      "dependsOn": [
+        "@quillsocial/prisma#db-up"
+      ],
+      "inputs": [
+        "./schema.prisma",
+        "./migrations/**/*.sql"
+      ]
     },
     "@quillsocial/prisma#db-seed": {
       "cache": false,
-      "dependsOn": ["@quillsocial/prisma#db-migrate"]
+      "dependsOn": [
+        "@quillsocial/prisma#db-migrate"
+      ]
     },
     "@quillsocial/prisma#db-up": {
       "cache": false
     },
     "@quillsocial/prisma#dx": {
       "cache": false,
-      "dependsOn": ["@quillsocial/prisma#db-migrate"]
+      "dependsOn": [
+        "@quillsocial/prisma#db-migrate"
+      ]
     },
     "@quillsocial/web#build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**"
+      ]
     },
     "@quillsocial/web#start": {
       "cache": false
     },
     "@quillsocial/website#build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**"
+      ]
     },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**"
+      ]
     },
     "db-deploy": {
       "cache": false,
-      "inputs": ["./migrations/**/*.sql", "./prisma/migrations/**/*.sql"]
+      "inputs": [
+        "./migrations/**/*.sql",
+        "./prisma/migrations/**/*.sql"
+      ]
     },
     "deploy": {
       "cache": false,
-      "dependsOn": ["@quillsocial/web#build"]
+      "dependsOn": [
+        "@quillsocial/web#build"
+      ]
     },
     "clean": {
       "cache": false,
-      "outputs": ["dist/**", "build/**"]
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ]
     },
     "dev": {
       "cache": false
     },
     "@quillsocial/prisma#post-install": {
       "cache": false,
-      "outputs": ["dist/**", "build/**"]
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ]
     },
     "start": {
-      "outputs": ["dist/**", "build/**"]
+      "outputs": [
+        "dist/**",
+        "build/**"
+      ]
     }
-  },
-  "globalDependencies": ["yarn.lock"]
+  }
 }
