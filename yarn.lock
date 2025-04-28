@@ -3899,16 +3899,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@quillsocial/facebooksocial@workspace:packages/app-store/facebooksocial":
-  version: 0.0.0-use.local
-  resolution: "@quillsocial/facebooksocial@workspace:packages/app-store/facebooksocial"
-  dependencies:
-    "@quillsocial/prisma": "*"
-    "@quillsocial/types": "*"
-    twitter-api-sdk: ^1.2.1
-  languageName: unknown
-  linkType: soft
-
 "@quillsocial/feature-auth@workspace:packages/features/auth":
   version: 0.0.0-use.local
   resolution: "@quillsocial/feature-auth@workspace:packages/features/auth"
@@ -3995,16 +3985,6 @@ __metadata:
     "@quillsocial/prisma": "*"
     "@quillsocial/types": "*"
     twitter-api-sdk: ^1.2.1
-  languageName: unknown
-  linkType: soft
-
-"@quillsocial/mediumsocial@workspace:packages/app-store/mediumsocial":
-  version: 0.0.0-use.local
-  resolution: "@quillsocial/mediumsocial@workspace:packages/app-store/mediumsocial"
-  dependencies:
-    "@quillsocial/prisma": "*"
-    "@quillsocial/types": "*"
-    googleapis: ^84.0.0
   languageName: unknown
   linkType: soft
 
