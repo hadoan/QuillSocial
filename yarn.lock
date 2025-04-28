@@ -3982,7 +3982,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@quillsocial/googlecloudstorage@*, @quillsocial/googlecloudstorage@workspace:packages/app-store/googlecloudstorage":
+"@quillsocial/googlecloudstorage@workspace:packages/app-store/googlecloudstorage":
   version: 0.0.0-use.local
   resolution: "@quillsocial/googlecloudstorage@workspace:packages/app-store/googlecloudstorage"
   dependencies:
@@ -4317,17 +4317,6 @@ __metadata:
     buffer: ^6.0.3
     lru-cache: ^10.1.0
     twitter-api-v2: ^1.15.2
-  languageName: unknown
-  linkType: soft
-
-"@quillsocial/youtubesocial@workspace:packages/app-store/youtubesocial":
-  version: 0.0.0-use.local
-  resolution: "@quillsocial/youtubesocial@workspace:packages/app-store/youtubesocial"
-  dependencies:
-    "@quillsocial/googlecloudstorage": "*"
-    "@quillsocial/prisma": "*"
-    "@quillsocial/types": "*"
-    googleapis: ^84.0.0
   languageName: unknown
   linkType: soft
 
@@ -20221,11 +20210,11 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=d73830"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 2eee5c37cad4390385db5db5a8e81470e42e8f1401b0358d7390095d6f681b410f2c4a0c496c6ff9ebd775423c7785cdace7bcdad76c7bee283df3d9718c0f20
   languageName: node
   linkType: hard
 
