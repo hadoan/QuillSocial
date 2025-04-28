@@ -93,7 +93,7 @@ const Plugin: React.FC<PluginProps> = ({
           className="w-[100px]"
           defaultValue={timeTypeOption[0]}
           options={timeTypeOption}
-          onChange={(selectedOption) =>
+          onChange={(selectedOption: any) =>
             handleTimeTypeChange(selectedOption as { value: string })
           }
         />

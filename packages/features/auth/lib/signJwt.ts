@@ -1,4 +1,4 @@
-import { WEBSITE_URL } from "@quillsocial/lib/constants";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { SignJWT } from "jose";
 
 const signJwt = async (payload: { email: string }) => {
@@ -7,8 +7,8 @@ const signJwt = async (payload: { email: string }) => {
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(payload.email)
     .setIssuedAt()
-    .setIssuer(WEBSITE_URL)
-    .setAudience(`${WEBSITE_URL}/auth/login`)
+    .setIssuer(WEBAPP_URL)
+    .setAudience(`${WEBAPP_URL}/auth/login`)
     .setExpirationTime("2m")
     .sign(secret);
 };

@@ -1,6 +1,3 @@
-// import checkLicense from "@quillsocial/features/ee/common/server/checkLicense";
-// import ImpersonationProvider from "@quillsocial/features/ee/impersonation/lib/ImpersonationProvider";
-// import { clientSecretVerifier, hostedCal, isSAMLLoginEnabled } from "@quillsocial/features/ee/sso/lib/saml";
 import type { UserPermissionRole, Membership, Team } from "@prisma/client";
 import type { AuthOptions, Session } from "next-auth";
 import { encode } from "next-auth/jwt";
@@ -480,7 +477,7 @@ export const AUTH_OPTIONS: AuthOptions = {
 
         // @ts-ignore-error TODO validate email_verified key on profile
         user.email_verified =
-          user.email_verified || !!user.emailVerified || profile.email_verified;
+          user.email_verified || !!user.emailVerified || (profile as any)?.email_verified;
 
         if (account?.provider !== "twitter" && !user.email_verified) {
           return "/auth/error?error=unverified-email";

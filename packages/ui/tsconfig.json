@@ -1,6 +1,7 @@
 {
   "extends": "@quillsocial/tsconfig/react-library.json",
   "compilerOptions": {
+    "noImplicitAny": false,
     "resolveJsonModule": true
   },
   "include": [

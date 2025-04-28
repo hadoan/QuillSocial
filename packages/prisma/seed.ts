@@ -1,13 +1,9 @@
+import prisma from ".";
 import type { Prisma, UserPermissionRole } from "@prisma/client";
-
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 
-import prisma from ".";
-
-// import mainAppStore from "./seed-app-store";
-
-async function createUserAndEventType(opts: {
+async function createUser(opts: {
   user: {
     email: string;
     password: string;
@@ -90,16 +86,7 @@ async function createTeamAndAddUsers(
 }
 
 async function main() {
-  await createUserAndEventType({
-    user: {
-      email: "delete-me@example.com",
-      password: "delete-me",
-      username: "delete-me",
-      name: "delete-me",
-    },
-  });
-
-  await createUserAndEventType({
+  await createUser({
     user: {
       email: "onboarding@example.com",
       password: "onboarding",
@@ -109,24 +96,16 @@ async function main() {
     },
   });
 
-  await createUserAndEventType({
+  await createUser({
     user: {
-      email: "free-first-hidden@example.com",
-      password: "free-first-hidden",
-      username: "free-first-hidden",
-      name: "Free First Hidden Example",
-    },
-  });
-  await createUserAndEventType({
-    user: {
-      email: "pro@example.com",
-      name: "Pro Example",
-      password: "pro",
-      username: "pro",
+      email: "test@example.com",
+      name: "Test Example",
+      password: "test",
+      username: "test",
     },
   });
 
-  await createUserAndEventType({
+  await createUser({
     user: {
       email: "trial@example.com",
       password: "trial",
@@ -135,7 +114,7 @@ async function main() {
     },
   });
 
-  await createUserAndEventType({
+  await createUser({
     user: {
       email: "free@example.com",
       password: "free",
@@ -144,103 +123,16 @@ async function main() {
     },
   });
 
-  await createUserAndEventType({
-    user: {
-      email: "usa@example.com",
-      password: "usa",
-      username: "usa",
-      name: "USA Timezone Example",
-      timeZone: "America/Phoenix",
-    },
-  });
-
-  const freeUserTeam = await createUserAndEventType({
-    user: {
-      email: "teamfree@example.com",
-      password: "teamfree",
-      username: "teamfree",
-      name: "Team Free Example",
-    },
-  });
-
-  const proUserTeam = await createUserAndEventType({
-    user: {
-      email: "teampro@example.com",
-      password: "teampro",
-      username: "teampro",
-      name: "Team Pro Example",
-    },
-  });
-
-  await createUserAndEventType({
+  await createUser({
     user: {
       email: "admin@example.com",
       /** To comply with admin password requirements  */
-      password: "ADMINadmin2022!",
+      password: "ADMIN@@admin25!",
       username: "admin",
       name: "Admin Example",
       role: "ADMIN",
     },
   });
-
-  const pro2UserTeam = await createUserAndEventType({
-    user: {
-      email: "teampro2@example.com",
-      password: "teampro2",
-      username: "teampro2",
-      name: "Team Pro Example 2",
-    },
-  });
-
-  const pro3UserTeam = await createUserAndEventType({
-    user: {
-      email: "teampro3@example.com",
-      password: "teampro3",
-      username: "teampro3",
-      name: "Team Pro Example 3",
-    },
-  });
-
-  const pro4UserTeam = await createUserAndEventType({
-    user: {
-      email: "teampro4@example.com",
-      password: "teampro4",
-      username: "teampro4",
-      name: "Team Pro Example 4",
-    },
-  });
-
-  await createTeamAndAddUsers(
-    {
-      name: "Seeded Team",
-      slug: "seeded-team",
-
-      createdAt: new Date(),
-    },
-    [
-      {
-        id: proUserTeam.id,
-        username: proUserTeam.name || "Unknown",
-      },
-      {
-        id: freeUserTeam.id,
-        username: freeUserTeam.name || "Unknown",
-      },
-      {
-        id: pro2UserTeam.id,
-        username: pro2UserTeam.name || "Unknown",
-        role: "MEMBER",
-      },
-      {
-        id: pro3UserTeam.id,
-        username: pro3UserTeam.name || "Unknown",
-      },
-      {
-        id: pro4UserTeam.id,
-        username: pro4UserTeam.name || "Unknown",
-      },
-    ]
-  );
 }
 
 main()

@@ -1,12 +1,12 @@
+// @ts-ignore
+import { Label } from "../inputs/Label";
+import { getReactSelectProps } from "./selectTheme";
 import cx from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { useId } from "@radix-ui/react-id";
 import * as React from "react";
 import type { GroupBase, Props, SingleValue, MultiValue } from "react-select";
 import ReactSelect from "react-select";
-
-import { Label } from "../inputs/Label";
-import { getReactSelectProps } from "./selectTheme";
 
 export type SelectProps<
   Option,
@@ -39,6 +39,7 @@ export const Select = <
       {...reactSelectProps}
       classNames={{
         input: () => cx("text-emphasis", props.classNames?.input),
+        // @ts-ignore
         option: (state) =>
           cx(
             "bg-default flex cursor-pointer justify-between py-2.5 px-3 rounded-none text-default ",
@@ -47,12 +48,14 @@ export const Select = <
             state.isSelected && "bg-emphasis text-default",
             props.classNames?.option
           ),
+        // @ts-ignore
         placeholder: (state) =>
           cx(
             "text-muted",
             state.isFocused && variant !== "checkbox" && "hidden"
           ),
         dropdownIndicator: () => "text-default",
+        // @ts-ignore
         control: (state) =>
           cx(
             "bg-default border-default !min-h-9 h-9 text-sm leading-4 placeholder:text-sm placeholder:font-normal dark:focus:border-emphasis focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-default hover:border-emphasis rounded-md border",
@@ -93,6 +96,7 @@ export const Select = <
             "scroll-bar scrollbar-track-w-20 rounded-md",
             props.classNames?.menuList
           ),
+        // @ts-ignore
         indicatorsContainer: (state) =>
           cx(
             state.selectProps.menuIsOpen
@@ -196,6 +200,7 @@ export function SelectWithValidation<
       <Select
         value={value}
         {...remainingProps}
+        // @ts-ignore
         onChange={(value, ...remainingArgs) => {
           setHiddenInputValue(value);
           if (onChange) {

@@ -68,7 +68,7 @@ export async function getAppRegistryWithCredentials(
   userAdminTeams: UserAdminTeams = []
 ) {
   // Get teamIds to grab existing credentials
-  const teamIds = [];
+  const teamIds: number[] = [];
   for (const team of userAdminTeams) {
     if (!team.isUser) {
       teamIds.push(team.id);

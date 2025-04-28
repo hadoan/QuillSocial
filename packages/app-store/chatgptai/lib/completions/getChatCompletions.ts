@@ -35,7 +35,7 @@ export const getChatCompletions = async (
     // Extract the text from the response
     let statusContent: string | undefined = "";
 
-    const tokens = [];
+    const tokens: (any | undefined)[] = [];
     if (response && response.choices && response.choices.length > 0) {
       statusContent = response?.choices[0]?.message?.content!;
       tokens.push(response.usage);
@@ -92,7 +92,7 @@ export const getRewriteCompletions = async (
     // Extract the text from the response
     let statusContent: string | undefined = "";
 
-    const tokens = [];
+    const tokens: (any | undefined)[] = [];
     if (response && response.choices && response.choices.length > 0) {
       statusContent = response?.choices[0]?.message?.content!;
       tokens.push(response.usage);

@@ -159,3 +159,5 @@ export { WizardLayout } from "./layouts/WizardLayout";
 
 export { LoadingDialog } from "./components/loading-dialog/loading-dialog";
 export { Notifications } from "./components/notifications/Notifications";
+export { VideoPlayer } from "./components/players/VideoPlayer";
+export { uploadVideoGcp } from "./lib/uploadVideoGcp";

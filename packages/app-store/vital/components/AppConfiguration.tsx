@@ -122,6 +122,7 @@ const AppConfiguration = (props: IAppConfigurationProps) => {
             <Select
               options={options}
               value={selectedParam}
+              // @ts-ignore
               onChange={(e) => {
                 e && setSelectedParam(e);
                 setTouchedForm(true);

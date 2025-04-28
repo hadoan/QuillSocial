@@ -42,7 +42,7 @@ export const generateBookLearning = async (
 
   let statusContent: string | undefined = "";
 
-  const tokens = [];
+  const tokens: (any | undefined)[] = [];
   if (post && post.choices && post.choices.length > 0) {
     statusContent = post?.choices[0]?.message?.content!;
     tokens.push(post.usage);

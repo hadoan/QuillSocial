@@ -64,7 +64,7 @@ export async function getLocationGroupedOptions(
       const option = { ...app.locationOption, icon: app.logo, slug: app.slug };
     }
   });
-  const locations = [];
+  const locations: { label: string; options: { label: string; value: string; disabled?: boolean; icon?: string; slug?: string; }[] }[] = [];
 
   // Translating labels and pushing into array
   for (const category in apps) {

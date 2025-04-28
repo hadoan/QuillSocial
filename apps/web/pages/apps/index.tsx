@@ -1,13 +1,9 @@
 import {
   getAppRegistry,
-  getAppRegistryWithCredentials,
 } from "@quillsocial/app-store/_appRegistry";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { classNames } from "@quillsocial/lib";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-// import getUserAdminTeams from "@quillsocial/packages/payment/teams/lib/getUserAdminTeams";
-import type { UserAdminTeams } from "@quillsocial/payment/teams/lib/getUserAdminTeams";
-// import type { AppCategories } from "@quillsocial/prisma/enums";
 import type { inferSSRProps } from "@quillsocial/types/inferSSRProps";
 import type { HorizontalTabItemProps } from "@quillsocial/ui";
 import { AllApps, HorizontalTabs, TextField } from "@quillsocial/ui";

@@ -749,7 +749,7 @@ const SettingForm = ({
               <>
                 <Select
                   isSearchable={false}
-                  onChange={(val) => {
+                  onChange={(val: any) => {
                     if (val) onChange(val.value);
                   }}
                   defaultValue={
@@ -797,7 +797,7 @@ const SettingForm = ({
               <>
                 <Select
                   isSearchable={false}
-                  onChange={(val) => {
+                  onChange={(val: any) => {
                     if (val) onChange(val.value);
                   }}
                   defaultValue={

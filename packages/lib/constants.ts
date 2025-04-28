@@ -15,13 +15,7 @@ export const SENDER_NAME =
 // This is the URL from which all Quill Links and their assets are served.
 // Use website URL to make links shorter(quillsocial.co and not app.quillsocial.co)
 // As website isn't setup for preview environments, use the webapp url instead
-export const MY_APP_URL = WEBSITE_URL;
-
-export const CONSOLE_URL =
-  new URL(WEBAPP_URL).hostname.endsWith(".app.quillsocial.co") ||
-  process.env.NODE_ENV !== "production"
-    ? `https://console.app.quillsocial.co`
-    : `https://console.quillsocial.co`;
+export const MY_APP_URL = WEBAPP_URL;
 
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export const TRIAL_LIMIT_DAYS = 14;
@@ -39,18 +33,14 @@ export const ANDROID_CHROME_ICON_256 = "/android-chrome-256x256.png";
 export const ROADMAP = "https://quillsocial.co/roadmap";
 export const DESKTOP_APP_LINK = "https://quillsocial.co/download";
 export const JOIN_SLACK = "https://quillsocial.co/slack";
-export const POWERED_BY_URL = `${WEBSITE_URL}/?utm_source=embed&utm_medium=powered-by-button`;
+export const POWERED_BY_URL = `${WEBAPP_URL}/?utm_source=embed&utm_medium=powered-by-button`;
 export const DOCS_URL = "https://quillsocial.co/docs";
 export const DEVELOPER_DOCS = "https://developer.quillsocial.co";
-export const SEO_IMG_DEFAULT = `${WEBSITE_URL}/og-image.png`;
-// The Dynamic OG Image is passed through Next's Image API to further optimize it.
-// This results in a 80% smaller image 🤯. It is however important that for the query
-// parameters you pass to the /api/social/og/image endpoint, you wrap them in encodeURIComponent
-// as well, otherwise the URL won't be valid.
+export const SEO_IMG_DEFAULT = `${WEBAPP_URL}/og-image.png`;
 export const SEO_IMG_OGIMG = `${MY_APP_URL}/_next/image?w=1200&q=100&url=${encodeURIComponent(
   "/api/social/og/image"
 )}`;
-export const SEO_IMG_OGIMG_VIDEO = `${WEBSITE_URL}/video-og-image.png`;
+export const SEO_IMG_OGIMG_VIDEO = `${WEBAPP_URL}/video-og-image.png`;
 export const IS_STRIPE_ENABLED = !!(
   process.env.STRIPE_CLIENT_ID &&
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY &&

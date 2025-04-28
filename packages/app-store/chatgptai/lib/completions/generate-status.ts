@@ -65,7 +65,7 @@ export const generateStatus = async (
   ]);
   let statusContent: string | undefined = "";
   let topicsContent: string | undefined = "";
-  const tokens = [];
+  const tokens: (any | undefined)[] = [];
   if (
     status &&
     status.chatCompletion?.choices &&

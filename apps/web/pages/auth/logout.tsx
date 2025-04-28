@@ -3,7 +3,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { WEBSITE_URL } from "@quillsocial/lib/constants";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button } from "@quillsocial/ui";
 import { Check } from "@quillsocial/ui/components/icon";
@@ -23,7 +23,7 @@ export function Logout(props: Props) {
   const router = useRouter();
   useEffect(() => {
     if (props.query?.survey === "true") {
-      router.push(`${WEBSITE_URL}/cancellation`);
+      router.push(`${WEBAPP_URL}/cancellation`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.query?.survey]);

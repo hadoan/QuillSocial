@@ -14,7 +14,7 @@ import { z } from "zod";
 import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 // import { isSAMLLoginEnabled, samlProductID, samlTenantID } from "@quillsocial/features/ee/sso/lib/saml";
-import { WEBAPP_URL, WEBSITE_URL } from "@quillsocial/lib/constants";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { getSafeRedirectUrl } from "@quillsocial/lib/getSafeRedirectUrl";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import prisma from "@quillsocial/prisma";
@@ -96,7 +96,7 @@ export default function Login({
   callbackUrl = safeCallbackUrl || "";
 
   const LoginFooter = (
-    <a href={`${WEBSITE_URL}/signup`} className="text-brand-500 font-medium">
+    <a href={`${WEBAPP_URL}/signup`} className="text-brand-500 font-medium">
       Don&apos;t have an account?
     </a>
   );
@@ -295,13 +295,13 @@ const _getServerSideProps = async function getServerSideProps(
     const secret = new TextEncoder().encode(process.env.MY_APP_ENCRYPTION_KEY);
 
     return jwtVerify(jwt, secret, {
-      issuer: WEBSITE_URL,
-      audience: `${WEBSITE_URL}/auth/login`,
+      issuer: WEBAPP_URL,
+      audience: `${WEBAPP_URL}/auth/login`,
       algorithms: ["HS256"],
     });
   };
 
-  let totpEmail = null;
+  let totpEmail : string | null = null;
   if (context.query.totp) {
     try {
       const decryptedJwt = await verifyJwt(context.query.totp as string);

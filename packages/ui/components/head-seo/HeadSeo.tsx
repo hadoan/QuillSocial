@@ -8,7 +8,7 @@ import {
   constructMeetingImage,
 } from "@quillsocial/lib/OgImages";
 import { getBrowserInfo } from "@quillsocial/lib/browser/browser.utils";
-import { APP_NAME, WEBSITE_URL } from "@quillsocial/lib/constants";
+import { APP_NAME, WEBAPP_URL } from "@quillsocial/lib/constants";
 import {
   seoConfig,
   getSeoImage,
@@ -97,7 +97,7 @@ export const HeadSeo = (props: HeadSeoProps): JSX.Element => {
       new URL(url).hostname.endsWith("app.quillsocial.co"));
   // Get the router's path
   const path = useRouter().asPath;
-  const selfHostedOrigin = WEBSITE_URL || "https://quillsocial.co";
+  const selfHostedOrigin = WEBAPP_URL || "https://quillsocial.co";
   // Set the default URL to either the current URL (if self-hosted) or https://quillsocial.co canonical URL
   const defaultUrl = isCalcom
     ? buildCanonical({ path, origin: "https://quillsocial.co" })

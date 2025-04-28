@@ -1,27 +1,16 @@
 import {
   Globe,
-  Heart,
-  MessageCircle,
-  MessageSquare,
   MessagesSquare,
   Navigation,
   Redo,
   ThumbsUp,
 } from "lucide-react";
 import NextImage from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
 import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
-import { trpc } from "@quillsocial/trpc/react";
 import {
-  Avatar,
-  Button,
-  ImageUploader,
-  Editor as Editors,
-  Label,
-  showToast,
-  HeadSeo,
   VideoPlayer,
 } from "@quillsocial/ui";
 

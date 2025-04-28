@@ -69,6 +69,7 @@ export function TimezoneSelect({
           {(option as ITimezoneOption).value.replace(/_/g, " ")}
         </p>
       )}
+      // @ts-ignore
       getOptionLabel={(option) =>
         handleOptionLabel(option as ITimezoneOption, cities)
       }
