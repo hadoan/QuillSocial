@@ -2,8 +2,7 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "@quillsocial/prisma#build": {
-      "cache": false,
-      "dependsOn": ["post-install"]
+      "cache": false
     },
     "@quillsocial/prisma#db-migrate": {
       "cache": false,
@@ -85,13 +84,6 @@
     },
     "dev": {
       "cache": false
-    },
-  
-    "post-install": {
-      "dependsOn": [],
-      "outputs": ["../../node_modules/@prisma/client/**", "../../node_modules/@prisma/admin-client/**"],
-      "inputs": ["./schema.prisma", "./prisma/schema.prisma"],
-      "env": ["PRISMA_GENERATE_DATAPROXY"]
     },
     "@quillsocial/prisma#post-install": {
       "cache": false,
