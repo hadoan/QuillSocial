@@ -1,4 +1,5 @@
 require("dotenv").config({ path: "../../.env" });
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const os = require("os");
 const englishTranslation = require("./public/static/locales/en/common.json");
@@ -144,9 +145,6 @@ const nextConfig = {
     "@quillsocial/core",
     "@quillsocial/dayjs",
     "@quillsocial/emails",
-    "@quillsocial/embed-core",
-    "@quillsocial/embed-react",
-    "@quillsocial/embed-snippet",
     "@quillsocial/features",
     "@quillsocial/lib",
     "@quillsocial/prisma",
@@ -167,10 +165,7 @@ const nextConfig = {
     lodash: {
       transform: "lodash/{{member}}",
     },
-    // TODO: We need to have all components in `@quillsocial/ui/components` in order to use this
-    // "@quillsocial/ui": {
-    //   transform: "@quillsocial/ui/components/{{member}}",
-    // },
+   
   },
   images: {
     unoptimized: true,
@@ -227,30 +222,9 @@ const nextConfig = {
     return config;
   },
   async rewrites() {
-    const beforeFiles = [
-      ...(process.env.ORGANIZATIONS_ENABLED
-        ? [
-            {
-              ...matcherConfigRootPath,
-              destination: "/team/:orgSlug",
-            },
-            {
-              ...matcherConfigOrgMemberPath,
-              destination: "/org/:orgSlug/:user",
-            },
-            {
-              ...matcherConfigUserPath,
-              destination: "/:user/:path*",
-            },
-          ]
-        : []),
-    ];
+    
 
     let afterFiles = [
-      {
-        source: "/org/:slug",
-        destination: "/team/:slug",
-      },
       {
         source: "/:user/avatar.png",
         destination: "/api/user/avatar?username=:user",
@@ -267,94 +241,9 @@ const nextConfig = {
         source: "/router",
         destination: "/apps/routing-forms/router",
       },
-      {
-        source: "/success/:path*",
-        has: [
-          {
-            type: "query",
-            key: "uid",
-            value: "(?<uid>.*)",
-          },
-        ],
-        destination: "/booking/:uid/:path*",
-      },
-      {
-        source: "/cancel/:path*",
-        destination: "/booking/:path*",
-      },
-      // Keep cookie based booker enabled just in case we disable new-booker globally
-      ...[
-        {
-          source: userTypeRouteRegExp,
-          destination: "/new-booker/:user/:type",
-          has: [{ type: "cookie", key: "new-booker-enabled" }],
-        },
-        {
-          source: teamTypeRouteRegExp,
-          destination: "/new-booker/team/:slug/:type",
-          has: [{ type: "cookie", key: "new-booker-enabled" }],
-        },
-        {
-          source: privateLinkRouteRegExp,
-          destination: "/new-booker/d/:link/:slug",
-          has: [{ type: "cookie", key: "new-booker-enabled" }],
-        },
-      ],
-      // Keep cookie based booker enabled to test new-booker embed in production
-      ...[
-        {
-          source: embedUserTypeRouteRegExp,
-          destination: "/new-booker/:user/:type/embed",
-          has: [{ type: "cookie", key: "new-booker-enabled" }],
-        },
-        {
-          source: embedTeamTypeRouteRegExp,
-          destination: "/new-booker/team/:slug/:type/embed",
-          has: [{ type: "cookie", key: "new-booker-enabled" }],
-        },
-      ],
-      
     ];
 
-    // Enable New Booker for all Embed Requests
-    if (process.env.NEW_BOOKER_ENABLED_FOR_EMBED === "1") {
-      console.log("Enabling New Booker for Embed");
-      afterFiles.push(
-        ...[
-          {
-            source: embedUserTypeRouteRegExp,
-            destination: "/new-booker/:user/:type/embed",
-          },
-          {
-            source: embedTeamTypeRouteRegExp,
-            destination: "/new-booker/team/:slug/:type/embed",
-          },
-        ]
-      );
-    }
-
-    // Enable New Booker for All but embed Requests
-    if (process.env.NEW_BOOKER_ENABLED_FOR_NON_EMBED === "1") {
-      console.log("Enabling New Booker for Non-Embed");
-      afterFiles.push(
-        ...[
-          {
-            source: userTypeRouteRegExp,
-            destination: "/new-booker/:user/:type",
-          },
-          {
-            source: teamTypeRouteRegExp,
-            destination: "/new-booker/team/:slug/:type",
-          },
-          {
-            source: privateLinkRouteRegExp,
-            destination: "/new-booker/d/:link/:slug",
-          },
-        ]
-      );
-    }
     return {
-      beforeFiles,
       afterFiles,
     };
   },
@@ -401,15 +290,7 @@ const nextConfig = {
             },
           ],
         },
-        {
-          ...matcherConfigOrgMemberPath,
-          headers: [
-            {
-              key: "X-Access-Org-path",
-              value: "/org/:orgSlug/:user",
-            },
-          ],
-        },
+       
         {
           ...matcherConfigUserPath,
           headers: [
@@ -480,46 +361,13 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/booking/direct/:action/:email/:bookingUid/:oldToken",
-        destination: "/api/link?action=:action&email=:email&bookingUid=:bookingUid&oldToken=:oldToken",
-        permanent: true,
-      },
-      {
         source: "/support",
         destination: "/write/0",
         permanent: true,
-      },
-      {
-        source: "/apps/categories/video",
-        destination: "/apps/categories/conferencing",
-        permanent: true,
-      },
-      {
-        source: "/apps/installed/video",
-        destination: "/apps/installed/conferencing",
-        permanent: true,
-      },
+      }
     ];
 
-    if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.quillsocial.co") {
-      redirects.push(
-        {
-          source: "/apps/dailyvideo",
-          destination: "/apps/daily-video",
-          permanent: true,
-        },
-        {
-          source: "/apps/huddle01_video",
-          destination: "/apps/huddle01",
-          permanent: true,
-        },
-        {
-          source: "/apps/jitsi_video",
-          destination: "/apps/jitsi",
-          permanent: true,
-        }
-      );
-    }
+
 
     return redirects;
   },

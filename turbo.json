@@ -42,16 +42,7 @@
     },
     "@quillsocial/web#start": {
       "cache": false
-    },
-    "@quillsocial/website#build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**"
-      ]
-    },
-    "build": {
+    },"build": {
       "dependsOn": [
         "^build"
       ],
@@ -59,15 +50,7 @@
         "dist/**",
         ".next/**"
       ]
-    },
-    "db-deploy": {
-      "cache": false,
-      "inputs": [
-        "./migrations/**/*.sql",
-        "./prisma/migrations/**/*.sql"
-      ]
-    },
-    "deploy": {
+    },"deploy": {
       "cache": false,
       "dependsOn": [
         "@quillsocial/web#build"
@@ -82,6 +65,11 @@
     },
     "dev": {
       "cache": false
+    },
+    "post-install": {
+      "dependsOn": [],
+      "outputs": ["../../node_modules/@prisma/client/**", "../../node_modules/@prisma/admin-client/**"],
+      "inputs": ["./schema.prisma", "./prisma/schema.prisma"]
     },
     "@quillsocial/prisma#post-install": {
       "cache": false,
