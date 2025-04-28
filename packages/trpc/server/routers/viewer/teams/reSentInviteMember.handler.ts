@@ -1,4 +1,7 @@
-import { sendOrganizationAutoJoinEmail, sendTeamInviteEmail } from "@quillsocial/emails";
+import {
+  sendOrganizationAutoJoinEmail,
+  sendTeamInviteEmail,
+} from "@quillsocial/emails";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import { isTeamAdmin } from "@quillsocial/lib/server/queries";
@@ -39,10 +42,12 @@ async function checkPermissions({
 }) {
   // Checks if the team they are inviteing to IS the org. Not a child team
   if (isOrg) {
-    if (!(await isOrganisationAdmin(userId, teamId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+    if (!(await isOrganisationAdmin(userId, teamId)))
+      throw new TRPCError({ code: "UNAUTHORIZED" });
   } else {
     // TODO: do some logic here to check if the user is inviting a NEW user to a team that ISNT in the same org
-    if (!(await isTeamAdmin(userId, teamId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+    if (!(await isTeamAdmin(userId, teamId)))
+      throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 }
 
@@ -57,13 +62,18 @@ async function getTeamOrThrow(teamId: number, isOrg?: boolean) {
   });
 
   if (!team)
-    throw new TRPCError({ code: "NOT_FOUND", message: `${isOrg ? "Organization" : "Team"} not found` });
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: `${isOrg ? "Organization" : "Team"} not found`,
+    });
 
   return team;
 }
 
 async function getEmailsToInvite(usernameOrEmail: string | string[]) {
-  const emailsToInvite = Array.isArray(usernameOrEmail) ? usernameOrEmail : [usernameOrEmail];
+  const emailsToInvite = Array.isArray(usernameOrEmail)
+    ? usernameOrEmail
+    : [usernameOrEmail];
 
   if (emailsToInvite.length === 0) {
     throw new TRPCError({
@@ -87,17 +97,20 @@ async function getUserToInviteOrThrowIfExists({
   // Check if user exists in ORG or exists all together
   const invitee = await prisma.user.findFirst({
     where: {
-      OR: [{ username: usernameOrEmail, organizationId: orgId }, { email: usernameOrEmail }],
+      OR: [
+        { username: usernameOrEmail, organizationId: orgId },
+        { email: usernameOrEmail },
+      ],
     },
   });
 
   // We throw on error cause we can't have two users in the same org with the same username
-//   if (isOrg && invitee) {
-//     throw new TRPCError({
-//       code: "NOT_FOUND",
-//       message: `Email ${usernameOrEmail} already exists, you can't invite existing users.`,
-//     });
-//   }
+  //   if (isOrg && invitee) {
+  //     throw new TRPCError({
+  //       code: "NOT_FOUND",
+  //       message: `Email ${usernameOrEmail} already exists, you can't invite existing users.`,
+  //     });
+  //   }
 
   return invitee;
 }
@@ -123,32 +136,32 @@ function checkInputEmailIsValid(email: string) {
 // }) {
 //   const { orgId, autoAccept } = connectionInfo;
 
-  // const createdUser = await prisma.user.create({
-  //   data: {
-  //     email: usernameOrEmail,
-  //     invitedTo: input.teamId,
-  //     organizationId: orgId || null, // If the user is invited to a child team, they are automatically added to the parent org
-  //     teams: {
-  //       create: {
-  //         teamId: input.teamId,
-  //         role: input.role as MembershipRole,
-  //         accepted: autoAccept, // If the user is invited to a child team, they are automatically accepted
-  //       },
-  //     },
-  //   },
-  // });
+// const createdUser = await prisma.user.create({
+//   data: {
+//     email: usernameOrEmail,
+//     invitedTo: input.teamId,
+//     organizationId: orgId || null, // If the user is invited to a child team, they are automatically added to the parent org
+//     teams: {
+//       create: {
+//         teamId: input.teamId,
+//         role: input.role as MembershipRole,
+//         accepted: autoAccept, // If the user is invited to a child team, they are automatically accepted
+//       },
+//     },
+//   },
+// });
 
-  // We also need to create the membership in the parent org if it exists
-  // if (parentId) {
-  //   await prisma.membership.create({
-  //     data: {
-  //       teamId: parentId,
-  //       userId: createdUser.id,
-  //       role: input.role as MembershipRole,
-  //       accepted: autoAccept,
-  //     },
-  //   });
-  // }
+// We also need to create the membership in the parent org if it exists
+// if (parentId) {
+//   await prisma.membership.create({
+//     data: {
+//       teamId: parentId,
+//       userId: createdUser.id,
+//       role: input.role as MembershipRole,
+//       accepted: autoAccept,
+//     },
+//   });
+// }
 // }
 
 // async function createProvisionalMembership({
@@ -230,7 +243,7 @@ async function sendVerificationEmail({
         },
       },
     });
-  
+
     await sendTeamInviteEmail({
       language: translation,
       from: ctx.user.name || `${team.name}'s admin`,
@@ -281,8 +294,12 @@ function getIsOrgVerified(
   }
 ) {
   const teamMetadata = teamMetadataSchema.parse(team.metadata);
-  const orgMetadataSafeParse = teamMetadataSchema.safeParse(team.parent?.metadata);
-  const orgMetadataIfExists = orgMetadataSafeParse.success ? orgMetadataSafeParse.data : null;
+  const orgMetadataSafeParse = teamMetadataSchema.safeParse(
+    team.parent?.metadata
+  );
+  const orgMetadataIfExists = orgMetadataSafeParse.success
+    ? orgMetadataSafeParse.data
+    : null;
 
   if (isOrg && teamMetadata?.orgAutoAcceptEmail) {
     return {
@@ -300,7 +317,11 @@ function getIsOrgVerified(
 
   return {
     isInOrgScope: false,
-  } as { isInOrgScope: false; orgVerified: never; autoAcceptEmailDomain: never };
+  } as {
+    isInOrgScope: false;
+    orgVerified: never;
+    autoAcceptEmailDomain: never;
+  };
 }
 
 function getOrgConnectionInfo({
@@ -333,11 +354,21 @@ function getOrgConnectionInfo({
   return { orgId, autoAccept };
 }
 
-export const reSentInviteMemberHandler = async ({ ctx, input }: InviteMemberOptions) => {
+export const reSentInviteMemberHandler = async ({
+  ctx,
+  input,
+}: InviteMemberOptions) => {
   const team = await getTeamOrThrow(input.teamId, input.isOrg);
-  const { autoAcceptEmailDomain, orgVerified } = getIsOrgVerified(input.isOrg, team);
+  const { autoAcceptEmailDomain, orgVerified } = getIsOrgVerified(
+    input.isOrg,
+    team
+  );
 
-  await checkPermissions({ userId: ctx.user.id, teamId: input.teamId, isOrg: input.isOrg });
+  await checkPermissions({
+    userId: ctx.user.id,
+    teamId: input.teamId,
+    isOrg: input.isOrg,
+  });
 
   const translation = await getTranslation(input.language ?? "en", "common");
 
@@ -368,16 +399,23 @@ export const reSentInviteMemberHandler = async ({ ctx, input }: InviteMemberOpti
       //   parentId: team.parentId,
       // });
 
-      await sendVerificationEmail({ usernameOrEmail, team, translation, ctx, input, connectionInfo });
+      await sendVerificationEmail({
+        usernameOrEmail,
+        team,
+        translation,
+        ctx,
+        input,
+        connectionInfo,
+      });
     } else {
       checkIfUserIsInDifOrg(invitee, team);
 
       // create provisional membership
-    //   await createProvisionalMembership({
-    //     input,
-    //     invitee,
-    //     ...(team.parentId ? { parentId: team.parentId } : {}),
-    //   });
+      //   await createProvisionalMembership({
+      //     input,
+      //     invitee,
+      //     ...(team.parentId ? { parentId: team.parentId } : {}),
+      //   });
 
       let sendTo = usernameOrEmail;
       if (!isEmail(usernameOrEmail)) {
@@ -393,7 +431,11 @@ export const reSentInviteMemberHandler = async ({ ctx, input }: InviteMemberOpti
          * Here we want to redirect to a differnt place if onboarding has been completed or not. This prevents the flash of going to teams -> Then to onboarding - also show a differnt email template.
          * This only changes if the user is a DB user and has not completed onboarding and has no password
          */
-        if (!invitee.completedOnboarding && !invitee.password && invitee.identityProvider === "DB") {
+        if (
+          !invitee.completedOnboarding &&
+          !invitee.password &&
+          invitee.identityProvider === "DB"
+        ) {
           const token = randomBytes(32).toString("hex");
           await prisma.verificationToken.create({
             data: {
@@ -406,7 +448,7 @@ export const reSentInviteMemberHandler = async ({ ctx, input }: InviteMemberOpti
           inviteTeamOptions.joinLink = `${WEBAPP_URL}/signup?token=${token}&callbackUrl=/getting-started`;
           inviteTeamOptions.isAccessMember = false;
         }
-      
+
         await sendTeamInviteEmail({
           language: translation,
           from: ctx.user.name,

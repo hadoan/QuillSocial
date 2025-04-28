@@ -1,6 +1,10 @@
 import { purchaseASubscription } from "@quillsocial/payment/lib/payments";
 import { prisma } from "@quillsocial/prisma";
-import { BillingStatus, BillingType, type PrismaClient } from "@quillsocial/prisma/client";
+import {
+  BillingStatus,
+  BillingType,
+  type PrismaClient,
+} from "@quillsocial/prisma/client";
 
 import { TRPCError } from "@trpc/server";
 
@@ -30,7 +34,8 @@ export const subscribeHandler = async ({ ctx, input }: SubscribeOptions) => {
   if (!membership) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "Couldn't find team for this user, please go to Employee feature to manage your team.",
+      message:
+        "Couldn't find team for this user, please go to Employee feature to manage your team.",
     });
   }
 
@@ -49,7 +54,10 @@ export const subscribeHandler = async ({ ctx, input }: SubscribeOptions) => {
   });
 
   if (hasBilling && hasBilling.type != BillingType.PER_USER) {
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Your team already subsribed to this plan." });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Your team already subsribed to this plan.",
+    });
   }
 
   try {
@@ -64,7 +72,10 @@ export const subscribeHandler = async ({ ctx, input }: SubscribeOptions) => {
     if (checkoutSession) return checkoutSession;
   } catch (e) {
     console.error(e);
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Error when make a payment to a subscription" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Error when make a payment to a subscription",
+    });
   }
 };
 

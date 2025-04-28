@@ -39,7 +39,9 @@ export const getChatItems = async (chatId: string): Promise<ChatItem[]> => {
   return data;
 };
 
-export const getChatNotifications = async (chatId: string): Promise<Notification[]> => {
+export const getChatNotifications = async (
+  chatId: string
+): Promise<Notification[]> => {
   const response = await fetch(`${API_URL}/notifications/${chatId}`, {
     method: "GET",
     headers: {
@@ -79,9 +81,7 @@ export type ChatConfig = {
   maxTokens: number;
 };
 
-export const deleteChat = async (
-  chatId: string,
-): Promise<void> => {
+export const deleteChat = async (chatId: string): Promise<void> => {
   const response = await fetch(`${API_URL}/chat/${chatId}`, {
     method: "DELETE",
     headers: {

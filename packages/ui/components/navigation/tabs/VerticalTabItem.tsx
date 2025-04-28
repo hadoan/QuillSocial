@@ -49,7 +49,8 @@ const VerticalTabItem = ({
             {...linkProps}
             target={props.isExternalLink ? "_blank" : "_self"}
             className={classNames(
-              props.textClassNames || "text-default text-sm font-medium leading-none",
+              props.textClassNames ||
+                "text-default text-sm font-medium leading-none",
               "min-h-8 hover:bg-gray-200 hover:text-awst [&[aria-current='page']]:bg-emphasis [&[aria-current='page']]:text-awst group-hover:text-default group flex w-64 flex-row items-center rounded-md px-3 py-[10px]",
               props.disabled && "pointer-events-none !opacity-30",
               (isChild || !props.icon) && "ml-7 w-auto ltr:mr-5 rtl:ml-5",
@@ -57,7 +58,8 @@ const VerticalTabItem = ({
               props.className
             )}
             data-testid={`vertical-tab-${name}`}
-            aria-current={isCurrent ? "page" : undefined}>
+            aria-current={isCurrent ? "page" : undefined}
+          >
             {props.icon && (
               <props.icon
                 className={classNames(
@@ -68,13 +70,21 @@ const VerticalTabItem = ({
             )}
             <div className="h-fit">
               <span className="flex items-center space-x-2 rtl:space-x-reverse">
-                <Skeleton title={t(name)} as="p" className="max-w-36 min-h-4 mt-px truncate">
+                <Skeleton
+                  title={t(name)}
+                  as="p"
+                  className="max-w-36 min-h-4 mt-px truncate"
+                >
                   {t(name)}
                 </Skeleton>
                 {props.isExternalLink ? <ExternalLink /> : null}
               </span>
               {info && (
-                <Skeleton as="p" title={t(info)} className="max-w-44 mt-1 truncate text-xs font-normal">
+                <Skeleton
+                  as="p"
+                  title={t(info)}
+                  className="max-w-44 mt-1 truncate text-xs font-normal"
+                >
                   {t(info)}
                 </Skeleton>
               )}

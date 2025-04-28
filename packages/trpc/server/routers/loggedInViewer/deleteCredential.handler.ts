@@ -12,7 +12,10 @@ type DeleteCredentialOptions = {
   input: TDeleteCredentialInputSchema;
 };
 
-export const deleteCredentialHandler = async ({ ctx, input }: DeleteCredentialOptions) => {
+export const deleteCredentialHandler = async ({
+  ctx,
+  input,
+}: DeleteCredentialOptions) => {
   const { id, externalId } = input;
 
   const credential = await prisma.credential.findFirst({
@@ -37,7 +40,6 @@ export const deleteCredentialHandler = async ({ ctx, input }: DeleteCredentialOp
     throw new TRPCError({ code: "NOT_FOUND" });
   }
 
-  
   // if zapier get disconnected, delete zapier apiKey, delete zapier webhooks and cancel all scheduled jobs from zapier
   if (credential.app?.slug === "zapier") {
     await prisma.apiKey.deleteMany({
@@ -52,7 +54,7 @@ export const deleteCredentialHandler = async ({ ctx, input }: DeleteCredentialOp
         appId: "zapier",
       },
     });
-   
+
     // for (const booking of bookingsWithScheduledJobs) {
     //   cancelScheduledJobs(booking, credential.appId);
     // }
@@ -61,11 +63,10 @@ export const deleteCredentialHandler = async ({ ctx, input }: DeleteCredentialOp
   // delete page info
   await prisma.pageInfo.deleteMany({
     where: {
-      credentialId: id
-    }
+      credentialId: id,
+    },
   });
 
-  
   // Validated that credential is user's above
   await prisma.credential.delete({
     where: {

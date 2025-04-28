@@ -2,8 +2,7 @@ import { Prompt } from "@lib/types/brains";
 
 const API_URL = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "";
 
-export const getPublicPrompts = async (
-): Promise<Prompt[]> => {
+export const getPublicPrompts = async (): Promise<Prompt[]> => {
   const response = await fetch(`${API_URL}/prompts`, {
     method: "GET",
     headers: {
@@ -17,5 +16,5 @@ export const getPublicPrompts = async (
 
   const data = await response.json();
 
-	return data;
+  return data;
 };

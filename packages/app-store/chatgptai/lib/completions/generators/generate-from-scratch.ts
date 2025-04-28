@@ -1,6 +1,13 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
-const getMessageTexts = (idea: string, emotionVoice: string, format?: string) => {
+const getMessageTexts = (
+  idea: string,
+  emotionVoice: string,
+  format?: string
+) => {
   const instruction = format
     ? `complete then transfer the following paragraph into the pre-defined format, use tone ${emotionVoice} of voice, remove opening and closing curly brace, the pre-defined format is:
     ${format}. And the paragraph is: 

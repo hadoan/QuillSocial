@@ -1,4 +1,3 @@
-
 import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 
 import { getRewriteCompletions } from "./getChatCompletions";
@@ -17,12 +16,19 @@ const getMessageTexts = (instruction: string, idea: string): any[] => {
   ];
 };
 
-export const completePostStatus = async (userId: number, instruction: any, idea: string) => {
+export const completePostStatus = async (
+  userId: number,
+  instruction: any,
+  idea: string
+) => {
   const instructionText = Object.values(ReWriteAI).includes(instruction)
     ? `${instruction} this paragraph`
     : instruction;
   // const post = await getChatCompletions(getMessageTexts(prompt, idea));
-  const post = await getRewriteCompletions(userId, `${instructionText}: '${idea}''`);
+  const post = await getRewriteCompletions(
+    userId,
+    `${instructionText}: '${idea}''`
+  );
 
   return post;
 };

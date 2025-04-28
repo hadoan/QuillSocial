@@ -10,7 +10,10 @@ type IntegrationsOptions = {
   input: TIntegrationsInputSchema;
 };
 
-export const integrationsHandler = async ({ ctx, input }: IntegrationsOptions) => {
+export const integrationsHandler = async ({
+  ctx,
+  input,
+}: IntegrationsOptions) => {
   const { user } = ctx;
   const { variant, exclude, onlyInstalled, slug } = input;
   const { credentials } = user;
@@ -18,8 +21,15 @@ export const integrationsHandler = async ({ ctx, input }: IntegrationsOptions) =
   const enabledApps = await getEnabledApps(credentials);
   //TODO: Refactor this to pick up only needed fields and prevent more leaking
   let apps = enabledApps.map(
-    ({ credentials: _, credential: _1, key: _2 /* don't leak to frontend */, ...app }) => {
-      const credentialIds = credentials.filter((c) => c.type === app.type).map((c) => c.id);
+    ({
+      credentials: _,
+      credential: _1,
+      key: _2 /* don't leak to frontend */,
+      ...app
+    }) => {
+      const credentialIds = credentials
+        .filter((c) => c.type === app.type)
+        .map((c) => c.id);
       const invalidCredentialIds = credentials
         .filter((c) => c.type === app.type && c.invalid)
         .map((c) => c.id);
@@ -40,11 +50,15 @@ export const integrationsHandler = async ({ ctx, input }: IntegrationsOptions) =
 
   if (exclude) {
     // exclusion filter
-    apps = apps.filter((item) => (exclude ? !exclude.includes(item.variant) : true));
+    apps = apps.filter((item) =>
+      exclude ? !exclude.includes(item.variant) : true
+    );
   }
 
   if (onlyInstalled) {
-    apps = apps.flatMap((item) => (item.credentialIds.length > 0 || item.isGlobal ? [item] : []));
+    apps = apps.flatMap((item) =>
+      item.credentialIds.length > 0 || item.isGlobal ? [item] : []
+    );
   }
   if (slug) {
     apps = apps.flatMap((item) => (item.slug === slug ? [item] : []));

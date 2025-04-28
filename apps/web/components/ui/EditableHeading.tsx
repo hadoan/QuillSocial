@@ -17,10 +17,13 @@ const EditableHeading = function EditableHeading({
   return (
     <div
       className="group relative truncate spointer-events-auto"
-      onClick={enableEditing}>
+      onClick={enableEditing}
+    >
       <div className="flex cursor-pointer items-center">
         <label className="min-w-8 relative inline-block">
-          <span className="whitespace-pre text-xl tracking-normal text-transparent">{value}&nbsp;</span>
+          <span className="whitespace-pre text-xl tracking-normal text-transparent">
+            {value}&nbsp;
+          </span>
           {!isEditing && isReady && (
             <Edit2 className=" text-subtle group-hover:text-subtle -mt-px ml-1 inline  h-3 w-3" />
           )}

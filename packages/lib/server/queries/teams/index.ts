@@ -7,7 +7,11 @@ import { WEBAPP_URL } from "../../../constants";
 
 export type TeamWithMembers = Awaited<ReturnType<typeof getTeamWithMembers>>;
 
-export async function getTeamWithMembers(id?: number, slug?: string, userId?: number) {
+export async function getTeamWithMembers(
+  id?: number,
+  slug?: string,
+  userId?: number
+) {
   const userSelect = Prisma.validator<Prisma.UserSelect>()({
     username: true,
     email: true,
@@ -62,7 +66,7 @@ export async function getTeamWithMembers(id?: number, slug?: string, userId?: nu
     theme: true,
     brandColor: true,
     darkBrandColor: true,
-   
+
     inviteToken: {
       select: {
         token: true,
@@ -70,7 +74,7 @@ export async function getTeamWithMembers(id?: number, slug?: string, userId?: nu
         expiresInDays: true,
       },
     },
-    startTrialDate: true
+    startTrialDate: true,
   });
 
   const where: Prisma.TeamFindFirstArgs["where"] = {};
@@ -95,7 +99,12 @@ export async function getTeamWithMembers(id?: number, slug?: string, userId?: nu
     };
   });
 
-  return { ...team, metadata: teamMetadataSchema.parse(team.metadata), undefined, members };
+  return {
+    ...team,
+    metadata: teamMetadataSchema.parse(team.metadata),
+    undefined,
+    members,
+  };
 }
 
 // also returns team

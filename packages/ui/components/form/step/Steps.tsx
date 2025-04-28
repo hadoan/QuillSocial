@@ -12,11 +12,14 @@ const Steps = (props: ISteps) => {
     maxSteps,
     currentStep,
     navigateToStep,
-    stepLabel = (currentStep, totalSteps) => `Step ${currentStep} of ${totalSteps}`,
+    stepLabel = (currentStep, totalSteps) =>
+      `Step ${currentStep} of ${totalSteps}`,
   } = props;
   return (
     <div className="mt-6 space-y-2">
-      <p className="text-subtle text-xs font-medium">{stepLabel(currentStep, maxSteps)}</p>
+      <p className="text-subtle text-xs font-medium">
+        {stepLabel(currentStep, maxSteps)}
+      </p>
       <div className="flex w-full space-x-2 rtl:space-x-reverse">
         {new Array(maxSteps).fill(0).map((_s, index) => {
           return index <= currentStep - 1 ? (
@@ -29,7 +32,10 @@ const Steps = (props: ISteps) => {
               )}
             />
           ) : (
-            <div key={`step-${index}`} className="bg-emphasis h-1 w-full rounded-[1px] opacity-25" />
+            <div
+              key={`step-${index}`}
+              className="bg-emphasis h-1 w-full rounded-[1px] opacity-25"
+            />
           );
         })}
       </div>

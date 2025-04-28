@@ -13,8 +13,12 @@ export enum TimeFormat {
   TWENTY_FOUR_HOUR = "HH:mm",
 }
 
-export const getTimeFormatStringFromUserTimeFormat = (timeFormat: number | null | undefined) => {
-  return timeFormat === 24 ? TimeFormat.TWENTY_FOUR_HOUR : TimeFormat.TWELVE_HOUR;
+export const getTimeFormatStringFromUserTimeFormat = (
+  timeFormat: number | null | undefined
+) => {
+  return timeFormat === 24
+    ? TimeFormat.TWENTY_FOUR_HOUR
+    : TimeFormat.TWELVE_HOUR;
 };
 
 export const setIs24hClockInLocalStorage = (is24h: boolean) =>
@@ -42,7 +46,11 @@ export const isBrowserLocale24h = () => {
     return false;
   }
   // Intl.DateTimeFormat with value=undefined uses local browser settings.
-  if (!!new Intl.DateTimeFormat(undefined, { hour: "numeric" }).format(0).match(/M/i)) {
+  if (
+    !!new Intl.DateTimeFormat(undefined, { hour: "numeric" })
+      .format(0)
+      .match(/M/i)
+  ) {
     setIs24hClockInLocalStorage(false);
     return false;
   } else {

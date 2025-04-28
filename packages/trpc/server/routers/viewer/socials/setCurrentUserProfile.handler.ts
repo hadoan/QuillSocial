@@ -11,7 +11,10 @@ type UpdateOptions = {
   input: TCurrentUserProfileInputSchema;
 };
 
-export const setCurrentUserProfileHandler = async ({ ctx, input }: UpdateOptions) => {
+export const setCurrentUserProfileHandler = async ({
+  ctx,
+  input,
+}: UpdateOptions) => {
   if (!ctx.user.id)
     throw new TRPCError({
       code: "BAD_REQUEST",
@@ -24,7 +27,7 @@ export const setCurrentUserProfileHandler = async ({ ctx, input }: UpdateOptions
     },
     data: {
       isUserCurrentProfile: false,
-      currentPageId: undefined
+      currentPageId: undefined,
     },
   });
 
@@ -33,11 +36,10 @@ export const setCurrentUserProfileHandler = async ({ ctx, input }: UpdateOptions
       where: {
         id: input.id,
       },
-      data:
-      {
+      data: {
         isUserCurrentProfile: true,
-        currentPageId: input.pageId
-      }
+        currentPageId: input.pageId,
+      },
     });
     await resetCachedSocialProfile(ctx.user.id);
     return update;

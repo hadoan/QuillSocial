@@ -38,7 +38,8 @@ export default function DisconnectIntegrationModal({
           if (credentialId) {
             mutation.mutate({ id: credentialId });
           }
-        }}>
+        }}
+      >
         <p className="mt-5">{t("are_you_sure_you_want_to_remove_this_app")}</p>
       </ConfirmationDialogContent>
     </Dialog>

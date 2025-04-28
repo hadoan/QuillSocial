@@ -1,9 +1,6 @@
-
-export function DynamicComponent<T extends Record<string, React.ComponentType<any>>>(props: {
-  componentMap: T;
-  slug: string;
-  wrapperClassName?: string;
-}) {
+export function DynamicComponent<
+  T extends Record<string, React.ComponentType<any>>
+>(props: { componentMap: T; slug: string; wrapperClassName?: string }) {
   const { componentMap, slug, wrapperClassName, ...rest } = props;
   const dirName = slug === "stripe" ? "stripepayment" : slug;
 

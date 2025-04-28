@@ -8,7 +8,8 @@ declare global {
 
 const prismaOptions: Prisma.PrismaClientOptions = {};
 
-if (!!process.env.NEXT_PUBLIC_DEBUG) prismaOptions.log = ["query", "error", "warn"];
+if (!!process.env.NEXT_PUBLIC_DEBUG)
+  prismaOptions.log = ["query", "error", "warn"];
 
 export const prisma = globalThis.prisma || new PrismaClient(prismaOptions);
 

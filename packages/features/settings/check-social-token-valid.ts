@@ -8,10 +8,15 @@ type Response = {
 };
 const typeValues = ["linkedin_social", "x_social", "facebook_social"];
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Response>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Response>
+) {
   if (req.method !== "GET") {
     // Handle other HTTP methods if needed
-    return res.status(405).json({ valid: false, message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ valid: false, message: "Method not allowed" });
   }
   const session = await getServerSession({ req, res });
   /* To mimic API behavior and comply with types */

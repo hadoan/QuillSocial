@@ -1,17 +1,27 @@
 import { AppDependencyComponent } from "@quillsocial/app-store/components";
 import Shell from "@quillsocial/features/shell/Shell";
 import classNames from "@quillsocial/lib/classNames";
-import { APP_NAME, COMPANY_NAME, SUPPORT_MAIL_ADDRESS } from "@quillsocial/lib/constants";
+import {
+  APP_NAME,
+  COMPANY_NAME,
+  SUPPORT_MAIL_ADDRESS,
+} from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import type { App as AppType } from "@quillsocial/types/App";
 import { SkeletonButton, SkeletonText, HeadSeo, Badge } from "@quillsocial/ui";
-import { BookOpen, ExternalLink, File, Flag, Mail, Shield } from "@quillsocial/ui/components/icon";
+import {
+  BookOpen,
+  ExternalLink,
+  File,
+  Flag,
+  Mail,
+  Shield,
+} from "@quillsocial/ui/components/icon";
 import Link from "next/link";
 import type { IframeHTMLAttributes } from "react";
 import React from "react";
 import InstallApp from "./InstallApp";
-
 
 const Component = ({
   name,
@@ -39,19 +49,22 @@ const Component = ({
   const { t, i18n } = useLocale();
   const hasDescriptionItems = descriptionItems && descriptionItems.length > 0;
 
-
   const priceInDollar = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     useGrouping: false,
   }).format(price);
 
-  const dependencyData = trpc.viewer.appsRouter.queryForDependencies.useQuery(dependencies, {
-    enabled: !!dependencies,
-  });
+  const dependencyData = trpc.viewer.appsRouter.queryForDependencies.useQuery(
+    dependencies,
+    {
+      enabled: !!dependencies,
+    }
+  );
 
-  const allowedMultipleInstalls = categories.indexOf("calendar") > -1 && variant !== "other";
-  
+  const allowedMultipleInstalls =
+    categories.indexOf("calendar") > -1 && variant !== "other";
+
   return (
     <div className="relative flex-1 flex-col items-start justify-start px-4 md:flex md:px-8 lg:flex-row lg:px-0">
       {hasDescriptionItems && (
@@ -61,7 +74,8 @@ const Component = ({
               typeof descriptionItem === "object" ? (
                 <div
                   key={`iframe-${index}`}
-                  className="mr-4 max-h-full min-h-[315px] min-w-[90%] max-w-full snap-center last:mb-0 lg:mb-4 lg:mr-0 [&_iframe]:h-full [&_iframe]:min-h-[315px] [&_iframe]:w-full">
+                  className="mr-4 max-h-full min-h-[315px] min-w-[90%] max-w-full snap-center last:mb-0 lg:mb-4 lg:mr-0 [&_iframe]:h-full [&_iframe]:min-h-[315px] [&_iframe]:w-full"
+                >
                   <iframe allowFullScreen {...descriptionItem.iframe} />
                 </div>
               ) : (
@@ -82,12 +96,16 @@ const Component = ({
         className={classNames(
           "sticky top-0 -mt-4 max-w-xl basis-2/5 pb-12 text-sm lg:pb-0",
           hasDescriptionItems && "lg:ml-8"
-        )}>
+        )}
+      >
         <div className="mb-8 flex pt-4">
           <header>
             <div className="mb-4 flex items-center">
               <img
-                className={classNames(logo.includes("-dark") && "dark:invert", "min-h-16 min-w-16 h-16 w-16")}
+                className={classNames(
+                  logo.includes("-dark") && "dark:invert",
+                  "min-h-16 min-w-16 h-16 w-16"
+                )}
                 src={logo}
                 alt={name}
               />
@@ -96,7 +114,8 @@ const Component = ({
             <h2 className="text-default text-sm font-medium">
               <Link
                 href={`categories/${categories[0]}`}
-                className="bg-subtle text-emphasis rounded-md p-1 text-xs capitalize">
+                className="bg-subtle text-emphasis rounded-md p-1 text-xs capitalize"
+              >
                 {categories[0]}
               </Link>{" "}
               •{" "}
@@ -124,7 +143,10 @@ const Component = ({
         {dependencies &&
           (!dependencyData.isLoading ? (
             <div className="mt-6">
-              <AppDependencyComponent appName={name} dependencyData={dependencyData.data} />
+              <AppDependencyComponent
+                appName={name}
+                dependencyData={dependencyData.data}
+              />
             </div>
           ) : (
             <SkeletonButton className="mt-6 h-20 grow" />
@@ -132,7 +154,9 @@ const Component = ({
 
         {price !== 0 && (
           <span className="block text-right">
-            {feeType === "usage-based" ? commission + "% + " + priceInDollar + "/booking" : priceInDollar}
+            {feeType === "usage-based"
+              ? commission + "% + " + priceInDollar + "/booking"
+              : priceInDollar}
             {feeType === "monthly" && "/" + t("month")}
           </span>
         )}
@@ -158,7 +182,9 @@ const Component = ({
           )}
         </span>
 
-        <h4 className="text-emphasis mb-2 mt-8 font-semibold ">{t("contact")}</h4>
+        <h4 className="text-emphasis mb-2 mt-8 font-semibold ">
+          {t("contact")}
+        </h4>
         <ul className="prose-sm -ml-1 -mr-1 leading-5">
           {docs && (
             <li>
@@ -166,7 +192,8 @@ const Component = ({
                 target="_blank"
                 rel="noreferrer"
                 className="text-emphasis text-sm font-normal no-underline hover:underline"
-                href={docs}>
+                href={docs}
+              >
                 <BookOpen className="text-subtle -mt-1 mr-1 inline h-4 w-4" />
                 {t("documentation")}
               </a>
@@ -178,7 +205,8 @@ const Component = ({
                 target="_blank"
                 rel="noreferrer"
                 className="text-emphasis font-normal no-underline hover:underline"
-                href={website}>
+                href={website}
+              >
                 <ExternalLink className="text-subtle -mt-px mr-1 inline h-4 w-4" />
                 {website.replace("https://", "")}
               </a>
@@ -190,7 +218,8 @@ const Component = ({
                 target="_blank"
                 rel="noreferrer"
                 className="text-emphasis font-normal no-underline hover:underline"
-                href={"mailto:" + email}>
+                href={"mailto:" + email}
+              >
                 <Mail className="text-subtle -mt-px mr-1 inline h-4 w-4" />
 
                 {email}
@@ -203,7 +232,8 @@ const Component = ({
                 target="_blank"
                 rel="noreferrer"
                 className="text-emphasis font-normal no-underline hover:underline"
-                href={tos}>
+                href={tos}
+              >
                 <File className="text-subtle -mt-px mr-1 inline h-4 w-4" />
                 {t("terms_of_service")}
               </a>
@@ -215,7 +245,8 @@ const Component = ({
                 target="_blank"
                 rel="noreferrer"
                 className="text-emphasis font-normal no-underline hover:underline"
-                href={privacy}>
+                href={privacy}
+              >
                 <Shield className="text-subtle -mt-px mr-1 inline h-4 w-4" />
                 {t("privacy_policy")}
               </a>
@@ -224,9 +255,15 @@ const Component = ({
         </ul>
         <hr className="border-subtle my-8 border" />
         <span className="leading-1 text-subtle block text-xs">
-          {t("every_app_published", { appName: APP_NAME, companyName: COMPANY_NAME })}
+          {t("every_app_published", {
+            appName: APP_NAME,
+            companyName: COMPANY_NAME,
+          })}
         </span>
-        <a className="mt-2 block text-xs text-red-500" href={`mailto:${SUPPORT_MAIL_ADDRESS}`}>
+        <a
+          className="mt-2 block text-xs text-red-500"
+          href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
+        >
           <Flag className="inline h-3 w-3" /> {t("report_app")}
         </a>
       </div>
@@ -261,19 +298,36 @@ export default function App(props: {
   privacy?: string;
   licenseRequired: AppType["licenseRequired"];
   teamsPlanRequired: AppType["teamsPlanRequired"];
-  descriptionItems?: Array<string | { iframe: IframeHTMLAttributes<HTMLIFrameElement> }>;
+  descriptionItems?: Array<
+    string | { iframe: IframeHTMLAttributes<HTMLIFrameElement> }
+  >;
   isTemplate?: boolean;
   disableInstall?: boolean;
   dependencies?: string[];
 }) {
   return (
-    <Shell smallHeading isPublic hideHeadingOnMobile heading={<ShellHeading />} backPath="/apps" withoutSeo>
+    <Shell
+      smallHeading
+      isPublic
+      hideHeadingOnMobile
+      heading={<ShellHeading />}
+      backPath="/apps"
+      withoutSeo
+    >
       <HeadSeo
         title={props.name}
         description={props.description}
-        app={{ slug: props.logo, name: props.name, description: props.description }}
+        app={{
+          slug: props.logo,
+          name: props.name,
+          description: props.description,
+        }}
       />
-      {props.licenseRequired ? <span>License Required</span> : <Component {...props} />}
+      {props.licenseRequired ? (
+        <span>License Required</span>
+      ) : (
+        <Component {...props} />
+      )}
     </Shell>
   );
 }

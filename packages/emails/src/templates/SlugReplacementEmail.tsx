@@ -18,29 +18,40 @@ export const SlugReplacementEmail = (
     <BaseEmailHtml
       subject={t("email_subject_slug_replacement", { slug: slug })}
       headerType="teamCircle"
-      title={t("event_replaced_notice")}>
+      title={t("event_replaced_notice")}
+    >
       <>
         <Trans i18nKey="hi_user_name" name={name}>
-          <p style={{ fontWeight: 400, lineHeight: "24px", display: "inline-block" }}>Hi {name}</p>
+          <p
+            style={{
+              fontWeight: 400,
+              lineHeight: "24px",
+              display: "inline-block",
+            }}
+          >
+            Hi {name}
+          </p>
           <p style={{ display: "inline" }}>,</p>
         </Trans>
         <Trans i18nKey="email_body_slug_replacement_notice" slug={slug}>
           <p style={{ fontWeight: 400, lineHeight: "24px" }}>
-            An administrator on the <strong>{teamName}</strong> team has replaced your event type{" "}
-            <strong>/{slug}</strong> with a managed event type that they control.
+            An administrator on the <strong>{teamName}</strong> team has
+            replaced your event type <strong>/{slug}</strong> with a managed
+            event type that they control.
           </p>
         </Trans>
         <Trans i18nKey="email_body_slug_replacement_info">
           <p style={{ fontWeight: 400, lineHeight: "24px" }}>
-            Your link will continue to work but somesettings for it may have changed. You can review it in
-            event types.
+            Your link will continue to work but somesettings for it may have
+            changed. You can review it in event types.
           </p>
         </Trans>
         <table
           role="presentation"
           border={0}
           style={{ verticalAlign: "top", marginTop: "25px" }}
-          width="100%">
+          width="100%"
+        >
           <tbody>
             <tr>
               <td align="center">
@@ -63,7 +74,8 @@ export const SlugReplacementEmail = (
         />
         <Trans i18nKey="email_body_slug_replacement_suggestion">
           <p style={{ fontWeight: 400, lineHeight: "24px" }}>
-            If you have any questions about the event type, please reach out to your administrator.
+            If you have any questions about the event type, please reach out to
+            your administrator.
             <br />
             <br />
             Happy scheduling, <br />

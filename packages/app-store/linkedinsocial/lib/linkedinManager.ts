@@ -11,15 +11,22 @@ const versionNumber = "202402";
 
 export const post = async (postId: number) => {
   try {
-    const linkedInPost = await prisma.post.findUnique({ where: { id: postId } });
+    const linkedInPost = await prisma.post.findUnique({
+      where: { id: postId },
+    });
     if (!linkedInPost || !linkedInPost.credentialId) return false;
     const accessToken = await getClient(linkedInPost.credentialId);
     let pageId = linkedInPost.pageId;
     if (!pageId) {
-      pageId = `urn:li:person:${(await getUserProfile(accessToken as string)).sub}`;
+      pageId = `urn:li:person:${
+        (await getUserProfile(accessToken as string)).sub
+      }`;
     }
     if (!accessToken) {
-      await prisma.post.update({ where: { id: linkedInPost.id }, data: { status: "ERROR" } });
+      await prisma.post.update({
+        where: { id: linkedInPost.id },
+        data: { status: "ERROR" },
+      });
       return false;
     }
 
@@ -33,23 +40,36 @@ export const post = async (postId: number) => {
       }
     );
 
-    const response = await createLinkedInPost(accessToken, content, imgSrc, linkedInPost.pageId);
+    const response = await createLinkedInPost(
+      accessToken,
+      content,
+      imgSrc,
+      linkedInPost.pageId
+    );
     if (!response) {
-      await prisma.post.update({ where: { id: linkedInPost.id }, data: { status: "ERROR" } });
+      await prisma.post.update({
+        where: { id: linkedInPost.id },
+        data: { status: "ERROR" },
+      });
       return false;
     } else {
       await prisma.post.update({
         where: { id: linkedInPost.id },
         data: {
-          status: "POSTED", postedDate: new Date(), result: {
+          status: "POSTED",
+          postedDate: new Date(),
+          result: {
             shareId: response,
-          }
+          },
         },
       });
       return true;
     }
   } catch (error) {
-    await prisma.post.update({ where: { id: postId }, data: { status: "ERROR" } });
+    await prisma.post.update({
+      where: { id: postId },
+      data: { status: "ERROR" },
+    });
     console.error(error);
     return false;
   }
@@ -71,20 +91,26 @@ export async function getLinkedInPages(accessToken: string) {
   });
   if (pagesResponse.status !== 200) return undefined;
 
-  const pages = pagesResponse.data?.elements.map((x: any) => extractIdFromUrn(x.organization));
+  const pages = pagesResponse.data?.elements.map((x: any) =>
+    extractIdFromUrn(x.organization)
+  );
   if (pages) {
-    const pageDetailUrl = `https://api.linkedin.com/rest/organizations?ids=List(${pages.join(",")})`;
+    const pageDetailUrl = `https://api.linkedin.com/rest/organizations?ids=List(${pages.join(
+      ","
+    )})`;
     const pageDetailsResponse = await axios.get(pageDetailUrl, {
       headers,
     });
     if (pageDetailsResponse.status === 200) {
       const data = pageDetailsResponse.data as PageInfoData;
-      const pageInfoes: PageInfo[] = Object.values(data.results).map((org: any) => ({
-        id: `urn:li:organization:${org.id}`,
-        name: org.vanityName,
-        isCurrent: false,
-        info: org,
-      }));
+      const pageInfoes: PageInfo[] = Object.values(data.results).map(
+        (org: any) => ({
+          id: `urn:li:organization:${org.id}`,
+          name: org.vanityName,
+          isCurrent: false,
+          info: org,
+        })
+      );
       return pageInfoes;
     }
   }
@@ -142,7 +168,10 @@ async function createLinkedInPost(
 
     return response;
   } catch (error: any) {
-    console.error("Error creating post:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error creating post:",
+      error.response ? error.response.data : error.message
+    );
     return false;
   }
 }
@@ -166,7 +195,11 @@ const initializeUpload = async (accessToken: string, owner: string) => {
   return response.data;
 };
 
-const uploadImage = async (token: string, imgSrc: string, uploadUrl: string) => {
+const uploadImage = async (
+  token: string,
+  imgSrc: string,
+  uploadUrl: string
+) => {
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "image/png", // Adjust the content type based on your image type

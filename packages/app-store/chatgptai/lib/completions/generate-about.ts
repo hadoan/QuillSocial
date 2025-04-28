@@ -31,7 +31,10 @@ const getMessageTexts = (cv: string): any[] => {
 };
 
 export const generateAbout = async (userId: number, cv: string) => {
-  const { chatCompletion: chatResponse } = await getChatCompletions(userId, getPrompt(cv));
+  const { chatCompletion: chatResponse } = await getChatCompletions(
+    userId,
+    getPrompt(cv)
+  );
 
   if (chatResponse && chatResponse.choices && chatResponse.choices.length > 0) {
     var content = chatResponse?.choices[0]?.message?.content!;

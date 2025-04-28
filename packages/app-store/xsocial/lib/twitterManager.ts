@@ -8,7 +8,10 @@ export const post = async (postId: number) => {
     if (!twitterPost || !twitterPost.credentialId) return false;
     const { refreshedClient } = await getClient(twitterPost.credentialId);
     if (!refreshedClient) {
-      await prisma.post.update({ where: { id: twitterPost.id }, data: { status: "ERROR" } });
+      await prisma.post.update({
+        where: { id: twitterPost.id },
+        data: { status: "ERROR" },
+      });
       return false;
     }
 
@@ -20,7 +23,7 @@ export const post = async (postId: number) => {
     //     return refreshedClient.v1.uploadMedia(imageBuffer, { type });
     //   })
     // );
-    
+
     // const mediaIds = await Promise.all([
     //   // file path
     //   client.v1.uploadMedia("./my-image.jpg"),
@@ -43,7 +46,10 @@ export const post = async (postId: number) => {
     });
 
     if (response.errors) {
-      await prisma.post.update({ where: { id: twitterPost.id }, data: { status: "ERROR" } });
+      await prisma.post.update({
+        where: { id: twitterPost.id },
+        data: { status: "ERROR" },
+      });
       console.error(response.errors);
       return false;
     } else {
@@ -55,7 +61,10 @@ export const post = async (postId: number) => {
     }
     return true;
   } catch (error) {
-    await prisma.post.update({ where: { id: postId }, data: { status: "ERROR" } });
+    await prisma.post.update({
+      where: { id: postId },
+      data: { status: "ERROR" },
+    });
     console.error(error);
     return false;
   }

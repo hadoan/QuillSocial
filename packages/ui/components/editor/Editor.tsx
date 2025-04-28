@@ -79,8 +79,12 @@ export const Editor = (props: TextEditorProps) => {
             setFirstRender={props.setFirstRender}
           />
           <div
-            className={classNames("editor-inner scroll-bar", !editable && "!bg-subtle")}
-            style={{ height: props.height }}>
+            className={classNames(
+              "editor-inner scroll-bar",
+              !editable && "!bg-subtle"
+            )}
+            style={{ height: props.height }}
+          >
             <RichTextPlugin
               contentEditable={
                 <ContentEditable
@@ -89,7 +93,11 @@ export const Editor = (props: TextEditorProps) => {
                   className="editor-input"
                 />
               }
-              placeholder={<div className="text-muted -mt-11 p-3 text-sm">{props.placeholder || ""}</div>}
+              placeholder={
+                <div className="text-muted -mt-11 p-3 text-sm">
+                  {props.placeholder || ""}
+                </div>
+              }
               ErrorBoundary={LexicalErrorBoundary}
             />
             <ListPlugin />

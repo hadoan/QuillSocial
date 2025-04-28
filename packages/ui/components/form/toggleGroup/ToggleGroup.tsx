@@ -3,7 +3,8 @@ import { Tooltip } from "@quillsocial/ui";
 import * as RadixToggleGroup from "@radix-ui/react-toggle-group";
 import type { ReactNode } from "react";
 
-interface ToggleGroupProps extends Omit<RadixToggleGroup.ToggleGroupSingleProps, "type"> {
+interface ToggleGroupProps
+  extends Omit<RadixToggleGroup.ToggleGroupSingleProps, "type"> {
   options: {
     value: string;
     label: string | ReactNode;
@@ -23,7 +24,12 @@ const OptionalTooltipWrapper = ({
 }) => {
   if (tooltipText) {
     return (
-      <Tooltip delayDuration={150} sideOffset={12} side="bottom" content={tooltipText}>
+      <Tooltip
+        delayDuration={150}
+        sideOffset={12}
+        side="bottom"
+        content={tooltipText}
+      >
         {children}
       </Tooltip>
     );
@@ -31,7 +37,12 @@ const OptionalTooltipWrapper = ({
   return <>{children}</>;
 };
 
-export const ToggleGroup = ({ options, onValueChange, isFullWidth, ...props }: ToggleGroupProps) => {
+export const ToggleGroup = ({
+  options,
+  onValueChange,
+  isFullWidth,
+  ...props
+}: ToggleGroupProps) => {
   return (
     <>
       <RadixToggleGroup.Root
@@ -42,9 +53,13 @@ export const ToggleGroup = ({ options, onValueChange, isFullWidth, ...props }: T
           "min-h-9 border-default relative inline-flex gap-0.5 rounded-md border p-1",
           props.className,
           isFullWidth && "w-full"
-        )}>
+        )}
+      >
         {options.map((option) => (
-          <OptionalTooltipWrapper key={option.value} tooltipText={option.tooltip}>
+          <OptionalTooltipWrapper
+            key={option.value}
+            tooltipText={option.tooltip}
+          >
             <RadixToggleGroup.Item
               disabled={option.disabled}
               value={option.value}
@@ -54,9 +69,14 @@ export const ToggleGroup = ({ options, onValueChange, isFullWidth, ...props }: T
                   ? "text-gray-400 hover:cursor-not-allowed bg-emphais"
                   : "hover:text-white hover:bg-awst bg-gray-200 text-awst",
                 isFullWidth && "w-full"
-              )}>
+              )}
+            >
               <div className="item-center flex justify-center ">
-                {option.iconLeft && <span className="mr-2 flex h-4 w-4 items-center">{option.iconLeft}</span>}
+                {option.iconLeft && (
+                  <span className="mr-2 flex h-4 w-4 items-center">
+                    {option.iconLeft}
+                  </span>
+                )}
                 {option.label}
               </div>
             </RadixToggleGroup.Item>

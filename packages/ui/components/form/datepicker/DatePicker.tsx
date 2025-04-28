@@ -5,7 +5,6 @@ import "react-date-picker/dist/DatePicker.css";
 import PrimitiveDatePicker from "react-date-picker/dist/entry.nostyle";
 import { Calendar } from "../../icon";
 
-
 type Props = {
   date: Date;
   onDatesChange?: ((date: Date) => void) | undefined;
@@ -14,7 +13,13 @@ type Props = {
   minDate?: Date;
 };
 
-const DatePicker = ({ minDate, disabled, date, onDatesChange, className }: Props) => {
+const DatePicker = ({
+  minDate,
+  disabled,
+  date,
+  onDatesChange,
+  className,
+}: Props) => {
   return (
     <PrimitiveDatePicker
       className={classNames(

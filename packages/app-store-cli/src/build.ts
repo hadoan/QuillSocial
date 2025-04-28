@@ -71,7 +71,11 @@ function generateFiles() {
 
   function forEachAppDir(callback: (arg: App) => void) {
     for (let i = 0; i < appDirs.length; i++) {
-      const configPath = path.join(APP_STORE_PATH, appDirs[i].path, "config.json");
+      const configPath = path.join(
+        APP_STORE_PATH,
+        appDirs[i].path,
+        "config.json"
+      );
       let app;
 
       if (fs.existsSync(configPath)) {
@@ -96,7 +100,9 @@ function generateFiles() {
   function getModulePath(path: string, moduleName: string) {
     return (
       `./${path.replace(/\\/g, "/")}/` +
-      moduleName.replace(/\/index\.ts|\/index\.tsx/, "").replace(/\.tsx$|\.ts$/, "")
+      moduleName
+        .replace(/\/index\.ts|\/index\.tsx/, "")
+        .replace(/\.tsx$|\.ts$/, "")
     );
   }
 
@@ -136,12 +142,18 @@ function generateFiles() {
     const getLocalImportName = (
       app: { name: string },
       chosenConfig: ReturnType<typeof getChosenImportConfig>
-    ) => `${getVariableName(app.name)}_${getVariableName(chosenConfig.fileToBeImported)}`;
+    ) =>
+      `${getVariableName(app.name)}_${getVariableName(
+        chosenConfig.fileToBeImported
+      )}`;
 
     const fileToBeImportedExists = (
       app: { path: string },
       chosenConfig: ReturnType<typeof getChosenImportConfig>
-    ) => fs.existsSync(path.join(APP_STORE_PATH, app.path, chosenConfig.fileToBeImported));
+    ) =>
+      fs.existsSync(
+        path.join(APP_STORE_PATH, app.path, chosenConfig.fileToBeImported)
+      );
 
     addImportStatements();
     createExportObject();
@@ -151,13 +163,19 @@ function generateFiles() {
     function addImportStatements() {
       forEachAppDir((app) => {
         const chosenConfig = getChosenImportConfig(importConfig, app);
-        if (fileToBeImportedExists(app, chosenConfig) && chosenConfig.importName) {
+        if (
+          fileToBeImportedExists(app, chosenConfig) &&
+          chosenConfig.importName
+        ) {
           const importName = chosenConfig.importName;
           if (!lazyImport) {
             if (importName !== "default") {
               // Import with local alias that will be used by createExportObject
               output.push(
-                `import { ${importName} as ${getLocalImportName(app, chosenConfig)} } from "${getModulePath(
+                `import { ${importName} as ${getLocalImportName(
+                  app,
+                  chosenConfig
+                )} } from "${getModulePath(
                   app.path,
                   chosenConfig.fileToBeImported
                 )}"`
@@ -165,7 +183,10 @@ function generateFiles() {
             } else {
               // Default Import
               output.push(
-                `import ${getLocalImportName(app, chosenConfig)} from "${getModulePath(
+                `import ${getLocalImportName(
+                  app,
+                  chosenConfig
+                )} from "${getModulePath(
                   app.path,
                   chosenConfig.fileToBeImported
                 )}"`
@@ -196,7 +217,12 @@ function generateFiles() {
                 )}")),`
               );
             } else {
-              output.push(`"${key}": import("${getModulePath(app.path, chosenConfig.fileToBeImported)}"),`);
+              output.push(
+                `"${key}": import("${getModulePath(
+                  app.path,
+                  chosenConfig.fileToBeImported
+                )}"),`
+              );
             }
           }
         }
@@ -205,13 +231,24 @@ function generateFiles() {
       output.push(`};`);
     }
 
-    function getChosenImportConfig(importConfig: ImportConfig, app: { path: string }) {
+    function getChosenImportConfig(
+      importConfig: ImportConfig,
+      app: { path: string }
+    ) {
       let chosenConfig;
 
       if (!(importConfig instanceof Array)) {
         chosenConfig = importConfig;
       } else {
-        if (fs.existsSync(path.join(APP_STORE_PATH, app.path, importConfig[0].fileToBeImported))) {
+        if (
+          fs.existsSync(
+            path.join(
+              APP_STORE_PATH,
+              app.path,
+              importConfig[0].fileToBeImported
+            )
+          )
+        ) {
           chosenConfig = importConfig[0];
         } else {
           chosenConfig = importConfig[1];
@@ -313,9 +350,14 @@ function generateFiles() {
     ["apps.keys-schemas.generated.ts", appKeysSchemasOutput],
   ];
   filesToGenerate.forEach(([fileName, output]) => {
-    fs.writeFileSync(`${APP_STORE_PATH}/${fileName}`, formatOutput(`${banner}${output.join("\n")}`));
+    fs.writeFileSync(
+      `${APP_STORE_PATH}/${fileName}`,
+      formatOutput(`${banner}${output.join("\n")}`)
+    );
   });
-  console.log(`Generated ${filesToGenerate.map(([fileName]) => fileName).join(", ")}`);
+  console.log(
+    `Generated ${filesToGenerate.map(([fileName]) => fileName).join(", ")}`
+  );
 }
 
 const debouncedGenerateFiles = debounce(generateFiles);

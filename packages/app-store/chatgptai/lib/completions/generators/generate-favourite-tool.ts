@@ -1,4 +1,7 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
 const getMessageTexts = (tool: string, whyGood: string, format?: string) => {
   const instruction = format
@@ -25,7 +28,10 @@ export const generateFavouriteTool = async (
   whyGood: string,
   format?: string
 ) => {
-  const { chatCompletion: post } = await getRewriteCompletions(userId, getMessageTexts(tool, whyGood, format));
+  const { chatCompletion: post } = await getRewriteCompletions(
+    userId,
+    getMessageTexts(tool, whyGood, format)
+  );
 
   let statusContent: string | undefined = "";
 

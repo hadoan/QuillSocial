@@ -4,7 +4,10 @@ import { generateStatus } from "@quillsocial/app-store/chatgptai/lib/completions
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
 
-async function handler(req: NextApiRequest & { userId?: number }, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest & { userId?: number },
+  res: NextApiResponse
+) {
   // const { query } = req;
   // const { idea } = query;
   // if (!idea) {

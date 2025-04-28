@@ -9,21 +9,23 @@ interface PaymentsRouterHandlerCache {
 const UNSTABLE_HANDLER_CACHE: PaymentsRouterHandlerCache = {};
 
 export const paymentsRouter = router({
-  chargeCard: authedProcedure.input(ZChargerCardInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.chargeCard) {
-      UNSTABLE_HANDLER_CACHE.chargeCard = await import("./chargeCard.handler").then(
-        (mod) => mod.chargeCardHandler
-      );
-    }
+  chargeCard: authedProcedure
+    .input(ZChargerCardInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.chargeCard) {
+        UNSTABLE_HANDLER_CACHE.chargeCard = await import(
+          "./chargeCard.handler"
+        ).then((mod) => mod.chargeCardHandler);
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.chargeCard) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.chargeCard) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.chargeCard({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.chargeCard({
+        ctx,
+        input,
+      });
+    }),
 });

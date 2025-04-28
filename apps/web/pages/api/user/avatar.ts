@@ -49,7 +49,10 @@ async function getIdentityData(req: NextApiRequest) {
   }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const identity = await getIdentityData(req);
   const img = identity?.avatar;
   // If image isn't set or links to this route itself, use default avatar
@@ -71,7 +74,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.end();
   }
 
-  const decoded = img.toString().replace("data:image/png;base64,", "").replace("data:image/jpeg;base64,", "");
+  const decoded = img
+    .toString()
+    .replace("data:image/png;base64,", "")
+    .replace("data:image/jpeg;base64,", "");
   const imageResp = Buffer.from(decoded, "base64");
 
   res.writeHead(200, {

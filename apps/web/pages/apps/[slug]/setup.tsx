@@ -8,13 +8,17 @@ import { HeadSeo } from "@quillsocial/ui";
 
 import PageWrapper from "@components/PageWrapper";
 
-export default function SetupInformation(props: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function SetupInformation(
+  props: InferGetStaticPropsType<typeof getStaticProps>
+) {
   const router = useRouter();
   const slug = router.query.slug as string;
   const { status } = useSession();
 
   if (status === "loading") {
-    return <div className="bg-emphasis absolute z-50 flex h-screen w-full items-center" />;
+    return (
+      <div className="bg-emphasis absolute z-50 flex h-screen w-full items-center" />
+    );
   }
 
   if (status === "unauthenticated") {
@@ -29,7 +33,11 @@ export default function SetupInformation(props: InferGetStaticPropsType<typeof g
   return (
     <>
       {/* So that the set up page does not get indexed by search engines */}
-      <HeadSeo nextSeoProps={{ noindex: true, nofollow: true }} title={`${slug} | Quill.com`} description="" />
+      <HeadSeo
+        nextSeoProps={{ noindex: true, nofollow: true }}
+        title={`${slug} | Quill.com`}
+        description=""
+      />
       <AppSetupPage slug={slug} {...props} />
     </>
   );

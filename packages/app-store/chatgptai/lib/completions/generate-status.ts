@@ -1,7 +1,11 @@
-
 import { getChatCompletions } from "./getChatCompletions";
 
-const getPrompt = (idea: string, type: string, desc: string, speakAbout: string) => {
+const getPrompt = (
+  idea: string,
+  type: string,
+  desc: string,
+  speakAbout: string
+) => {
   const aboutMe =
     desc && speakAbout
       ? `The description for me as: '${desc}' and I am speaking about: '${speakAbout}'.`
@@ -9,9 +13,16 @@ const getPrompt = (idea: string, type: string, desc: string, speakAbout: string)
   const promt = ` ${aboutMe}
   Help me to generate a quality social media post for the idea: '${idea}'. 
   Persuade audience to interact with status, add icons and hashtags with bullet points if possible, just write result only, no explanation and dont write out the tone`;
-  return type === "twitter" ? promt + ", max 280 charaters" : promt + ", min 150 charaters";
+  return type === "twitter"
+    ? promt + ", max 280 charaters"
+    : promt + ", min 150 charaters";
 };
-const getMessageTexts = (type: string, idea: string, desc: string, speakAbout: string): any[] => {
+const getMessageTexts = (
+  type: string,
+  idea: string,
+  desc: string,
+  speakAbout: string
+): any[] => {
   return [
     {
       role: "system",
@@ -55,11 +66,19 @@ export const generateStatus = async (
   let statusContent: string | undefined = "";
   let topicsContent: string | undefined = "";
   const tokens = [];
-  if (status && status.chatCompletion?.choices && status.chatCompletion?.choices.length > 0) {
+  if (
+    status &&
+    status.chatCompletion?.choices &&
+    status.chatCompletion?.choices.length > 0
+  ) {
     statusContent = status.chatCompletion?.choices[0]?.message?.content!;
     tokens.push(status.chatCompletion.usage);
   }
-  if (topics && topics.chatCompletion?.choices && topics.chatCompletion?.choices.length > 0) {
+  if (
+    topics &&
+    topics.chatCompletion?.choices &&
+    topics.chatCompletion?.choices.length > 0
+  ) {
     topicsContent = topics?.chatCompletion?.choices[0]?.message?.content!;
     tokens.push(topics.chatCompletion.usage);
   }

@@ -16,13 +16,19 @@ type ChangePasswordOptions = {
   input: TChangePasswordInputSchema;
 };
 
-export const changePasswordHandler = async ({ input, ctx }: ChangePasswordOptions) => {
+export const changePasswordHandler = async ({
+  input,
+  ctx,
+}: ChangePasswordOptions) => {
   const { oldPassword, newPassword } = input;
 
   const { user } = ctx;
 
   if (user.identityProvider !== IdentityProvider.DB) {
-    throw new TRPCError({ code: "FORBIDDEN", message: "THIRD_PARTY_IDENTITY_PROVIDER_ENABLED" });
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "THIRD_PARTY_IDENTITY_PROVIDER_ENABLED",
+    });
   }
 
   const currentPasswordQuery = await prisma.user.findFirst({
@@ -46,7 +52,10 @@ export const changePasswordHandler = async ({ input, ctx }: ChangePasswordOption
   }
 
   if (oldPassword === newPassword) {
-    throw new TRPCError({ code: "BAD_REQUEST", message: "new_password_matches_old_password" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "new_password_matches_old_password",
+    });
   }
 
   if (!validPassword(newPassword)) {

@@ -19,15 +19,21 @@ type SaveKeysOptions = {
 };
 
 export const saveKeysHandler = async ({ ctx, input }: SaveKeysOptions) => {
-  const keysSchema = appKeysSchemas[input.dirName as keyof typeof appKeysSchemas];
+  const keysSchema =
+    appKeysSchemas[input.dirName as keyof typeof appKeysSchemas];
   const keys = keysSchema.parse(input.keys);
 
   // Get app name from metadata
   const localApps = getLocalAppMetadata();
-  const appMetadata = localApps.find((localApp) => localApp.slug === input.slug);
+  const appMetadata = localApps.find(
+    (localApp) => localApp.slug === input.slug
+  );
 
   if (!appMetadata?.dirName && appMetadata?.categories)
-    throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "App metadata could not be found" });
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "App metadata could not be found",
+    });
 
   await ctx.prisma.app.upsert({
     where: {

@@ -15,15 +15,21 @@ const InputShareStruggle: React.FC<InputTemplateProps> = ({ onInputData }) => {
     setFeedback(reaction);
   };
 
-  const handleChallengeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChallengeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setChallenge(event.target.value);
   };
 
-  const handleOvercomeMethodChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleOvercomeMethodChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setOvercomeMethod(event.target.value);
   };
 
-  const handleAdviceChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleAdviceChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setAdvice(event.target.value);
   };
 
@@ -92,7 +98,8 @@ const InputShareStruggle: React.FC<InputTemplateProps> = ({ onInputData }) => {
             className={`m-2 items-center justify-center rounded-full border p-2 px-2 py-1 text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
               feedback === "frustrated" ? "bg-awst text-white" : "bg-gray-200"
             }`}
-            aria-label="Frustrated">
+            aria-label="Frustrated"
+          >
             😠 Frustrated
           </button>
           <button
@@ -100,7 +107,8 @@ const InputShareStruggle: React.FC<InputTemplateProps> = ({ onInputData }) => {
             className={`m-2 items-center justify-center rounded-full border p-2 px-2 py-1 text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
               feedback === "confused" ? "bg-awst text-white" : "bg-gray-200"
             }`}
-            aria-label="Confused">
+            aria-label="Confused"
+          >
             😕 Confused
           </button>
         </div>

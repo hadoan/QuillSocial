@@ -11,7 +11,9 @@ type GetUpgradeableOptions = {
   };
 };
 
-export async function checkIfOrgNeedsUpgradeHandler({ ctx }: GetUpgradeableOptions) {
+export async function checkIfOrgNeedsUpgradeHandler({
+  ctx,
+}: GetUpgradeableOptions) {
   if (!IS_TEAM_BILLING_ENABLED) return [];
 
   // Get all teams/orgs where the user is an owner

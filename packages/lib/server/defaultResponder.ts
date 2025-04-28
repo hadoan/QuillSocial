@@ -21,7 +21,11 @@ export function defaultResponder<T>(f: Handle<T>) {
       res.json({ message: error.message });
     } finally {
       performance.mark("End");
-      performance.measure(`[${ok ? "OK" : "ERROR"}][$1] ${req.method} '${req.url}'`, "Start", "End");
+      performance.measure(
+        `[${ok ? "OK" : "ERROR"}][$1] ${req.method} '${req.url}'`,
+        "Start",
+        "End"
+      );
     }
   };
 }

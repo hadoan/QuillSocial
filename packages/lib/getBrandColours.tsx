@@ -31,7 +31,9 @@ export function isValidHexCode(hexColor: string): boolean {
 
 function hexToRgb(hex: string): Rgb {
   const sanitizedHex = hex.replace("##", "#");
-  const colorParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(sanitizedHex);
+  const colorParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+    sanitizedHex
+  );
 
   if (!colorParts) {
     throw new Error("Invalid Hex colour");
@@ -141,11 +143,17 @@ function getWCAGContrastColor(background: string): string {
 export function checkWCAGContrastColor(background: string, target: string) {
   const backgroundRGB = hexToRgb(background);
   const targetRGB = hexToRgb(target);
-  const bgLuminance = (0.2126 * backgroundRGB.r + 0.7152 * backgroundRGB.g + 0.0722 * backgroundRGB.b) / 255;
-  const targetLuminance = (0.2126 * targetRGB.r + 0.7152 * targetRGB.g + 0.0722 * targetRGB.b) / 255;
+  const bgLuminance =
+    (0.2126 * backgroundRGB.r +
+      0.7152 * backgroundRGB.g +
+      0.0722 * backgroundRGB.b) /
+    255;
+  const targetLuminance =
+    (0.2126 * targetRGB.r + 0.7152 * targetRGB.g + 0.0722 * targetRGB.b) / 255;
 
   const contrastRadio =
-    (Math.max(bgLuminance, targetLuminance) + 0.05) / (Math.min(targetLuminance, bgLuminance) + 0.05);
+    (Math.max(bgLuminance, targetLuminance) + 0.05) /
+    (Math.min(targetLuminance, bgLuminance) + 0.05);
 
   const MIN_CONTRAST_RATIO = 4.5; // used for BGs
 

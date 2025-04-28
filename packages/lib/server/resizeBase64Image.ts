@@ -15,7 +15,10 @@ export async function resizeBase64Image(
   if (!mimetype) {
     throw new Error(`Could not distinguish mimetype`);
   }
-  const buffer = Buffer.from(base64OrUrl.replace(/^data:image\/\w+;base64,/, ""), "base64");
+  const buffer = Buffer.from(
+    base64OrUrl.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
 
   const {
     // 96px is the height of the image on https://quillsocial.co/peer

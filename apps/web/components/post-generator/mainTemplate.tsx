@@ -8,7 +8,12 @@ import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
 import { router } from "@quillsocial/trpc/server/trpc";
 import { Post } from "@quillsocial/types/Posts";
 import { Button, ImageUploader, Input, TextAreaField } from "@quillsocial/ui";
-import { Dialog, DialogContent, DialogFooter, showToast } from "@quillsocial/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  showToast,
+} from "@quillsocial/ui";
 
 import ModalEditOrNewCustom from "./ModalEditOrNew";
 import ModalSelectFormat from "./ModalSelectFormat";
@@ -28,7 +33,9 @@ enum Tab {
 const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
   const numId = getIdFromCode(code);
   const [items, setItems] = useState(fetchAllFormat());
-  const [itemsRecomend, setItemsRecomend] = useState(fetchFormatRecomand(numId));
+  const [itemsRecomend, setItemsRecomend] = useState(
+    fetchFormatRecomand(numId)
+  );
   const [isModalFormatOpen, setIsModalFormatOpen] = useState(false);
   const [isModalNewOrEditOpen, setIsModalNewOrEditOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -97,7 +104,9 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
 
   const checkInputData = (data: InputData | undefined) => {
     if (data && data.input) {
-      const allValuesNonNull = data.input.every((item) => item.value !== null && item.value !== "");
+      const allValuesNonNull = data.input.every(
+        (item) => item.value !== null && item.value !== ""
+      );
       //   if (allValuesNonNull && selectFormat) {
       //     return true;
       //   } else {
@@ -123,7 +132,11 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
     }
   };
 
-  const getDataOpenAI = async (code: string, format: string, inputs: InputData) => {
+  const getDataOpenAI = async (
+    code: string,
+    format: string,
+    inputs: InputData
+  ) => {
     setIsDataValid(false);
     const response = await fetch(`/api/openai/quillsocial`, {
       credentials: "include",
@@ -215,10 +228,16 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
           </div> */}
           {/* use input custom template */}
           <div className="w-full">
-            <InputTemplateCustom number={numId} onInputData={handleInputCustomData} />
+            <InputTemplateCustom
+              number={numId}
+              onInputData={handleInputCustomData}
+            />
           </div>
           <div className="flex flex-col p-2">
-            <div className="text-sm font-medium leading-6 text-gray-900"> Select Post format</div>
+            <div className="text-sm font-medium leading-6 text-gray-900">
+              {" "}
+              Select Post format
+            </div>
             <div className="flex flex-col gap-4">
               {!selectFormat ? (
                 <Button
@@ -226,7 +245,8 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                     setIsModalFormatOpen(true);
                   }}
                   StartIcon={Plus}
-                  className="text-darkgray-200 w-[200px] rounded-xl border bg-white hover:bg-white hover:font-bold">
+                  className="text-darkgray-200 w-[200px] rounded-xl border bg-white hover:bg-white hover:font-bold"
+                >
                   Select a post format
                 </Button>
               ) : (
@@ -243,14 +263,16 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                     <Button
                       onClick={handleEdit}
                       StartIcon={Pencil}
-                      className="text-awst border-none bg-slate-50 hover:bg-slate-50">
+                      className="text-awst border-none bg-slate-50 hover:bg-slate-50"
+                    >
                       Edit Selected Format{" "}
                     </Button>
                     <Button
                       onClick={() => {
                         setSelectFormat(``);
                       }}
-                      className="ml-auto border-none bg-slate-50 text-red-600 hover:bg-slate-50">
+                      className="ml-auto border-none bg-slate-50 text-red-600 hover:bg-slate-50"
+                    >
                       Remove{" "}
                     </Button>
                   </div>
@@ -260,17 +282,20 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                 disabled={!isDataValid}
                 onClick={handleGenerate}
                 type="button"
-                className="inline-flex w-[120px] items-center justify-center gap-2 rounded-full bg-blue-500 px-3 py-2 text-sm font-semibold text-white transition-all duration-150 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:bg-gray-300 sm:px-4 sm:py-2.5">
+                className="inline-flex w-[120px] items-center justify-center gap-2 rounded-full bg-blue-500 px-3 py-2 text-sm font-semibold text-white transition-all duration-150 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:bg-gray-300 sm:px-4 sm:py-2.5"
+              >
                 <svg
                   aria-hidden="true"
                   className="-mr-0.5 h-4 w-4  sm:h-5 sm:w-5"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
-                  fill="currentColor">
+                  fill="currentColor"
+                >
                   <path
                     fillRule="evenodd"
                     d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
-                    clipRule="evenodd"></path>
+                    clipRule="evenodd"
+                  ></path>
                 </svg>
                 Generate
               </Button>
@@ -297,10 +322,16 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
             />
           </div>
         </div>
-        <div className={`col-span-12 mt-10 h-[700px] bg-slate-50 sm:col-span-7 sm:mt-0`}>
+        <div
+          className={`col-span-12 mt-10 h-[700px] bg-slate-50 sm:col-span-7 sm:mt-0`}
+        >
           <div className="flex flex-col p-2">
             <span className="font-bold">Output </span>
-            <span> Here is the Al generated content for you. Feel free to tweak before you post it.</span>
+            <span>
+              {" "}
+              Here is the Al generated content for you. Feel free to tweak
+              before you post it.
+            </span>
             {/* <div className="mt-5 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
               <ul className="-mb-px flex flex-wrap">
                 <li className="me-2">
@@ -360,7 +391,8 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                 <Button
                   StartIcon={Bookmark}
                   disabled={isButtonSave}
-                  className="text-dark hover:bg-awst flex flex-1 items-center justify-center rounded-lg border-2 bg-white text-center hover:text-white">
+                  className="text-dark hover:bg-awst flex flex-1 items-center justify-center rounded-lg border-2 bg-white text-center hover:text-white"
+                >
                   <span onClick={handleSaveClick}>Save</span>
                 </Button>
                 <Button
@@ -375,7 +407,8 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                     }
                   }}
                   StartIcon={PenLine}
-                  className="text-dark  hover:bg-awst flex flex-1 items-center justify-center rounded-lg border-2 bg-white text-center hover:text-white">
+                  className="text-dark  hover:bg-awst flex flex-1 items-center justify-center rounded-lg border-2 bg-white text-center hover:text-white"
+                >
                   {" "}
                   Edit
                 </Button>

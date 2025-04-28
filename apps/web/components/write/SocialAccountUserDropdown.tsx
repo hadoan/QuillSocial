@@ -14,7 +14,7 @@ import { Avatar, HeadSeo, showToast } from "@quillsocial/ui";
 import { Dropdown, DropdownItem } from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
-import {useCurrentUserAccount} from "@quillsocial/features/shell/SocialAvatar";
+import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface LoadingMap {
@@ -26,17 +26,16 @@ interface UpdateMutationProps {
 }
 
 const useUpdateMutation = ({ accountId }: UpdateMutationProps) => {
-
   const router = useRouter();
   const update = trpc.viewer.socials.setCurrentUserProfile.useMutation({
     onSuccess: () => {
-      showToast('Set current profile successfully!', 'success');
+      showToast("Set current profile successfully!", "success");
       if (accountId !== null) {
         router.reload();
       }
     },
     onError: () => {
-      showToast('Error occurred when updating, please try again.', 'error');
+      showToast("Error occurred when updating, please try again.", "error");
     },
   });
 
@@ -102,7 +101,6 @@ export function SocialAccountUserDropdown() {
       });
   });
 
-
   if (!user) {
     return null;
   }
@@ -114,19 +112,27 @@ export function SocialAccountUserDropdown() {
   return (
     <>
       <Dropdown open={menuOpen}>
-        <DropdownMenuTrigger asChild onClick={() => setMenuOpen((menuOpen) => !menuOpen)}>
+        <DropdownMenuTrigger
+          asChild
+          onClick={() => setMenuOpen((menuOpen) => !menuOpen)}
+        >
           <button
             className="bg-default ml-[-10px]] group mx-0 flex cursor-pointer appearance-none items-center rounded-full py-1.5 pl-[5px] text-left outline-none hover:bg-slate-200 focus:outline-none focus:ring-0
-                md:rounded-none lg:rounded">
+                md:rounded-none lg:rounded"
+          >
             <span
               className="relative  h-5 w-5 flex-shrink-0 items-center justify-center
-                  rounded-full  ltr:mr-2 rtl:ml-2">
-              {
-                currentAvatar &&
-                <div >
-                  <SocialAvatar size="sm" appId={currentAvatar.appId!} avatarUrl={currentAvatar.avatarUrl!} />
+                  rounded-full  ltr:mr-2 rtl:ml-2"
+            >
+              {currentAvatar && (
+                <div>
+                  <SocialAvatar
+                    size="sm"
+                    appId={currentAvatar.appId!}
+                    avatarUrl={currentAvatar.avatarUrl!}
+                  />
                 </div>
-              }
+              )}
             </span>
           </button>
         </DropdownMenuTrigger>
@@ -137,20 +143,25 @@ export function SocialAccountUserDropdown() {
               setMenuOpen(false);
               setHelpOpen(false);
             }}
-            className="group bg-white border overflow-hidden rounded-md">
+            className="group bg-white border overflow-hidden rounded-md"
+          >
             <>
               {listAccount && listAccount.length > 0 && (
                 <div>
                   {listAccount.map((account: any, index: number) => (
                     <div key={index}>
                       <DropdownMenuItem>
-                        <DropdownItem type="button"
+                        <DropdownItem
+                          type="button"
                           onClick={() => {
                             handleAccountClick(account.id);
-                          }
-                          }
+                          }}
                         >
-                          <span className={account.isUserCurrentProfile ? "font-bold" : ""}>
+                          <span
+                            className={
+                              account.isUserCurrentProfile ? "font-bold" : ""
+                            }
+                          >
                             {account.name || user.name || "Nameless User"}
                           </span>
                         </DropdownItem>
@@ -162,12 +173,17 @@ export function SocialAccountUserDropdown() {
               )}
               <DropdownMenuItem>
                 <DropdownItem className="">
-                  <span onClick={() => router.push("/settings/my-account/app-integrations")}
-                    className="text-awst text-[12px] text-sm">Add another account</span>
+                  <span
+                    onClick={() =>
+                      router.push("/settings/my-account/app-integrations")
+                    }
+                    className="text-awst text-[12px] text-sm"
+                  >
+                    Add another account
+                  </span>
                 </DropdownItem>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-              </DropdownMenuItem>
+              <DropdownMenuItem></DropdownMenuItem>
             </>
           </DropdownMenuContent>
         </DropdownMenuPortal>

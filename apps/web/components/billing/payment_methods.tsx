@@ -8,7 +8,8 @@ const PaymentMethods = () => {
           <div className="flex flex-col  ">
             <label
               htmlFor="name"
-              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]">
+              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]"
+            >
               Name
             </label>
             <input
@@ -22,7 +23,8 @@ const PaymentMethods = () => {
           <div className="flex flex-col ">
             <label
               htmlFor="email"
-              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]">
+              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]"
+            >
               Email Address
             </label>
             <input
@@ -38,7 +40,8 @@ const PaymentMethods = () => {
           <div className="flex flex-col">
             <label
               htmlFor="creditcard"
-              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[803px] lg:w-[803px] xl:w-[803px]">
+              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[803px] lg:w-[803px] xl:w-[803px]"
+            >
               Credit Card Number
             </label>
             <input
@@ -54,7 +57,8 @@ const PaymentMethods = () => {
           <div className="flex flex-col pr-[25px]">
             <label
               htmlFor="expirydate"
-              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]">
+              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]"
+            >
               Expiry Date
             </label>
             <input
@@ -68,7 +72,8 @@ const PaymentMethods = () => {
           <div className="flex flex-col">
             <label
               htmlFor="cvv"
-              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]">
+              className="mb-[5px] w-[95%] font-bold text-[#2D3648] md:w-[389px] lg:w-[389px] xl:w-[389px]"
+            >
               CVV
             </label>
             <input

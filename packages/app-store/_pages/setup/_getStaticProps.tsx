@@ -2,7 +2,9 @@ import type { GetStaticPropsContext } from "next";
 import dynamic from "next/dynamic";
 
 export const AppSetupPageMap = {
-  "xconsumerkeys-social": dynamic(() => import("../../xconsumerkeyssocial/pages/setup")),
+  "xconsumerkeys-social": dynamic(
+    () => import("../../xconsumerkeyssocial/pages/setup")
+  ),
   "chatgpt-ai": dynamic(() => import("../../chatgptai/pages/setup")),
 };
 

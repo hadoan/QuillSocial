@@ -42,8 +42,12 @@ function SingleAppPage(props: inferSSRProps<typeof getStaticProps>) {
       // TODO: Improve disabled App UI. This is just a placeholder.
       return (
         <div className="p-2">
-          This App seems to be disabled. If you are an admin, you can enable this app from{" "}
-          <Link href="/settings/admin/apps" className="cursor-pointer text-blue-500 underline">
+          This App seems to be disabled. If you are an admin, you can enable
+          this app from{" "}
+          <Link
+            href="/settings/admin/apps"
+            className="cursor-pointer text-blue-500 underline"
+          >
             here
           </Link>
         </div>
@@ -81,7 +85,9 @@ function SingleAppPage(props: inferSSRProps<typeof getStaticProps>) {
       //   privacy="https://zoom.us/privacy"
       body={
         <>
-          <div dangerouslySetInnerHTML={{ __html: md.render(source.content) }} />
+          <div
+            dangerouslySetInnerHTML={{ __html: md.render(source.content) }}
+          />
         </>
       }
     />
@@ -119,7 +125,8 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   });
 
   const isAppAvailableInFileSystem = appMeta;
-  const isAppDisabled = isAppAvailableInFileSystem && (!appFromDb || !appFromDb.enabled);
+  const isAppDisabled =
+    isAppAvailableInFileSystem && (!appFromDb || !appFromDb.enabled);
 
   if (process.env.NODE_ENV !== "production" && isAppDisabled) {
     return {
@@ -135,8 +142,16 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   if (!appFromDb || !appMeta || isAppDisabled) return { notFound: true };
 
   const isTemplate = appMeta.isTemplate;
-  const appDirname = path.join(isTemplate ? "templates" : "", appFromDb.dirName);
-  const README_PATH = path.join(process.cwd(), "..", "..", `packages/app-store/${appDirname}/DESCRIPTION.md`);
+  const appDirname = path.join(
+    isTemplate ? "templates" : "",
+    appFromDb.dirName
+  );
+  const README_PATH = path.join(
+    process.cwd(),
+    "..",
+    "..",
+    `packages/app-store/${appDirname}/DESCRIPTION.md`
+  );
   const postFilePath = path.join(README_PATH);
   let source = "";
 
@@ -150,7 +165,10 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
   }
 
   const result = matter(source);
-  const { content, data } = sourceSchema.parse({ content: result.content, data: result.data });
+  const { content, data } = sourceSchema.parse({
+    content: result.content,
+    data: result.data,
+  });
   if (data.items) {
     data.items = data.items.map((item) => {
       if (typeof item === "string") {

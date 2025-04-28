@@ -1,4 +1,7 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
 const getMessageTexts = (idea: string, format?: string) => {
   const instruction = format
@@ -9,8 +12,15 @@ const getMessageTexts = (idea: string, format?: string) => {
   return `${instruction}: '${idea}''`;
 };
 
-export const generateFormatContent = async (userId: number, idea: string, format?: string) => {
-  const { chatCompletion: post } = await getRewriteCompletions(userId, getMessageTexts(idea, format));
+export const generateFormatContent = async (
+  userId: number,
+  idea: string,
+  format?: string
+) => {
+  const { chatCompletion: post } = await getRewriteCompletions(
+    userId,
+    getMessageTexts(idea, format)
+  );
 
   let statusContent: string | undefined = "";
 

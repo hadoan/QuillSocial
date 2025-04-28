@@ -82,11 +82,18 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
   }, [fileInfo]);
 
   return (
-    <div className="w-full rounded-lg bg-white p-5 shadow-lg" style={contentStyle}>
+    <div
+      className="w-full rounded-lg bg-white p-5 shadow-lg"
+      style={contentStyle}
+    >
       <div className="mb-4 flex items-center space-x-3">
         {currentUser && (
           <div key={currentUser?.id}>
-            <SocialAvatar size="mdLg" appId={currentUser?.appId!} avatarUrl={currentUser?.avatarUrl!} />
+            <SocialAvatar
+              size="mdLg"
+              appId={currentUser?.appId!}
+              avatarUrl={currentUser?.avatarUrl!}
+            />
           </div>
         )}
         <div>
@@ -105,13 +112,17 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
           __html:
             isExpanded || !editorContent || editorContent.length <= 100
               ? editorContent.replace(/\n/g, "<br />")
-              : `${editorContent.replace(/\n/g, "<br />").substring(0, 200)}...`,
-        }}></div>
+              : `${editorContent
+                  .replace(/\n/g, "<br />")
+                  .substring(0, 200)}...`,
+        }}
+      ></div>
       <div className="flex">
         {showToggleButton && (
           <button
             onClick={toggleContent}
-            className="mb-5 ml-auto cursor-pointer text-blue-600 hover:text-blue-800">
+            className="mb-5 ml-auto cursor-pointer text-blue-600 hover:text-blue-800"
+          >
             {isExpanded ? "see less" : "see more"}
           </button>
         )}
@@ -126,11 +137,13 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
               height={0}
               sizes="100vw"
               src={imageSrc}
-              style={{ width: "auto", height: "250px" }}></NextImage>
+              style={{ width: "auto", height: "250px" }}
+            ></NextImage>
             <span
               onClick={() => setIsDeleteDialogOpen(true)}
               className="z-40 -ml-[45px] mt-3 h-8 w-8 rounded-full bg-slate-700 
-          text-center text-xl text-white transition-opacity hover:cursor-pointer hover:bg-red-200 hover:text-red-600">
+          text-center text-xl text-white transition-opacity hover:cursor-pointer hover:bg-red-200 hover:text-red-600"
+            >
               x
             </span>
           </div>
@@ -152,7 +165,8 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
       <div className="flex flex-col">
         <div className="flex text-[13px] text-gray-500">
           <span className="mb-2 flex items-center">
-            <img className="h-[90%] w-[90%]" src="/LikeGroup.svg"></img> <p className="ml-1">{likes}</p>
+            <img className="h-[90%] w-[90%]" src="/LikeGroup.svg"></img>{" "}
+            <p className="ml-1">{likes}</p>
           </span>
           <span className="ml-auto">{comments} comments</span>
           <span className="ml-2">{reposts} repost</span>
@@ -163,13 +177,16 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
             <span className="ml-1">Like</span>
           </div>
           <div className="flex flex-grow items-center justify-center rounded-xl p-1 hover:bg-slate-50">
-            <MessagesSquare className="h-4 w-4 cursor-pointer" /> <span className="ml-2">Comment</span>
+            <MessagesSquare className="h-4 w-4 cursor-pointer" />{" "}
+            <span className="ml-2">Comment</span>
           </div>
           <div className="flex flex-grow items-center justify-center rounded-xl p-1 hover:bg-slate-50">
-            <Redo className="h-4 w-4 cursor-pointer" /> <span className="ml-2">Share</span>
+            <Redo className="h-4 w-4 cursor-pointer" />{" "}
+            <span className="ml-2">Share</span>
           </div>
           <div className="flex flex-grow items-center justify-center rounded-xl p-1 hover:bg-slate-50">
-            <Navigation className="h-4 w-4 cursor-pointer" /> <span className="ml-1">Send</span>
+            <Navigation className="h-4 w-4 cursor-pointer" />{" "}
+            <span className="ml-1">Send</span>
           </div>
         </div>
       </div>

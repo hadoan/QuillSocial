@@ -6,7 +6,10 @@ import prisma from "@quillsocial/prisma";
 
 import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const { apiKey, secret } = req.body;
     // Get user
@@ -21,7 +24,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const data = {
       type: "xconsumerkeys_social",
-      key: symmetricEncrypt(JSON.stringify({ apiKey, secret }), process.env.MY_APP_ENCRYPTION_KEY || ""),
+      key: symmetricEncrypt(
+        JSON.stringify({ apiKey, secret }),
+        process.env.MY_APP_ENCRYPTION_KEY || ""
+      ),
       userId: user.id,
       appId: "xconsumerkeys-social",
       invalid: false,
@@ -39,7 +45,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res
       .status(200)
-      .json({ url: getInstalledAppPath({ variant: "social", slug: "xconsumerkeys-social" }) });
+      .json({
+        url: getInstalledAppPath({
+          variant: "social",
+          slug: "xconsumerkeys-social",
+        }),
+      });
   }
 
   if (req.method === "GET") {

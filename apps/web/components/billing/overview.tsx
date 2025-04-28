@@ -9,7 +9,13 @@ import { BillingType } from "@quillsocial/prisma/enums";
 import { TRPCClientError, trpc } from "@quillsocial/trpc/react";
 import { showToast } from "@quillsocial/ui";
 import { Button, Meta } from "@quillsocial/ui";
-import { ExternalLink, Users, Banknote, FileText, AlertCircle } from "@quillsocial/ui/components/icon";
+import {
+  ExternalLink,
+  Users,
+  Banknote,
+  FileText,
+  AlertCircle,
+} from "@quillsocial/ui/components/icon";
 
 import { QueryCell } from "@lib/QueryCell";
 
@@ -30,7 +36,8 @@ const BillingOverview: FC = () => {
 
   const { t } = useLocale();
   const returnTo = router.asPath;
-  const currentBillingQuery = trpc.viewer.billings.getCurrentUserBilling.useQuery();
+  const currentBillingQuery =
+    trpc.viewer.billings.getCurrentUserBilling.useQuery();
 
   const billingHref = `${WEBAPP_URL}/api/integrations/stripepayment/portal?returnTo=${WEBAPP_URL}${returnTo}`;
   return (
@@ -41,9 +48,14 @@ const BillingOverview: FC = () => {
         return (
           <div className="flex flex-col">
             <div className="flex flex-wrap items-center justify-center gap-5 md:justify-start">
-              {data?.type !== "LTD" && data?.type !== "PER_USER" &&
-                <SubscribeButtons data={data} isLTD={isLTD} ltdUsers={ltdUsers} billingHref={billingHref} ></SubscribeButtons>
-              }
+              {data?.type !== "LTD" && data?.type !== "PER_USER" && (
+                <SubscribeButtons
+                  data={data}
+                  isLTD={isLTD}
+                  ltdUsers={ltdUsers}
+                  billingHref={billingHref}
+                ></SubscribeButtons>
+              )}
               {data?.type === "LTD" && (
                 <div className="flex h-[100px]  items-center justify-center rounded-lg border bg-white shadow-sm">
                   <div className="flex flex-col p-4">
@@ -54,9 +66,7 @@ const BillingOverview: FC = () => {
                     {/* <div className="text-awst flex  items-left rounded-b-lg mt-4  text-center text-sm font-medium leading-5">
                       <a className="font-bold text-red!" href={billingHref}>View all invoices</a>
                     </div> */}
-
                   </div>
-
                 </div>
               )}
               {!isLTD && (
@@ -82,7 +92,9 @@ const BillingOverview: FC = () => {
                             style={{ maxWidth: "300px" }}
                           /> */}
                           </div>
-                          <div className="text-2xl font-bold">{lifeTimeDeal} USD</div>
+                          <div className="text-2xl font-bold">
+                            {lifeTimeDeal} USD
+                          </div>
                         </div>
                       </div>
                       <div className="-mt-4 flex items-center gap-2 pl-3">
@@ -124,7 +136,9 @@ const BillingOverview: FC = () => {
                           />
                         </div>
 
-                        <div className="text-2xl font-bold">{data?.quantity * monthlyPrice} USD</div>
+                        <div className="text-2xl font-bold">
+                          {data?.quantity * monthlyPrice} USD
+                        </div>
                       </div>
                     </div>
 
@@ -155,7 +169,8 @@ const BillingOverview: FC = () => {
               )}
             </div>
             <div className="mt-5 text-sm text-slate-500">
-              For more information, feel free to reach out to us at ha@quillai.social or live chat anytime.
+              For more information, feel free to reach out to us at
+              ha@quillai.social or live chat anytime.
             </div>
           </div>
         );
@@ -164,8 +179,17 @@ const BillingOverview: FC = () => {
   );
 };
 
-
-const SubscribeButtons = ({data, isLTD, ltdUsers, billingHref}:{data: any, isLTD: boolean, ltdUsers: number, billingHref: string}) => {
+const SubscribeButtons = ({
+  data,
+  isLTD,
+  ltdUsers,
+  billingHref,
+}: {
+  data: any;
+  isLTD: boolean;
+  ltdUsers: number;
+  billingHref: string;
+}) => {
   const router = useRouter();
   const subscribeMutation = trpc.viewer.billings.subscribe.useMutation({
     onSuccess: async (data: any) => {
@@ -209,22 +233,24 @@ const SubscribeButtons = ({data, isLTD, ltdUsers, billingHref}:{data: any, isLTD
             <span className="font-bold">Manage Billing</span>
             <span className="mt-2 text-sm text-slate-500">
               {!isLTD && (
-                <>View and edit your billing details, as well as cancel your subscription.</>
+                <>
+                  View and edit your billing details, as well as cancel your
+                  subscription.
+                </>
               )}
               {isLTD && <>Total lifetime deal (LTD) users: {ltdUsers}</>}
             </span>
           </div>
         )}
         <div className="ml-auto mr-3">
-
           <Button
             color="primary"
             className="text-white"
             onClick={() => subscribe("ltd")}
-            EndIcon={ExternalLink}>
+            EndIcon={ExternalLink}
+          >
             Subscribe
           </Button>
-
         </div>
       </div>
 
@@ -244,7 +270,10 @@ const SubscribeButtons = ({data, isLTD, ltdUsers, billingHref}:{data: any, isLTD
             <span className="font-bold">Manage Billing</span>
             <span className="mt-2 text-sm text-slate-500">
               {!isLTD && (
-                <>View and edit your billing details, as well as cancel your subscription.</>
+                <>
+                  View and edit your billing details, as well as cancel your
+                  subscription.
+                </>
               )}
               {isLTD && <>Total lifetime deal (LTD) users: {ltdUsers}</>}
             </span>
@@ -258,25 +287,25 @@ const SubscribeButtons = ({data, isLTD, ltdUsers, billingHref}:{data: any, isLTD
               className="text-white"
               href={billingHref}
               target="_blank"
-              EndIcon={ExternalLink}>
+              EndIcon={ExternalLink}
+            >
               Billing Portal
             </Button>
           ) : (
-
             <Button
               color="primary"
               className="text-white"
               onClick={() => subscribe("perUser")}
-              EndIcon={ExternalLink}>
+              EndIcon={ExternalLink}
+            >
               Subscribe
             </Button>
-
           )}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 BillingOverview.displayName = "Billing Overview";
 

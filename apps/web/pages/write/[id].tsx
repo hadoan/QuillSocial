@@ -1,6 +1,13 @@
 import { debounce } from "lodash";
 import { Smile } from "lucide-react";
-import { Copy, AlignStartVertical, Image, Paperclip, Video, Twitter } from "lucide-react";
+import {
+  Copy,
+  AlignStartVertical,
+  Image,
+  Paperclip,
+  Video,
+  Twitter,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import { Editor } from "primereact/editor";
 import { useState } from "react";
@@ -12,7 +19,10 @@ import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import Shell from "@quillsocial/features/shell/Shell";
 import { ModalAccount } from "@quillsocial/features/shell/SocialAccountsDialog";
 import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
-import { useCurrentUserAccount, checkUserToUsePlug } from "@quillsocial/features/shell/SocialAvatar";
+import {
+  useCurrentUserAccount,
+  checkUserToUsePlug,
+} from "@quillsocial/features/shell/SocialAvatar";
 import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
@@ -20,7 +30,13 @@ import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
 import { Post } from "@quillsocial/types/Posts";
 import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 import { Editor as EditorCustom } from "@quillsocial/ui";
-import { Button, HeadSeo, LoadingDialog, TextArea, showToast } from "@quillsocial/ui";
+import {
+  Button,
+  HeadSeo,
+  LoadingDialog,
+  TextArea,
+  showToast,
+} from "@quillsocial/ui";
 import { Tablet, Laptop } from "@quillsocial/ui/components/icon";
 
 import PageWrapper from "@components/PageWrapper";
@@ -101,7 +117,12 @@ const WritePage = () => {
   }, [user?.currentSocialProfile?.credentialId]);
 
   const contentStyle = {
-    width: activeDevice === DeviceType.PHONE ? "65%" : activeDevice === DeviceType.TAB ? "80%" : "100%",
+    width:
+      activeDevice === DeviceType.PHONE
+        ? "65%"
+        : activeDevice === DeviceType.TAB
+        ? "80%"
+        : "100%",
     transition: "width 0.3s",
   };
 
@@ -126,7 +147,10 @@ const WritePage = () => {
     setSelectedDateTime(value);
   };
 
-  const handleEditAndPostFromDialog = (draft: { id: number; content: string }) => {
+  const handleEditAndPostFromDialog = (draft: {
+    id: number;
+    content: string;
+  }) => {
     setEditorContent(draft.content);
   };
 
@@ -146,13 +170,16 @@ const WritePage = () => {
   const debouncedApiCall = useMemo(() => {
     return debounce(async (id) => {
       if (credentialId !== null) {
-        const response = await fetch(`/api/posts/getPostById?credentialId=${credentialId}&id=${id}`, {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `/api/posts/getPostById?credentialId=${credentialId}&id=${id}`,
+          {
+            credentials: "include",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           console.error("Failed to get data");
@@ -198,7 +225,10 @@ const WritePage = () => {
 
   const rewriteAction = async (instruction: ReWriteAI | string) => {
     if (!ischeckForAIAppsLoading && !isAIPresent) {
-      showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+      showToast(
+        "Please install ChatGPT app from Apps menu to use this feature",
+        "error"
+      );
       return;
     }
     setIsLoading(true);
@@ -262,7 +292,8 @@ const WritePage = () => {
   };
 
   const handleSaveDraft = async (imageSrc?: string) => {
-    if (user?.id) TrackEventJuneSo({ id: user?.id.toString(), event: EVENTS.SAVE_DRAFT });
+    if (user?.id)
+      TrackEventJuneSo({ id: user?.id.toString(), event: EVENTS.SAVE_DRAFT });
     setIsButtonSaveDraft(true);
     const result = await saveDraft(imageSrc);
     if (result !== null) {
@@ -279,7 +310,11 @@ const WritePage = () => {
   const handleUpdateFromScheduleDialog = async (pluginData?: PluginType) => {
     const result = await saveDraft();
     if (result) {
-      if (user?.id) TrackEventJuneSo({ id: user?.id.toString(), event: EVENTS.SCHEDULE_POST });
+      if (user?.id)
+        TrackEventJuneSo({
+          id: user?.id.toString(),
+          event: EVENTS.SCHEDULE_POST,
+        });
       const response = await fetch(`/api/posts/schedulePost`, {
         credentials: "include",
         method: "POST",
@@ -308,17 +343,24 @@ const WritePage = () => {
   const handlePostNow = async (pluginData?: PluginType) => {
     const result = await saveDraft();
     if (result) {
-      if (user?.id) TrackEventJuneSo({ id: user?.id.toString(), event: EVENTS.PUBLIC_POST });
+      if (user?.id)
+        TrackEventJuneSo({
+          id: user?.id.toString(),
+          event: EVENTS.PUBLIC_POST,
+        });
       let urlSocial = user?.currentSocialProfile.appId.replace(/-/g, "");
       if (urlSocial === "xsocial") {
         urlSocial = "twitterv1social";
       }
-      const response = await fetch(`/api/integrations/${urlSocial}/post?id=${result.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `/api/integrations/${urlSocial}/post?id=${result.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         const errorMessage = await response.json();
         showToast(`${errorMessage.message}`, "error");
@@ -369,7 +411,12 @@ const WritePage = () => {
     <>
       {isLoading && <LoadingDialog open={isLoading}></LoadingDialog>}
       <HeadSeo title={t("Posts")} description={""} />
-      <Shell withoutSeo heading={`Write Post`} title="Here are your Posts" hideHeadingOnMobile>
+      <Shell
+        withoutSeo
+        heading={`Write Post`}
+        title="Here are your Posts"
+        hideHeadingOnMobile
+      >
         <div className="">
           <div className="mt-5 grid grid-cols-12 sm:mt-0">
             <div className="col-span-12 h-auto bg-white lg:col-span-7">
@@ -384,65 +431,96 @@ const WritePage = () => {
                       hasAI={!ischeckForAIAppsLoading && isAIPresent}
                     />
                   </div>
-                  <ReactTooltip content="Rewrite with AI" id="rewriteAI" place="top" />
+                  <ReactTooltip
+                    content="Rewrite with AI"
+                    id="rewriteAI"
+                    place="top"
+                  />
                   <button
                     data-tooltip-id="emoji"
                     onClick={() => setIsModalEmoji(true)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Smile />
                   </button>
 
                   <button
                     data-tooltip-id="pickDraft"
                     onClick={() => setIsModalPickDraft(true)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Copy className="h-5 w-5" />
                   </button>
-                  <ReactTooltip content="Pick a Draft" id="pickDraft" place="top" />
+                  <ReactTooltip
+                    content="Pick a Draft"
+                    id="pickDraft"
+                    place="top"
+                  />
                   <button
                     data-tooltip-id="formatPost"
                     onClick={() => {
                       if (!ischeckForAIAppsLoading && !isAIPresent) {
-                        showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+                        showToast(
+                          "Please install ChatGPT app from Apps menu to use this feature",
+                          "error"
+                        );
                         return;
                       }
                       setIsModalFormatPost(true);
-                      if (user?.id) TrackEventJuneSo({ id: user?.id.toString(), event: EVENTS.FORMAT_POST });
+                      if (user?.id)
+                        TrackEventJuneSo({
+                          id: user?.id.toString(),
+                          event: EVENTS.FORMAT_POST,
+                        });
                     }}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <AlignStartVertical className="h-5 w-5" />
                   </button>
-                  <ReactTooltip content="Format Post" id="formatPost" place="top" />
+                  <ReactTooltip
+                    content="Format Post"
+                    id="formatPost"
+                    place="top"
+                  />
                   <button
                     data-tooltip-id="addImage"
                     onClick={() => setIsModalAddImage(true)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Image className="h-5 w-5" />
                   </button>
                   <ReactTooltip content="Add Image" id="addImage" place="top" />
                   <button
                     data-tooltip-id="addVideo"
                     onClick={() => setIsModalAddVideo(true)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Video className="h-5 w-5" />
                   </button>
                   <ReactTooltip content="Add Video" id="addVideo" place="top" />
                   <button
                     data-tooltip-id="convertTwitter"
                     onClick={() => rewriteAction(ReWriteAI.ConverTwitter)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Twitter className="h-5 w-5" />
                   </button>
-                  <ReactTooltip content="Convert Twitter Post" id="convertTwitter" place="top" />
+                  <ReactTooltip
+                    content="Convert Twitter Post"
+                    id="convertTwitter"
+                    place="top"
+                  />
                   <button
                     onClick={() => setIsModalUploadFile(true)}
-                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white">
+                    className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
+                  >
                     <Paperclip className="h-5 w-5" />
                   </button>
                   {currentUser && (
                     <div
                       onClick={() => setShowModalAccounts(true)}
-                      className="ml-auto flex cursor-pointer items-center justify-center hover:font-bold">
+                      className="ml-auto flex cursor-pointer items-center justify-center hover:font-bold"
+                    >
                       <SocialAvatar
                         size="sm"
                         appId={currentUser?.appId!}
@@ -456,7 +534,8 @@ const WritePage = () => {
                     <div>
                       <label
                         htmlFor="title"
-                        className="ml-3 mt-2 block text-sm font-medium leading-6 text-gray-900">
+                        className="ml-3 mt-2 block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Title
                       </label>
                       <div className="mt-2">
@@ -474,14 +553,17 @@ const WritePage = () => {
                     <div>
                       <label
                         htmlFor="email"
-                        className="ml-3 mt-3 block text-sm font-medium leading-6 text-gray-900">
+                        className="ml-3 mt-3 block text-sm font-medium leading-6 text-gray-900"
+                      >
                         Content
                       </label>
                       <div className="mt-2">
                         <Editor
                           className="border-none	"
                           value={editorContent}
-                          onTextChange={(e) => setEditorContent(e.htmlValue ?? "")}
+                          onTextChange={(e) =>
+                            setEditorContent(e.htmlValue ?? "")
+                          }
                           placeholder="Your content to rewrite and improve by AI ..."
                           style={{ height: "450px", border: "0" }}
                         />
@@ -495,41 +577,51 @@ const WritePage = () => {
                       className="editor m-2 "
                       placeholder="Your content to rewrite and improve by AI ..."
                       value={editorContent}
-                      style={{ height: "450px", backgroundColor: "white", maxWidth: "95%" }}
-                      onChange={handleEditorChange}></TextArea>{" "}
+                      style={{
+                        height: "450px",
+                        backgroundColor: "white",
+                        maxWidth: "95%",
+                      }}
+                      onChange={handleEditorChange}
+                    ></TextArea>{" "}
                   </div>
                 )}
 
                 <div className="flex border-t p-4 text-[12px] shadow-sm sm:text-[13px]">
                   <span className="">Last saved at Dec 29, 2023, 3:58 PM</span>
                   <span className="ml-auto">
-                    {editorContent ? stripHtml(editorContent).length : 0} characters
+                    {editorContent ? stripHtml(editorContent).length : 0}{" "}
+                    characters
                   </span>
                 </div>
                 <div className="flex border-b p-4 shadow-sm">
                   <Button
                     onClick={() => handleSaveDraft()}
                     disabled={isButtonSaveDraft}
-                    className="text-dark rounded-2xl border bg-white text-[12px] hover:text-white sm:text-sm">
+                    className="text-dark rounded-2xl border bg-white text-[12px] hover:text-white sm:text-sm"
+                  >
                     <p className="hidden sm:block">Save as Draft</p>
                     <p className="block sm:hidden">Save</p>
                   </Button>
                   <Button
                     disabled={post.id === 0}
                     onClick={() => setIsModalDeletePost(true)}
-                    className="text-dark ml-2 rounded-2xl border bg-red-100 text-[12px] text-red-500 hover:border-red-400 hover:bg-red-200 sm:text-sm">
+                    className="text-dark ml-2 rounded-2xl border bg-red-100 text-[12px] text-red-500 hover:border-red-400 hover:bg-red-200 sm:text-sm"
+                  >
                     Delete
                   </Button>
                   <Button
                     onClick={() => {
                       setIsModalShowDay(true);
                     }}
-                    className="text-dark ml-1 mr-1 rounded-2xl border bg-white text-[12px] hover:text-white sm:ml-auto sm:mr-2 sm:text-sm">
+                    className="text-dark ml-1 mr-1 rounded-2xl border bg-white text-[12px] hover:text-white sm:ml-auto sm:mr-2 sm:text-sm"
+                  >
                     Schedule
                   </Button>
                   <Button
                     onClick={() => handleCheckPublishPost()}
-                    className="rounded-2xl text-[12px] hover:text-white sm:text-sm">
+                    className="rounded-2xl text-[12px] hover:text-white sm:text-sm"
+                  >
                     Publish
                   </Button>
                 </div>
@@ -548,17 +640,20 @@ const WritePage = () => {
                             ? "bg-blue-500 text-white hover:text-white"
                             : "text-awst bg-white"
                         }`}
-                        onClick={() => handleDeviceChange(DeviceType.PHONE)}>
+                        onClick={() => handleDeviceChange(DeviceType.PHONE)}
+                      >
                         <svg
                           aria-hidden="true"
                           className="h-5 w-5"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="currentColor"
-                          viewBox="0 0 24 24">
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             fillRule="evenodd"
                             d="M6.709 0H17.29a1.326 1.326 0 0 1 1.324 1.323v21.354a1.326 1.326 0 0 1-1.323 1.324H6.708a1.327 1.327 0 0 1-1.324-1.324V1.323A1.326 1.326 0 0 1 6.71 0Zm4.112 21.883h2.359a.544.544 0 0 1 0 1.086H10.82a.545.545 0 0 1-.543-.543c0-.299.245-.543.543-.543Zm-4.234-1.032h10.826V3.15H6.587V20.85ZM16.89 1.308a.267.267 0 0 0 0 .533h.03a.267.267 0 0 0 0-.533h-.03Zm-9.812 0a.267.267 0 0 0 0 .533h.03a.267.267 0 0 0 0-.533h-.03Zm3.41 0h3.023v.533h-3.024v-.533Z"
-                            clipRule="evenodd"></path>
+                            clipRule="evenodd"
+                          ></path>
                         </svg>{" "}
                       </button>
                       <button
@@ -567,7 +662,8 @@ const WritePage = () => {
                             ? "bg-blue-500 text-white hover:text-white"
                             : "text-awst bg-white"
                         }`}
-                        onClick={() => handleDeviceChange(DeviceType.TAB)}>
+                        onClick={() => handleDeviceChange(DeviceType.TAB)}
+                      >
                         <Tablet className="h-4 w-4" />
                       </button>
                       <button
@@ -576,7 +672,8 @@ const WritePage = () => {
                             ? "bg-blue-500 text-white hover:text-white"
                             : "text-awst bg-white"
                         }`}
-                        onClick={() => handleDeviceChange(DeviceType.PC)}>
+                        onClick={() => handleDeviceChange(DeviceType.PC)}
+                      >
                         <Laptop className="h-4 w-4" />
                       </button>
                     </span>
@@ -675,8 +772,14 @@ const WritePage = () => {
                       }
                     }}
                   />
-                  <ModalAccount showModal={showModalAccounts} onClose={() => setShowModalAccounts(false)} />
-                  <ModalUpgrade isOpen={isModalUpgradeOpen} onClose={() => setIsModalUpgradeOpen(false)} />
+                  <ModalAccount
+                    showModal={showModalAccounts}
+                    onClose={() => setShowModalAccounts(false)}
+                  />
+                  <ModalUpgrade
+                    isOpen={isModalUpgradeOpen}
+                    onClose={() => setIsModalUpgradeOpen(false)}
+                  />
                 </div>
               </div>
             </div>

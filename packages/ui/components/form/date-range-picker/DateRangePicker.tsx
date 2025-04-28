@@ -10,11 +10,17 @@ type Props = {
   disabled?: boolean | undefined;
   startDate: Date;
   endDate: Date;
-  onDatesChange?: ((arg: { startDate: Date; endDate: Date }) => void) | undefined;
+  onDatesChange?:
+    | ((arg: { startDate: Date; endDate: Date }) => void)
+    | undefined;
 };
 
-const DateRangePicker = ({ disabled, startDate, endDate, onDatesChange }: Props) => {
-  
+const DateRangePicker = ({
+  disabled,
+  startDate,
+  endDate,
+  onDatesChange,
+}: Props) => {
   return (
     <>
       <picker.DateRangePicker
@@ -22,14 +28,16 @@ const DateRangePicker = ({ disabled, startDate, endDate, onDatesChange }: Props)
         className="border-default rounded-sm text-sm"
         clearIcon={null}
         calendarIcon={<Calendar className="text-subtle h-4 w-4" />}
-        rangeDivider={<ArrowRight className="text-muted h-4 w-4 ltr:mr-2 rtl:ml-2" />}
+        rangeDivider={
+          <ArrowRight className="text-muted h-4 w-4 ltr:mr-2 rtl:ml-2" />
+        }
         value={[startDate, endDate]}
-        onChange={(value: any )  => {
+        onChange={(value: any) => {
           if (typeof onDatesChange === "function" && value !== null) {
-            onDatesChange({ 
-              startDate:value[0],
-              endDate:value[1],
-             });
+            onDatesChange({
+              startDate: value[0],
+              endDate: value[1],
+            });
           }
         }}
         nextLabel={<ChevronRight className="text-subtle h-4 w-4" />}

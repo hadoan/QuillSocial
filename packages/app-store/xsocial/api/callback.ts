@@ -6,11 +6,13 @@ import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { TOAuth2Scope, TwitterApi } from "twitter-api-v2";
 import { CACHE } from ".";
 
-
 let client_id = "";
 let client_secret = "";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { state, code } = req.query;
   const callback = WEBAPP_URL + "/api/integrations/xsocial/callback";
 
@@ -19,38 +21,56 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
   if (!req.session?.user?.id) {
-    return res.status(401).json({ message: "You must be logged in to do this" });
+    return res
+      .status(401)
+      .json({ message: "You must be logged in to do this" });
   }
   const { codeVerifier, state: sessionState } = CACHE.get(callback);
   if (!codeVerifier || !state || !sessionState || !code) {
-    return res.status(400).send('You denied the app or your session expired!');
+    return res.status(400).send("You denied the app or your session expired!");
   }
   if (state !== sessionState) {
-    return res.status(400).send('Stored tokens didnt match!');
+    return res.status(400).send("Stored tokens didnt match!");
   }
 
   const appKeys = await getAppKeysFromSlug("x-social");
   if (typeof appKeys.client_id === "string") client_id = appKeys.client_id;
-  if (typeof appKeys.client_secret === "string") client_secret = appKeys.client_secret;
-  if (!client_id) return res.status(400).json({ message: "X client_id missing." });
-  if (!client_secret) return res.status(400).json({ message: "X client_secret missing." });
+  if (typeof appKeys.client_secret === "string")
+    client_secret = appKeys.client_secret;
+  if (!client_id)
+    return res.status(400).json({ message: "X client_id missing." });
+  if (!client_secret)
+    return res.status(400).json({ message: "X client_secret missing." });
 
-  const client = new TwitterApi({ clientId: client_id, clientSecret: client_secret });
-  const { client: loggedInClient, expiresIn, accessToken, scope, refreshToken } = await client.loginWithOAuth2({ code, codeVerifier, redirectUri: callback })
+  const client = new TwitterApi({
+    clientId: client_id,
+    clientSecret: client_secret,
+  });
+  const {
+    client: loggedInClient,
+    expiresIn,
+    accessToken,
+    scope,
+    refreshToken,
+  } = await client.loginWithOAuth2({
+    code,
+    codeVerifier,
+    redirectUri: callback,
+  });
 
   const { data: userObject } = await loggedInClient.v2.me({
     "user.fields": ["username", "profile_image_url"],
   });
   const existedCredentials = await prisma.credential.findMany({
     where: {
-      userId: req.session.user.id
+      userId: req.session.user.id,
     },
     select: {
       id: true,
       emailOrUserName: true,
       appId: true,
-      isUserCurrentProfile: true
-    }
+      isUserCurrentProfile: true,
+    },
   });
   const key = {
     token: {
@@ -58,10 +78,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       token_type: "bearer",
       expires_at: expiresIn,
       access_token: accessToken,
-      refresh_token: refreshToken
-    }
-  }
-  const existed = existedCredentials?.find(x => x.appId === 'x-social' && x.emailOrUserName == userObject?.username);
+      refresh_token: refreshToken,
+    },
+  };
+  const existed = existedCredentials?.find(
+    (x) => x.appId === "x-social" && x.emailOrUserName == userObject?.username
+  );
   const data = {
     type: "x_social",
     key,
@@ -72,19 +94,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     emailOrUserName: userObject.username,
   };
   const id = existed?.id ?? 0;
-  let isUserCurrentProfile: boolean | null = !existedCredentials || existedCredentials.length === 0 ? true : false
+  let isUserCurrentProfile: boolean | null =
+    !existedCredentials || existedCredentials.length === 0 ? true : false;
   if (existed) {
-    isUserCurrentProfile = existed.isUserCurrentProfile
+    isUserCurrentProfile = existed.isUserCurrentProfile;
   }
   await prisma.credential.upsert({
     where: {
-      id
+      id,
     },
     create: {
       ...data,
-      isUserCurrentProfile
+      isUserCurrentProfile,
     },
-    update: data
+    update: data,
   });
 
   res.redirect(getInstalledAppPath({ variant: "social", slug: "x-social" }));

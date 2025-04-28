@@ -15,20 +15,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { query } = req;
     const { credentialId, pageId } = query;
     let numCredentialId = 0;
-    if (typeof credentialId === 'string') {
+    if (typeof credentialId === "string") {
       numCredentialId = parseInt(credentialId, 10);
     }
 
-    const where: Prisma.PostWhereInput = pageId ? {
-      userId: session?.user?.id,
-      credentialId: numCredentialId,
-      status: 'NEW',
-      pageId: (pageId as string)
-    } : {
-      userId: session?.user?.id,
-      credentialId: numCredentialId,
-      status: 'NEW',
-    };
+    const where: Prisma.PostWhereInput = pageId
+      ? {
+          userId: session?.user?.id,
+          credentialId: numCredentialId,
+          status: "NEW",
+          pageId: pageId as string,
+        }
+      : {
+          userId: session?.user?.id,
+          credentialId: numCredentialId,
+          status: "NEW",
+        };
 
     const posts = await prisma.post.findMany({
       where,
@@ -46,10 +48,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           select: {
             avatarUrl: true,
             name: true,
-            emailOrUserName: true
-          }
-        }
-      }
+            emailOrUserName: true,
+          },
+        },
+      },
     });
     res.status(200).json({ data: posts });
     return;

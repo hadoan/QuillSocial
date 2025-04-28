@@ -2,7 +2,13 @@ import { appStoreMetadata } from "@quillsocial/app-store/appStoreMetaData";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { isMac } from "@quillsocial/lib/isMac";
 import { Tooltip } from "@quillsocial/ui";
-import { Search, ArrowUp, ArrowDown, CornerDownLeft, Command } from "@quillsocial/ui/components/icon";
+import {
+  Search,
+  ArrowUp,
+  ArrowDown,
+  CornerDownLeft,
+  Command,
+} from "@quillsocial/ui/components/icon";
 import {
   KBarAnimator,
   KBarPortal,
@@ -103,7 +109,7 @@ export const KBarRoot = ({ children }: { children: React.ReactNode }) => {
         keywords: "billing view manage",
         perform: () => router.push("/settings/billing"),
       },
-     // ...appStoreActions,
+      // ...appStoreActions,
     ];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -127,7 +133,8 @@ export const KBarContent = () => {
           <RenderResults />
           <div className="text-subtle border-subtle hidden items-center space-x-1 border-t px-2 py-1.5 text-xs sm:flex">
             <ArrowUp className="h-4 w-4" />
-            <ArrowDown className="h-4 w-4" /> <span className="pr-2">{t("navigate")}</span>
+            <ArrowDown className="h-4 w-4" />{" "}
+            <span className="pr-2">{t("navigate")}</span>
             <CornerDownLeft className="h-4 w-4" />
             <span className="pr-2">{t("open")}</span>
             {isMac ? <Command className="h-3 w-3" /> : "CTRL"}
@@ -149,7 +156,8 @@ export const KBarTrigger = () => {
         <button
           color="minimal"
           onClick={query.toggle}
-          className="text-default hover:bg-subtle lg:hover:bg-emphasis lg:hover:text-emphasis group flex rounded-md px-3 py-2 text-sm font-medium lg:px-2">
+          className="text-default hover:bg-subtle lg:hover:bg-emphasis lg:hover:text-emphasis group flex rounded-md px-3 py-2 text-sm font-medium lg:px-2"
+        >
           <Search className="h-4 w-4 flex-shrink-0 text-inherit" />
         </button>
       </Tooltip>
@@ -166,7 +174,8 @@ const DisplayShortcuts = (item: shortcutArrayType) => {
         return (
           <kbd
             key={shortcut}
-            className="bg-default hover:bg-subtle text-emphasis rounded-sm border px-2 py-1">
+            className="bg-default hover:bg-subtle text-emphasis rounded-sm border px-2 py-1"
+          >
             {shortcut}
           </kbd>
         );
@@ -184,16 +193,23 @@ function RenderResults() {
       items={results}
       onRender={({ item, active }) =>
         typeof item === "string" ? (
-          <div className="bg-default text-emphasis p-4 text-xs font-bold uppercase">{t(item)}</div>
+          <div className="bg-default text-emphasis p-4 text-xs font-bold uppercase">
+            {t(item)}
+          </div>
         ) : (
           <div
             // For seeing keyboard up & down navigation in action, we need visual feedback based on "active" prop
             style={{
-              background: active ? "var(--quill-bg-subtle)" : `var(--quill-bg-default)`,
-              borderLeft: active ? "2px solid var(--quill-border-default)" : "2px solid transparent",
+              background: active
+                ? "var(--quill-bg-subtle)"
+                : `var(--quill-bg-default)`,
+              borderLeft: active
+                ? "2px solid var(--quill-border-default)"
+                : "2px solid transparent",
               color: "var(--quillsocial-text)",
             }}
-            className="flex items-center justify-between px-4 py-2.5 text-sm hover:cursor-pointer">
+            className="flex items-center justify-between px-4 py-2.5 text-sm hover:cursor-pointer"
+          >
             <span>{t(item.name)}</span>
             <DisplayShortcuts shortcuts={item.shortcut} />
           </div>

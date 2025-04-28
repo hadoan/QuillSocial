@@ -34,11 +34,16 @@ const updatePackageJson = ({
   appDescription: string;
   appDirPath: string;
 }) => {
-  const packageJsonConfig = JSON.parse(fs.readFileSync(`${appDirPath}/package.json`).toString());
+  const packageJsonConfig = JSON.parse(
+    fs.readFileSync(`${appDirPath}/package.json`).toString()
+  );
   packageJsonConfig.name = `@quillsocial/${slug}`;
   packageJsonConfig.description = appDescription;
   // packageJsonConfig.description = `@quillsocial/${appName}`;
-  fs.writeFileSync(`${appDirPath}/package.json`, JSON.stringify(packageJsonConfig, null, 2));
+  fs.writeFileSync(
+    `${appDirPath}/package.json`,
+    JSON.stringify(packageJsonConfig, null, 2)
+  );
 };
 
 const workspaceDir = path.resolve(__dirname, "..", "..", "..");
@@ -94,7 +99,9 @@ export const BaseAppFork = {
       slug: slug,
       type: `${slug}_${category}`,
       logo: `icon.svg`,
-      variant: categoryToVariantMap[category as keyof typeof categoryToVariantMap] || category,
+      variant:
+        categoryToVariantMap[category as keyof typeof categoryToVariantMap] ||
+        category,
       categories: [category],
       publisher: publisher,
       email: email,
@@ -106,12 +113,17 @@ export const BaseAppFork = {
       __template: template,
       dirName: slug,
     };
-    const currentConfig = JSON.parse(fs.readFileSync(`${appDirPath}/config.json`).toString());
+    const currentConfig = JSON.parse(
+      fs.readFileSync(`${appDirPath}/config.json`).toString()
+    );
     config = {
       ...currentConfig,
       ...config,
     };
-    fs.writeFileSync(`${appDirPath}/config.json`, JSON.stringify(config, null, 2));
+    fs.writeFileSync(
+      `${appDirPath}/config.json`,
+      JSON.stringify(config, null, 2)
+    );
     fs.writeFileSync(
       `${appDirPath}/DESCRIPTION.md`,
       fs
@@ -124,7 +136,13 @@ export const BaseAppFork = {
     await execSync("yarn");
   },
 
-  delete: async function ({ slug, isTemplate }: { slug: string; isTemplate: boolean }) {
+  delete: async function ({
+    slug,
+    isTemplate,
+  }: {
+    slug: string;
+    isTemplate: boolean;
+  }) {
     const appDirPath = getAppDirPath(slug, isTemplate);
     await execSync(`rm -rf ${appDirPath}`);
   },

@@ -3,7 +3,11 @@ type Person = {
   email: string;
 };
 
-export const EmailSignatories = ({ signatories }: { signatories: Person[] }) => {
+export const EmailSignatories = ({
+  signatories,
+}: {
+  signatories: Person[];
+}) => {
   return (
     <div style={{ lineHeight: "24px" }}>
       <p style={{ marginBottom: "5px" }}>

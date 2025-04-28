@@ -63,7 +63,10 @@ function PostList() {
 
   const generatePosts = async (appId: string, idea: string) => {
     if (!ischeckForAIAppsLoading && !isAIPresent) {
-      showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+      showToast(
+        "Please install ChatGPT app from Apps menu to use this feature",
+        "error"
+      );
       router.push(`/settings/my-account/app-integrations`);
       return;
     }
@@ -96,23 +99,26 @@ function PostList() {
   };
 
   const processPostData = (posts: any) => {
-    const processedPosts = posts?.reduce((accumulator: any, post: any, index: number) => {
-      const cleanContent = post.replace(/^(\d+)\.\s/, "").replace(/"/g, "");
-      if (cleanContent.trim() !== "") {
-        accumulator.push({
-          idea,
-          content: cleanContent,
-          avatarUrl: user?.currentSocialProfile?.avatarUrl,
-          name: user?.currentSocialProfile?.name || user?.name,
-          emailOrUserName: user?.currentSocialProfile?.emailOrUserName || "-",
-          credentialId: user?.currentSocialProfile?.credentialId,
-          createdDate: new Date(),
-          appId,
-          pageId: user?.currentSocialProfile?.pageId,
-        });
-      }
-      return accumulator;
-    }, []);
+    const processedPosts = posts?.reduce(
+      (accumulator: any, post: any, index: number) => {
+        const cleanContent = post.replace(/^(\d+)\.\s/, "").replace(/"/g, "");
+        if (cleanContent.trim() !== "") {
+          accumulator.push({
+            idea,
+            content: cleanContent,
+            avatarUrl: user?.currentSocialProfile?.avatarUrl,
+            name: user?.currentSocialProfile?.name || user?.name,
+            emailOrUserName: user?.currentSocialProfile?.emailOrUserName || "-",
+            credentialId: user?.currentSocialProfile?.credentialId,
+            createdDate: new Date(),
+            appId,
+            pageId: user?.currentSocialProfile?.pageId,
+          });
+        }
+        return accumulator;
+      },
+      []
+    );
 
     return processedPosts ?? [];
   };
@@ -132,7 +138,9 @@ function PostList() {
         const createdPosts: Post[] = responseData.lastRecords.map((x: any) => ({
           ...x,
           emailOrUserName:
-            x.credential?.emailOrUserName || user?.currentSocialProfile?.emailOrUserName || "-",
+            x.credential?.emailOrUserName ||
+            user?.currentSocialProfile?.emailOrUserName ||
+            "-",
           id: x.id,
           avatarUrl: x.credential.avatarUrl,
           name: x.credential.name,
@@ -150,13 +158,16 @@ function PostList() {
   const debouncedApiCall = useMemo(() => {
     return debounce(async () => {
       if (credentialId !== null) {
-        const response = await fetch(`/api/posts/getAll?credentialId=${credentialId}`, {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `/api/posts/getAll?credentialId=${credentialId}`,
+          {
+            credentials: "include",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           console.error("Failed to get data");
         }
@@ -264,7 +275,8 @@ function PostList() {
               type="button"
               onClick={() => generatePosts(appId, idea)}
               disabled={isLoading}
-              className="bg-size-200 bg-pos-0 hover:bg-pos-100 relative -ml-px gap-x-1.5 rounded-r-xl bg-gradient-to-br from-blue-300 via-indigo-500 to-indigo-500 px-3 py-2  pl-[10px] text-base font-medium text-white shadow-md transition-all duration-500 hover:scale-105 hover:from-blue-400 hover:via-blue-200 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:block sm:text-lg">
+              className="bg-size-200 bg-pos-0 hover:bg-pos-100 relative -ml-px gap-x-1.5 rounded-r-xl bg-gradient-to-br from-blue-300 via-indigo-500 to-indigo-500 px-3 py-2  pl-[10px] text-base font-medium text-white shadow-md transition-all duration-500 hover:scale-105 hover:from-blue-400 hover:via-blue-200 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:block sm:text-lg"
+            >
               {isLoading ? "..." : "Generate Ideas"}
             </button>
           </div>
@@ -279,17 +291,20 @@ function PostList() {
                     onClick={() => handleTopicClick(topic)}
                     className="inline-flex items-center rounded-full border border-none
                    border-transparent bg-slate-100 px-4 py-2 text-xs font-medium text-slate-800 shadow-sm hover:border-none hover:bg-slate-50 hover:text-indigo-500
-                    hover:shadow-md hover:outline-none">
+                    hover:shadow-md hover:outline-none"
+                  >
                     <svg
                       className="-ml-1 mr-2 h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      aria-hidden="true">
+                      aria-hidden="true"
+                    >
                       <path
                         fill-rule="evenodd"
                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"></path>
+                        clip-rule="evenodd"
+                      ></path>
                     </svg>
                     {topic}
                   </Button>
@@ -303,9 +318,13 @@ function PostList() {
                 key={post?.id}
                 onClick={() => router.push(`/write/${post?.id}`)}
                 // onClick={() => openSlideOverWithData(post)}
-                className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-8 py-8  shadow ">
+                className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-8 py-8  shadow "
+              >
                 <div className="-ml-4 flex items-center gap-x-4">
-                  <svg viewBox="0 0 2 2" className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                  <svg
+                    viewBox="0 0 2 2"
+                    className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+                  >
                     <circle cx={1} cy={1} r={1} />
                   </svg>
                   <div className="flex gap-x-2.5">
@@ -328,7 +347,9 @@ function PostList() {
                 <div className="mt-3 max-h-[250px] overflow-y-auto text-left text-sm">
                   <span
                     className=""
-                    dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, "<br />") }}
+                    dangerouslySetInnerHTML={{
+                      __html: post.content.replace(/\n/g, "<br />"),
+                    }}
                   />
                   {post.image && <img src={post.image} />}
                 </div>
@@ -341,7 +362,11 @@ function PostList() {
                   <div className="mt-3 flex gap-[10px] border-t pt-5">
                     <div className="flex">
                       <button>
-                        <img className="h-[90%] w-[90%]" src={WEBAPP_URL + "/LikeGroup.svg"} alt="" />
+                        <img
+                          className="h-[90%] w-[90%]"
+                          src={WEBAPP_URL + "/LikeGroup.svg"}
+                          alt=""
+                        />
                       </button>
                       <div className="-ml-1">99</div>
                     </div>
@@ -367,8 +392,11 @@ function PostList() {
                     <div className="text-center">
                       <svg
                         className="bg-awst text-awst mx-auto mb-3 h-8 w-8 animate-spin"
-                        viewBox="0 0 24 24"></svg>
-                      <p className="text-default ml-2 text-[16px]">Creating...</p>
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      <p className="text-default ml-2 text-[16px]">
+                        Creating...
+                      </p>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -385,7 +413,11 @@ function PostList() {
               totalItems={allPosts.length}
             />
           )}
-          <PostDetail open={isSlideOverOpen} data={post} setOpen={setIsSlideOverOpen} />
+          <PostDetail
+            open={isSlideOverOpen}
+            data={post}
+            setOpen={setIsSlideOverOpen}
+          />
         </div>
       </div>
     </>

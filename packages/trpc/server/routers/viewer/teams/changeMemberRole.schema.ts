@@ -7,4 +7,6 @@ export const ZChangeMemberRoleInputSchema = z.object({
   role: z.nativeEnum(MembershipRole),
 });
 
-export type TChangeMemberRoleInputSchema = z.infer<typeof ZChangeMemberRoleInputSchema>;
+export type TChangeMemberRoleInputSchema = z.infer<
+  typeof ZChangeMemberRoleInputSchema
+>;

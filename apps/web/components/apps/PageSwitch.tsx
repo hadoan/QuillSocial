@@ -16,7 +16,14 @@ interface IPageSwitchProps {
   destination?: boolean;
 }
 const PageSwitch = (props: IPageSwitchProps) => {
-  const { title, externalId, type, isChecked, name, isLastItemInList = false } = props;
+  const {
+    title,
+    externalId,
+    type,
+    isChecked,
+    name,
+    isLastItemInList = false,
+  } = props;
   const [checkedInternal, setCheckedInternal] = useState(isChecked);
   const utils = trpc.useContext();
   const { t } = useLocale();
@@ -46,12 +53,15 @@ const PageSwitch = (props: IPageSwitchProps) => {
           throw new Error("Something went wrong");
         }
       } else {
-        const res = await fetch("/api/availability/calendar?" + new URLSearchParams(body), {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "/api/availability/calendar?" + new URLSearchParams(body),
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!res.ok) {
           throw new Error("Something went wrong");
@@ -61,7 +71,7 @@ const PageSwitch = (props: IPageSwitchProps) => {
     {
       async onSettled() {
         await utils.viewer.integrations.invalidate();
-       // await utils.viewer.connectedCalendars.invalidate();
+        // await utils.viewer.connectedCalendars.invalidate();
       },
       onError() {
         setCheckedInternal(false);
@@ -81,7 +91,10 @@ const PageSwitch = (props: IPageSwitchProps) => {
           }}
         />
       </div>
-      <label className="ml-3 text-sm font-medium leading-5" htmlFor={externalId}>
+      <label
+        className="ml-3 text-sm font-medium leading-5"
+        htmlFor={externalId}
+      >
         {name}
       </label>
       {!!props.destination && (
@@ -90,7 +103,9 @@ const PageSwitch = (props: IPageSwitchProps) => {
           {t("adding_events_to")}
         </span>
       )}
-      {mutation.isLoading && <RotateCw className="text-muted h-4 w-4 animate-spin ltr:ml-1 rtl:mr-1" />}
+      {mutation.isLoading && (
+        <RotateCw className="text-muted h-4 w-4 animate-spin ltr:ml-1 rtl:mr-1" />
+      )}
     </div>
   );
 };

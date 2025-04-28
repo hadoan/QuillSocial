@@ -6,7 +6,6 @@ import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { TOAuth2Scope, TwitterApi } from "twitter-api-v2";
 import { CACHE } from ".";
 
-
 let appKey = "";
 let appSecret = "";
 
@@ -17,35 +16,45 @@ export default async function handler(req: any, res: NextApiResponse) {
   const appKeys = await getAppKeysFromSlug("twitterv1-social");
   if (typeof appKeys.appKey === "string") appKey = appKeys.appKey;
   if (typeof appKeys.appSecret === "string") appSecret = appKeys.appSecret;
-  if (!appKey) return res.status(400).json({ message: "Twitter appKey missing." });
-  if (!appSecret) return res.status(400).json({ message: "Twitter appSecret missing." });
+  if (!appKey)
+    return res.status(400).json({ message: "Twitter appKey missing." });
+  if (!appSecret)
+    return res.status(400).json({ message: "Twitter appSecret missing." });
 
   const { oauth_token_secret } = CACHE.get(oauth_token);
-  const twitterClient = new TwitterApi({ appKey, appSecret, accessToken: oauth_token, accessSecret: oauth_token_secret });
- 
-  const { accessToken, accessSecret, userId, screenName, client } = await twitterClient.login(oauth_verifier);
-  
+  const twitterClient = new TwitterApi({
+    appKey,
+    appSecret,
+    accessToken: oauth_token,
+    accessSecret: oauth_token_secret,
+  });
+
+  const { accessToken, accessSecret, userId, screenName, client } =
+    await twitterClient.login(oauth_verifier);
+
   const userV1 = await client.currentUser(true);
   const existedCredentials = await prisma.credential.findMany({
     where: {
-      userId: req.session.user.id
+      userId: req.session.user.id,
     },
     select: {
       id: true,
       emailOrUserName: true,
       appId: true,
-      isUserCurrentProfile: true
-    }
+      isUserCurrentProfile: true,
+    },
   });
   const key = {
     token: {
       accessToken,
       accessSecret,
       userId,
-      screenName
-    }
-  }
-  const existed = existedCredentials?.find(x => x.appId === 'twitterv1-social' && x.emailOrUserName == userId);
+      screenName,
+    },
+  };
+  const existed = existedCredentials?.find(
+    (x) => x.appId === "twitterv1-social" && x.emailOrUserName == userId
+  );
   const data = {
     type: "twitterv1_social",
     key,
@@ -56,20 +65,23 @@ export default async function handler(req: any, res: NextApiResponse) {
     emailOrUserName: userId,
   };
   const id = existed?.id ?? 0;
-  let isUserCurrentProfile: boolean | null = !existedCredentials || existedCredentials.length === 0 ? true : false
+  let isUserCurrentProfile: boolean | null =
+    !existedCredentials || existedCredentials.length === 0 ? true : false;
   if (existed) {
-    isUserCurrentProfile = existed.isUserCurrentProfile
+    isUserCurrentProfile = existed.isUserCurrentProfile;
   }
   await prisma.credential.upsert({
     where: {
-      id
+      id,
     },
     create: {
       ...data,
-      isUserCurrentProfile
+      isUserCurrentProfile,
     },
-    update: data
+    update: data,
   });
 
-  res.redirect(getInstalledAppPath({ variant: "social", slug: "twitterv1-social" }));
+  res.redirect(
+    getInstalledAppPath({ variant: "social", slug: "twitterv1-social" })
+  );
 }

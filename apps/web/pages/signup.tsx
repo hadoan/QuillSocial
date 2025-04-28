@@ -13,7 +13,14 @@ import { z } from "zod";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { inferSSRProps } from "@quillsocial/types/inferSSRProps";
-import { Alert, Button, EmailField, HeadSeo, PasswordField, TextField } from "@quillsocial/ui";
+import {
+  Alert,
+  Button,
+  EmailField,
+  HeadSeo,
+  PasswordField,
+  TextField,
+} from "@quillsocial/ui";
 import { Dialog, DialogFooter, DialogContent } from "@quillsocial/ui";
 
 import PageWrapper from "@components/PageWrapper";
@@ -126,12 +133,15 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
       }
       aria-labelledby="modal-title"
       role="dialog"
-      aria-modal="true">
+      aria-modal="true"
+    >
       <div className="relative -mt-[80px] flex items-center justify-center">
         <img className="h-[40px] w-[40px]" src="/img/logo.png"></img>
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="font-quill text-emphasis text-center text-3xl font-extrabold">Create Your Account</h2>
+        <h2 className="font-quill text-emphasis text-center text-3xl font-extrabold">
+          Create Your Account
+        </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-default mx-2 p-6 shadow sm:rounded-lg lg:p-8">
@@ -146,8 +156,11 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
                 }
                 methods.handleSubmit(signUp)(event);
               }}
-              className="bg-default space-y-6">
-              {errors.apiError && <Alert severity="error" message={errors.apiError?.message} />}
+              className="bg-default space-y-6"
+            >
+              {errors.apiError && (
+                <Alert severity="error" message={errors.apiError?.message} />
+              )}
               <div className="space-y-4">
                 <TextField
                   id="username"
@@ -178,7 +191,11 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
                 />
               </div>
               <div className="flex space-x-2 rtl:space-x-reverse">
-                <Button type="submit" loading={isSubmitting} className="w-full justify-center text-white">
+                <Button
+                  type="submit"
+                  loading={isSubmitting}
+                  className="w-full justify-center text-white"
+                >
                   Create account
                 </Button>
                 <Button
@@ -190,7 +207,8 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
                         ? `${WEBAPP_URL}/${searchParams.get("callbackUrl")}`
                         : `${WEBAPP_URL}/write/0`,
                     })
-                  }>
+                  }
+                >
                   Login Instead
                 </Button>
               </div>
@@ -236,12 +254,15 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
         <DialogContent>
           <div>
             <div className="flex items-center justify-center">
-              <div className="text-awst text-center text-[20px] font-bold">Company Already Registered</div>
+              <div className="text-awst text-center text-[20px] font-bold">
+                Company Already Registered
+              </div>
             </div>
             <div className="text-default mt-2 text-center text-[16px]">
               <p>
-                Hello, your company ({email}) has already been registered with our platform. Please check in
-                with your company administrator for more information. Thanks!
+                Hello, your company ({email}) has already been registered with
+                our platform. Please check in with your company administrator
+                for more information. Thanks!
               </p>
             </div>
           </div>
@@ -305,7 +326,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/auth/login?callbackUrl=" + `${WEBAPP_URL}/${ctx.query.callbackUrl}`,
+        destination:
+          "/auth/login?callbackUrl=" + `${WEBAPP_URL}/${ctx.query.callbackUrl}`,
       },
     };
   }

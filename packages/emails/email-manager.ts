@@ -1,4 +1,3 @@
-
 import type BaseEmail from "@quillsocial/emails/templates/_base-email";
 import { cloneDeep } from "lodash";
 import type { TFunction } from "next-i18next";
@@ -42,16 +41,13 @@ export const sendForGuestEmail = async (forguest: Forguest) => {
 };
 
 export const sendScheduledEmails = async (
-  
   hostEmailDisabled?: boolean,
   attendeeEmailDisabled?: boolean
 ) => {
   const emailsToSend: Promise<unknown>[] = [];
 
   if (!attendeeEmailDisabled) {
-    emailsToSend.push(
-     
-    );
+    emailsToSend.push();
   }
 
   await Promise.all(emailsToSend);
@@ -60,14 +56,14 @@ export const sendScheduledEmails = async (
 export const sendRescheduledEmails = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
 
-  
-
   await Promise.all(emailsToSend);
 };
 
-export const sendRescheduledSeatEmail = async (calEvent: any, attendee: any) => {
+export const sendRescheduledSeatEmail = async (
+  calEvent: any,
+  attendee: any
+) => {
   const clonedCalEvent = cloneDeep(calEvent);
- 
 };
 
 export const sendScheduledSeatsEmails = async (
@@ -78,32 +74,31 @@ export const sendScheduledSeatsEmails = async (
 ) => {
   const emailsToSend: Promise<unknown>[] = [];
 
- 
   await Promise.all(emailsToSend);
 };
 
-export const sendCancelledSeatEmails = async (calEvent: any, cancelledAttendee: any) => {
+export const sendCancelledSeatEmails = async (
+  calEvent: any,
+  cancelledAttendee: any
+) => {
   const clonedCalEvent = cloneDeep(calEvent);
-  
 };
 
 export const sendOrganizerRequestEmail = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
 
-
   await Promise.all(emailsToSend);
 };
 
-export const sendAttendeeRequestEmail = async (calEvent: any, attendee: any) => {
-  
-};
+export const sendAttendeeRequestEmail = async (
+  calEvent: any,
+  attendee: any
+) => {};
 
 export const sendDeclinedEmails = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
 
-  emailsToSend.push(
-   
-  );
+  emailsToSend.push();
 
   await Promise.all(emailsToSend);
 };
@@ -114,31 +109,28 @@ export const sendCancelledEmails = async (
 ) => {
   const emailsToSend: Promise<unknown>[] = [];
 
-
   await Promise.all(emailsToSend);
 };
 
 export const sendOrganizerRequestReminderEmail = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
-
- 
 };
 
 export const sendAwaitingPaymentEmail = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
 
- 
   await Promise.all(emailsToSend);
 };
 
 export const sendOrganizerPaymentRefundFailedEmail = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
- 
 
   await Promise.all(emailsToSend);
 };
 
-export const sendPasswordResetEmail = async (passwordResetEvent: PasswordReset) => {
+export const sendPasswordResetEmail = async (
+  passwordResetEvent: PasswordReset
+) => {
   await sendEmail(() => new ForgotPasswordEmail(passwordResetEvent));
 };
 
@@ -146,11 +138,15 @@ export const sendTeamInviteEmail = async (teamInviteEvent: TeamInvite) => {
   await sendEmail(() => new TeamInviteEmail(teamInviteEvent));
 };
 
-export const sendOrganizationAutoJoinEmail = async (orgInviteEvent: OrgAutoInvite) => {
+export const sendOrganizationAutoJoinEmail = async (
+  orgInviteEvent: OrgAutoInvite
+) => {
   await sendEmail(() => new OrgAutoJoinEmail(orgInviteEvent));
 };
 
-export const sendEmailVerificationLink = async (verificationInput: EmailVerifyLink) => {
+export const sendEmailVerificationLink = async (
+  verificationInput: EmailVerifyLink
+) => {
   await sendEmail(() => new AccountVerifyEmail(verificationInput));
 };
 
@@ -160,14 +156,11 @@ export const sendRequestRescheduleEmail = async (
 ) => {
   const emailsToSend: Promise<unknown>[] = [];
 
- 
   await Promise.all(emailsToSend);
 };
 
 export const sendLocationChangeEmails = async (calEvent: any) => {
   const emailsToSend: Promise<unknown>[] = [];
-
-  
 
   await Promise.all(emailsToSend);
 };
@@ -175,9 +168,10 @@ export const sendFeedbackEmail = async (feedback: Feedback) => {
   await sendEmail(() => new FeedbackEmail(feedback));
 };
 
-export const sendBrokenIntegrationEmail = async (evt: any, type: "video" | "calendar") => {
- 
-};
+export const sendBrokenIntegrationEmail = async (
+  evt: any,
+  type: "video" | "calendar"
+) => {};
 
 export const sendDisabledAppEmail = async ({
   email,
@@ -194,7 +188,9 @@ export const sendDisabledAppEmail = async ({
   title?: string;
   eventTypeId?: number;
 }) => {
-  await sendEmail(() => new DisabledAppEmail(email, appName, appType, t, title, eventTypeId));
+  await sendEmail(
+    () => new DisabledAppEmail(email, appName, appType, t, title, eventTypeId)
+  );
 };
 
 export const sendSlugReplacementEmail = async ({
@@ -210,19 +206,24 @@ export const sendSlugReplacementEmail = async ({
   t: TFunction;
   slug: string;
 }) => {
-  await sendEmail(() => new SlugReplacementEmail(email, name, teamName, slug, t));
+  await sendEmail(
+    () => new SlugReplacementEmail(email, name, teamName, slug, t)
+  );
 };
 
-export const sendNoShowFeeChargedEmail = async (attendee: any, evt: any) => {
- 
-};
+export const sendNoShowFeeChargedEmail = async (attendee: any, evt: any) => {};
 
-export const sendDailyVideoRecordingEmails = async (calEvent: any, downloadLink: string) => {
+export const sendDailyVideoRecordingEmails = async (
+  calEvent: any,
+  downloadLink: string
+) => {
   const emailsToSend: Promise<unknown>[] = [];
 
   await Promise.all(emailsToSend);
 };
 
-export const sendOrganizationEmailVerification = async (sendOrgInput: OrganizationEmailVerify) => {
+export const sendOrganizationEmailVerification = async (
+  sendOrgInput: OrganizationEmailVerify
+) => {
   await sendEmail(() => new OrganizationEmailVerification(sendOrgInput));
 };

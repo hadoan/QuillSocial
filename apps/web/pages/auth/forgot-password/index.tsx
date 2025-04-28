@@ -52,7 +52,10 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
     }
   };
 
-  const debouncedHandleSubmitPasswordRequest = debounce(submitForgotPasswordRequest, 250);
+  const debouncedHandleSubmitPasswordRequest = debounce(
+    submitForgotPasswordRequest,
+    250
+  );
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -78,7 +81,11 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
         <p className="">{t("password_reset_email", { email })}</p>
         <p className="">{t("password_reset_leading")}</p>
         {error && <p className="text-center text-red-600">{error.message}</p>}
-        <Button color="secondary" className="w-full justify-center" href="/auth/login">
+        <Button
+          color="secondary"
+          className="w-full justify-center"
+          href="/auth/login"
+        >
           {t("back_to_signin")}
         </Button>
       </div>
@@ -99,11 +106,14 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
             </Link>
           </>
         )
-      }>
+      }
+    >
       {success && <Success />}
       {!success && (
         <>
-          <div className="space-y-6">{error && <p className="text-red-600">{error.message}</p>}</div>
+          <div className="space-y-6">
+            {error && <p className="text-red-600">{error.message}</p>}
+          </div>
           <form
             className="space-y-6"
             onSubmit={handleSubmit}
@@ -115,8 +125,14 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
                 "--quill-brand-text": "white",
                 "--quill-brand-subtle": "#9CA3AF",
               } as CSSProperties
-            }>
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken} hidden />
+            }
+          >
+            <input
+              name="csrfToken"
+              type="hidden"
+              defaultValue={csrfToken}
+              hidden
+            />
             <EmailField
               onChange={handleChange}
               id="email"
@@ -131,7 +147,8 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
                 type="submit"
                 disabled={loading}
                 aria-label={t("request_password_reset")}
-                loading={loading}>
+                loading={loading}
+              >
                 {t("request_password_reset")}
               </Button>
             </div>
@@ -145,7 +162,9 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
 ForgotPassword.isThemeSupported = false;
 ForgotPassword.PageWrapper = PageWrapper;
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const { req, res } = context;
 
   const session = await getServerSession({ req, res });

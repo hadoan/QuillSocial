@@ -9,7 +9,9 @@ const InputShareTips: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [nameTopic, setNameTopic] = useState("");
   const [tips, setTips] = useState("");
 
-  const handleNameTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameTopicChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setNameTopic(event.target.value);
   };
 
@@ -18,7 +20,13 @@ const InputShareTips: React.FC<InputTemplateProps> = ({ onInputData }) => {
   };
 
   useEffect(() => {
-    if (nameTopic !== null && nameTopic !== undefined && tips !== null && tips !== undefined && onInputData) {
+    if (
+      nameTopic !== null &&
+      nameTopic !== undefined &&
+      tips !== null &&
+      tips !== undefined &&
+      onInputData
+    ) {
       onInputData({
         countInput: 2,
         input: [
@@ -32,7 +40,9 @@ const InputShareTips: React.FC<InputTemplateProps> = ({ onInputData }) => {
   return (
     <div className="flex flex-col">
       <div className="p-2">
-        <label className="block text-sm font-medium leading-6 text-gray-900">What is the topic?</label>
+        <label className="block text-sm font-medium leading-6 text-gray-900">
+          What is the topic?
+        </label>
         <TextField
           autoFocus={true}
           id="nameTopic"

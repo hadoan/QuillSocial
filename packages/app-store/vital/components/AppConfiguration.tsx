@@ -40,12 +40,18 @@ const AppConfiguration = (props: IAppConfigurationProps) => {
   const options = useMemo(
     () => [
       { label: t("vital_app_total_label", { ns: "vital" }), value: "total" },
-      { label: t("vital_app_duration_label", { ns: "vital" }), value: "duration" },
+      {
+        label: t("vital_app_duration_label", { ns: "vital" }),
+        value: "duration",
+      },
     ],
     [t]
   );
 
-  const [selectedParam, setSelectedParam] = useState<{ label: string; value: string }>(options[0]);
+  const [selectedParam, setSelectedParam] = useState<{
+    label: string;
+    value: string;
+  }>(options[0]);
   const [touchedForm, setTouchedForm] = useState(false);
   const defaultSleepValue = 0;
   const [sleepValue, setSleepValue] = useState(defaultSleepValue);
@@ -93,14 +99,17 @@ const AppConfiguration = (props: IAppConfigurationProps) => {
     <div className="flex-col items-start p-3 text-sm">
       <p>
         <strong>
-          {t("connected_vital_app", { ns: "vital" })} Vital App: {connected ? "Yes" : "No"}
+          {t("connected_vital_app", { ns: "vital" })} Vital App:{" "}
+          {connected ? "Yes" : "No"}
         </strong>
       </p>
       <br />
       <p>
         <strong>{t("vital_app_sleep_automation", { ns: "vital" })}</strong>
       </p>
-      <p className="mt-1">{t("vital_app_automation_description", { ns: "vital" })}</p>
+      <p className="mt-1">
+        {t("vital_app_automation_description", { ns: "vital" })}
+      </p>
 
       <div className="w-100 mt-2">
         <div className="block sm:flex">
@@ -153,7 +162,10 @@ const AppConfiguration = (props: IAppConfigurationProps) => {
           onClick={async () => {
             try {
               setSaveLoading(true);
-              await saveSettings({ parameter: selectedParam, sleepValue: sleepValue });
+              await saveSettings({
+                parameter: selectedParam,
+                sleepValue: sleepValue,
+              });
               showToast(t("vital_app_save_success"), "success");
             } catch (error) {
               showToast(t("vital_app_save_error"), "error");
@@ -163,7 +175,8 @@ const AppConfiguration = (props: IAppConfigurationProps) => {
             setSaveLoading(false);
           }}
           loading={saveLoading}
-          disabled={disabledSaveButton}>
+          disabled={disabledSaveButton}
+        >
           {t("vital_app_save_button", { ns: "vital" })}
         </Button>
       </div>

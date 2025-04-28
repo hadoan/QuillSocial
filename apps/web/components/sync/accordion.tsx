@@ -5,7 +5,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ChevronUp
+  ChevronUp,
 } from "@quillsocial/ui/components/icon";
 const Accordion = ({
   data,
@@ -13,7 +13,7 @@ const Accordion = ({
   width,
   keyAttr,
   valAttr,
-  callback
+  callback,
 }: {
   data: any[];
   height: number;
@@ -22,32 +22,34 @@ const Accordion = ({
   valAttr: string;
   callback: (itemTitle: string) => void;
 }) => {
-  
-
-  const seed = [
-    { title: "1", content: "1" },
-
-  ];
+  const seed = [{ title: "1", content: "1" }];
   const [current, setCurrent] = useState(null);
   const select = useCallback(
-    (i:any) => {
+    (i: any) => {
       if (current === i) return setCurrent(null);
       setCurrent(i);
     },
     [current]
   );
   return (
-    <div
-      className="flex  w-[90%] border shadow border-gray-300  flex-col items-center justify-center  dark:divide-neutral-600 dark:ring-1 dark:ring-neutral-600 text-black bg-white dark:text-white dark:bg-neutral-700/75"
-    >
+    <div className="flex  w-[90%] border shadow border-gray-300  flex-col items-center justify-center  dark:divide-neutral-600 dark:ring-1 dark:ring-neutral-600 text-black bg-white dark:text-white dark:bg-neutral-700/75">
       {seed.map((item, index) => (
         <div className="flex flex-col w-full shadow group" key={index}>
           <div
             className="text-xl flex bg-gray-200  border-gray-400 items-center p-2 justify-between cursor-pointer"
             onClick={() => select(index)}
           >
-            <span className="flex text-black"> <img className="h-[20px] mt-1 ml-2 mr-1 w-[20px]" src="/img/GGlogo.svg"></img> trantrungdung@gmail.com</span>
-            <span className="mr-2">{current === index ? <ChevronUp /> : <ChevronDown />}</span>
+            <span className="flex text-black">
+              {" "}
+              <img
+                className="h-[20px] mt-1 ml-2 mr-1 w-[20px]"
+                src="/img/GGlogo.svg"
+              ></img>{" "}
+              trantrungdung@gmail.com
+            </span>
+            <span className="mr-2">
+              {current === index ? <ChevronUp /> : <ChevronDown />}
+            </span>
           </div>
           <div
             className={classNames(
@@ -69,8 +71,6 @@ const Accordion = ({
                 {item.title}
               </div>
             ))}
-
-
           </div>
         </div>
       ))}

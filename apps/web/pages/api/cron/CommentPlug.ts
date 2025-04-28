@@ -4,8 +4,10 @@ import prisma from "@quillsocial/prisma";
 import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
 import { TwitterV1Manager } from "@quillsocial/app-store/twitterv1social/lib";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const apiKey = req.headers.authorization || req.query.apiKey;
 
   if (process.env.CRON_API_KEY !== apiKey) {
@@ -47,7 +49,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       plugs.map((p) => {
         console.log("commenting for ", p);
         if (p.post?.appId === TWITTER_APP_ID) {
-          return TwitterV1Manager.commentPost(p.post.credentialId, p.id, p.content, p.post.result);
+          return TwitterV1Manager.commentPost(
+            p.post.credentialId,
+            p.id,
+            p.content,
+            p.post.result
+          );
         } else if (p.post?.appId === "linkedin-social") {
           // return LinkedinManager.post(p.id);
         }

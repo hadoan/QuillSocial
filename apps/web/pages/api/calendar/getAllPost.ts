@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return;
     }
     const { query } = req;
-   // const currentView = query.view as string; 
+    // const currentView = query.view as string;
     const startDate = query.startDate as string;
     const endDate = query.endDate as string;
 
@@ -21,8 +21,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         userId: session?.user?.id,
         schedulePostDate: {
           gte: new Date(startDate),
-          lte: new Date(endDate)
-      }
+          lte: new Date(endDate),
+        },
       },
       orderBy: {
         createdDate: "desc",
@@ -30,18 +30,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       select: {
         id: true,
         content: true,
-        schedulePostDate:true,
+        schedulePostDate: true,
         postedDate: true,
         // imagesDataURL:true,
-        status:true,
+        status: true,
         credential: {
           select: {
             name: true,
             emailOrUserName: true,
-            appId:true,
-          }
-        }
-      }
+            appId: true,
+          },
+        },
+      },
     });
     res.status(200).json({ data: posts });
     return;

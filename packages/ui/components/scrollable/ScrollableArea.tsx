@@ -2,7 +2,10 @@ import { classNames } from "@quillsocial/lib";
 import type { CSSProperties, PropsWithChildren } from "react";
 import React, { useRef, useEffect, useState } from "react";
 
-const ScrollableArea = ({ children, className }: PropsWithChildren<{ className?: string }>) => {
+const ScrollableArea = ({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) => {
   const scrollableRef = useRef<HTMLDivElement>(null);
   const [isOverflowingY, setIsOverflowingY] = useState(false);
 
@@ -10,7 +13,8 @@ const ScrollableArea = ({ children, className }: PropsWithChildren<{ className?:
     const scrollableElement = scrollableRef.current;
 
     if (scrollableElement) {
-      const isElementOverflowing = scrollableElement.scrollHeight > scrollableElement.clientHeight;
+      const isElementOverflowing =
+        scrollableElement.scrollHeight > scrollableElement.clientHeight;
       setIsOverflowingY(isElementOverflowing);
     }
   }, []);
@@ -31,7 +35,8 @@ const ScrollableArea = ({ children, className }: PropsWithChildren<{ className?:
         "scroll-bar overflow-y-scroll ",
         isOverflowingY && " relative ",
         className // Pass in your max-w / max-h
-      )}>
+      )}
+    >
       {children}
       {isOverflowingY && <div style={overflowIndicatorStyles} />}
     </div>

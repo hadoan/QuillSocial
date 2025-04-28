@@ -13,14 +13,9 @@ export type Option = {
   label: string;
 };
 
-const InputOption: React.FC<OptionProps<unknown, boolean, GroupBase<unknown>>> = ({
-  isDisabled,
-  isFocused,
-  isSelected,
-  children,
-  innerProps,
-  ...rest
-}) => {
+const InputOption: React.FC<
+  OptionProps<unknown, boolean, GroupBase<unknown>>
+> = ({ isDisabled, isFocused, isSelected, children, innerProps, ...rest }) => {
   const props = {
     ...innerProps,
   };
@@ -31,7 +26,8 @@ const InputOption: React.FC<OptionProps<unknown, boolean, GroupBase<unknown>>> =
       isDisabled={isDisabled}
       isFocused={isFocused}
       isSelected={isSelected}
-      innerProps={props}>
+      innerProps={props}
+    >
       <input
         type="checkbox"
         className="text-primary-600 focus:ring-primary-500 border-default h-4 w-4 rounded ltr:mr-2 rtl:ml-2"
@@ -50,10 +46,20 @@ type MultiSelectionCheckboxesProps = {
   setValue: (s: Option[]) => unknown;
 };
 
-const MultiValue = ({ index, getValue }: { index: number; getValue: () => { length: number } }) => {
+const MultiValue = ({
+  index,
+  getValue,
+}: {
+  index: number;
+  getValue: () => { length: number };
+}) => {
   const { t } = useLocale();
 
-  return <>{!index && <div>{t("nr_event_type", { count: getValue().length })}</div>}</>;
+  return (
+    <>
+      {!index && <div>{t("nr_event_type", { count: getValue().length })}</div>}
+    </>
+  );
 };
 
 export default function MultiSelectCheckboxes({
@@ -70,7 +76,6 @@ export default function MultiSelectCheckboxes({
   return (
     <Select
       value={selected}
-      
       onChange={(s: any) => {
         setSelected(s);
         setValue(s);

@@ -1,6 +1,14 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
-const getMessageTexts = (url: string, instructions: string, webContent: string, format?: string) => {
+const getMessageTexts = (
+  url: string,
+  instructions: string,
+  webContent: string,
+  format?: string
+) => {
   const instruction = format
     ? `Craft a short summary in the format "${format}" which include the article link "${url}" to share the article to my linkedin post based on my instructions "${instructions}", the summary should be short and has icons.
      The article content is: ${webContent}

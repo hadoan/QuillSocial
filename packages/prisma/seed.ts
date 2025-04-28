@@ -27,7 +27,9 @@ async function createUserAndEventType(opts: {
   };
 
   const user = await prisma.user.upsert({
-    where: { email_username: { email: opts.user.email, username: opts.user.username } },
+    where: {
+      email_username: { email: opts.user.email, username: opts.user.username },
+    },
     update: userData,
     create: userData,
   });
@@ -51,7 +53,10 @@ async function createTeamAndAddUsers(
         },
       });
     } catch (_err) {
-      if (_err instanceof Error && _err.message.indexOf("Unique constraint failed on the fields") !== -1) {
+      if (
+        _err instanceof Error &&
+        _err.message.indexOf("Unique constraint failed on the fields") !== -1
+      ) {
         console.log(`Team '${team.name}' already exists, skipping.`);
         return;
       }
@@ -78,7 +83,9 @@ async function createTeamAndAddUsers(
         accepted: true,
       },
     });
-    console.log(`\t👤 Added '${teamInput.name}' membership for '${username}' with role '${role}'`);
+    console.log(
+      `\t👤 Added '${teamInput.name}' membership for '${username}' with role '${role}'`
+    );
   }
 }
 

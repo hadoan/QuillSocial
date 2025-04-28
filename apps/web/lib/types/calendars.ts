@@ -1,31 +1,31 @@
 // FullCalendar Types
-import { EventInput } from '@fullcalendar/core';
+import { EventInput } from "@fullcalendar/core";
 
 // Custom Types
-type InventoryStatus = 'INSTOCK' | 'LOWSTOCK' | 'OUTOFSTOCK';
-type Status = 'DELIVERED' | 'PENDING' | 'RETURNED' | 'CANCELLED';
-type Color = 'bg-yellow-500' | 'bg-pink-500' | 'bg-green-500' | 'bg-indigo-500';
+type InventoryStatus = "INSTOCK" | "LOWSTOCK" | "OUTOFSTOCK";
+type Status = "DELIVERED" | "PENDING" | "RETURNED" | "CANCELLED";
+type Color = "bg-yellow-500" | "bg-pink-500" | "bg-green-500" | "bg-indigo-500";
 type LightColor =
-  | 'bg-yellow-100'
-  | 'bg-pink-100'
-  | 'bg-green-100'
-  | 'bg-indigo-100';
+  | "bg-yellow-100"
+  | "bg-pink-100"
+  | "bg-green-100"
+  | "bg-indigo-100";
 type MailKeys =
-  | 'important'
-  | 'starred'
-  | 'trash'
-  | 'spam'
-  | 'archived'
-  | 'sent';
+  | "important"
+  | "starred"
+  | "trash"
+  | "spam"
+  | "archived"
+  | "sent";
 
 // Exported Types
-export type LayoutType = 'list' | 'grid';
+export type LayoutType = "list" | "grid";
 export type SortOrderType = 1 | 0 | -1;
 
 // Interfaces
 export interface CustomEvent {
   name?: string;
-  status?: 'Ordered' | 'Processing' | 'Shipped' | 'Delivered';
+  status?: "Ordered" | "Processing" | "Shipped" | "Delivered";
   date?: string;
   color?: string;
   icon?: string;
@@ -228,8 +228,8 @@ declare namespace Demo {
     };
     logo?: string;
     contentImage?: string;
-    time?:string;
-    colorStatus?:string;
+    time?: string;
+    colorStatus?: string;
   }
 
   // PhotoService

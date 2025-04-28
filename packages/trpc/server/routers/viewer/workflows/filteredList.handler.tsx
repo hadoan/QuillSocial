@@ -43,7 +43,10 @@ const includedFields = {
   },
 };
 
-export const filteredListHandler = async ({ ctx, input }: FilteredListOptions) => {
+export const filteredListHandler = async ({
+  ctx,
+  input,
+}: FilteredListOptions) => {
   const { prisma, user } = ctx;
 
   const filters = input?.filters;
@@ -75,13 +78,17 @@ export const filteredListHandler = async ({ ctx, input }: FilteredListOptions) =
   });
 
   if (!filtered) {
-    const workflowsWithReadOnly: WorkflowType[] = allWorkflows.map((workflow) => {
-      const readOnly = !!workflow.team?.members?.find(
-        (member) => member.userId === ctx.user.id && member.role === MembershipRole.MEMBER
-      );
+    const workflowsWithReadOnly: WorkflowType[] = allWorkflows.map(
+      (workflow) => {
+        const readOnly = !!workflow.team?.members?.find(
+          (member) =>
+            member.userId === ctx.user.id &&
+            member.role === MembershipRole.MEMBER
+        );
 
-      return { readOnly, ...workflow };
-    });
+        return { readOnly, ...workflow };
+      }
+    );
 
     return {
       filtered: workflowsWithReadOnly,
@@ -127,13 +134,17 @@ export const filteredListHandler = async ({ ctx, input }: FilteredListOptions) =
       },
     });
 
-    const workflowsWithReadOnly: WorkflowType[] = filteredWorkflows.map((workflow) => {
-      const readOnly = !!workflow.team?.members?.find(
-        (member) => member.userId === ctx.user.id && member.role === MembershipRole.MEMBER
-      );
+    const workflowsWithReadOnly: WorkflowType[] = filteredWorkflows.map(
+      (workflow) => {
+        const readOnly = !!workflow.team?.members?.find(
+          (member) =>
+            member.userId === ctx.user.id &&
+            member.role === MembershipRole.MEMBER
+        );
 
-      return { readOnly, ...workflow };
-    });
+        return { readOnly, ...workflow };
+      }
+    );
 
     return {
       filtered: workflowsWithReadOnly,

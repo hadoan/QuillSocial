@@ -17,7 +17,9 @@ export const BRAINS_QUERY_KEY = "brains";
 export const BRAIN_QUERY_KEY = "brain";
 export const KNOWLEDGE_QUERY_KEY = "knowledge";
 
-export const createBrain = async (brain: CreateBrainInput): Promise<MinimalBrainForUser> => {
+export const createBrain = async (
+  brain: CreateBrainInput
+): Promise<MinimalBrainForUser> => {
   const response = await fetch(`${API_URL}/brains`, {
     method: "POST",
     headers: {
@@ -36,7 +38,10 @@ export const createBrain = async (brain: CreateBrainInput): Promise<MinimalBrain
   return mapBackendMinimalBrainToMinimalBrain(data);
 };
 
-export const updateBrain = async (brainId: string, brain: UpdateBrainInput): Promise<any> => {
+export const updateBrain = async (
+  brainId: string,
+  brain: UpdateBrainInput
+): Promise<any> => {
   const response = await fetch(`${API_URL}/brains/${brainId}`, {
     method: "PUT",
     headers: {
@@ -79,7 +84,9 @@ export const getBrains = async (): Promise<MinimalBrainForUser[]> => {
   return data.brains;
 };
 
-export const getBrainsByAdmin = async (adminId: string): Promise<MinimalBrainForUser[]> => {
+export const getBrainsByAdmin = async (
+  adminId: string
+): Promise<MinimalBrainForUser[]> => {
   const response = await fetch(`${API_URL}/brains/${adminId}/admin`, {
     method: "GET",
   });
@@ -106,7 +113,9 @@ export const deleteBrain = async (brainId: string): Promise<void> => {
   }
 };
 
-export const getDefaultBrain = async (): Promise<MinimalBrainForUser | undefined> => {
+export const getDefaultBrain = async (): Promise<
+  MinimalBrainForUser | undefined
+> => {
   const response = await fetch(`${API_URL}/brains/default/`, {
     method: "GET",
   });
@@ -120,7 +129,9 @@ export const getDefaultBrain = async (): Promise<MinimalBrainForUser | undefined
   return mapBackendMinimalBrainToMinimalBrain(data);
 };
 
-export const getKnowledgeByBrainId = async ({ brainId }: any): Promise<Knowledge[]> => {
+export const getKnowledgeByBrainId = async ({
+  brainId,
+}: any): Promise<Knowledge[]> => {
   const response = await fetch(`${API_URL}/knowledge?brain_id=${brainId}`, {
     method: "GET",
   });
@@ -147,7 +158,9 @@ export const getKnowledgeByBrainId = async ({ brainId }: any): Promise<Knowledge
   });
 };
 
-export const uploadFileWithBrainId = async (props: UploadInputProps): Promise<UploadResponse> => {
+export const uploadFileWithBrainId = async (
+  props: UploadInputProps
+): Promise<UploadResponse> => {
   let uploadUrl = `upload?brain_id=${props.brainId}`;
   if (props.chat_id !== undefined) {
     uploadUrl = uploadUrl.concat(`&chat_id=${props.chat_id}`);
@@ -166,10 +179,16 @@ export const uploadFileWithBrainId = async (props: UploadInputProps): Promise<Up
   return data;
 };
 
-export const deleteKnowledge = async ({ knowledgeId, brainId }: DeleteKnowledgeInputProps): Promise<void> => {
-  const response = await fetch(`${API_URL}/knowledge/${knowledgeId}?brain_id=${brainId}`, {
-    method: "DELETE",
-  });
+export const deleteKnowledge = async ({
+  knowledgeId,
+  brainId,
+}: DeleteKnowledgeInputProps): Promise<void> => {
+  const response = await fetch(
+    `${API_URL}/knowledge/${knowledgeId}?brain_id=${brainId}`,
+    {
+      method: "DELETE",
+    }
+  );
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data?.detail ?? response.statusText);

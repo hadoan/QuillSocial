@@ -2,7 +2,11 @@ import OpenAI from "openai";
 
 import { getAppKeys } from "../getAppKeys";
 
-export const getChatCompletions = async (userId: number, prompt: string, platform?: string) => {
+export const getChatCompletions = async (
+  userId: number,
+  prompt: string,
+  platform?: string
+) => {
   try {
     // Send request to OpenAI API
     // const userMsg =
@@ -52,7 +56,10 @@ export const getChatCompletions = async (userId: number, prompt: string, platfor
   }
 };
 
-export const getRewriteCompletions = async (userId: number, instruction: string) => {
+export const getRewriteCompletions = async (
+  userId: number,
+  instruction: string
+) => {
   try {
     // Send request to OpenAI API
     // const userMsg =

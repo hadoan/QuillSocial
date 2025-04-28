@@ -10,7 +10,11 @@ import { checkSocialTokenValid } from "@lib/checkSocialTokenValid";
 import PageWrapper from "@components/PageWrapper";
 import PostList from "@components/ai-write/post-list";
 
-const ReconnectSocialBanner = ({ closeAction }: { closeAction: () => void }) => {
+const ReconnectSocialBanner = ({
+  closeAction,
+}: {
+  closeAction: () => void;
+}) => {
   const { t } = useLocale();
   return (
     <Alert
@@ -59,7 +63,9 @@ const AIWritePage = () => {
       <HeadSeo title={t("AI-Write")} description={""} />
       <Shell withoutSeo heading={"AI Write"} hideHeadingOnMobile>
         <div>
-          {showConnectSocialBanner && <ReconnectSocialBanner closeAction={closeConnectSocialBanner} />}
+          {showConnectSocialBanner && (
+            <ReconnectSocialBanner closeAction={closeConnectSocialBanner} />
+          )}
           <PostList></PostList>
         </div>
       </Shell>

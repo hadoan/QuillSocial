@@ -18,7 +18,10 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 export async function ssrInit(context: GetServerSidePropsContext) {
   const ctx = await createContext(context);
   const locale = getLocaleFromHeaders(context.req);
-  const i18n = await serverSideTranslations(getLocaleFromHeaders(context.req), ["common", "vital"]);
+  const i18n = await serverSideTranslations(getLocaleFromHeaders(context.req), [
+    "common",
+    "vital",
+  ]);
 
   const ssr = createServerSideHelpers({
     router: appRouter,

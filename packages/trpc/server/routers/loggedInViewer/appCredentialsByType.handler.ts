@@ -9,7 +9,12 @@ type AppCredentialsByTypeOptions = {
   input: TAppCredentialsByTypeInputSchema;
 };
 
-export const appCredentialsByTypeHandler = async ({ ctx, input }: AppCredentialsByTypeOptions) => {
+export const appCredentialsByTypeHandler = async ({
+  ctx,
+  input,
+}: AppCredentialsByTypeOptions) => {
   const { user } = ctx;
-  return user.credentials.filter((app) => app.type == input.appType).map((credential) => credential.id);
+  return user.credentials
+    .filter((app) => app.type == input.appType)
+    .map((credential) => credential.id);
 };

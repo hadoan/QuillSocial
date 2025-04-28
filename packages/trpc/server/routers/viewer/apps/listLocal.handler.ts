@@ -35,7 +35,12 @@ export const listLocalHandler = async ({ ctx, input }: ListLocalOptions) => {
 
   return localApps.flatMap((app) => {
     // Filter applications that does not belong to the current requested category.
-    if (!(app.category === category || app.categories?.some((appCategory) => appCategory === category))) {
+    if (
+      !(
+        app.category === category ||
+        app.categories?.some((appCategory) => appCategory === category)
+      )
+    ) {
       return [];
     }
 
@@ -59,7 +64,8 @@ export const listLocalHandler = async ({ ctx, input }: ListLocalOptions) => {
       };
     }
 
-    const keysSchema = appKeysSchemas[app.dirName as keyof typeof appKeysSchemas];
+    const keysSchema =
+      appKeysSchemas[app.dirName as keyof typeof appKeysSchemas];
 
     const keys: Record<string, string> = {};
 
@@ -67,10 +73,13 @@ export const listLocalHandler = async ({ ctx, input }: ListLocalOptions) => {
     // it is important to avoid string to string comparisons as much as we can
     if (keysSchema !== undefined) {
       // TODO: Why don't we parse with schema here? Not doing it makes default() not work in schema.
-      Object.values(keysSchema.keyof()._def.values).reduce((keysObject, key) => {
-        keys[key as string] = "";
-        return keysObject;
-      }, {} as Record<string, string>);
+      Object.values(keysSchema.keyof()._def.values).reduce(
+        (keysObject, key) => {
+          keys[key as string] = "";
+          return keysObject;
+        },
+        {} as Record<string, string>
+      );
     }
 
     return {

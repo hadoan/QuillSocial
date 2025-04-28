@@ -8,7 +8,9 @@ import { InputTemplateProps } from "./constTemplateWrapper";
 const InputFormatContent: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [content, setContent] = useState("");
 
-  const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleContentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setContent(event.target.value);
   };
   useEffect(() => {
@@ -23,7 +25,9 @@ const InputFormatContent: React.FC<InputTemplateProps> = ({ onInputData }) => {
   return (
     <div className="flex flex-col">
       <div className="p-2">
-        <label className=" text-sm font-medium leading-6 text-gray-900">Add your content</label>
+        <label className=" text-sm font-medium leading-6 text-gray-900">
+          Add your content
+        </label>
         <TextAreaField
           autoFocus={true}
           id="content"

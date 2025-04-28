@@ -37,10 +37,9 @@ const AppsRouting = {
 };
 
 function getRoute(appName: string, pages: string[]) {
-  const routingConfig = AppsRouting[appName as keyof typeof AppsRouting] as any as Record<
-    string,
-    AppPageType
-  >;
+  const routingConfig = AppsRouting[
+    appName as keyof typeof AppsRouting
+  ] as any as Record<string, AppPageType>;
 
   if (!routingConfig) {
     return {
@@ -76,7 +75,10 @@ const AppPage: AppPageType["default"] = function AppPage(props) {
 };
 
 AppPage.isBookingPage = ({ router }) => {
-  const route = getRoute(router.query.slug as string, router.query.pages as string[]);
+  const route = getRoute(
+    router.query.slug as string,
+    router.query.pages as string[]
+  );
   if (route.notFound) {
     return false;
   }
@@ -89,7 +91,10 @@ AppPage.isBookingPage = ({ router }) => {
 };
 
 AppPage.getLayout = (page, router) => {
-  const route = getRoute(router.query.slug as string, router.query.pages as string[]);
+  const route = getRoute(
+    router.query.slug as string,
+    router.query.pages as string[]
+  );
   if (route.notFound) {
     return null;
   }

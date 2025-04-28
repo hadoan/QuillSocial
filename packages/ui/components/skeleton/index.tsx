@@ -13,7 +13,14 @@ interface SkeletonContainer {
 }
 
 const SkeletonAvatar: React.FC<SkeletonBaseProps> = ({ className }) => {
-  return <div className={classNames(`bg-emphasis mt-1 rounded-full ltr:mr-2 rtl:ml-2`, className)} />;
+  return (
+    <div
+      className={classNames(
+        `bg-emphasis mt-1 rounded-full ltr:mr-2 rtl:ml-2`,
+        className
+      )}
+    />
+  );
 };
 
 type SkeletonProps<T> = {
@@ -50,23 +57,22 @@ const Skeleton = <T extends keyof JSX.IntrinsicElements | React.FC>({
   return (
     <Component
       className={classNames(
-        loading //HNH remove css label 
-    //    ? classNames("font-size-0 bg-emphasis animate-pulse rounded-md text-transparent", loadingClassName)
-     ? classNames("font-size-0 w-22   ", loadingClassName)
-       : "",
+        loading //HNH remove css label
+          ? //    ? classNames("font-size-0 bg-emphasis animate-pulse rounded-md text-transparent", loadingClassName)
+            classNames("font-size-0 w-22   ", loadingClassName)
+          : "",
         className
       )}
-      {...rest}>
+      {...rest}
+    >
       {children}
     </Component>
   );
 };
 
-const SkeletonText: React.FC<SkeletonBaseProps & { invisible?: boolean; style?: React.CSSProperties }> = ({
-  className = "",
-  invisible = false,
-  style,
-}) => {
+const SkeletonText: React.FC<
+  SkeletonBaseProps & { invisible?: boolean; style?: React.CSSProperties }
+> = ({ className = "", invisible = false, style }) => {
   return (
     <span
       style={style}
@@ -87,10 +93,24 @@ const SkeletonButton: React.FC<SkeletonBaseProps> = ({ className }) => {
   );
 };
 
-const SkeletonContainer: React.FC<SkeletonContainer> = ({ children, as, className }) => {
+const SkeletonContainer: React.FC<SkeletonContainer> = ({
+  children,
+  as,
+  className,
+}) => {
   const Component = as || "div";
-  return <Component className={classNames("animate-pulse", className)}>{children}</Component>;
+  return (
+    <Component className={classNames("animate-pulse", className)}>
+      {children}
+    </Component>
+  );
 };
 
-export { Skeleton, SkeletonAvatar, SkeletonText, SkeletonButton, SkeletonContainer };
+export {
+  Skeleton,
+  SkeletonAvatar,
+  SkeletonText,
+  SkeletonButton,
+  SkeletonContainer,
+};
 export { default as Loader } from "./Loader";

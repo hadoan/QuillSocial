@@ -1,4 +1,7 @@
-import { IS_PRODUCTION, IS_TEAM_BILLING_ENABLED } from "@quillsocial/lib/constants";
+import {
+  IS_PRODUCTION,
+  IS_TEAM_BILLING_ENABLED,
+} from "@quillsocial/lib/constants";
 import { isTeamOwner } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
@@ -51,7 +54,8 @@ const deleteVercelDomain = async ({
 };
 
 export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
-  if (!(await isTeamOwner(ctx.user?.id, input.teamId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!(await isTeamOwner(ctx.user?.id, input.teamId)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
 
   // if (IS_TEAM_BILLING_ENABLED) await cancelTeamSubscriptionFromStripe(input.teamId);
 
@@ -75,5 +79,4 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
       slug: deletedTeam.slug,
       isOrganization: deletedTeamMetadata?.isOrganization,
     });
-
 };

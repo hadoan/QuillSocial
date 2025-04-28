@@ -69,7 +69,8 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext>({
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
           enabled: (opts) =>
-            !!process.env.NEXT_PUBLIC_DEBUG || (opts.direction === "down" && opts.result instanceof Error),
+            !!process.env.NEXT_PUBLIC_DEBUG ||
+            (opts.direction === "down" && opts.result instanceof Error),
         }),
         splitLink({
           // check for context property `skipBatch`
@@ -77,14 +78,20 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext>({
           // when condition is true, use normal request
           true: (runtime) => {
             const links = Object.fromEntries(
-              ENDPOINTS.map((endpoint) => [endpoint, httpLink({ url: `${url}/${endpoint}` })(runtime)])
+              ENDPOINTS.map((endpoint) => [
+                endpoint,
+                httpLink({ url: `${url}/${endpoint}` })(runtime),
+              ])
             );
             return resolveEndpoint(links);
           },
           // when condition is false, use batch request
           false: (runtime) => {
             const links = Object.fromEntries(
-              ENDPOINTS.map((endpoint) => [endpoint, httpBatchLink({ url: `${url}/${endpoint}` })(runtime)])
+              ENDPOINTS.map((endpoint) => [
+                endpoint,
+                httpBatchLink({ url: `${url}/${endpoint}` })(runtime),
+              ])
             );
             return resolveEndpoint(links);
           },
@@ -105,9 +112,15 @@ export const trpc = createTRPCNext<AppRouter, NextPageContext>({
              * Retry `useQuery()` calls depending on this function
              */
             retry(failureCount, _err) {
-              const err = _err as never as Maybe<TRPCClientErrorLike<AppRouter>>;
+              const err = _err as never as Maybe<
+                TRPCClientErrorLike<AppRouter>
+              >;
               const code = err?.data?.code;
-              if (code === "BAD_REQUEST" || code === "FORBIDDEN" || code === "UNAUTHORIZED") {
+              if (
+                code === "BAD_REQUEST" ||
+                code === "FORBIDDEN" ||
+                code === "UNAUTHORIZED"
+              ) {
                 // if input data is wrong or you're not authorized there's no point retrying a query
                 return false;
               }

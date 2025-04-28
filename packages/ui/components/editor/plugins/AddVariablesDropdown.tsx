@@ -1,6 +1,11 @@
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 
-import { Dropdown, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../form/dropdown";
+import {
+  Dropdown,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../form/dropdown";
 import { ChevronDown } from "../../icon";
 
 interface IAddVariablesDropdown {
@@ -44,10 +49,13 @@ export const AddVariablesDropdown = (props: IAddVariablesDropdown) => {
                   key={variable}
                   type="button"
                   className="w-full px-4 py-2"
-                  onClick={() => props.addVariable(t(`${variable}_variable`))}>
+                  onClick={() => props.addVariable(t(`${variable}_variable`))}
+                >
                   <div className="sm:grid sm:grid-cols-2">
                     <div className="mr-3 text-left md:col-span-1">
-                      {`{${t(`${variable}_variable`).toUpperCase().replace(/ /g, "_")}}`}
+                      {`{${t(`${variable}_variable`)
+                        .toUpperCase()
+                        .replace(/ /g, "_")}}`}
                     </div>
                     <div className="text-default hidden text-left sm:col-span-1 sm:flex">
                       {t(`${variable}_info`)}

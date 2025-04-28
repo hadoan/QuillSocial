@@ -19,7 +19,9 @@ export type ConfirmationDialogContentProps = {
   variety?: "danger" | "warning" | "success";
 } & ConfirmBtnType;
 
-export function ConfirmationDialogContent(props: PropsWithChildren<ConfirmationDialogContentProps>) {
+export function ConfirmationDialogContent(
+  props: PropsWithChildren<ConfirmationDialogContentProps>
+) {
   const { t } = useLocale();
   const {
     title,
@@ -72,11 +74,18 @@ export function ConfirmationDialogContent(props: PropsWithChildren<ConfirmationD
           //   {isLoading ? loadingText : 'Confirm'}
           // </DialogCloseConfirm>
 
-           <DialogClose color="primary" className="text-white bg-awst" loading={isLoading} onClick={(e) => onConfirm && onConfirm(e)}>
-             {isLoading ? loadingText : 'Confirm'}
-           </DialogClose>
+          <DialogClose
+            color="primary"
+            className="text-white bg-awst"
+            loading={isLoading}
+            onClick={(e) => onConfirm && onConfirm(e)}
+          >
+            {isLoading ? loadingText : "Confirm"}
+          </DialogClose>
         )}
-        <DialogClose className="text-awst" disabled={isLoading}>{cancelBtnText}</DialogClose> 
+        <DialogClose className="text-awst" disabled={isLoading}>
+          {cancelBtnText}
+        </DialogClose>
       </div>
     </DialogContent>
   );

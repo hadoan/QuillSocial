@@ -49,7 +49,10 @@ export function rateLimiter() {
     }),
   };
 
-  async function rateLimit({ rateLimitingType = "core", identifier }: RateLimitHelper) {
+  async function rateLimit({
+    rateLimitingType = "core",
+    identifier,
+  }: RateLimitHelper) {
     if (isIpInBanListString(identifier)) {
       return await limiter.forcedSlowMode.limit(identifier);
     }

@@ -25,7 +25,11 @@ export default function XConsumerKeysSetup() {
         <div className="flex flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0">
           <div>
             {/* eslint-disable @next/next/no-img-element */}
-            <img src="/api/app-store/xconsumerkeyssocial/icon.svg" alt="X" className="h-12 w-12 max-w-2xl" />
+            <img
+              src="/api/app-store/xconsumerkeyssocial/icon.svg"
+              alt="X"
+              className="h-12 w-12 max-w-2xl"
+            />
           </div>
           <div>
             <h1 className="text-default">Config Consumer Key</h1>
@@ -36,16 +40,18 @@ export default function XConsumerKeysSetup() {
                 className="text-indigo-400"
                 href="https://developer.twitter.com/en/portal/projects-and-apps"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 &nbsp;https://developer.twitter.com/en/portal/projects-and-apps
               </a>
-              . {t("credentials_stored_encrypted")} <br/>
+              . {t("credentials_stored_encrypted")} <br />
               Follow this guide to generate consumer key
               <a
                 className="text-indigo-400"
                 href="https://developer.x.com/en/docs/authentication/oauth-1-0a/api-key-and-secret"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 &nbsp;https://developer.x.com/en/docs/authentication/oauth-1-0a/api-key-and-secret
               </a>
             </div>
@@ -54,21 +60,28 @@ export default function XConsumerKeysSetup() {
                 form={form}
                 handleSubmit={async (values) => {
                   setErrorMessage("");
-                  const res = await fetch("/api/integrations/xconsumerkeyssocial/add", {
-                    method: "POST",
-                    body: JSON.stringify(values),
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  });
+                  const res = await fetch(
+                    "/api/integrations/xconsumerkeyssocial/add",
+                    {
+                      method: "POST",
+                      body: JSON.stringify(values),
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
                   const json = await res.json();
                   if (!res.ok) {
                     setErrorMessage(json?.message || t("something_went_wrong"));
                   } else {
                     router.push(json.url);
                   }
-                }}>
-                <fieldset className="space-y-2" disabled={form.formState.isSubmitting}>
+                }}
+              >
+                <fieldset
+                  className="space-y-2"
+                  disabled={form.formState.isSubmitting}
+                >
                   <TextField
                     required
                     type="text"
@@ -96,9 +109,19 @@ export default function XConsumerKeysSetup() {
                   />
                 </fieldset>
 
-                {errorMessage && <Alert severity="error" title={errorMessage} className="my-4" />}
+                {errorMessage && (
+                  <Alert
+                    severity="error"
+                    title={errorMessage}
+                    className="my-4"
+                  />
+                )}
                 <div className="mt-5 justify-end space-x-2 sm:mt-4 sm:flex rtl:space-x-reverse">
-                  <Button type="button" color="secondary" onClick={() => router.back()}>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={() => router.back()}
+                  >
                     {t("cancel")}
                   </Button>
                   <Button type="submit" loading={form.formState.isSubmitting}>

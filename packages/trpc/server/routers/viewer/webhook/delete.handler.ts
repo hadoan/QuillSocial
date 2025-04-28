@@ -13,9 +13,12 @@ type DeleteOptions = {
 export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
   const { id } = input;
 
-  const andCondition: Partial<{ id: string; eventTypeId: number; teamId: number; userId: number }>[] = [
-    { id: id },
-  ];
+  const andCondition: Partial<{
+    id: string;
+    eventTypeId: number;
+    teamId: number;
+    userId: number;
+  }>[] = [{ id: id }];
 
   if (input.eventTypeId) {
     andCondition.push({ eventTypeId: input.eventTypeId });

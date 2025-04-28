@@ -32,7 +32,9 @@ export type ButtonBaseProps = {
 export type ButtonProps = ButtonBaseProps &
   (
     | (Omit<JSX.IntrinsicElements["a"], "href" | "onClick" | "ref"> & LinkProps)
-    | (Omit<JSX.IntrinsicElements["button"], "onClick" | "ref"> & { href?: never })
+    | (Omit<JSX.IntrinsicElements["button"], "onClick" | "ref"> & {
+        href?: never;
+      })
   );
 
 const buttonClasses = cva(
@@ -152,10 +154,10 @@ const buttonClasses = cva(
   }
 );
 
-export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(function Button(
-  props: ButtonProps,
-  forwardedRef
-) {
+export const Button = forwardRef<
+  HTMLAnchorElement | HTMLButtonElement,
+  ButtonProps
+>(function Button(props: ButtonProps, forwardedRef) {
   const {
     loading = false,
     color = "primary",
@@ -181,7 +183,13 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
       type: !isLink ? type : undefined,
       ref: forwardedRef,
       className: classNames(
-        buttonClasses({ color, size, loading, disabled: props.disabled, variant }),
+        buttonClasses({
+          color,
+          size,
+          loading,
+          disabled: props.disabled,
+          variant,
+        }),
         props.className
       ),
       // if we click a disabled button, we prevent going through the click handler
@@ -203,13 +211,18 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
             <StartIcon
               className={classNames(
                 variant === "icon" && "h-4 w-4",
-                variant === "button" && "h-4 w-4 stroke-[1.5px] ltr:-ml-1 ltr:mr-2 rtl:-mr-1 rtl:ml-2"
+                variant === "button" &&
+                  "h-4 w-4 stroke-[1.5px] ltr:-ml-1 ltr:mr-2 rtl:-mr-1 rtl:ml-2"
               )}
             />
           )}
         </>
       )}
-      {variant === "fab" ? <span className="hidden md:inline">{props.children}</span> : props.children}
+      {variant === "fab" ? (
+        <span className="hidden md:inline">{props.children}</span>
+      ) : (
+        props.children
+      )}
       {loading && (
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           <svg
@@ -219,8 +232,16 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
             )}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
             <path
               className="opacity-75"
               fill="currentColor"
@@ -241,7 +262,8 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
               className={classNames(
                 "inline-flex",
                 variant === "icon" && "h-4 w-4",
-                variant === "button" && "h-4 w-4 stroke-[1.5px] ltr:-mr-1 ltr:ml-2 rtl:-ml-1 rtl:mr-2"
+                variant === "button" &&
+                  "h-4 w-4 stroke-[1.5px] ltr:-mr-1 ltr:ml-2 rtl:-ml-1 rtl:mr-2"
               )}
             />
           )}
@@ -251,7 +273,12 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
   );
 
   return props.href ? (
-    <Link passHref href={props.href} shallow={shallow && shallow} legacyBehavior>
+    <Link
+      passHref
+      href={props.href}
+      shallow={shallow && shallow}
+      legacyBehavior
+    >
       {element}
     </Link>
   ) : (
@@ -259,7 +286,13 @@ export const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonPr
   );
 });
 
-const Wrapper = ({ children, tooltip }: { tooltip?: string; children: React.ReactNode }) => {
+const Wrapper = ({
+  children,
+  tooltip,
+}: {
+  tooltip?: string;
+  children: React.ReactNode;
+}) => {
   if (!tooltip) {
     return <>{children}</>;
   }

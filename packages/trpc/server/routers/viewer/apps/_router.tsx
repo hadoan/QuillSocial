@@ -1,4 +1,6 @@
-import authedProcedure, { authedAdminProcedure } from "../../../procedures/authedProcedure";
+import authedProcedure, {
+  authedAdminProcedure,
+} from "../../../procedures/authedProcedure";
 import { router } from "../../../trpc";
 import { checkGlobalKeysSchema } from "./checkGlobalKeys.schema";
 import { ZListLocalInputSchema } from "./listLocal.schema";
@@ -19,45 +21,51 @@ type AppsRouterHandlerCache = {
 const UNSTABLE_HANDLER_CACHE: AppsRouterHandlerCache = {};
 
 export const appsRouter = router({
-  listLocal: authedAdminProcedure.input(ZListLocalInputSchema).query(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.listLocal) {
-      UNSTABLE_HANDLER_CACHE.listLocal = await import("./listLocal.handler").then(
-        (mod) => mod.listLocalHandler
-      );
-    }
+  listLocal: authedAdminProcedure
+    .input(ZListLocalInputSchema)
+    .query(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.listLocal) {
+        UNSTABLE_HANDLER_CACHE.listLocal = await import(
+          "./listLocal.handler"
+        ).then((mod) => mod.listLocalHandler);
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.listLocal) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.listLocal) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.listLocal({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.listLocal({
+        ctx,
+        input,
+      });
+    }),
 
-  saveKeys: authedAdminProcedure.input(ZSaveKeysInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.saveKeys) {
-      UNSTABLE_HANDLER_CACHE.saveKeys = await import("./saveKeys.handler").then((mod) => mod.saveKeysHandler);
-    }
+  saveKeys: authedAdminProcedure
+    .input(ZSaveKeysInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.saveKeys) {
+        UNSTABLE_HANDLER_CACHE.saveKeys = await import(
+          "./saveKeys.handler"
+        ).then((mod) => mod.saveKeysHandler);
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.saveKeys) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.saveKeys) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.saveKeys({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.saveKeys({
+        ctx,
+        input,
+      });
+    }),
 
   checkForGCal: authedProcedure.query(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.checkForGCal) {
-      UNSTABLE_HANDLER_CACHE.checkForGCal = await import("./checkForGCal.handler").then(
-        (mod) => mod.checkForGCalHandler
-      );
+      UNSTABLE_HANDLER_CACHE.checkForGCal = await import(
+        "./checkForGCal.handler"
+      ).then((mod) => mod.checkForGCalHandler);
     }
 
     // Unreachable code but required for type safety
@@ -72,9 +80,9 @@ export const appsRouter = router({
 
   checkForAIApps: authedProcedure.query(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.checkForAIApps) {
-      UNSTABLE_HANDLER_CACHE.checkForAIApps = await import("./checkForAIApps.handler").then(
-        (mod) => mod.checkForAIApps
-      );
+      UNSTABLE_HANDLER_CACHE.checkForAIApps = await import(
+        "./checkForAIApps.handler"
+      ).then((mod) => mod.checkForAIApps);
     }
 
     // Unreachable code but required for type safety
@@ -91,9 +99,9 @@ export const appsRouter = router({
     .input(ZUpdateAppCredentialsInputSchema)
     .mutation(async ({ ctx, input }) => {
       if (!UNSTABLE_HANDLER_CACHE.updateAppCredentials) {
-        UNSTABLE_HANDLER_CACHE.updateAppCredentials = await import("./updateAppCredentials.handler").then(
-          (mod) => mod.updateAppCredentialsHandler
-        );
+        UNSTABLE_HANDLER_CACHE.updateAppCredentials = await import(
+          "./updateAppCredentials.handler"
+        ).then((mod) => mod.updateAppCredentialsHandler);
       }
 
       // Unreachable code but required for type safety
@@ -111,9 +119,9 @@ export const appsRouter = router({
     .input(ZQueryForDependenciesInputSchema)
     .query(async ({ ctx, input }) => {
       if (!UNSTABLE_HANDLER_CACHE.queryForDependencies) {
-        UNSTABLE_HANDLER_CACHE.queryForDependencies = await import("./queryForDependencies.handler").then(
-          (mod) => mod.queryForDependenciesHandler
-        );
+        UNSTABLE_HANDLER_CACHE.queryForDependencies = await import(
+          "./queryForDependencies.handler"
+        ).then((mod) => mod.queryForDependenciesHandler);
       }
 
       // Unreachable code but required for type safety
@@ -126,21 +134,23 @@ export const appsRouter = router({
         input,
       });
     }),
-  checkGlobalKeys: authedProcedure.input(checkGlobalKeysSchema).query(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.checkGlobalKeys) {
-      UNSTABLE_HANDLER_CACHE.checkGlobalKeys = await import("./checkGlobalKeys.handler").then(
-        (mod) => mod.checkForGlobalKeysHandler
-      );
-    }
+  checkGlobalKeys: authedProcedure
+    .input(checkGlobalKeysSchema)
+    .query(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.checkGlobalKeys) {
+        UNSTABLE_HANDLER_CACHE.checkGlobalKeys = await import(
+          "./checkGlobalKeys.handler"
+        ).then((mod) => mod.checkForGlobalKeysHandler);
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.checkGlobalKeys) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.checkGlobalKeys) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.checkGlobalKeys({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.checkGlobalKeys({
+        ctx,
+        input,
+      });
+    }),
 });

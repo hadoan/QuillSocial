@@ -15,7 +15,10 @@ type UpdateHeadlineGeneratorOptions = {
   input: TGenerateHeadlineInputSchema;
 };
 
-export const generateHeadlineHandler = async ({ ctx, input }: UpdateHeadlineGeneratorOptions) => {
+export const generateHeadlineHandler = async ({
+  ctx,
+  input,
+}: UpdateHeadlineGeneratorOptions) => {
   const { user } = ctx;
   const id = user?.id || undefined;
   if (id) {

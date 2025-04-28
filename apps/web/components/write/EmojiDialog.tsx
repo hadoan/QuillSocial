@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import EmojiPicker from 'emoji-picker-react';
+import React, { useState } from "react";
+import EmojiPicker from "emoji-picker-react";
 import { Dialog, DialogContent, DialogFooter } from "@quillsocial/ui";
 
 interface EmojiDialogProps {
@@ -8,7 +8,11 @@ interface EmojiDialogProps {
   onSelectEmoji: (emoji: string | null) => void;
 }
 
-export const EmojiDialog: React.FC<EmojiDialogProps> = ({ open, onClose, onSelectEmoji }) => {
+export const EmojiDialog: React.FC<EmojiDialogProps> = ({
+  open,
+  onClose,
+  onSelectEmoji,
+}) => {
   const onEmojiClick = (emojiObject: any, event: MouseEvent) => {
     onSelectEmoji(emojiObject.emoji);
     onClose();
@@ -16,7 +20,7 @@ export const EmojiDialog: React.FC<EmojiDialogProps> = ({ open, onClose, onSelec
 
   return (
     <Dialog open={open} {...(onClose ? { onClose: onClose } : {})}>
-      <DialogContent style={{ width: '420px' }}>
+      <DialogContent style={{ width: "420px" }}>
         <div className="flex flex-col items-center">
           <div
             onClick={onClose}

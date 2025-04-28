@@ -31,7 +31,8 @@ const NavTabs = function ({
         sticky && "sticky top-0 -mt-7"
       )}
       aria-label="Tabs"
-      {...props}>
+      {...props}
+    >
       {/* padding top for sticky */}
       {sticky && <div className="pt-6" />}
       {props.children}

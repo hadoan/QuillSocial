@@ -1,15 +1,24 @@
 import { getLocaleFromHeaders } from "@quillsocial/lib/i18n";
 import prisma from "@quillsocial/prisma";
 import type { User as PrismaUser } from "@quillsocial/prisma/client";
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import type { Session } from "next-auth";
 import type { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
-type CreateContextOptions = CreateNextContextOptions | GetServerSidePropsContext;
+type CreateContextOptions =
+  | CreateNextContextOptions
+  | GetServerSidePropsContext;
 
-export const createContext = async ({ req, res }: CreateContextOptions, sessionGetter?: GetSessionFn) => {
+export const createContext = async (
+  { req, res }: CreateContextOptions,
+  sessionGetter?: GetSessionFn
+) => {
   const locale = getLocaleFromHeaders(req);
   const session = !!sessionGetter ? await sessionGetter({ req, res }) : null;
   const contextInner = await createContextInner({ locale, session });

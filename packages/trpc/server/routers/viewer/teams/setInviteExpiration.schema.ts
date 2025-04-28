@@ -5,4 +5,6 @@ export const ZSetInviteExpirationInputSchema = z.object({
   expiresInDays: z.number().optional(),
 });
 
-export type TSetInviteExpirationInputSchema = z.infer<typeof ZSetInviteExpirationInputSchema>;
+export type TSetInviteExpirationInputSchema = z.infer<
+  typeof ZSetInviteExpirationInputSchema
+>;

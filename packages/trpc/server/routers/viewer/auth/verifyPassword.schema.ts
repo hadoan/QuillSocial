@@ -4,4 +4,6 @@ export const ZVerifyPasswordInputSchema = z.object({
   passwordInput: z.string(),
 });
 
-export type TVerifyPasswordInputSchema = z.infer<typeof ZVerifyPasswordInputSchema>;
+export type TVerifyPasswordInputSchema = z.infer<
+  typeof ZVerifyPasswordInputSchema
+>;

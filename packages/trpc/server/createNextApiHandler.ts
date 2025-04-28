@@ -46,8 +46,11 @@ export function createNextApiHandler(router: AnyRouter, isPublic = false) {
         headers: {},
       };
 
-      const timezone = z.string().safeParse(ctx.req?.headers["x-vercel-ip-timezone"]);
-      if (timezone.success) defaultHeaders.headers["x-myapp-timezone"] = timezone.data;
+      const timezone = z
+        .string()
+        .safeParse(ctx.req?.headers["x-vercel-ip-timezone"]);
+      if (timezone.success)
+        defaultHeaders.headers["x-myapp-timezone"] = timezone.data;
 
       // We need all these conditions to be true to set cache headers
       if (!(isPublic && allOk && isQuery)) return defaultHeaders;
@@ -65,8 +68,11 @@ export function createNextApiHandler(router: AnyRouter, isPublic = false) {
           cityTimezones: `max-age=${ONE_DAY_IN_SECONDS}, stale-while-revalidate`,
         } as const;
 
-        const matchedPath = paths.find((v) => v in cacheRules) as keyof typeof cacheRules;
-        if (matchedPath) defaultHeaders.headers["cache-control"] = cacheRules[matchedPath];
+        const matchedPath = paths.find(
+          (v) => v in cacheRules
+        ) as keyof typeof cacheRules;
+        if (matchedPath)
+          defaultHeaders.headers["cache-control"] = cacheRules[matchedPath];
       }
 
       return defaultHeaders;

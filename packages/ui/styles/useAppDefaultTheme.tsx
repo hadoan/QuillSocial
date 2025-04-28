@@ -18,7 +18,10 @@ const useAppDefaultTheme = (theme: Record<string, CssVariables>) => {
       const nestedEntries = Object.entries(value);
       nestedEntries.forEach(([nestedKey, nestedValue]) => {
         elements.forEach((element) => {
-          (element as HTMLElement).style.setProperty(`--${nestedKey}`, nestedValue);
+          (element as HTMLElement).style.setProperty(
+            `--${nestedKey}`,
+            nestedValue
+          );
         });
       });
     });

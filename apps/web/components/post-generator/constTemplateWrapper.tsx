@@ -19,10 +19,10 @@ export interface InputTemplateProps {
 
 type InputTemplateComponent = React.FC<InputTemplateProps>;
 
-const InputTemplateCustom: React.FC<{ number: number; onInputData?: (data: InputData) => void }> = ({
-  number,
-  onInputData,
-}) => {
+const InputTemplateCustom: React.FC<{
+  number: number;
+  onInputData?: (data: InputData) => void;
+}> = ({ number, onInputData }) => {
   const components: { [key: number]: InputTemplateComponent } = {
     1: InputStartScratch,
     2: InputArticlePost,
@@ -44,7 +44,8 @@ export const templatesInfo = [
     code: "from-scratch",
     title: "Start from scratch",
     subtitle: "Generate Post from Scratch",
-    description: "Use the power of AI-generated content to create impactful LinkedIn posts.",
+    description:
+      "Use the power of AI-generated content to create impactful LinkedIn posts.",
     isNew: true,
     backgroundColor: "#94ecff",
   },
@@ -62,7 +63,8 @@ export const templatesInfo = [
     code: "book-learning",
     title: "Share learnings from a book",
     subtitle: "Share your learnings from a book",
-    description: "Share the learnings from a book and let AI create a post for you.",
+    description:
+      "Share the learnings from a book and let AI create a post for you.",
     isNew: false,
     backgroundColor: "#87ceeb",
   },
@@ -71,7 +73,8 @@ export const templatesInfo = [
     code: "valuable-tips",
     title: "Share valuable tips",
     subtitle: "Share tips on your topic of interest",
-    description: "Share the tips on your topic of interest and let AI create a post for you.",
+    description:
+      "Share the tips on your topic of interest and let AI create a post for you.",
     isNew: false,
     backgroundColor: "#90ee90",
   },
@@ -80,7 +83,8 @@ export const templatesInfo = [
     code: "recent-learning",
     title: "Share your recent learning",
     subtitle: "Share your recent learning",
-    description: "Share the details of your recent learning and let AI create a post for you.",
+    description:
+      "Share the details of your recent learning and let AI create a post for you.",
     isNew: false,
     backgroundColor: "#fac49d",
   },
@@ -89,7 +93,8 @@ export const templatesInfo = [
     code: "favourite-tool",
     title: "Share your favourite tool",
     subtitle: "Share your favourite tool",
-    description: "Share the details of your favourite tool and let AI create a post for you.",
+    description:
+      "Share the details of your favourite tool and let AI create a post for you.",
     isNew: false,
     backgroundColor: "#add8e6",
   },
@@ -98,7 +103,8 @@ export const templatesInfo = [
     code: "struggle",
     title: "Share your struggle",
     subtitle: "Share your recent struggle",
-    description: "Share the details of your recent struggle and let AI create a post for you.",
+    description:
+      "Share the details of your recent struggle and let AI create a post for you.",
     isNew: false,
     backgroundColor: "#ffcc99",
   },
@@ -107,7 +113,8 @@ export const templatesInfo = [
     code: "format-content",
     title: "Format your content",
     subtitle: "Format your content",
-    description: "Use the power of AI to format your clunky content into readable posts",
+    description:
+      "Use the power of AI to format your clunky content into readable posts",
     isNew: false,
     backgroundColor: "#f0e68c",
   },

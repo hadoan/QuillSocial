@@ -74,7 +74,9 @@ CustomError.getInitialProps = async (ctx: AugmentedNextPageContext) => {
     // Overrides http status code if present in errorInitialProps
     res.statusCode = errorInitialProps.statusCode;
 
-    log.debug(`server side logged this: ${err?.toString() ?? JSON.stringify(err)}`);
+    log.debug(
+      `server side logged this: ${err?.toString() ?? JSON.stringify(err)}`
+    );
     log.info("return props, ", errorInitialProps);
 
     return errorInitialProps;

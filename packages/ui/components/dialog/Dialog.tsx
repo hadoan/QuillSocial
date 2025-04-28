@@ -9,7 +9,9 @@ import React, { useState } from "react";
 import type { ButtonProps } from "../../components/button";
 import { Button } from "../../components/button";
 
-export type DialogProps = React.ComponentProps<(typeof DialogPrimitive)["Root"]> & {
+export type DialogProps = React.ComponentProps<
+  (typeof DialogPrimitive)["Root"]
+> & {
   name?: string;
   clearQueryParamsOnClose?: string[];
 };
@@ -20,7 +22,10 @@ export function Dialog(props: DialogProps) {
   const [open, setOpen] = useState(!!dialogProps.open);
 
   if (name) {
-    const clearQueryParamsOnClose = ["dialog", ...(props.clearQueryParamsOnClose || [])];
+    const clearQueryParamsOnClose = [
+      "dialog",
+      ...(props.clearQueryParamsOnClose || []),
+    ];
     dialogProps.onOpenChange = (open) => {
       if (props.onOpenChange) {
         props.onOpenChange(open);
@@ -54,9 +59,13 @@ export function Dialog(props: DialogProps) {
     }
   }
 
-  return <DialogPrimitive.Root {...dialogProps}>{children}</DialogPrimitive.Root>;
+  return (
+    <DialogPrimitive.Root {...dialogProps}>{children}</DialogPrimitive.Root>
+  );
 }
-type DialogContentProps = React.ComponentProps<(typeof DialogPrimitive)["Content"]> & {
+type DialogContentProps = React.ComponentProps<
+  (typeof DialogPrimitive)["Content"]
+> & {
   size?: "xl" | "lg" | "md";
   type?: "creation" | "confirmation";
   title?: string;
@@ -68,8 +77,14 @@ type DialogContentProps = React.ComponentProps<(typeof DialogPrimitive)["Content
 };
 
 // enableOverflow:- use this prop whenever content inside DialogContent could overflow and require scrollbar
-export const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
-  ({ children, title, Icon, enableOverflow, type = "creation", ...props }, forwardedRef) => {
+export const DialogContent = React.forwardRef<
+  HTMLDivElement,
+  DialogContentProps
+>(
+  (
+    { children, title, Icon, enableOverflow, type = "creation", ...props },
+    forwardedRef
+  ) => {
     return (
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fadeIn fixed inset-0 z-50 bg-neutral-800 bg-opacity-70 transition-opacity dark:bg-opacity-70 " />
@@ -88,7 +103,8 @@ export const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps
             enableOverflow ? "overflow-auto" : "overflow-visible",
             `${props.className || ""}`
           )}
-          ref={forwardedRef}>
+          ref={forwardedRef}
+        >
           {type === "creation" && (
             <div>
               <DialogHeader title={title} subtitle={props.description} />
@@ -125,10 +141,15 @@ export function DialogHeader(props: DialogHeaderProps) {
 
   return (
     <div className="mb-4">
-      <h3 className="leading-20 text-semibold font-quill text-emphasis pb-1 text-xl" id="modal-title">
+      <h3
+        className="leading-20 text-semibold font-quill text-emphasis pb-1 text-xl"
+        id="modal-title"
+      >
         {props.title}
       </h3>
-      {props.subtitle && <div className="text-subtle text-sm">{props.subtitle}</div>}
+      {props.subtitle && (
+        <div className="text-subtle text-sm">{props.subtitle}</div>
+      )}
     </div>
   );
 }
@@ -142,13 +163,19 @@ export function DialogFooter(props: {
   return (
     <div className={classNames("bg-default", props.className)}>
       {props.showDivider && (
-        <hr className={classNames("border-subtle absolute right-0 w-full", props.customDividerClassNames)} />
+        <hr
+          className={classNames(
+            "border-subtle absolute right-0 w-full",
+            props.customDividerClassNames
+          )}
+        />
       )}
       <div
         className={classNames(
           "flex justify-end space-x-2 pt-4 rtl:space-x-reverse",
           props.showDivider && "-mb-4"
-        )}>
+        )}
+      >
         {props.children}
       </div>
     </div>
@@ -173,8 +200,7 @@ export function DialogClose(
   return (
     <DialogPrimitive.Close asChild {...props.dialogCloseProps}>
       {/* This will require the i18n string passed in */}
-      <Button color={props.color || "minimal"} {...props}
-      >
+      <Button color={props.color || "minimal"} {...props}>
         {props.children ? props.children : t("Cancel")}
       </Button>
     </DialogPrimitive.Close>
@@ -194,8 +220,7 @@ export function DialogCloseConfirm(
   return (
     <DialogPrimitive.Close asChild {...props.dialogCloseProps}>
       {/* This will require the i18n string passed in */}
-      <Button 
-      className="text-white">
+      <Button className="text-white">
         {props.children ? props.children : t("Cancel")}
       </Button>
     </DialogPrimitive.Close>

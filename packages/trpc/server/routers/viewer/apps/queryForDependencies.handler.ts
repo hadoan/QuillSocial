@@ -11,10 +11,14 @@ type QueryForDependenciesOptions = {
   input: TQueryForDependenciesInputSchema;
 };
 
-export const queryForDependenciesHandler = async ({ ctx, input }: QueryForDependenciesOptions) => {
+export const queryForDependenciesHandler = async ({
+  ctx,
+  input,
+}: QueryForDependenciesOptions) => {
   if (!input) return;
 
-  const dependencyData: { name: string; slug: string; installed: boolean }[] = [];
+  const dependencyData: { name: string; slug: string; installed: boolean }[] =
+    [];
 
   await Promise.all(
     input.map(async (dependency) => {
@@ -27,7 +31,11 @@ export const queryForDependenciesHandler = async ({ ctx, input }: QueryForDepend
 
       const app = await getAppFromSlug(dependency);
 
-      dependencyData.push({ name: app?.name || dependency, slug: dependency, installed: !!appInstalled });
+      dependencyData.push({
+        name: app?.name || dependency,
+        slug: dependency,
+        installed: !!appInstalled,
+      });
     })
   );
 

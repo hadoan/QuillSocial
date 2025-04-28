@@ -59,19 +59,30 @@ export default function Login({
     .passthrough();
   const methods = useForm<LoginValues>({ resolver: zodResolver(formSchema) });
   const { register, formState } = methods;
-  const [twoFactorRequired, setTwoFactorRequired] = useState(!!totpEmail || false);
+  const [twoFactorRequired, setTwoFactorRequired] = useState(
+    !!totpEmail || false
+  );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const errorMessages: { [key: string]: string } = {
     // [ErrorCode.SecondFactorRequired]: t("2fa_enabled_instructions"),
     // Don't leak information about whether an email is registered or not
     [ErrorCode.IncorrectUsernamePassword]: t("incorrect_username_password"),
-    [ErrorCode.IncorrectTwoFactorCode]: `${t("incorrect_2fa_code")} ${t("please_try_again")}`,
-    [ErrorCode.InternalServerError]: `${t("something_went_wrong")} ${t("please_try_again_and_contact_us")}`,
-    [ErrorCode.ThirdPartyIdentityProviderEnabled]: t("account_created_with_identity_provider"),
+    [ErrorCode.IncorrectTwoFactorCode]: `${t("incorrect_2fa_code")} ${t(
+      "please_try_again"
+    )}`,
+    [ErrorCode.InternalServerError]: `${t("something_went_wrong")} ${t(
+      "please_try_again_and_contact_us"
+    )}`,
+    [ErrorCode.ThirdPartyIdentityProviderEnabled]: t(
+      "account_created_with_identity_provider"
+    ),
   };
 
-  let callbackUrl = typeof router.query?.callbackUrl === "string" ? router.query.callbackUrl : "";
+  let callbackUrl =
+    typeof router.query?.callbackUrl === "string"
+      ? router.query.callbackUrl
+      : "";
 
   if (/"\//.test(callbackUrl)) callbackUrl = callbackUrl.substring(1);
 
@@ -97,7 +108,8 @@ export default function Login({
         methods.setValue("totpCode", "");
       }}
       StartIcon={ArrowLeft}
-      color="minimal">
+      color="minimal"
+    >
       Go back
     </Button>
   );
@@ -107,7 +119,8 @@ export default function Login({
       onClick={() => {
         window.location.replace("/");
       }}
-      color="minimal">
+      color="minimal"
+    >
       Cancel
     </Button>
   );
@@ -123,7 +136,8 @@ export default function Login({
     // we're logged in! let's do a hard refresh to the desired url
     else if (!res.error) router.push(callbackUrl);
     // reveal two factor input if required
-    else if (res.error === ErrorCode.SecondFactorRequired) setTwoFactorRequired(true);
+    else if (res.error === ErrorCode.SecondFactorRequired)
+      setTwoFactorRequired(true);
     // fallback if error not found
     else setErrorMessage(errorMessages[res.error] || "Something went wrong.");
   };
@@ -139,7 +153,8 @@ export default function Login({
           "--quill-brand-text": "white",
           "--quill-brand-subtle": "#9CA3AF",
         } as CSSProperties
-      }>
+      }
+    >
       <AuthContainer
         title={t("login")}
         description={t("login")}
@@ -153,14 +168,28 @@ export default function Login({
             : process.env.NEXT_PUBLIC_DISABLE_SIGNUP !== "true"
             ? LoginFooter
             : null
-        }>
+        }
+      >
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)} noValidate data-testid="login-form">
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            noValidate
+            data-testid="login-form"
+          >
             <div>
-              <input defaultValue={csrfToken || undefined} type="hidden" hidden {...register("csrfToken")} />
+              <input
+                defaultValue={csrfToken || undefined}
+                type="hidden"
+                hidden
+                {...register("csrfToken")}
+              />
             </div>
             <div className="space-y-6">
-              <div className={classNames("space-y-6", { hidden: twoFactorRequired })}>
+              <div
+                className={classNames("space-y-6", {
+                  hidden: twoFactorRequired,
+                })}
+              >
                 <EmailField
                   id="email"
                   label={emailAddress}
@@ -181,7 +210,8 @@ export default function Login({
                     <Link
                       href="/auth/forgot-password"
                       tabIndex={-1}
-                      className="text-default text-sm font-medium">
+                      className="text-default text-sm font-medium"
+                    >
                       {t("forgot")}
                     </Link>
                   </div>
@@ -195,7 +225,8 @@ export default function Login({
                 type="submit"
                 color="primary"
                 disabled={formState.isSubmitting}
-                className="w-full justify-center text-white focus:outline-none focus:ring focus:ring-violet-300">
+                className="w-full justify-center text-white focus:outline-none focus:ring focus:ring-violet-300"
+              >
                 {twoFactorRequired ? t("submit") : t("sign_in")}
               </Button>
             </div>
@@ -253,7 +284,9 @@ export default function Login({
 }
 
 // TODO: Once we understand how to retrieve prop types automatically from getServerSideProps, remove this temporary variable
-const _getServerSideProps = async function getServerSideProps(context: GetServerSidePropsContext) {
+const _getServerSideProps = async function getServerSideProps(
+  context: GetServerSidePropsContext
+) {
   const { req, res } = context;
   const session = await getServerSession({ req, res });
   const ssr = await ssrInit(context);
@@ -285,7 +318,8 @@ const _getServerSideProps = async function getServerSideProps(context: GetServer
     } catch (e) {
       return {
         redirect: {
-          destination: "/auth/error?error=Invalid%20JWT%3A%20Please%20try%20again",
+          destination:
+            "/auth/error?error=Invalid%20JWT%3A%20Please%20try%20again",
           permanent: false,
         },
       };

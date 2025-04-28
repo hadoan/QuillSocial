@@ -3,7 +3,13 @@ import { ArrowUpDown, Pencil, Star } from "lucide-react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-import { Dialog, DialogContent, DialogFooter, Button, TextAreaField } from "@quillsocial/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  Button,
+  TextAreaField,
+} from "@quillsocial/ui";
 
 interface ModalWrapperProps {
   isOpen: boolean;
@@ -40,7 +46,9 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
 }) => {
   const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<{ content: string } | null>(
-    items.length > 0 && items[0]?.content ? { content: items[0]?.content } : null
+    items.length > 0 && items[0]?.content
+      ? { content: items[0]?.content }
+      : null
   );
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(TabType.All);
@@ -48,7 +56,11 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
   const [showRecomandData, setShowRecomandData] = useState(false);
 
   useEffect(() => {
-    if (itemsRecomend && itemsRecomend.length > 0 && itemsRecomend[0].content !== "") {
+    if (
+      itemsRecomend &&
+      itemsRecomend.length > 0 &&
+      itemsRecomend[0].content !== ""
+    ) {
       setDataRecomandIsNull(false);
     } else {
       setDataRecomandIsNull(true);
@@ -76,10 +88,20 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
         callBackModalAction(true, false, false, []);
         break;
       case ModalAction.Edit:
-        callBackModalAction(false, true, false, selectedItem ? [selectedItem] : []);
+        callBackModalAction(
+          false,
+          true,
+          false,
+          selectedItem ? [selectedItem] : []
+        );
         break;
       case ModalAction.Use:
-        callBackModalAction(false, false, true, selectedItem ? [selectedItem] : []);
+        callBackModalAction(
+          false,
+          false,
+          true,
+          selectedItem ? [selectedItem] : []
+        );
         break;
       default:
         break;
@@ -98,12 +120,15 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
           <div className="flex w-full justify-end">
             <div
               onClick={() => onClose()}
-              className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+              className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+            >
               X
             </div>
           </div>
           <div className="flex items-center  justify-start">
-            <div className="text-center text-[20px] font-bold">Select format</div>
+            <div className="text-center text-[20px] font-bold">
+              Select format
+            </div>
           </div>
           <div className="flex gap-2">
             {!dataRecomandIsNull && (
@@ -114,8 +139,11 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
                   setSelectedItem(itemsRecomend[0]);
                 }}
                 className={`rounded-2xl hover:text-white ${
-                  activeTab === TabType.Recommend ? "bg-awst" : "text-dark border bg-white"
-                }`}>
+                  activeTab === TabType.Recommend
+                    ? "bg-awst"
+                    : "text-dark border bg-white"
+                }`}
+              >
                 <span className="-ml-2 mr-1 flex h-4 w-4 items-center justify-center text-yellow-400">
                   <Star />
                 </span>
@@ -150,7 +178,8 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
                         StartIcon={ArrowUpDown}
                         onClick={handleShuffleClick}
                         type="button"
-                        className="shadow-xs mt-[1px] inline-flex items-center justify-center  gap-1 rounded-full bg-white py-2 text-xs font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 hover:text-gray-900">
+                        className="shadow-xs mt-[1px] inline-flex items-center justify-center  gap-1 rounded-full bg-white py-2 text-xs font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 hover:text-gray-900"
+                      >
                         Shuffle Formats
                       </Button>
                     </div>
@@ -159,13 +188,19 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
                         key={index}
                         className={`item-center flex h-[80px] flex-col justify-center p-2 ${
                           index === 0 ? "font-semibold" : ""
-                        } ${selectedItemIndex === index ? "border-r-4 border-blue-600 bg-teal-50" : ""}`}
+                        } ${
+                          selectedItemIndex === index
+                            ? "border-r-4 border-blue-600 bg-teal-50"
+                            : ""
+                        }`}
                         onClick={() => handleItemClick(index)}
                         style={
-                          index === dataToRender.length - 1 && dataToRender.length > 5
+                          index === dataToRender.length - 1 &&
+                          dataToRender.length > 5
                             ? { borderRadius: "0 0 0 8px" }
                             : { borderBottom: "1px solid #ccc" }
-                        }>
+                        }
+                      >
                         <div className="my-2 mt-1 text-sm font-bold text-gray-600">
                           {item.content.slice(0, 60)}
                         </div>
@@ -181,12 +216,14 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
                     {selectedItem ? (
                       <div>
                         <div className="h-[420px] overflow-y-auto p-2 text-sm">
-                          {selectedItem.content.split("\n").map((line, index) => (
-                            <React.Fragment key={index}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
+                          {selectedItem.content
+                            .split("\n")
+                            .map((line, index) => (
+                              <React.Fragment key={index}>
+                                {line}
+                                <br />
+                              </React.Fragment>
+                            ))}
                         </div>
                       </div>
                     ) : (
@@ -207,7 +244,8 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
                         onClick={() => {
                           handleActionButton(ModalAction.Use);
                         }}
-                        className="mr-2 rounded-2xl">
+                        className="mr-2 rounded-2xl"
+                      >
                         Use Post Format
                       </Button>
                     </div>
@@ -218,14 +256,24 @@ const ModalSelectFormat: React.FC<ModalWrapperProps> = ({
           ) : (
             <div className="mt-5 flex min-h-[500px] w-full items-center  justify-center rounded-2xl border">
               <div className="flex flex-col items-center justify-center">
-                <img src="/empty-drafts.svg" className="h-[200px] w-[200px]"></img>
-                <span className="font-bold"> There is no custom post formats created!</span>
-                <span className="text-sm"> Create a new custom post format to make your work fast </span>
+                <img
+                  src="/empty-drafts.svg"
+                  className="h-[200px] w-[200px]"
+                ></img>
+                <span className="font-bold">
+                  {" "}
+                  There is no custom post formats created!
+                </span>
+                <span className="text-sm">
+                  {" "}
+                  Create a new custom post format to make your work fast{" "}
+                </span>
                 <Button
                   className="mt-5"
                   onClick={() => {
                     handleActionButton(ModalAction.New);
-                  }}>
+                  }}
+                >
                   Create Post Format
                 </Button>
               </div>

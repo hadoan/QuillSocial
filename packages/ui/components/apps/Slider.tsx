@@ -40,13 +40,18 @@ export const Slider = <T extends string | unknown>({
           {isLocaleReady ? (
             title && (
               <div>
-                <h2 className="text-emphasis mt-0 text-base font-semibold leading-none">{title}</h2>
+                <h2 className="text-emphasis mt-0 text-base font-semibold leading-none">
+                  {title}
+                </h2>
               </div>
             )
           ) : (
             <SkeletonText className="h-4 w-24" />
           )}
-          <div className="glide__arrows ml-auto flex items-center gap-x-1" data-glide-el="controls">
+          <div
+            className="glide__arrows ml-auto flex items-center gap-x-1"
+            data-glide-el="controls"
+          >
             <SliderButton data-glide-dir="<">
               <ArrowLeft className="h-5 w-5" />
             </SliderButton>

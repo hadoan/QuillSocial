@@ -7,7 +7,10 @@ export async function checkRateLimitAndThrowError({
   rateLimitingType = "core",
   identifier,
 }: RateLimitHelper) {
-  const { remaining, reset } = await rateLimiter()({ rateLimitingType, identifier });
+  const { remaining, reset } = await rateLimiter()({
+    rateLimitingType,
+    identifier,
+  });
 
   if (remaining < 0) {
     const convertToSeconds = (ms: number) => Math.floor(ms / 1000);

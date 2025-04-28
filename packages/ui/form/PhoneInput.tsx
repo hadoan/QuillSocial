@@ -16,7 +16,12 @@ export type PhoneInputProps = {
   onChange: (value: string) => void;
 };
 
-function BasePhoneInput({ name, className = "", onChange, ...rest }: PhoneInputProps) {
+function BasePhoneInput({
+  name,
+  className = "",
+  onChange,
+  ...rest
+}: PhoneInputProps) {
   useEffect(() => {
     if (!rest.value) {
       return;
@@ -74,7 +79,9 @@ const useDefaultCountry = () => {
     onSuccess: (data) => {
       isSupportedCountry(data?.countryCode)
         ? setDefaultCountry(data.countryCode.toLowerCase())
-        : setDefaultCountry(navigator.language.split("-")[1]?.toLowerCase() || "us");
+        : setDefaultCountry(
+            navigator.language.split("-")[1]?.toLowerCase() || "us"
+          );
     },
   });
 

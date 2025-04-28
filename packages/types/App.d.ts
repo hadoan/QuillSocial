@@ -27,7 +27,9 @@ type DynamicLinkBasedEventLocation = {
   organizerInputPlaceholder?: null;
 } & CommonProperties;
 
-export type EventLocationTypeFromAppMeta = StaticLinkBasedEventLocation | DynamicLinkBasedEventLocation;
+export type EventLocationTypeFromAppMeta =
+  | StaticLinkBasedEventLocation
+  | DynamicLinkBasedEventLocation;
 
 type AppData = {
   location?: EventLocationTypeFromAppMeta;

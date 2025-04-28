@@ -1,4 +1,3 @@
-
 import { GenerateHeadlineAboutResponse } from "../types/GenerateHeadlineAboutResponse";
 import { getChatCompletions } from "./getChatCompletions";
 
@@ -32,7 +31,10 @@ const getMessageTexts = (cv: string): any[] => {
 };
 
 export const generateHeadline = async (userId: number, cv: string) => {
-  const { chatCompletion: chatResponse } = await getChatCompletions(userId, getPrompt(cv));
+  const { chatCompletion: chatResponse } = await getChatCompletions(
+    userId,
+    getPrompt(cv)
+  );
 
   if (chatResponse && chatResponse.choices && chatResponse.choices.length > 0) {
     var content = chatResponse?.choices[0]?.message?.content!;

@@ -17,7 +17,8 @@ export async function getStripeCustomerIdFromUserId(userId: number) {
     },
   });
 
-  if (!user?.email) throw new HttpCode({ statusCode: 404, message: "User email not found" });
+  if (!user?.email)
+    throw new HttpCode({ statusCode: 404, message: "User email not found" });
 
   const customerId = await getStripeCustomerId(user);
   return customerId;
@@ -34,8 +35,13 @@ type UserType = Prisma.UserGetPayload<typeof userType>;
 /** This will retrieve the customer ID from Stripe or create it if it doesn't exists yet. */
 export async function getStripeCustomerId(user: UserType): Promise<string> {
   let customerId: string | null = null;
-  if (user?.metadata && typeof user.metadata === "object" && "stripeCustomerId" in user.metadata) {
-    customerId = (user?.metadata as Prisma.JsonObject).stripeCustomerId as string;
+  if (
+    user?.metadata &&
+    typeof user.metadata === "object" &&
+    "stripeCustomerId" in user.metadata
+  ) {
+    customerId = (user?.metadata as Prisma.JsonObject)
+      .stripeCustomerId as string;
   } else {
     /* We fallback to finding the customer by email (which is not optimal) */
     const customersResponse = await stripe.customers.list({
@@ -65,7 +71,9 @@ export async function getStripeCustomerId(user: UserType): Promise<string> {
   return customerId;
 }
 
-export async function deleteStripeCustomer(user: UserType): Promise<string | null> {
+export async function deleteStripeCustomer(
+  user: UserType
+): Promise<string | null> {
   const customerId = await getStripeCustomerId(user);
 
   if (!customerId) {
@@ -79,7 +87,10 @@ export async function deleteStripeCustomer(user: UserType): Promise<string | nul
   return deletedCustomer.id;
 }
 
-export async function retrieveOrCreateStripeCustomerByEmail(email: string, stripeAccountId: string) {
+export async function retrieveOrCreateStripeCustomerByEmail(
+  email: string,
+  stripeAccountId: string
+) {
   const customer = await stripe.customers.list(
     {
       email,

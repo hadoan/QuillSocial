@@ -31,7 +31,12 @@ export const listHandler = async ({ ctx, input }: ListOptions) => {
       where.AND?.push({ eventTypeId: input.eventTypeId });
     } else {
       where.AND?.push({
-        OR: [{ userId: ctx.user.id }, { teamId: { in: user?.teams.map((membership) => membership.teamId) } }],
+        OR: [
+          { userId: ctx.user.id },
+          {
+            teamId: { in: user?.teams.map((membership) => membership.teamId) },
+          },
+        ],
       });
     }
   }

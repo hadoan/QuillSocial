@@ -27,7 +27,9 @@ const UserSettings = (props: IUserSettingsProps) => {
       .string()
       .min(1)
       .max(FULL_NAME_LENGTH_MAX_LIMIT, {
-        message: t("max_limit_allowed_hint", { limit: FULL_NAME_LENGTH_MAX_LIMIT }),
+        message: t("max_limit_allowed_hint", {
+          limit: FULL_NAME_LENGTH_MAX_LIMIT,
+        }),
       }),
   });
   const {
@@ -62,10 +64,13 @@ const UserSettings = (props: IUserSettingsProps) => {
     <form onSubmit={onSubmit}>
       <div className="space-y-6">
         {/* Username textfield: when not coming from signup */}
-       
+
         {/* Full name textfield */}
         <div className="w-full">
-          <label htmlFor="name" className="text-default mb-2 block text-sm font-medium">
+          <label
+            htmlFor="name"
+            className="text-default mb-2 block text-sm font-medium"
+          >
             {t("full_name")}
           </label>
           <input
@@ -87,7 +92,10 @@ const UserSettings = (props: IUserSettingsProps) => {
         </div>
         {/* Timezone select field */}
         <div className="w-full">
-          <label htmlFor="timeZone" className="text-default block text-sm font-medium">
+          <label
+            htmlFor="timeZone"
+            className="text-default block text-sm font-medium"
+          >
             {t("timezone")}
           </label>
 
@@ -99,14 +107,16 @@ const UserSettings = (props: IUserSettingsProps) => {
           />
 
           <p className="text-subtle dark:text-inverted mt-3 flex flex-row font-sans text-xs leading-tight">
-            {t("current_time")} {dayjs().tz(selectedTimeZone).format("LT").toString().toLowerCase()}
+            {t("current_time")}{" "}
+            {dayjs().tz(selectedTimeZone).format("LT").toString().toLowerCase()}
           </p>
         </div>
       </div>
       <Button
         disabled={mutation.isLoading}
         type="submit"
-        className="mt-8 flex w-full flex-row justify-center text-white">
+        className="mt-8 flex w-full flex-row justify-center text-white"
+      >
         {t("next_step_text")}
         <ArrowRight className="ml-2 h-4 w-4 self-center" aria-hidden="true" />
       </Button>

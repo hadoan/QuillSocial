@@ -2,7 +2,10 @@ import { isENVDev } from "@quillsocial/lib/env";
 import type SendmailTransport from "nodemailer/lib/sendmail-transport";
 import type SMTPConnection from "nodemailer/lib/smtp-connection";
 
-function detectTransport(): SendmailTransport.Options | SMTPConnection.Options | string {
+function detectTransport():
+  | SendmailTransport.Options
+  | SMTPConnection.Options
+  | string {
   if (process.env.EMAIL_SERVER) {
     return process.env.EMAIL_SERVER;
   }

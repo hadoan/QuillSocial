@@ -4,7 +4,13 @@ import React from "react";
 import { getConditionToUpgrade } from "@quillsocial/features/payments/getConditionToUpgrade";
 import { BillingType } from "@quillsocial/prisma/client";
 import { trpc } from "@quillsocial/trpc/react";
-import { Dialog as AccessDialog, DialogContent, DialogFooter, showToast, Button } from "@quillsocial/ui";
+import {
+  Dialog as AccessDialog,
+  DialogContent,
+  DialogFooter,
+  showToast,
+  Button,
+} from "@quillsocial/ui";
 
 interface ModalUpgradeProps {
   isOpen: boolean;
@@ -27,7 +33,10 @@ const ModalUpgrade: React.FC<ModalUpgradeProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
         <DialogFooter className=" mt-6 flex items-center justify-center">
-          <Button className="bg-default hover:bg-awstbgbt hover:text-awst text-awst" onClick={onClose}>
+          <Button
+            className="bg-default hover:bg-awstbgbt hover:text-awst text-awst"
+            onClick={onClose}
+          >
             Close
           </Button>
           <Button type="submit" className="text-white" onClick={handleUpgrade}>
@@ -40,8 +49,10 @@ const ModalUpgrade: React.FC<ModalUpgradeProps> = ({ isOpen, onClose }) => {
 };
 
 export const checkConditionPublishPost = () => {
-  const currentBillingQuery = trpc.viewer.billings.getCurrentUserBilling.useQuery();
-  const getCountSocial = trpc.viewer.socials.getSocialConditionsForBilling.useQuery();
+  const currentBillingQuery =
+    trpc.viewer.billings.getCurrentUserBilling.useQuery();
+  const getCountSocial =
+    trpc.viewer.socials.getSocialConditionsForBilling.useQuery();
   const checkCondition = getConditionToUpgrade(
     getCountSocial.data,
     currentBillingQuery.data?.type ?? BillingType.FREE_TIER

@@ -47,7 +47,11 @@ export const getSocialHanlder = async ({ ctx }: GetSocialOptions) => {
   } else {
     const listCredentials: any[] = [];
     credentials.forEach((credential) => {
-      if (credential.appId === "x-social" || !credential.pageInfoes || credential.pageInfoes.length == 0) {
+      if (
+        credential.appId === "x-social" ||
+        !credential.pageInfoes ||
+        credential.pageInfoes.length == 0
+      ) {
         listCredentials.push(credential);
       } else {
         const pageCredentials = credential.pageInfoes.map((p) => ({
@@ -59,7 +63,9 @@ export const getSocialHanlder = async ({ ctx }: GetSocialOptions) => {
             credential.appId === "facebook-social"
               ? (p.info as any)?.picture?.data?.url ?? credential.avatarUrl
               : credential.avatarUrl,
-          isUserCurrentProfile: credential.isUserCurrentProfile ? p.id === credential.currentPageId : false,
+          isUserCurrentProfile: credential.isUserCurrentProfile
+            ? p.id === credential.currentPageId
+            : false,
         }));
         listCredentials.push(...pageCredentials);
       }

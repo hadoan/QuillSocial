@@ -17,7 +17,8 @@ type UpdateOptions = {
 };
 
 export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
-  if (!(await isTeamAdmin(ctx.user?.id, input.id))) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!(await isTeamAdmin(ctx.user?.id, input.id)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
 
   if (input.slug) {
     const userConflict = await prisma.team.findMany({
@@ -34,7 +35,8 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     },
   });
 
-  if (!prevTeam) throw new TRPCError({ code: "NOT_FOUND", message: "Team not found." });
+  if (!prevTeam)
+    throw new TRPCError({ code: "NOT_FOUND", message: "Team not found." });
 
   const data: Prisma.TeamUpdateArgs["data"] = {
     name: input.name,
@@ -74,5 +76,4 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     where: { id: input.id },
     data,
   });
-
 };

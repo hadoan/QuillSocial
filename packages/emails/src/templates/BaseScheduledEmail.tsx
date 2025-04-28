@@ -38,7 +38,9 @@ export const BaseScheduledEmail = (
     name: props.calEvent.team?.name || props.calEvent.organizer.name,
     date: `${getRecipientStart("h:mma")} - ${getRecipientEnd("h:mma")}, ${t(
       getRecipientStart("dddd").toLowerCase()
-    )}, ${t(getRecipientStart("MMMM").toLowerCase())} ${getRecipientStart("D, YYYY")}`,
+    )}, ${t(getRecipientStart("MMMM").toLowerCase())} ${getRecipientStart(
+      "D, YYYY"
+    )}`,
   });
 
   return (
@@ -52,10 +54,11 @@ export const BaseScheduledEmail = (
           ? "your_event_has_been_scheduled_recurring"
           : "your_event_has_been_scheduled"
       )}
-      callToAction={
-        props.callToAction
+      callToAction={props.callToAction}
+      subtitle={
+        props.subtitle || <>{t("emailed_you_and_any_other_attendees")}</>
       }
-      subtitle={props.subtitle || <>{t("emailed_you_and_any_other_attendees")}</>}>
+    >
       {props.calEvent.cancellationReason && (
         <Info
           label={t(
@@ -64,22 +67,40 @@ export const BaseScheduledEmail = (
               : "cancellation_reason"
           )}
           description={
-            !!props.calEvent.cancellationReason && props.calEvent.cancellationReason.replace("$RCH$", "")
+            !!props.calEvent.cancellationReason &&
+            props.calEvent.cancellationReason.replace("$RCH$", "")
           } // Removing flag to distinguish reschedule from cancellation
           withSpacer
         />
       )}
-      <Info label={t("rejection_reason")} description={props.calEvent.rejectionReason} withSpacer />
+      <Info
+        label={t("rejection_reason")}
+        description={props.calEvent.rejectionReason}
+        withSpacer
+      />
       <Info label={t("what")} description={props.calEvent.title} withSpacer />
-      
+
       {/* <WhoInfo calEvent={props.calEvent} t={t} /> */}
-      <Info label={t("description")} description={props.calEvent.description} withSpacer formatted />
-      <Info label={t("additional_notes")} description={props.calEvent.additionalNotes} withSpacer />
+      <Info
+        label={t("description")}
+        description={props.calEvent.description}
+        withSpacer
+        formatted
+      />
+      <Info
+        label={t("additional_notes")}
+        description={props.calEvent.additionalNotes}
+        withSpacer
+      />
       {/* {props.includeAppsStatus && <AppsStatus calEvent={props.calEvent} t={t} />} */}
       <UserFieldsResponses calEvent={props.calEvent} />
       {props.calEvent.paymentInfo?.amount && (
         <Info
-          label={props.calEvent.paymentInfo?.paymentOption === "HOLD" ? t("no_show_fee") : t("price")}
+          label={
+            props.calEvent.paymentInfo?.paymentOption === "HOLD"
+              ? t("no_show_fee")
+              : t("price")
+          }
           description={new Intl.NumberFormat(props.attendee.language.locale, {
             style: "currency",
             currency: props.calEvent.paymentInfo?.currency || "USD",

@@ -19,9 +19,7 @@ export const paymentsRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { prisma } = ctx;
 
-     
       try {
-       
       } catch (err) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",

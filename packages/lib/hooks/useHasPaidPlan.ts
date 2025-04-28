@@ -6,10 +6,13 @@ import hasKeyInMetadata from "../hasKeyInMetadata";
 export function useHasPaidPlan() {
   if (IS_SELF_HOSTED) return { isLoading: false, hasPaidPlan: true };
 
-  const { data: user, isLoading: isLoadingUserQuery } = trpc.viewer.me.useQuery();
+  const { data: user, isLoading: isLoadingUserQuery } =
+    trpc.viewer.me.useQuery();
 
   const isCurrentUsernamePremium =
-    user && hasKeyInMetadata(user, "isPremium") ? !!user.metadata.isPremium : false;
+    user && hasKeyInMetadata(user, "isPremium")
+      ? !!user.metadata.isPremium
+      : false;
 
   return { isLoading: false, hasPaidPlan: false };
 }

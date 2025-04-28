@@ -1,13 +1,18 @@
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { useId } from "@radix-ui/react-id";
-import { Root as ToggleGroupPrimitive, Item as ToggleGroupItemPrimitive } from "@radix-ui/react-toggle-group";
+import {
+  Root as ToggleGroupPrimitive,
+  Item as ToggleGroupItemPrimitive,
+} from "@radix-ui/react-toggle-group";
 import { useState } from "react";
 
 import { Label } from "../../../components/form/inputs/Label";
 
-const boolean = (yesNo: "yes" | "no") => (yesNo === "yes" ? true : yesNo === "no" ? false : undefined);
-const yesNo = (boolean?: boolean) => (boolean === true ? "yes" : boolean === false ? "no" : undefined);
+const boolean = (yesNo: "yes" | "no") =>
+  yesNo === "yes" ? true : yesNo === "no" ? false : undefined;
+const yesNo = (boolean?: boolean) =>
+  boolean === true ? "yes" : boolean === false ? "no" : undefined;
 
 type VariantStyles = {
   commonClass?: string;
@@ -44,7 +49,9 @@ export const BooleanToggleGroup = function BooleanToggleGroup({
 }) {
   // Maintain a state because it is not necessary that onValueChange the parent component would re-render. Think react-hook-form
   // Also maintain a string as boolean isn't accepted as ToggleGroupPrimitive value
-  const [yesNoValue, setYesNoValue] = useState<"yes" | "no" | undefined>(yesNo(value));
+  const [yesNoValue, setYesNoValue] = useState<"yes" | "no" | undefined>(
+    yesNo(value)
+  );
 
   if (!yesNoValue) {
     setYesNoValue(yesNo(defaultValue));
@@ -58,7 +65,10 @@ export const BooleanToggleGroup = function BooleanToggleGroup({
   );
 
   const selectedClass = classNames(commonClass, "bg-emphasis  text-emphasis");
-  const unselectedClass = classNames(commonClass, "text-default hover:bg-subtle hover:text-emphasis");
+  const unselectedClass = classNames(
+    commonClass,
+    "text-default hover:bg-subtle hover:text-emphasis"
+  );
   return (
     <ToggleGroupPrimitive
       value={yesNoValue}
@@ -72,18 +82,25 @@ export const BooleanToggleGroup = function BooleanToggleGroup({
         setYesNoValue(yesNoValue);
         onValueChange(boolean(yesNoValue));
       }}
-      {...passThrough}>
+      {...passThrough}
+    >
       <ToggleGroupItemPrimitive
-        className={classNames(boolean(yesNoValue) ? selectedClass : unselectedClass)}
+        className={classNames(
+          boolean(yesNoValue) ? selectedClass : unselectedClass
+        )}
         disabled={disabled}
-        value="yes">
+        value="yes"
+      >
         Yes
       </ToggleGroupItemPrimitive>
 
       <ToggleGroupItemPrimitive
         disabled={disabled}
-        className={classNames(!boolean(yesNoValue) ? selectedClass : unselectedClass)}
-        value="no">
+        className={classNames(
+          !boolean(yesNoValue) ? selectedClass : unselectedClass
+        )}
+        value="no"
+      >
         No
       </ToggleGroupItemPrimitive>
     </ToggleGroupPrimitive>
@@ -101,13 +118,23 @@ export const BooleanToggleGroupField = function BooleanToggleGroupField(
   }
 ) {
   const { t } = useLocale();
-  const { label = t(props.name || ""), containerClassName, labelProps, className, ...passThrough } = props;
+  const {
+    label = t(props.name || ""),
+    containerClassName,
+    labelProps,
+    className,
+    ...passThrough
+  } = props;
   const id = useId();
   return (
     <div className={classNames(containerClassName)}>
       <div className={className}>
         {!!label && (
-          <Label htmlFor={id} {...labelProps} className={classNames(props.error && "text-error", "mt-4")}>
+          <Label
+            htmlFor={id}
+            {...labelProps}
+            className={classNames(props.error && "text-error", "mt-4")}
+          >
             {label}
           </Label>
         )}

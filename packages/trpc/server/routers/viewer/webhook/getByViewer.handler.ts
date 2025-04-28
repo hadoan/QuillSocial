@@ -80,7 +80,9 @@ export const getByViewerHandler = async ({ ctx }: GetByViewerOptions) => {
   const userWebhooks = user.webhooks;
   let webhookGroups: WebhookGroup[] = [];
 
-  const image = user?.username ? `${MY_APP_URL}/${user.username}/avatar.png` : undefined;
+  const image = user?.username
+    ? `${MY_APP_URL}/${user.username}/avatar.png`
+    : undefined;
   webhookGroups.push({
     teamId: null,
     profile: {
@@ -135,7 +137,9 @@ export const getByViewerHandler = async ({ ctx }: GetByViewerOptions) => {
   webhookGroups = webhookGroups.concat(teamWebhookGroups);
 
   return {
-    webhookGroups: webhookGroups.filter((groupBy) => !!groupBy.webhooks?.length),
+    webhookGroups: webhookGroups.filter(
+      (groupBy) => !!groupBy.webhooks?.length
+    ),
     profiles: webhookGroups.map((group) => ({
       teamId: group.teamId,
       ...group.profile,

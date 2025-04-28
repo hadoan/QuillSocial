@@ -4,10 +4,13 @@ import { Button, HeadSeo } from "@quillsocial/ui";
 import { debounce } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { HorizontalTabs } from "@quillsocial/ui";
-import type { VerticalTabItemProps, HorizontalTabItemProps } from "@quillsocial/ui";
+import type {
+  VerticalTabItemProps,
+  HorizontalTabItemProps,
+} from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import PageWrapper from "@components/PageWrapper";
-import { Pencil, Trash, } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
 import dayjs from "@quillsocial/dayjs";
 import { Dialog, DialogContent } from "@quillsocial/ui";
 import useMeQuery from "@lib/hooks/useMeQuery";
@@ -17,17 +20,17 @@ const tabs: (VerticalTabItemProps | HorizontalTabItemProps)[] = [
   {
     name: "Drafts",
     href: "/post/all",
-    number: '0'
+    number: "0",
   },
   {
     name: "Posts",
     href: "/post/posted",
-    number: '12'
+    number: "12",
   },
   {
     name: "Scheduled",
     href: "/post/scheduled",
-    number: '4'
+    number: "4",
   },
 ];
 
@@ -58,7 +61,7 @@ const PostPage = () => {
   }, [user?.currentSocialProfile?.credentialId]);
 
   useEffect(() => {
-    setIdea(router.query.page as string || 'all');
+    setIdea((router.query.page as string) || "all");
   }, [router.query.page]);
 
   useEffect(() => {
@@ -68,13 +71,16 @@ const PostPage = () => {
   const generatePosts = async () => {
     if (credentialId) {
       setIsLoading(true);
-      const response = await fetch(`/api/my-content/getContent?idea=${idea}&credentialId=${credentialId}`, {
-        credentials: "include",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `/api/my-content/getContent?idea=${idea}&credentialId=${credentialId}`,
+        {
+          credentials: "include",
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       if (typeof data === "object" && data !== null) {
         if (Array.isArray(data)) {
@@ -88,7 +94,7 @@ const PostPage = () => {
               emailOrUserName: x.credential?.emailOrUserName,
               credentialId: x.credential?.id,
               createdDate: x.createdDate,
-              schedulePostDate: x.schedulePostDate
+              schedulePostDate: x.schedulePostDate,
             };
           });
           setProcessedPosts(processedPosts);
@@ -101,7 +107,12 @@ const PostPage = () => {
   return (
     <>
       <HeadSeo title={t("Posts")} description={""} />
-      <Shell withoutSeo heading={`Posts`} title="Here are your Posts" hideHeadingOnMobile>
+      <Shell
+        withoutSeo
+        heading={`Posts`}
+        title="Here are your Posts"
+        hideHeadingOnMobile
+      >
         <div className="w-[282px]">
           {" "}
           <HorizontalTabs tabs={tabs} />{" "}
@@ -112,9 +123,13 @@ const PostPage = () => {
               {processedPosts.map((post) => (
                 <article
                   key={post?.id}
-                  className="cursor-pointer relative isolate flex flex-col overflow-hidden rounded-2xl bg-white px-8 py-8  shadow ">
+                  className="cursor-pointer relative isolate flex flex-col overflow-hidden rounded-2xl bg-white px-8 py-8  shadow "
+                >
                   <div className="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                    <svg
+                      viewBox="0 0 2 2"
+                      className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+                    >
                       <circle cx={1} cy={1} r={1} />
                     </svg>
                     <div className="flex gap-x-2.5">
@@ -129,13 +144,23 @@ const PostPage = () => {
                       </div>
                     </div>
                   </div>
-                  {(router.query.page === "scheduled") ? (<div className="text-[13px] mt-[5px] leading-6 text-awst">
-                    <span>Published on: {dayjs(post.schedulePostDate).format('YYYY-MM-DD HH:mm')}</span>
-                  </div>) : <div className="mt-[5px] flex flex-col">
-                    <p className="text-[13px]">{" Last edited Dec 29, 2023, 11:34 AM•"}</p>
-                    <p className="text-[13px]">{"566 characters"}</p>
-                  </div>
-                  }
+                  {router.query.page === "scheduled" ? (
+                    <div className="text-[13px] mt-[5px] leading-6 text-awst">
+                      <span>
+                        Published on:{" "}
+                        {dayjs(post.schedulePostDate).format(
+                          "YYYY-MM-DD HH:mm"
+                        )}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="mt-[5px] flex flex-col">
+                      <p className="text-[13px]">
+                        {" Last edited Dec 29, 2023, 11:34 AM•"}
+                      </p>
+                      <p className="text-[13px]">{"566 characters"}</p>
+                    </div>
+                  )}
                   <h3 className="mt-3 text-left text-sm h-[120px] overflow-y-auto">
                     <a>
                       <span className="absolute inset-0 text-left" />
@@ -143,13 +168,15 @@ const PostPage = () => {
                     </a>
                   </h3>
                   <div className="mt-auto ">
-                    <div className="mt-3 flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-500">
-                    </div>
+                    <div className="mt-3 flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-500"></div>
                     <div className="mt-3 flex gap-[10px] pt-5">
                       <div className="flex flex-grow">
-                      <Button onClick={()=>router.push(`/write/${post.id}}`)} className="w-full bg-white border hover:text-white text-dark flex rounded-lg justify-center items-center">
+                        <Button
+                          onClick={() => router.push(`/write/${post.id}}`)}
+                          className="w-full bg-white border hover:text-white text-dark flex rounded-lg justify-center items-center"
+                        >
                           <Pencil className="h-[15px] w-[15px]" />
-                      </Button>
+                        </Button>
                       </div>
                       <div className="flex flex-grow">
                         <Button className="w-full bg-white border hover:text-white text-dark flex rounded-lg justify-center items-center">
@@ -167,8 +194,11 @@ const PostPage = () => {
                       <div className="text-center">
                         <svg
                           className="bg-awst text-awst mx-auto mb-3 h-8 w-8 animate-spin"
-                          viewBox="0 0 24 24"></svg>
-                        <p className="text-default ml-2 text-[16px]">Loading...</p>
+                          viewBox="0 0 24 24"
+                        ></svg>
+                        <p className="text-default ml-2 text-[16px]">
+                          Loading...
+                        </p>
                       </div>
                     </DialogContent>
                   </Dialog>

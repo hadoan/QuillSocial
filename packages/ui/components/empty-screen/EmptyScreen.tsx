@@ -35,19 +35,24 @@ export function EmptyScreen({
         className={classNames(
           "select-none flex flex-col items-center justify-center rounded-lg p-7 lg:p-20",
           border && "border-subtle border",
-          dashedBorder && "border-dashed",
-        )}>
+          dashedBorder && "border-dashed"
+        )}
+      >
         {!Icon ? null : (
           <div className="bg-emphasis flex h-[72px] w-[72px] items-center justify-center rounded-full">
             <Icon className="text-default  h-10 w-10" />
           </div>
         )}
         <div className="flex max-w-[420px] flex-col items-center justify-center">
-          <h2 className="text-semibold font-quill text-emphasis mt-6 text-center text-xl">{headline}</h2>
+          <h2 className="text-semibold font-quill text-emphasis mt-6 text-center text-xl">
+            {headline}
+          </h2>
           <div className="text-default mb-8 mt-3 text-center text-sm font-normal leading-6">
             {description}
           </div>
-          {buttonOnClick && buttonText && <Button onClick={(e) => buttonOnClick(e)}>{buttonText}</Button>}
+          {buttonOnClick && buttonText && (
+            <Button onClick={(e) => buttonOnClick(e)}>{buttonText}</Button>
+          )}
           {buttonRaw}
         </div>
       </div>

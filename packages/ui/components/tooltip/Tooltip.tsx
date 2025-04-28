@@ -25,7 +25,8 @@ export function Tooltip({
       delayDuration={delayDuration || 50}
       open={open}
       defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}>
+      onOpenChange={onOpenChange}
+    >
       <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
       <TooltipPrimitive.Portal>
         <TooltipPrimitive.Content
@@ -37,7 +38,8 @@ export function Tooltip({
             props.className && `${props.className}`
           )}
           side={side}
-          align="center">
+          align="center"
+        >
           {content}
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>

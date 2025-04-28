@@ -1,4 +1,4 @@
-import { Dialog,ConfirmationDialogContent } from "@quillsocial/ui";
+import { Dialog, ConfirmationDialogContent } from "@quillsocial/ui";
 import { useState } from "react";
 
 interface DeletePostDialogProps {
@@ -12,7 +12,7 @@ export const DeletePostDialog: React.FC<DeletePostDialogProps> = ({
   open,
   onClose,
   id,
-  onDeleteComplete
+  onDeleteComplete,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -27,7 +27,9 @@ export const DeletePostDialog: React.FC<DeletePostDialogProps> = ({
     });
     if (response.ok) {
       onDeleteComplete(true);
-    } else { onDeleteComplete(false); }
+    } else {
+      onDeleteComplete(false);
+    }
     setIsDeleting(false);
   };
 

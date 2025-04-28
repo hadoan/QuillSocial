@@ -13,7 +13,12 @@ type AppsLayoutProps = {
   emptyStore?: boolean;
 } & Omit<ComponentProps<typeof Shell>, "actions">;
 
-export default function AppsLayout({ children, actions, emptyStore, ...rest }: AppsLayoutProps) {
+export default function AppsLayout({
+  children,
+  actions,
+  emptyStore,
+  ...rest
+}: AppsLayoutProps) {
   const { t } = useLocale();
   const session = useSession();
   const router = useRouter();
@@ -28,7 +33,9 @@ export default function AppsLayout({ children, actions, emptyStore, ...rest }: A
             <EmptyScreen
               Icon={AlertCircle}
               headline={isAdmin ? t("no_apps") : t("no_apps_configured")}
-              description={isAdmin ? t("enable_in_settings") : t("please_contact_admin")}
+              description={
+                isAdmin ? t("enable_in_settings") : t("please_contact_admin")
+              }
               buttonText={isAdmin ? t("apps_settings") : ""}
               buttonOnClick={() => router.push("/settings/admin/apps/calendar")}
             />
@@ -40,4 +47,6 @@ export default function AppsLayout({ children, actions, emptyStore, ...rest }: A
     </Shell>
   );
 }
-export const getLayout = (page: React.ReactElement) => <AppsLayout>{page}</AppsLayout>;
+export const getLayout = (page: React.ReactElement) => (
+  <AppsLayout>{page}</AppsLayout>
+);

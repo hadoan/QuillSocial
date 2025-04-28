@@ -19,7 +19,8 @@ const PostGeneratorPageTemplate = () => {
         withoutSeo
         heading={`Generate posts with AI`}
         hideHeadingOnMobile
-        subtitle="Select a template to generate high-quality posts with AI">
+        subtitle="Select a template to generate high-quality posts with AI"
+      >
         <div className="pb-10">
           <div className=" items-center justify-center">
             <MainTemplate id={`${id}`} />

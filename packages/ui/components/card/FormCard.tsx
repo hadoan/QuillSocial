@@ -23,7 +23,11 @@ export default function FormCard({
   moveUp?: Action | null;
   moveDown?: Action | null;
   className?: string;
-  badge?: { text: string; href?: string; variant: BadgeProps["variant"] } | null;
+  badge?: {
+    text: string;
+    href?: string;
+    variant: BadgeProps["variant"];
+  } | null;
 } & JSX.IntrinsicElements["div"]) {
   className = classNames(
     className,
@@ -37,7 +41,8 @@ export default function FormCard({
           <button
             type="button"
             className="bg-default text-muted hover:text-emphasis invisible absolute left-0 -ml-[13px] -mt-10 flex h-6 w-6 scale-0 items-center   justify-center rounded-md border p-1 transition-all hover:border-transparent  hover:shadow group-hover:visible group-hover:scale-100 "
-            onClick={() => moveUp?.fn()}>
+            onClick={() => moveUp?.fn()}
+          >
             <ArrowUp />
           </button>
         ) : null}
@@ -45,7 +50,8 @@ export default function FormCard({
           <button
             type="button"
             className="bg-default text-muted hover:text-emphasis invisible absolute left-0 -ml-[13px] -mt-2  flex h-6 w-6 scale-0 items-center justify-center rounded-md border p-1 transition-all hover:border-transparent hover:shadow group-hover:visible group-hover:scale-100"
-            onClick={() => moveDown?.fn()}>
+            onClick={() => moveDown?.fn()}
+          >
             <ArrowDown />
           </button>
         ) : null}
@@ -56,7 +62,11 @@ export default function FormCard({
             <span className="text-emphasis text-sm font-semibold">{label}</span>
             {badge && (
               <Badge className="ml-2" variant={badge.variant}>
-                {badge.href ? <Link href={badge.href}>{badge.text}</Link> : badge.text}
+                {badge.href ? (
+                  <Link href={badge.href}>{badge.text}</Link>
+                ) : (
+                  badge.text
+                )}
               </Badge>
             )}
           </div>
@@ -66,7 +76,8 @@ export default function FormCard({
               onClick={() => {
                 deleteField?.fn();
               }}
-              color="secondary">
+              color="secondary"
+            >
               <Trash2 className="text-default h-4 w-4" />
             </button>
           ) : null}

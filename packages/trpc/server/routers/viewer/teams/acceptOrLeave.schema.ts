@@ -5,4 +5,6 @@ export const ZAcceptOrLeaveInputSchema = z.object({
   accept: z.boolean(),
 });
 
-export type TAcceptOrLeaveInputSchema = z.infer<typeof ZAcceptOrLeaveInputSchema>;
+export type TAcceptOrLeaveInputSchema = z.infer<
+  typeof ZAcceptOrLeaveInputSchema
+>;

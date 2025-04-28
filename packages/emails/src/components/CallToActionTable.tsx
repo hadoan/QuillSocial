@@ -9,11 +9,12 @@ export const CallToActionTable = (props: { children: React.ReactNode }) => (
             border: "none",
             borderRadius: "3px",
             cursor: "auto",
-            
+
             // @ts-ignore
             msoPaddingAlt: "10px 25px",
           }}
-          valign="middle">
+          valign="middle"
+        >
           {props.children}
         </td>
       </tr>

@@ -51,7 +51,10 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
     }
   };
 
-  const debouncedHandleSubmitPasswordRequest = debounce(submitForgotPasswordRequest, 250);
+  const debouncedHandleSubmitPasswordRequest = debounce(
+    submitForgotPasswordRequest,
+    250
+  );
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -97,14 +100,23 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
             </a>
           </>
         )
-      }>
+      }
+    >
       {success && <Success />}
       {!success && (
         <>
-          <label className="text-emphasis mb-2 block space-y-6 text-sm font-medium"> Email Address</label>
+          <label className="text-emphasis mb-2 block space-y-6 text-sm font-medium">
+            {" "}
+            Email Address
+          </label>
           <form className="space-y-6" onSubmit={handleSubmit} action="#">
             <div>
-              <input name="csrfToken" type="hidden" defaultValue={csrfToken} hidden />
+              <input
+                name="csrfToken"
+                type="hidden"
+                defaultValue={csrfToken}
+                hidden
+              />
             </div>
             <EmailField
               onChange={handleChange}
@@ -119,7 +131,8 @@ export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
                 type="submit"
                 disabled={loading}
                 aria-label="Send Reset Email"
-                loading={loading}>
+                loading={loading}
+              >
                 Send reset email
               </Button>
             </div>

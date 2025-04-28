@@ -1,6 +1,14 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
-const getMessageTexts = (learnings: string, bookName: string, quote: string, format?: string) => {
+const getMessageTexts = (
+  learnings: string,
+  bookName: string,
+  quote: string,
+  format?: string
+) => {
   const instruction = format
     ? `write a  paragraph to share my learnings from a book name "${bookName}", the quotes in the book resonated with me the most is "${quote}", the key learnings from the book is "${learnings}", then transfer the paragraph into the pre-defined format as below:
     ${format}. 

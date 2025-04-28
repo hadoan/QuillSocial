@@ -33,25 +33,40 @@ const sizesPropsBySize = {
 
 export function Avatar(props: AvatarProps) {
   const { imageSrc, gravatarFallbackMd5, size, alt, title, href } = props;
-  const rootClass = classNames("aspect-square rounded-full", sizesPropsBySize[size]);
+  const rootClass = classNames(
+    "aspect-square rounded-full",
+    sizesPropsBySize[size]
+  );
   let avatar = (
     <AvatarPrimitive.Root
       className={classNames(
         "bg-emphasis item-center relative inline-flex aspect-square justify-center overflow-hidden rounded-full",
         props.className,
         sizesPropsBySize[size]
-      )}>
+      )}
+    >
       <>
         <AvatarPrimitive.Image
           src={imageSrc ?? undefined}
           alt={alt}
-          className={classNames("aspect-square rounded-full", sizesPropsBySize[size])}
+          className={classNames(
+            "aspect-square rounded-full",
+            sizesPropsBySize[size]
+          )}
         />
-        <AvatarPrimitive.Fallback delayMs={600} asChild={props.asChild} className="flex items-center">
+        <AvatarPrimitive.Fallback
+          delayMs={600}
+          asChild={props.asChild}
+          className="flex items-center"
+        >
           <>
             {props.fallback && !gravatarFallbackMd5 && props.fallback}
             {gravatarFallbackMd5 && (
-              <img src={defaultAvatarSrc({ md5: gravatarFallbackMd5 })} alt={alt} className={rootClass} />
+              <img
+                src={defaultAvatarSrc({ md5: gravatarFallbackMd5 })}
+                alt={alt}
+                className={rootClass}
+              />
             )}
           </>
         </AvatarPrimitive.Fallback>
@@ -60,7 +75,8 @@ export function Avatar(props: AvatarProps) {
             className={classNames(
               "text-inverted absolute bottom-0 right-0 block rounded-full bg-green-400 ring-2 ring-white",
               size === "lg" ? "h-5 w-5" : "h-2 w-2"
-            )}>
+            )}
+          >
             <div className="flex h-full items-center justify-center p-[2px]">
               {size === "lg" && <Check />}
             </div>

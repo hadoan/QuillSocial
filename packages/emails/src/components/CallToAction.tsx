@@ -39,14 +39,14 @@ export const CallToAction = (props: {
         textDecoration: "none",
         textTransform: "none",
         padding: calculatePadding(),
-        
+
         // @ts-ignore
         msoPaddingAlt: "0px",
         borderRadius: "6px",
         boxSizing: "border-box",
         height: "2.25rem",
-        
-      }}>
+      }}
+    >
       <a
         style={{
           color: secondary ? "#5434D4" : "#FFFFFF",
@@ -58,7 +58,8 @@ export const CallToAction = (props: {
         }}
         href={href}
         target="_blank"
-        rel="noreferrer">
+        rel="noreferrer"
+      >
         {startIconName && (
           <CallToActionIcon
             style={{

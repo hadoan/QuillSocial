@@ -26,7 +26,11 @@ function isOutOfBounds(
     periodEndDate,
   }: Pick<
     EventType,
-    "periodType" | "periodDays" | "periodCountCalendarDays" | "periodStartDate" | "periodEndDate"
+    | "periodType"
+    | "periodDays"
+    | "periodCountCalendarDays"
+    | "periodStartDate"
+    | "periodEndDate"
   >
 ) {
   const date = dayjs(time);
@@ -37,15 +41,27 @@ function isOutOfBounds(
   switch (periodType) {
     case PeriodType.ROLLING: {
       const periodRollingEndDay = periodCountCalendarDays
-        ? dayjs().utcOffset(date.utcOffset()).add(periodDays, "days").endOf("day")
-        : (dayjs().utcOffset(date.utcOffset()) as any).businessDaysAdd(periodDays).endOf("day");
+        ? dayjs()
+            .utcOffset(date.utcOffset())
+            .add(periodDays, "days")
+            .endOf("day")
+        : (dayjs().utcOffset(date.utcOffset()) as any)
+            .businessDaysAdd(periodDays)
+            .endOf("day");
       return date.endOf("day").isAfter(periodRollingEndDay);
     }
 
     case PeriodType.RANGE: {
-      const periodRangeStartDay = dayjs(periodStartDate).utcOffset(date.utcOffset()).endOf("day");
-      const periodRangeEndDay = dayjs(periodEndDate).utcOffset(date.utcOffset()).endOf("day");
-      return date.endOf("day").isBefore(periodRangeStartDay) || date.endOf("day").isAfter(periodRangeEndDay);
+      const periodRangeStartDay = dayjs(periodStartDate)
+        .utcOffset(date.utcOffset())
+        .endOf("day");
+      const periodRangeEndDay = dayjs(periodEndDate)
+        .utcOffset(date.utcOffset())
+        .endOf("day");
+      return (
+        date.endOf("day").isBefore(periodRangeStartDay) ||
+        date.endOf("day").isAfter(periodRangeEndDay)
+      );
     }
 
     case PeriodType.UNLIMITED:

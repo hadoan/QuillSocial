@@ -10,15 +10,21 @@ const InputRecentLearning: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [learningMethod, setLearningMethod] = useState("");
   const [keyLearnings, setKeyLearnings] = useState("");
 
-  const handleRecentLearningChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleRecentLearningChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setRecentLearning(event.target.value);
   };
 
-  const handleLearningMethodChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleLearningMethodChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setLearningMethod(event.target.value);
   };
 
-  const handleKeyLearningsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleKeyLearningsChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setKeyLearnings(event.target.value);
   };
 
@@ -62,7 +68,9 @@ const InputRecentLearning: React.FC<InputTemplateProps> = ({ onInputData }) => {
         />
       </div>
       <div className="p-2">
-        <label className="block text-sm font-medium leading-6 text-gray-900">How did you learn it?</label>
+        <label className="block text-sm font-medium leading-6 text-gray-900">
+          How did you learn it?
+        </label>
         <TextAreaField
           id="learningMethod"
           name=""

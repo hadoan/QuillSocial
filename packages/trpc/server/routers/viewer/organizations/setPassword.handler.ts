@@ -28,18 +28,27 @@ export const setPasswordHandler = async ({ ctx, input }: UpdateOptions) => {
     },
   });
 
-  if (!user) throw new TRPCError({ code: "BAD_REQUEST", message: "User not found" });
-  if (!user.password) throw new TRPCError({ code: "BAD_REQUEST", message: "Password not set by default" });
+  if (!user)
+    throw new TRPCError({ code: "BAD_REQUEST", message: "User not found" });
+  if (!user.password)
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Password not set by default",
+    });
 
   const generatedPassword = createHash("md5")
     .update(`${user?.email ?? ""}${process.env.MY_APP_ENCRYPTION_KEY}`)
     .digest("hex");
-  const isCorrectPassword = await verifyPassword(generatedPassword, user?.password);
+  const isCorrectPassword = await verifyPassword(
+    generatedPassword,
+    user?.password
+  );
 
   if (!isCorrectPassword)
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "The password set by default doesn't match your existing one. Contact an app admin.",
+      message:
+        "The password set by default doesn't match your existing one. Contact an app admin.",
     });
 
   const hashedPassword = await hashPassword(newPassword);

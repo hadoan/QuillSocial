@@ -3,47 +3,45 @@ import { BillingType } from "@quillsocial/prisma/enums";
 import dayjs from "@quillsocial/dayjs";
 //functions use to check billing
 export const getUserStats = async (userId: number) => {
-
   const today = new Date();
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    const countPost = await prisma.post.count({
-      where:
-      {
-        userId: userId,
-        createdDate: {
-          gte: startOfMonth,
-          lte:endOfMonth
-        }
-      }
-    });
-  
-    const accounts = await prisma.credential.findMany({
-      where: {
-        userId: userId,
+  const countPost = await prisma.post.count({
+    where: {
+      userId: userId,
+      createdDate: {
+        gte: startOfMonth,
+        lte: endOfMonth,
       },
-      select: {
-        id: true,
-        appId: true,
-        emailOrUserName: true,
-      },
-    });
-  
-    const countAccount = accounts.length > 0 ? accounts.length : 0;
-   
-    return {
-      countAccount,
-      countPost,
-    }
+    },
+  });
+
+  const accounts = await prisma.credential.findMany({
+    where: {
+      userId: userId,
+    },
+    select: {
+      id: true,
+      appId: true,
+      emailOrUserName: true,
+    },
+  });
+
+  const countAccount = accounts.length > 0 ? accounts.length : 0;
+
+  return {
+    countAccount,
+    countPost,
   };
-  export const isWithinMonthLimit = (dateTime: any, monthLimit: any) => {
-    const today = dayjs();
-    const selectedDate = dayjs(dateTime);
-    const diffInMonths = selectedDate.diff(today, 'month');
-    return diffInMonths <= monthLimit;
-  };
-  
+};
+export const isWithinMonthLimit = (dateTime: any, monthLimit: any) => {
+  const today = dayjs();
+  const selectedDate = dayjs(dateTime);
+  const diffInMonths = selectedDate.diff(today, "month");
+  return diffInMonths <= monthLimit;
+};
+
 //  export const getConditionToUpgrade = (data: any, type: string) => {
 //     const nAccount = data?.countAccount;
 //     const nPost = data?.countPost;
@@ -68,4 +66,3 @@ export const getUserStats = async (userId: number) => {
 //     }
 //     return {};
 //   };
-  

@@ -7,7 +7,10 @@ const EmailScheduledBodyHeaderContent = (props: {
   subtitle?: React.ReactNode;
   headStyles?: CSSProperties;
 }) => (
-  <EmailCommonDivider headStyles={{ padding: 0, ...props.headStyles }} mutipleRows>
+  <EmailCommonDivider
+    headStyles={{ padding: 0, ...props.headStyles }}
+    mutipleRows
+  >
     <tr>
       <td
         align="center"
@@ -17,7 +20,8 @@ const EmailScheduledBodyHeaderContent = (props: {
           paddingTop: 24,
           paddingBottom: 0,
           wordBreak: "break-word",
-        }}>
+        }}
+      >
         <div
           style={{
             fontFamily: "Roboto, Helvetica, sans-serif",
@@ -26,14 +30,18 @@ const EmailScheduledBodyHeaderContent = (props: {
             lineHeight: "24px",
             textAlign: "center",
             color: "#111827",
-          }}>
+          }}
+        >
           {props.title}
         </div>
       </td>
     </tr>
     {props.subtitle && (
       <tr>
-        <td align="center" style={{ fontSize: 0, padding: "10px 25px", wordBreak: "break-word" }}>
+        <td
+          align="center"
+          style={{ fontSize: 0, padding: "10px 25px", wordBreak: "break-word" }}
+        >
           <div
             style={{
               fontFamily: "Roboto, Helvetica, sans-serif",
@@ -42,7 +50,8 @@ const EmailScheduledBodyHeaderContent = (props: {
               lineHeight: "24px",
               textAlign: "center",
               color: "#4B5563",
-            }}>
+            }}
+          >
             {props.subtitle}
           </div>
         </td>

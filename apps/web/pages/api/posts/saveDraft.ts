@@ -19,19 +19,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       imagesDataURL = data.imagesDataURL;
     }
 
-    const existedPost = data?.id ? await prisma.post.findFirst({
-      where: { id: data?.id }, select: {
-        idea: true,
-        id: true,
-        usageTokens: true,
-        cloudFiles: {
+    const existedPost = data?.id
+      ? await prisma.post.findFirst({
+          where: { id: data?.id },
           select: {
-            cloudFileId: true,
-            id: true
-          }
-        }
-      }
-    }) : null;
+            idea: true,
+            id: true,
+            usageTokens: true,
+            cloudFiles: {
+              select: {
+                cloudFileId: true,
+                id: true,
+              },
+            },
+          },
+        })
+      : null;
 
     const newData = {
       idea: existedPost?.idea ?? "",
@@ -42,33 +45,39 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       credentialId: data.credentialId,
       usageTokens: existedPost?.usageTokens ?? undefined,
       imagesDataURL: imagesDataURL,
-      pageId: data.pageId
+      pageId: data.pageId,
     };
 
-    const createCloudFiles = data.fileInfo?.id ? {
-      cloudFiles: {
-        create: {
-          cloudFileId: data.fileInfo.id
+    const createCloudFiles = data.fileInfo?.id
+      ? {
+          cloudFiles: {
+            create: {
+              cloudFileId: data.fileInfo.id,
+            },
+          },
         }
-      }
-    } : {};
+      : {};
 
-    const updateCloudFiles = data.fileInfo?.id && (!existedPost?.cloudFiles || existedPost?.cloudFiles.length == 0) ? {
-      cloudFiles: {
-        create: {
-          cloudFileId: data.fileInfo.id
-        }
-      }
-    } : {};
+    const updateCloudFiles =
+      data.fileInfo?.id &&
+      (!existedPost?.cloudFiles || existedPost?.cloudFiles.length == 0)
+        ? {
+            cloudFiles: {
+              create: {
+                cloudFileId: data.fileInfo.id,
+              },
+            },
+          }
+        : {};
     const saveDraft = await prisma.post.upsert({
       where: { id: data?.id },
       create: {
         ...newData,
-        ...createCloudFiles
+        ...createCloudFiles,
       },
       update: {
         ...newData,
-        ...updateCloudFiles
+        ...updateCloudFiles,
       },
     });
     return saveDraft;

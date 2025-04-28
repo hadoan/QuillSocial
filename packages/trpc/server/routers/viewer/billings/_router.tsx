@@ -10,29 +10,31 @@ type BillingsRouterHandlerCache = {
 const UNSTABLE_HANDLER_CACHE: BillingsRouterHandlerCache = {};
 
 export const billingsRouter = router({
-  subscribe: authedProcedure.input(ZSubscribeInputSchema).mutation(async ({ input, ctx }) => {
-    if (!UNSTABLE_HANDLER_CACHE.subscribe) {
-      UNSTABLE_HANDLER_CACHE.subscribe = await import("./subscribe.handler").then(
-        (mod) => mod.subscribeHandler
-      );
-    }
+  subscribe: authedProcedure
+    .input(ZSubscribeInputSchema)
+    .mutation(async ({ input, ctx }) => {
+      if (!UNSTABLE_HANDLER_CACHE.subscribe) {
+        UNSTABLE_HANDLER_CACHE.subscribe = await import(
+          "./subscribe.handler"
+        ).then((mod) => mod.subscribeHandler);
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.subscribe) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.subscribe) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.subscribe({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.subscribe({
+        ctx,
+        input,
+      });
+    }),
 
   getCurrentUserBilling: authedProcedure.query(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.getCurrentUserBilling) {
-      UNSTABLE_HANDLER_CACHE.getCurrentUserBilling = await import("./getCurrentUserBilling.handler").then(
-        (mod) => mod.getCurrentUserBillingHanlder
-      );
+      UNSTABLE_HANDLER_CACHE.getCurrentUserBilling = await import(
+        "./getCurrentUserBilling.handler"
+      ).then((mod) => mod.getCurrentUserBillingHanlder);
     }
 
     // Unreachable code but required for type safety

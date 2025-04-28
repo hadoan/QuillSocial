@@ -12,9 +12,11 @@ export const Info = (props: {
 }) => {
   if (!props.description || props.description === "") return null;
 
-  const descriptionCSS = "color: '#101010'; font-weight: 400; line-height: 24px; margin: 0;";
+  const descriptionCSS =
+    "color: '#101010'; font-weight: 400; line-height: 24px; margin: 0;";
 
-  const safeDescription = markdownToSafeHTML(props.description.toString()) || "";
+  const safeDescription =
+    markdownToSafeHTML(props.description.toString()) || "";
 
   return (
     <>
@@ -28,7 +30,8 @@ export const Info = (props: {
             lineHeight: "24px",
             whiteSpace: "pre-wrap",
             textDecoration: props.lineThrough ? "line-through" : undefined,
-          }}>
+          }}
+        >
           {props.formatted ? (
             <p
               className="dark:text-darkgray-600 mt-2 text-sm text-gray-500 [&_a]:text-blue-500 [&_a]:underline [&_a]:hover:text-blue-600"

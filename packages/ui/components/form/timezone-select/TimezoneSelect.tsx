@@ -1,8 +1,16 @@
 import { classNames } from "@quillsocial/lib";
-import { filterByCities, addCitiesToDropdown, handleOptionLabel } from "@quillsocial/lib/timezone";
+import {
+  filterByCities,
+  addCitiesToDropdown,
+  handleOptionLabel,
+} from "@quillsocial/lib/timezone";
 import { trpc } from "@quillsocial/trpc/react";
 import { useMemo, useState } from "react";
-import type { ITimezoneOption, ITimezone, Props as SelectProps } from "react-timezone-select";
+import type {
+  ITimezoneOption,
+  ITimezone,
+  Props as SelectProps,
+} from "react-timezone-select";
 import BaseSelect, { allTimezones } from "react-timezone-select";
 
 import { getReactSelectProps } from "../select";
@@ -20,9 +28,12 @@ export function TimezoneSelect({
   ...props
 }: SelectProps & { variant?: "default" | "minimal" }) {
   const [cities, setCities] = useState<ICity[]>([]);
-  const { data, isLoading } = trpc.viewer.public.cityTimezones.useQuery(undefined, {
-    trpc: { context: { skipBatch: true } },
-  });
+  const { data, isLoading } = trpc.viewer.public.cityTimezones.useQuery(
+    undefined,
+    {
+      trpc: { context: { skipBatch: true } },
+    }
+  );
   const handleInputChange = (tz: string) => {
     if (data) setCities(filterByCities(tz, data));
   };
@@ -54,9 +65,13 @@ export function TimezoneSelect({
       onInputChange={handleInputChange}
       {...props}
       formatOptionLabel={(option) => (
-        <p className="truncate">{(option as ITimezoneOption).value.replace(/_/g, " ")}</p>
+        <p className="truncate">
+          {(option as ITimezoneOption).value.replace(/_/g, " ")}
+        </p>
       )}
-      getOptionLabel={(option) => handleOptionLabel(option as ITimezoneOption, cities)}
+      getOptionLabel={(option) =>
+        handleOptionLabel(option as ITimezoneOption, cities)
+      }
       classNames={{
         ...timezoneClassNames,
         input: (state) =>
@@ -71,7 +86,8 @@ export function TimezoneSelect({
             state.isSelected && "bg-emphasis",
             timezoneClassNames?.option && timezoneClassNames.option(state)
           ),
-        placeholder: (state) => classNames("text-muted", state.isFocused && "hidden"),
+        placeholder: (state) =>
+          classNames("text-muted", state.isFocused && "hidden"),
         dropdownIndicator: () => "text-default",
         control: (state) =>
           classNames(
@@ -79,22 +95,25 @@ export function TimezoneSelect({
             variant === "default"
               ? "px-3 py-1 bg-default border-default !min-h-9 text-sm leading-4 placeholder:text-sm placeholder:font-normal focus-within:ring-2 focus-within:ring-emphasis hover:border-emphasis rounded-md border gap-1"
               : "text-sm gap-1",
-          timezoneClassNames?.control && timezoneClassNames.control(state)
+            timezoneClassNames?.control && timezoneClassNames.control(state)
           ),
         singleValue: (state) =>
           classNames(
             "text-emphasis placeholder:text-muted",
-            timezoneClassNames?.singleValue && timezoneClassNames.singleValue(state)
+            timezoneClassNames?.singleValue &&
+              timezoneClassNames.singleValue(state)
           ),
         valueContainer: (state) =>
           classNames(
             "text-emphasis placeholder:text-muted flex gap-1",
-            timezoneClassNames?.valueContainer && timezoneClassNames.valueContainer(state)
+            timezoneClassNames?.valueContainer &&
+              timezoneClassNames.valueContainer(state)
           ),
         multiValue: (state) =>
           classNames(
             "bg-subtle text-default rounded-md py-1.5 px-2 flex items-center text-sm leading-none",
-            timezoneClassNames?.multiValue && timezoneClassNames.multiValue(state)
+            timezoneClassNames?.multiValue &&
+              timezoneClassNames.multiValue(state)
           ),
         menu: (state) =>
           classNames(
@@ -102,7 +121,8 @@ export function TimezoneSelect({
             state.selectProps.menuIsOpen && "shadow-dropdown", // Add box-shadow when menu is open
             timezoneClassNames?.menu && timezoneClassNames.menu(state)
           ),
-        groupHeading: () => "leading-none text-xs uppercase text-default pl-2.5 pt-4 pb-2",
+        groupHeading: () =>
+          "leading-none text-xs uppercase text-default pl-2.5 pt-4 pb-2",
         menuList: (state) =>
           classNames(
             "scroll-bar scrollbar-track-w-20 rounded-md",
@@ -115,7 +135,8 @@ export function TimezoneSelect({
                 ? "[&>*:last-child]:rotate-180 [&>*:last-child]:transition-transform"
                 : "rotate-180 transition-transform"
               : "text-default", // Woo it adds another SVG here on multi for some reason
-            timezoneClassNames?.indicatorsContainer && timezoneClassNames.indicatorsContainer(state)
+            timezoneClassNames?.indicatorsContainer &&
+              timezoneClassNames.indicatorsContainer(state)
           ),
         multiValueRemove: () => "text-default py-auto ml-2",
         noOptionsMessage: () => "h-12 py-2 flex items-center justify-center",

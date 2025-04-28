@@ -46,16 +46,23 @@ export const deleteMeHandler = async ({ ctx, input }: DeleteMeOptions) => {
     }
 
     if (!user.twoFactorSecret) {
-      console.error(`Two factor is enabled for user ${user.id} but they have no secret`);
+      console.error(
+        `Two factor is enabled for user ${user.id} but they have no secret`
+      );
       throw new Error(ErrorCode.InternalServerError);
     }
 
     if (!process.env.MY_APP_ENCRYPTION_KEY) {
-      console.error(`"Missing encryption key; cannot proceed with two factor login."`);
+      console.error(
+        `"Missing encryption key; cannot proceed with two factor login."`
+      );
       throw new Error(ErrorCode.InternalServerError);
     }
 
-    const secret = symmetricDecrypt(user.twoFactorSecret, process.env.MY_APP_ENCRYPTION_KEY);
+    const secret = symmetricDecrypt(
+      user.twoFactorSecret,
+      process.env.MY_APP_ENCRYPTION_KEY
+    );
     if (secret.length !== 32) {
       console.error(
         `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`

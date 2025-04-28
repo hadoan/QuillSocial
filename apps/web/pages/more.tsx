@@ -1,4 +1,6 @@
-import Shell, { MobileNavigationMoreItems } from "@quillsocial/features/shell/Shell";
+import Shell, {
+  MobileNavigationMoreItems,
+} from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
 import PageWrapper from "@components/PageWrapper";
@@ -8,12 +10,14 @@ export default function MorePage() {
   const { data: user } = useMeQuery();
 
   return (
-    user?.isAdmin &&  <Shell hideHeadingOnMobile>
-      <div className="max-w-screen-lg md:hidden">
-        <MobileNavigationMoreItems />
-        {/* <p className="text-subtle mt-6 text-xs leading-tight md:hidden">{t("more_page_footer")}</p> */}
-      </div>
-    </Shell>
+    user?.isAdmin && (
+      <Shell hideHeadingOnMobile>
+        <div className="max-w-screen-lg md:hidden">
+          <MobileNavigationMoreItems />
+          {/* <p className="text-subtle mt-6 text-xs leading-tight md:hidden">{t("more_page_footer")}</p> */}
+        </div>
+      </Shell>
+    )
   );
 }
 MorePage.PageWrapper = PageWrapper;

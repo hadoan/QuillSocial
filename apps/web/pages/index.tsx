@@ -5,7 +5,10 @@ function RedirectPage() {
   return;
 }
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
   const session = await getServerSession({ req, res });
 
   if (!session?.user?.id) {

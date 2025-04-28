@@ -21,7 +21,11 @@ export async function get<T>(path: string, config?: RequestInit): Promise<T> {
   return await http<T>(path, init);
 }
 
-export async function post<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
+export async function post<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
   const init = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -31,7 +35,11 @@ export async function post<T, U>(path: string, body: T, config?: RequestInit): P
   return await http<U>(path, init);
 }
 
-export async function put<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
+export async function put<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
   const init = {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -41,7 +49,11 @@ export async function put<T, U>(path: string, body: T, config?: RequestInit): Pr
   return await http<U>(path, init);
 }
 
-export async function patch<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
+export async function patch<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
   const init = {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -51,7 +63,11 @@ export async function patch<T, U>(path: string, body: T, config?: RequestInit): 
   return await http<U>(path, init);
 }
 
-export async function remove<T, U>(path: string, body: T, config?: RequestInit): Promise<U> {
+export async function remove<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
   const init = {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

@@ -3,7 +3,7 @@ import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import { List } from "@quillsocial/ui";
 import { ArrowRight } from "@quillsocial/ui/components/icon";
-import { Button} from "@quillsocial/ui";
+import { Button } from "@quillsocial/ui";
 
 import { StepConnectionLoader } from "../components/StepConnectionLoader";
 import { AppConnectionItem } from "./AppConnectionItem";
@@ -14,11 +14,12 @@ interface ConnectedAppStepProps {
 
 const ConnectedLinkedinStep = (props: ConnectedAppStepProps) => {
   const { nextStep } = props;
-  const { data: queryConnectedVideoApps, isLoading } = trpc.viewer.integrations.useQuery({
-    variant: "social",
-    onlyInstalled: false,
-    slug: "linkedin-social"
-  });
+  const { data: queryConnectedVideoApps, isLoading } =
+    trpc.viewer.integrations.useQuery({
+      variant: "social",
+      onlyInstalled: false,
+      slug: "linkedin-social",
+    });
   const { t } = useLocale();
 
   const hasAnyInstalledVideoApps = queryConnectedVideoApps?.items.some(
@@ -54,10 +55,11 @@ const ConnectedLinkedinStep = (props: ConnectedAppStepProps) => {
         data-testid="save-video-button"
         className={classNames(
           "text-white mt-8 flex w-full flex-row justify-center rounded-md border border-awst bg-awst hover:bg-awsthv p-2 text-center text-sm",
-           ""
+          ""
         )}
         // disabled={!hasAnyInstalledVideoApps}
-        onClick={() => nextStep()}>
+        onClick={() => nextStep()}
+      >
         {t("next_step_text")}
         <ArrowRight className="ml-2 h-4 w-4 self-center" aria-hidden="true" />
       </Button>

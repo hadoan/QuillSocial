@@ -9,7 +9,10 @@ interface UploadResult {
   ext: string;
 }
 
-export const uploadGCP = async (sourceFileName: string, filePath: string): Promise<UploadResult> => {
+export const uploadGCP = async (
+  sourceFileName: string,
+  filePath: string
+): Promise<UploadResult> => {
   const bucketName = process.env.GCP_BUCKET_NAME || "quillsocial-files";
   const generationMatchPrecondition = 0;
   const serviceAccount = JSON.parse(process.env.GCP_STORAGE_SERVICE_ACCOUNT!);
@@ -30,7 +33,7 @@ export const uploadGCP = async (sourceFileName: string, filePath: string): Promi
       uuid: "",
       fileName: "",
       originFileName: baseName,
-      ext: ""
+      ext: "",
     };
   }
 
@@ -57,7 +60,7 @@ export const uploadGCP = async (sourceFileName: string, filePath: string): Promi
       uuid: "",
       fileName: "",
       originFileName: baseName,
-      ext
+      ext,
     };
   }
 
@@ -66,6 +69,6 @@ export const uploadGCP = async (sourceFileName: string, filePath: string): Promi
     uuid: thisUUID,
     fileName: fileName,
     originFileName: baseName,
-    ext
+    ext,
   };
 };

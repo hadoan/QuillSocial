@@ -6,7 +6,9 @@ import { useChatContext } from "./useChatContext";
 export const useHandleStream = () => {
   const { updateStreamingHistory } = useChatContext();
 
-  const handleStream = async (reader: ReadableStreamDefaultReader<Uint8Array>): Promise<void> => {
+  const handleStream = async (
+    reader: ReadableStreamDefaultReader<Uint8Array>
+  ): Promise<void> => {
     const decoder = new TextDecoder("utf-8");
 
     const handleStreamRecursively = async () => {
@@ -16,7 +18,11 @@ export const useHandleStream = () => {
         return;
       }
 
-      const dataStrings = decoder.decode(value).trim().split("data: ").filter(Boolean);
+      const dataStrings = decoder
+        .decode(value)
+        .trim()
+        .split("data: ")
+        .filter(Boolean);
 
       dataStrings.forEach((data) => {
         if (isJSON(data)) {

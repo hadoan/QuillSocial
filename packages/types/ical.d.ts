@@ -26,11 +26,17 @@ declare module "ical.js" {
     public getAllProperties(name?: string): Property[];
 
     public addProperty(property: Property): Property;
-    public addPropertyWithValue(name: string, value: string | number | Record<string, unknown>): Property;
+    public addPropertyWithValue(
+      name: string,
+      value: string | number | Record<string, unknown>
+    ): Property;
 
     public hasProperty(name?: string): boolean;
 
-    public updatePropertyWithValue(name: string, value: string | number | Record<string, unknown>): Property;
+    public updatePropertyWithValue(
+      name: string,
+      value: string | number | Record<string, unknown>
+    ): Property;
 
     public removeAllProperties(name?: string): boolean;
 
@@ -75,7 +81,10 @@ declare module "ical.js" {
 
     public constructor(
       component?: Component | null,
-      options?: { strictExceptions: boolean; exepctions: Array<Component | Event> }
+      options?: {
+        strictExceptions: boolean;
+        exepctions: Array<Component | Event>;
+      }
     );
 
     public isRecurring(): boolean;

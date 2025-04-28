@@ -8,9 +8,12 @@ export default function ManageAppLink({ type }: { type: AppType["type"] }) {
   // const link = type == "google_calendar" ? "/apps/installed/calendar" : "/apps/installed/conferencing";
   const link = "/apps/installed/social";
   return (
-    <Button className="px-2 py-1 text-sm text-white lg:px-4 lg:py-2" onClick={() => router.push(link)}>
+    <Button
+      className="px-2 py-1 text-sm text-white lg:px-4 lg:py-2"
+      onClick={() => router.push(link)}
+    >
       Manage App
     </Button>
   );
-  return (<></>);
+  return <></>;
 }

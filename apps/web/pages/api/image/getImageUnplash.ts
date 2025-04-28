@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
-import axios from 'axios';
+import axios from "axios";
 
-const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY; 
+const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-async function handler(req: NextApiRequest & { query: { key?: string } }, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest & { query: { key?: string } },
+  res: NextApiResponse
+) {
   const { query } = req;
   const { key } = query;
 
@@ -22,7 +25,7 @@ async function handler(req: NextApiRequest & { query: { key?: string } }, res: N
   }
 
   const images = await searchUnsplashImages(key);
-  
+
   if (images && images.length > 0) {
     const imageDetails = images.map((image: any) => {
       return {
@@ -37,22 +40,25 @@ async function handler(req: NextApiRequest & { query: { key?: string } }, res: N
   }
 }
 
-async function searchUnsplashImages(query: string, page: number = 1, perPage: number = 8) {
+async function searchUnsplashImages(
+  query: string,
+  page: number = 1,
+  perPage: number = 8
+) {
   try {
     const response = await axios.get(`https://api.unsplash.com/search/photos`, {
       params: {
         query: query,
         page: page,
         per_page: perPage,
-        client_id: UNSPLASH_ACCESS_KEY
-      }
+        client_id: UNSPLASH_ACCESS_KEY,
+      },
     });
     return response.data.results;
   } catch (error) {
-    console.error('Error occurred while fetching images from Unsplash:', error);
+    console.error("Error occurred while fetching images from Unsplash:", error);
     return null;
   }
 }
-
 
 export default defaultResponder(handler);

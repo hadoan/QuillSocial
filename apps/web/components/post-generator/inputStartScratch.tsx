@@ -3,12 +3,17 @@ import { useState, useEffect } from "react";
 
 import { TextAreaField, TextField } from "@quillsocial/ui";
 
-import { InputTemplateProps, emotionsStartScratch } from "./constTemplateWrapper";
+import {
+  InputTemplateProps,
+  emotionsStartScratch,
+} from "./constTemplateWrapper";
 
 const InputStartScratch: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [content, setContent] = useState("");
   const [emotion, setEmotion] = useState("");
-  const handleContentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleContentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setContent(event.target.value);
   };
 
@@ -63,7 +68,11 @@ const InputStartScratch: React.FC<InputTemplateProps> = ({ onInputData }) => {
 
 const EmotionButtons = ({ onEmotionSelect }: { onEmotionSelect: any }) => {
   const [selectedEmotion, setSelectedEmotion] = useState<number | undefined>();
-  const handleButtonClick = (emotion: { id: number; name: string; icon: string }) => {
+  const handleButtonClick = (emotion: {
+    id: number;
+    name: string;
+    icon: string;
+  }) => {
     setSelectedEmotion(emotion.id);
     if (onEmotionSelect) {
       onEmotionSelect(emotion.name);
@@ -78,9 +87,12 @@ const EmotionButtons = ({ onEmotionSelect }: { onEmotionSelect: any }) => {
           onClick={() => handleButtonClick(emotion)}
           className={`m-2 flex items-center justify-center rounded-full border px-2 py-1 text-sm transition-all duration-300 
                         ${
-                          selectedEmotion === emotion.id ? "border-blue-500 bg-blue-100" : "hover:bg-gray-100"
+                          selectedEmotion === emotion.id
+                            ? "border-blue-500 bg-blue-100"
+                            : "hover:bg-gray-100"
                         } 
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}>
+                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+        >
           <span className="mr-1">{emotion.icon}</span> {emotion.name}
         </button>
       ))}

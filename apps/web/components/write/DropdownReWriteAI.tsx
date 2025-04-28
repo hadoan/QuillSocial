@@ -1,4 +1,8 @@
-import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 import {
   Star,
   CheckCheck,
@@ -42,12 +46,21 @@ export const DropdownReWriteAI = (props: {
     return props.rewriteAction(instruction);
   };
 
-  const handleSettitleModalReWriteAI = async (instruction: ReWriteAI | string) => {
+  const handleSettitleModalReWriteAI = async (
+    instruction: ReWriteAI | string
+  ) => {
     if (!props.hasAI) {
-      showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+      showToast(
+        "Please install ChatGPT app from Apps menu to use this feature",
+        "error"
+      );
       return;
     }
-    if (user?.id) TrackEventJuneSo({ id: user?.id.toString(), event: `${EVENTS.REWRITE} ${instruction}` });
+    if (user?.id)
+      TrackEventJuneSo({
+        id: user?.id.toString(),
+        event: `${EVENTS.REWRITE} ${instruction}`,
+      });
     setReTryType(instruction);
     setIsLoading(true);
     if (props.rewriteAction) {
@@ -73,7 +86,10 @@ export const DropdownReWriteAI = (props: {
             <Brain />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent style={{ minWidth: "200px" }} className="ml-20 bg-white sm:ml-5 md:ml-20">
+        <DropdownMenuContent
+          style={{ minWidth: "200px" }}
+          className="ml-20 bg-white sm:ml-5 md:ml-20"
+        >
           {/* <DropdownMenuItem className="focus:ring-muted">
             <DropdownItem
               target="_blank"
@@ -88,7 +104,8 @@ export const DropdownReWriteAI = (props: {
             <DropdownItem
               type="button"
               onClick={() => handleSettitleModalReWriteAI(ReWriteAI.Complete)}
-              StartIcon={CheckCheck}>
+              StartIcon={CheckCheck}
+            >
               Complete
             </DropdownItem>
           </DropdownMenuItem>
@@ -96,23 +113,30 @@ export const DropdownReWriteAI = (props: {
             <DropdownItem
               StartIcon={ArrowUpDown}
               onClick={() => handleSettitleModalReWriteAI(ReWriteAI.Shorten)}
-              type="button">
+              type="button"
+            >
               Shorten
             </DropdownItem>
           </DropdownMenuItem>
           <DropdownMenuItem className="focus:ring-muted">
             <DropdownItem
               type="button"
-              onClick={() => handleSettitleModalReWriteAI(ReWriteAI.GenerateHook)}
-              StartIcon={CornerRightUp}>
+              onClick={() =>
+                handleSettitleModalReWriteAI(ReWriteAI.GenerateHook)
+              }
+              StartIcon={CornerRightUp}
+            >
               Generate a hook
             </DropdownItem>
           </DropdownMenuItem>
           <DropdownMenuItem className="focus:ring-muted">
             <DropdownItem
               StartIcon={ChevronRight}
-              onClick={() => handleSettitleModalReWriteAI(ReWriteAI.GenerateCTA)}
-              type="button">
+              onClick={() =>
+                handleSettitleModalReWriteAI(ReWriteAI.GenerateCTA)
+              }
+              type="button"
+            >
               Generate a CTA
             </DropdownItem>
           </DropdownMenuItem>
@@ -120,7 +144,10 @@ export const DropdownReWriteAI = (props: {
             <DropdownItem
               type="button"
               StartIcon={Wand}
-              onClick={() => handleSettitleModalReWriteAI(ReWriteAI.ImproveStructure)}>
+              onClick={() =>
+                handleSettitleModalReWriteAI(ReWriteAI.ImproveStructure)
+              }
+            >
               Improve Structure
             </DropdownItem>
           </DropdownMenuItem>
@@ -130,7 +157,10 @@ export const DropdownReWriteAI = (props: {
               type="button"
               onClick={() => {
                 if (!props.hasAI) {
-                  showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+                  showToast(
+                    "Please install ChatGPT app from Apps menu to use this feature",
+                    "error"
+                  );
                   return;
                 }
                 setModalCustomInstruction(true);
@@ -139,7 +169,8 @@ export const DropdownReWriteAI = (props: {
                     id: user?.id.toString(),
                     event: `${EVENTS.REWRITE} Custom Insstruction`,
                   });
-              }}>
+              }}
+            >
               Custom Instruction
             </DropdownItem>
           </DropdownMenuItem>
@@ -185,7 +216,8 @@ export const DropdownReWriteAI = (props: {
                   <div className="text-center">
                     <svg
                       className="bg-awst text-awst mx-auto mb-3 h-8 w-8 animate-spin"
-                      viewBox="0 0 24 24"></svg>
+                      viewBox="0 0 24 24"
+                    ></svg>
                     <p className="text-default ml-2 text-[16px]">Creating...</p>
                   </div>
                 </DialogContent>

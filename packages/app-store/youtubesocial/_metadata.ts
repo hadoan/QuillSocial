@@ -6,7 +6,10 @@ import _package from "./package.json";
 export const metadata = {
   name: "Youtube",
   description: _package.description,
-  installed: !!(process.env.GOOGLE_API_CREDENTIALS && validJson(process.env.GOOGLE_API_CREDENTIALS)),
+  installed: !!(
+    process.env.GOOGLE_API_CREDENTIALS &&
+    validJson(process.env.GOOGLE_API_CREDENTIALS)
+  ),
   type: "youtube_social",
   title: "Youtube",
   variant: "social",

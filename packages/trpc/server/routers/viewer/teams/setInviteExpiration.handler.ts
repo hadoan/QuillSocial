@@ -12,7 +12,10 @@ type SetInviteExpirationOptions = {
   input: TSetInviteExpirationInputSchema;
 };
 
-export const setInviteExpirationHandler = async ({ ctx, input }: SetInviteExpirationOptions) => {
+export const setInviteExpirationHandler = async ({
+  ctx,
+  input,
+}: SetInviteExpirationOptions) => {
   const { token, expiresInDays } = input;
 
   const verificationToken = await prisma.verificationToken.findFirst({
@@ -25,11 +28,16 @@ export const setInviteExpirationHandler = async ({ ctx, input }: SetInviteExpira
   });
 
   if (!verificationToken) throw new TRPCError({ code: "NOT_FOUND" });
-  if (!verificationToken.teamId || !(await isTeamAdmin(ctx.user.id, verificationToken.teamId)))
+  if (
+    !verificationToken.teamId ||
+    !(await isTeamAdmin(ctx.user.id, verificationToken.teamId))
+  )
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
   const oneDay = 24 * 60 * 60 * 1000;
-  const expires = expiresInDays ? new Date(Date.now() + expiresInDays * oneDay) : new Date();
+  const expires = expiresInDays
+    ? new Date(Date.now() + expiresInDays * oneDay)
+    : new Date();
 
   await prisma.verificationToken.update({
     where: { token },

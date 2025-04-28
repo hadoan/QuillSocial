@@ -1,4 +1,8 @@
-import { APP_NAME, SEO_IMG_DEFAULT, SEO_IMG_OGIMG } from "@quillsocial/lib/constants";
+import {
+  APP_NAME,
+  SEO_IMG_DEFAULT,
+  SEO_IMG_OGIMG,
+} from "@quillsocial/lib/constants";
 import type { DefaultSeoProps, NextSeoProps } from "next-seo";
 import type { Router } from "next/router";
 
@@ -46,6 +50,12 @@ export const seoConfig: {
  * @param path NextJS' useRouter().asPath
  * @returns
  */
-export const buildCanonical = ({ origin, path }: { origin: Location["origin"]; path: Router["asPath"] }) => {
+export const buildCanonical = ({
+  origin,
+  path,
+}: {
+  origin: Location["origin"];
+  path: Router["asPath"];
+}) => {
   return `${origin}${path === "/" ? "" : path}`.split("?")[0];
 };

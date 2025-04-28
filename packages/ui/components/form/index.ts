@@ -18,11 +18,20 @@ export {
   NumberInput,
 } from "./inputs/Input";
 export { Label } from "./inputs/Label";
-export { Select, SelectField, SelectWithValidation, getReactSelectProps } from "./select";
+export {
+  Select,
+  SelectField,
+  SelectWithValidation,
+  getReactSelectProps,
+} from "./select";
 export { TimezoneSelect } from "./timezone-select";
 export type { ITimezone, ITimezoneOption } from "./timezone-select";
 export { DateRangePickerLazy as DateRangePicker } from "./date-range-picker";
-export { BooleanToggleGroup, BooleanToggleGroupField, ToggleGroup } from "./toggleGroup";
+export {
+  BooleanToggleGroup,
+  BooleanToggleGroupField,
+  ToggleGroup,
+} from "./toggleGroup";
 export { DatePicker } from "./datepicker";
 export { FormStep, Steps, Stepper } from "./step";
 export { WizardForm } from "./wizard";

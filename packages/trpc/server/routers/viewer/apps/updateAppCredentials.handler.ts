@@ -13,7 +13,10 @@ type UpdateAppCredentialsOptions = {
   input: TUpdateAppCredentialsInputSchema;
 };
 
-export const updateAppCredentialsHandler = async ({ ctx, input }: UpdateAppCredentialsOptions) => {
+export const updateAppCredentialsHandler = async ({
+  ctx,
+  input,
+}: UpdateAppCredentialsOptions) => {
   const { user } = ctx;
 
   const { key } = input;

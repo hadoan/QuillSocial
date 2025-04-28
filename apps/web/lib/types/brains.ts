@@ -31,8 +31,8 @@ export type MinimalBrainForUser = {
   name: string;
   role: BrainRoleType;
   status: BrainAccessStatus;
-	memberCount?: number;
-	members?: number[];
+  memberCount?: number;
+  members?: number[];
 };
 
 //TODO: rename rights to role in Backend and use MinimalBrainForUser instead of BackendMinimalBrainForUser
@@ -120,7 +120,7 @@ export type CreateBrainInput = {
   max_tokens?: number;
   openai_api_key?: string;
   prompt_id?: string | null;
-	user_ids?: number[];
+  user_ids?: number[];
 };
 
 export type UpdateBrainInput = Partial<CreateBrainInput>;
@@ -138,7 +138,7 @@ export const mapBackendMinimalBrainToMinimalBrain = (
   name: backendMinimalBrain.name,
   role: backendMinimalBrain.rights,
   status: backendMinimalBrain.status,
-	memberCount: backendMinimalBrain.memberCount,
+  memberCount: backendMinimalBrain.memberCount,
 });
 
 //Knowledge

@@ -76,7 +76,9 @@ export const customInputSchema = z.object({
 
 export type CustomInputSchema = z.infer<typeof customInputSchema>;
 
-export type ZodDenullish<T extends ZodTypeAny> = T extends ZodNullable<infer U> | ZodOptional<infer U>
+export type ZodDenullish<T extends ZodTypeAny> = T extends
+  | ZodNullable<infer U>
+  | ZodOptional<infer U>
   ? ZodDenullish<U>
   : T;
 
@@ -103,7 +105,9 @@ export function denullishShape<
 >(
   obj: ZodObject<T, UnknownKeys, Catchall, Output, Input>
 ): ZodObject<ZodDenullishShape<T>, UnknownKeys, Catchall> {
-  const a = entries(obj.shape).map(([field, schema]) => [field, denullish(schema)] as const) as {
+  const a = entries(obj.shape).map(
+    ([field, schema]) => [field, denullish(schema)] as const
+  ) as {
     [K in keyof T]: [K, ZodDenullish<T[K]>];
   }[keyof T][];
   return new ZodObject({
@@ -150,7 +154,9 @@ type FromEntries<T> = T extends [infer Keys, unknown][]
  * @see https://github.com/3x071c/lsg-remix/blob/e2a9592ba3ec5103556f2cf307c32f08aeaee32d/app/lib/util/fromEntries.ts
  */
 export const fromEntries = <
-  E extends [PropertyKey, unknown][] | ReadonlyArray<readonly [PropertyKey, unknown]>
+  E extends
+    | [PropertyKey, unknown][]
+    | ReadonlyArray<readonly [PropertyKey, unknown]>
 >(
   entries: E
 ): FromEntries<DeepWriteable<E>> => {
@@ -161,7 +167,9 @@ export const getAccessLinkResponseSchema = z.object({
   download_link: z.string().url(),
 });
 
-export type GetAccessLinkResponseSchema = z.infer<typeof getAccessLinkResponseSchema>;
+export type GetAccessLinkResponseSchema = z.infer<
+  typeof getAccessLinkResponseSchema
+>;
 
 /** Facilitates converting values from Select inputs to plain ones before submitting */
 export const optionToValueSchema = <T extends z.ZodTypeAny>(valueSchema: T) =>
@@ -186,8 +194,7 @@ export const teamMetadataSchema = z
   .partial()
   .nullable();
 
-
-  export const userMetadata = z
+export const userMetadata = z
   .object({
     proPaidForByTeamId: z.number().optional(),
     stripeCustomerId: z.string().optional(),

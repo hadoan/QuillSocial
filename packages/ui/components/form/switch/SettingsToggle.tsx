@@ -48,10 +48,18 @@ function SettingsToggle({
                 {title}
                 {LockedIcon}
               </Label>
-              {description && <p className="text-default -mt-1.5 text-sm leading-normal">{description}</p>}
+              {description && (
+                <p className="text-default -mt-1.5 text-sm leading-normal">
+                  {description}
+                </p>
+              )}
             </div>
           </div>
-          {children && <div className="lg:ml-14">{checked && <div className="mt-4">{children}</div>}</div>}
+          {children && (
+            <div className="lg:ml-14">
+              {checked && <div className="mt-4">{children}</div>}
+            </div>
+          )}
         </fieldset>
       </div>
     </>

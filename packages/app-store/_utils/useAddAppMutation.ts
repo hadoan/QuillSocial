@@ -17,7 +17,10 @@ function gotoUrl(url: string, newTab?: boolean) {
 }
 
 type CustomUseMutationOptions =
-  | Omit<UseMutationOptions<unknown, unknown, unknown, unknown>, "mutationKey" | "mutationFn" | "onSuccess">
+  | Omit<
+      UseMutationOptions<unknown, unknown, unknown, unknown>,
+      "mutationKey" | "mutationFn" | "onSuccess"
+    >
   | undefined;
 
 type AddAppMutationData = { setupPending: boolean } | void;
@@ -36,7 +39,10 @@ type useAddAppMutationVariables = {
   onErrorReturnTo?: string;
 };
 
-function useAddAppMutation(_type: App["type"] | null, allOptions?: UseAddAppMutationOptions) {
+function useAddAppMutation(
+  _type: App["type"] | null,
+  allOptions?: UseAddAppMutationOptions
+) {
   const { returnTo, ...options } = allOptions || {};
   const pathname = usePathname();
   const onErrorReturnTo = `${WEBAPP_URL}${pathname}`;
@@ -44,13 +50,21 @@ function useAddAppMutation(_type: App["type"] | null, allOptions?: UseAddAppMuta
   const mutation = useMutation<
     AddAppMutationData,
     Error,
-    { type?: App["type"]; variant?: string; slug?: string; isOmniInstall?: boolean; teamId?: number } | ""
+    | {
+        type?: App["type"];
+        variant?: string;
+        slug?: string;
+        isOmniInstall?: boolean;
+        teamId?: number;
+      }
+    | ""
   >({
     ...options,
     mutationFn: async (variables) => {
       let type: string | null | undefined;
       let isOmniInstall;
-      const teamId = variables && variables.teamId ? variables.teamId : undefined;
+      const teamId =
+        variables && variables.teamId ? variables.teamId : undefined;
       if (variables === "") {
         type = _type;
       } else {
@@ -69,17 +83,24 @@ function useAddAppMutation(_type: App["type"] | null, allOptions?: UseAddAppMuta
           returnTo ||
           WEBAPP_URL +
             getInstalledAppPath(
-              { variant: variables && variables.variant, slug: variables && variables.slug },
+              {
+                variant: variables && variables.variant,
+                slug: variables && variables.slug,
+              },
               location.search
             ),
         onErrorReturnTo,
         fromApp: true,
-        ...(type === "google_calendar" && { installGoogleVideo: options?.installGoogleVideo }),
+        ...(type === "google_calendar" && {
+          installGoogleVideo: options?.installGoogleVideo,
+        }),
         ...(teamId && { teamId }),
       };
 
       const stateStr = encodeURIComponent(JSON.stringify(state));
-      const searchParams = `?state=${stateStr}${teamId ? `&teamId=${teamId}` : ""}`;
+      const searchParams = `?state=${stateStr}${
+        teamId ? `&teamId=${teamId}` : ""
+      }`;
 
       const res = await fetch(`/api/integrations/${type}/add${searchParams}`);
 
@@ -89,7 +110,9 @@ function useAddAppMutation(_type: App["type"] | null, allOptions?: UseAddAppMuta
       }
 
       const json = await res.json();
-      const externalUrl = /https?:\/\//.test(json.url) && !json.url.startsWith(window.location.origin);
+      const externalUrl =
+        /https?:\/\//.test(json.url) &&
+        !json.url.startsWith(window.location.origin);
       if (!isOmniInstall) {
         gotoUrl(json.url, json.newTab);
         return { setupPending: externalUrl || json.url.endsWith("/setup") };

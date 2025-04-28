@@ -14,7 +14,10 @@ export const getAppKeys = async (userId: number) => {
     },
   });
   if (credential && credential.key) {
-    const decrypted = symmetricDecrypt(credential.key.toString(), MY_APP_ENCRYPTION_KEY);
+    const decrypted = symmetricDecrypt(
+      credential.key.toString(),
+      MY_APP_ENCRYPTION_KEY
+    );
     const { organizationId, apiKey, secret } = JSON.parse(decrypted);
     return { organizationId, apiKey, secret };
   }

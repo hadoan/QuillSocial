@@ -1,6 +1,10 @@
 import type { TRPCClientErrorLike } from "@quillsocial/trpc/client";
 import type { DecorateProcedure } from "@quillsocial/trpc/react/shared";
-import type { AnyQueryProcedure, inferProcedureInput, inferProcedureOutput } from "@quillsocial/trpc/server";
+import type {
+  AnyQueryProcedure,
+  inferProcedureInput,
+  inferProcedureOutput,
+} from "@quillsocial/trpc/server";
 import type { AppRouter } from "@quillsocial/trpc/server/routers/_app";
 import { Alert, Loader } from "@quillsocial/ui";
 import type {
@@ -23,19 +27,27 @@ interface QueryCellOptionsBase<TData, TError extends ErrorLike> {
   query: UseQueryResult<TData, TError>;
   customLoader?: ReactNode;
   error?: (
-    query: QueryObserverLoadingErrorResult<TData, TError> | QueryObserverRefetchErrorResult<TData, TError>
+    query:
+      | QueryObserverLoadingErrorResult<TData, TError>
+      | QueryObserverRefetchErrorResult<TData, TError>
   ) => JSXElementOrNull;
-  loading?: (query: QueryObserverLoadingResult<TData, TError> | null) => JSXElementOrNull;
+  loading?: (
+    query: QueryObserverLoadingResult<TData, TError> | null
+  ) => JSXElementOrNull;
 }
 
 interface QueryCellOptionsNoEmpty<TData, TError extends ErrorLike>
   extends QueryCellOptionsBase<TData, TError> {
-  success: (query: QueryObserverSuccessResult<TData, TError>) => JSXElementOrNull;
+  success: (
+    query: QueryObserverSuccessResult<TData, TError>
+  ) => JSXElementOrNull;
 }
 
 interface QueryCellOptionsWithEmpty<TData, TError extends ErrorLike>
   extends QueryCellOptionsBase<TData, TError> {
-  success: (query: QueryObserverSuccessResult<NonNullable<TData>, TError>) => JSXElementOrNull;
+  success: (
+    query: QueryObserverSuccessResult<NonNullable<TData>, TError>
+  ) => JSXElementOrNull;
   /**
    * If there's no data (`null`, `undefined`, or `[]`), render this component
    */
@@ -51,18 +63,26 @@ export function QueryCell<TData, TError extends ErrorLike>(
 
 /** @deprecated Use `trpc.useQuery` instead. */
 export function QueryCell<TData, TError extends ErrorLike>(
-  opts: QueryCellOptionsNoEmpty<TData, TError> | QueryCellOptionsWithEmpty<TData, TError>
+  opts:
+    | QueryCellOptionsNoEmpty<TData, TError>
+    | QueryCellOptionsWithEmpty<TData, TError>
 ) {
   const { query } = opts;
   // const StatusLoader = opts.customLoader || <Loader />; // Fixes edge case where this can return null form query cell
 
-  const StatusLoader = (<></>);
+  const StatusLoader = <></>;
   if (query.status === "loading") {
-    return opts.loading?.(query.status === "loading" ? query : null) ?? StatusLoader;
+    return (
+      opts.loading?.(query.status === "loading" ? query : null) ?? StatusLoader
+    );
   }
 
   if (query.status === "success") {
-    if ("empty" in opts && (query.data == null || (Array.isArray(query.data) && query.data.length === 0))) {
+    if (
+      "empty" in opts &&
+      (query.data == null ||
+        (Array.isArray(query.data) && query.data.length === 0))
+    ) {
       return opts.empty(query);
     }
     const data = opts.success(query as any);
@@ -72,7 +92,11 @@ export function QueryCell<TData, TError extends ErrorLike>(
   if (query.status === "error") {
     return (
       opts.error?.(query) ?? (
-        <Alert severity="error" title="Something went wrong" message={query.error.message} />
+        <Alert
+          severity="error"
+          title="Something went wrong"
+          message={query.error.message}
+        />
       )
     );
   }
@@ -88,14 +112,19 @@ const withQuery = <
   TInput = inferProcedureInput<TQuery>,
   TOutput = inferProcedureOutput<TQuery>
 >(
-  queryProcedure: DecorateProcedure<TQuery, inferProcedureInput<TQuery>, inferProcedureOutput<TQuery>>,
+  queryProcedure: DecorateProcedure<
+    TQuery,
+    inferProcedureInput<TQuery>,
+    inferProcedureOutput<TQuery>
+  >,
 
   input?: TInput,
   params?: UseTRPCQueryOptions<TQuery, TInput, TOutput, TOutput, TError>
 ) => {
   return function WithQuery(
     opts: Omit<
-      Partial<QueryCellOptionsWithEmpty<TOutput, TError>> & QueryCellOptionsNoEmpty<TOutput, TError>,
+      Partial<QueryCellOptionsWithEmpty<TOutput, TError>> &
+        QueryCellOptionsNoEmpty<TOutput, TError>,
       "query"
     >
   ) {

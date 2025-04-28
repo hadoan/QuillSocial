@@ -1,5 +1,12 @@
 import { debounce } from "lodash";
-import { Heart, MessageCircle, MessageSquare, MessagesSquare, Search, UsersIcon } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  MessageSquare,
+  MessagesSquare,
+  Search,
+  UsersIcon,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { components } from "react-select";
@@ -9,7 +16,10 @@ import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button, HeadSeo, showToast } from "@quillsocial/ui";
 import { HorizontalTabs } from "@quillsocial/ui";
-import type { VerticalTabItemProps, HorizontalTabItemProps } from "@quillsocial/ui";
+import type {
+  VerticalTabItemProps,
+  HorizontalTabItemProps,
+} from "@quillsocial/ui";
 import { Dialog, DialogContent } from "@quillsocial/ui";
 import { Mail } from "@quillsocial/ui/components/icon";
 
@@ -35,7 +45,10 @@ const PostGeneratorPage = () => {
 
   const handleCardClick = (code: string) => {
     if (!ischeckForAIAppsLoading && !isAIPresent) {
-      showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+      showToast(
+        "Please install ChatGPT app from Apps menu to use this feature",
+        "error"
+      );
       router.push(`/settings/my-account/app-integrations`);
       return;
     }
@@ -52,7 +65,8 @@ const PostGeneratorPage = () => {
         withoutSeo
         heading={`Generate posts with AI`}
         hideHeadingOnMobile
-        subtitle="Select a template to generate high-quality posts with AI">
+        subtitle="Select a template to generate high-quality posts with AI"
+      >
         <div className="w-[220px]"></div>
         <div className="pb-10">
           <div className="mt-2 flex items-center justify-center">
@@ -61,7 +75,8 @@ const PostGeneratorPage = () => {
                 <div
                   key={info.id}
                   onClick={() => handleCardClick(info.code)}
-                  className="hover:cursor-pointer">
+                  className="hover:cursor-pointer"
+                >
                   <Card
                     key={info.id}
                     title={info.title}

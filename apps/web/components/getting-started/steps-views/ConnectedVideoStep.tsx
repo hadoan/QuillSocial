@@ -3,7 +3,7 @@ import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import { List } from "@quillsocial/ui";
 import { ArrowRight } from "@quillsocial/ui/components/icon";
-import { Button} from "@quillsocial/ui";
+import { Button } from "@quillsocial/ui";
 
 import { StepConnectionLoader } from "../components/StepConnectionLoader";
 
@@ -13,10 +13,11 @@ interface ConnectedAppStepProps {
 
 const ConnectedVideoStep = (props: ConnectedAppStepProps) => {
   const { nextStep } = props;
-  const { data: queryConnectedVideoApps, isLoading } = trpc.viewer.integrations.useQuery({
-    variant: "conferencing",
-    onlyInstalled: false,
-  });
+  const { data: queryConnectedVideoApps, isLoading } =
+    trpc.viewer.integrations.useQuery({
+      variant: "conferencing",
+      onlyInstalled: false,
+    });
   const { t } = useLocale();
 
   const hasAnyInstalledVideoApps = queryConnectedVideoApps?.items.some(
@@ -56,7 +57,8 @@ const ConnectedVideoStep = (props: ConnectedAppStepProps) => {
           !hasAnyInstalledVideoApps ? "cursor-not-allowed opacity-20" : ""
         )}
         disabled={!hasAnyInstalledVideoApps}
-        onClick={() => nextStep()}>
+        onClick={() => nextStep()}
+      >
         {t("next_step_text")}
         <ArrowRight className="ml-2 h-4 w-4 self-center" aria-hidden="true" />
       </Button>

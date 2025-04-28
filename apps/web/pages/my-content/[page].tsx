@@ -1,6 +1,6 @@
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { Button, HeadSeo,showToast } from "@quillsocial/ui";
+import { Button, HeadSeo, showToast } from "@quillsocial/ui";
 import { Mail } from "@quillsocial/ui/components/icon";
 import { debounce } from "lodash";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
@@ -8,10 +8,20 @@ import { useEffect, useMemo, useState } from "react";
 import { HorizontalTabs } from "@quillsocial/ui";
 import { ChatProvider } from "@lib/hooks/Chat/ChatProvider";
 import { BrainProvider } from "@lib/hooks/Chat/brain-provider";
-import type { VerticalTabItemProps, HorizontalTabItemProps } from "@quillsocial/ui";
+import type {
+  VerticalTabItemProps,
+  HorizontalTabItemProps,
+} from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import PageWrapper from "@components/PageWrapper";
-import { Heart, MessageCircle, MessageSquare, MessagesSquare, Search, UsersIcon } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  MessageSquare,
+  MessagesSquare,
+  Search,
+  UsersIcon,
+} from "lucide-react";
 import dayjs from "@quillsocial/dayjs";
 import { Dialog, DialogContent } from "@quillsocial/ui";
 import useMeQuery from "@lib/hooks/useMeQuery";
@@ -35,14 +45,14 @@ const tabs: (VerticalTabItemProps | HorizontalTabItemProps)[] = [
   {
     name: "Error",
     href: "/my-content/error",
-  }
+  },
 ];
 
 interface Post {
   id: number;
   topic: string;
   content: string;
-  image?:string;
+  image?: string;
   avatarUrl?: string;
   emailOrUserName?: string;
   name?: string;
@@ -69,7 +79,7 @@ const MyContentPage = () => {
   }, [user?.currentSocialProfile?.credentialId]);
 
   useEffect(() => {
-    setIdea(router.query.page as string || 'all');
+    setIdea((router.query.page as string) || "all");
   }, [router.query.page]);
 
   useEffect(() => {
@@ -79,13 +89,16 @@ const MyContentPage = () => {
   const generatePosts = async () => {
     if (credentialId) {
       setIsLoading(true);
-      const response = await fetch(`/api/my-content/getContent?idea=${idea}&credentialId=${credentialId}`, {
-        credentials: "include",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `/api/my-content/getContent?idea=${idea}&credentialId=${credentialId}`,
+        {
+          credentials: "include",
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       if (typeof data === "object" && data !== null) {
         if (Array.isArray(data)) {
@@ -94,13 +107,13 @@ const MyContentPage = () => {
               id: x.id,
               topic: x.idea,
               content: x.content,
-              image:x.imagesDataURL,
+              image: x.imagesDataURL,
               avatarUrl: x.credential?.avatarUrl,
               name: x.credential?.name,
               emailOrUserName: x.credential?.emailOrUserName,
               credentialId: x.credential?.id,
               createdDate: x.createdDate,
-              schedulePostDate: x.schedulePostDate
+              schedulePostDate: x.schedulePostDate,
             };
           });
           setProcessedPosts(processedPosts);
@@ -146,26 +159,39 @@ const MyContentPage = () => {
                 <article
                   key={post?.id}
                   //   onClick={() => openSlideOverWithData(post)}
-                  onClick={() => router.query.page === 'error' && router.push(`/write/${post?.id}`)}
-                  className={`relative isolate flex flex-col overflow-hidden rounded-2xl bg-white px-8 py-8 shadow ${router.query.page === 'error' ? 'cursor-pointer' : ''}`}
+                  onClick={() =>
+                    router.query.page === "error" &&
+                    router.push(`/write/${post?.id}`)
+                  }
+                  className={`relative isolate flex flex-col overflow-hidden rounded-2xl bg-white px-8 py-8 shadow ${
+                    router.query.page === "error" ? "cursor-pointer" : ""
+                  }`}
                 >
-                  {router.query.page === 'all' || router.query.page === 'scheduled' ? (
-                 <> 
-                 <div
-                 onClick={() => handleOpenDeleteModal(post.id)}
-                 className="relative hover:text-[18px] font-bold h-5 w-5 hover:cursor-pointer text-red-500 ml-auto mr-[-20px] mt-[-20px]">
-                  X
-                 </div>
-                 </>  
+                  {router.query.page === "all" ||
+                  router.query.page === "scheduled" ? (
+                    <>
+                      <div
+                        onClick={() => handleOpenDeleteModal(post.id)}
+                        className="relative hover:text-[18px] font-bold h-5 w-5 hover:cursor-pointer text-red-500 ml-auto mr-[-20px] mt-[-20px]"
+                      >
+                        X
+                      </div>
+                    </>
                   ) : null}
                   <div className="-ml-4 flex items-center gap-x-4">
-                    <svg viewBox="0 0 2 2" className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                    <svg
+                      viewBox="0 0 2 2"
+                      className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+                    >
                       <circle cx={1} cy={1} r={1} />
                     </svg>
                     <div className="flex gap-x-2.5">
-                    <SocialAvatar size="mdLg" appId={user?.currentSocialProfile?.appId}
-                       avatarUrl={user?.currentSocialProfile?.avatarUrl} />
-                     {/* <img
+                      <SocialAvatar
+                        size="mdLg"
+                        appId={user?.currentSocialProfile?.appId}
+                        avatarUrl={user?.currentSocialProfile?.avatarUrl}
+                      />
+                      {/* <img
                         src={post.avatarUrl}
                         alt=""
                         className="h-12 w-12 flex-none rounded-full bg-white/10"
@@ -177,30 +203,48 @@ const MyContentPage = () => {
                     </div>
                   </div>
                   <div className="mt-3 text-left text-sm max-h-[250px] overflow-y-auto">
-                    <span className="" dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, "<br />") }} />
-                    {post.image && <img src={post.image}/> }  
+                    <span
+                      className=""
+                      dangerouslySetInnerHTML={{
+                        __html: post.content.replace(/\n/g, "<br />"),
+                      }}
+                    />
+                    {post.image && <img src={post.image} />}
                   </div>
                   <div className="mt-auto ">
                     <div className="mt-3 flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6 text-gray-500">
                       <time dateTime="2023-03-16" className="mr-8">
-                        {dayjs(post.createdDate).format('YYYY-MM-DD HH:mm')}
+                        {dayjs(post.createdDate).format("YYYY-MM-DD HH:mm")}
                       </time>
                     </div>
-                    {router.query.page === "scheduled" &&
+                    {router.query.page === "scheduled" && (
                       <div className="text-sm leading-6 text-awst">
-                        <span>Scheldule: {dayjs(post.schedulePostDate).format('YYYY-MM-DD HH:mm')}</span>
+                        <span>
+                          Scheldule:{" "}
+                          {dayjs(post.schedulePostDate).format(
+                            "YYYY-MM-DD HH:mm"
+                          )}
+                        </span>
                       </div>
-                    }
+                    )}
                     <div className="mt-3 flex gap-[10px] border-t pt-5">
                       <div className="flex">
                         <button>
-                          <img className="w-[90%] h-[90%]" src={WEBAPP_URL + "/LikeGroup.svg"} alt="" />
+                          <img
+                            className="w-[90%] h-[90%]"
+                            src={WEBAPP_URL + "/LikeGroup.svg"}
+                            alt=""
+                          />
                         </button>
                         <div className="-ml-1">99</div>
                       </div>
                       <div className="flex">
                         <button>
-                          <img className="w-4 h-4 -mt-[1px] mr-1" src={WEBAPP_URL + "/comment_icon.svg"} alt="" />
+                          <img
+                            className="w-4 h-4 -mt-[1px] mr-1"
+                            src={WEBAPP_URL + "/comment_icon.svg"}
+                            alt=""
+                          />
                         </button>
                         <div>630</div>
                       </div>
@@ -215,27 +259,30 @@ const MyContentPage = () => {
                       <div className="text-center">
                         <svg
                           className="bg-awst text-awst mx-auto mb-3 h-8 w-8 animate-spin"
-                          viewBox="0 0 24 24"></svg>
-                        <p className="text-default ml-2 text-[16px]">Loading...</p>
+                          viewBox="0 0 24 24"
+                        ></svg>
+                        <p className="text-default ml-2 text-[16px]">
+                          Loading...
+                        </p>
                       </div>
                     </DialogContent>
                   </Dialog>
                 </div>
               )}
               <DeletePostDialog
-                    open={isModalDeletePost}
-                    onClose={() => setIsModalDeletePost(false)}
-                    id={postIdToDelete}
-                    onDeleteComplete={(success) => {
-                      if (success) {
-                        showToast("Post has been deleted", "success");
-                        setIsModalDeletePost(false);
-                        router.reload();
-                      } else {
-                        showToast("Failed to delete post", "error");
-                      }
-                    }}
-                  />
+                open={isModalDeletePost}
+                onClose={() => setIsModalDeletePost(false)}
+                id={postIdToDelete}
+                onDeleteComplete={(success) => {
+                  if (success) {
+                    showToast("Post has been deleted", "success");
+                    setIsModalDeletePost(false);
+                    router.reload();
+                  } else {
+                    showToast("Failed to delete post", "error");
+                  }
+                }}
+              />
             </div>
           </div>
         </div>

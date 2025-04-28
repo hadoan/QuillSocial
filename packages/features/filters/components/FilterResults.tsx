@@ -7,7 +7,10 @@ export function FilterResults({
   emptyScreen,
   children,
 }: {
-  queryRes: { isLoading: boolean; data: { totalCount: number; filtered: unknown[] } | undefined };
+  queryRes: {
+    isLoading: boolean;
+    data: { totalCount: number; filtered: unknown[] } | undefined;
+  };
   SkeletonLoader: React.FC;
   noResultsScreen: React.ReactNode;
   emptyScreen: React.ReactNode;

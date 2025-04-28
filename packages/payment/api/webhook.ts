@@ -39,7 +39,6 @@ const handleCustomerSubscriptionDeleted = async (event: Stripe.Event) => {
   }
 };
 
-
 type WebhookHandler = (event: Stripe.Event) => Promise<void>;
 
 const webhookHandlers: Record<string, WebhookHandler | undefined> = {
@@ -48,26 +47,42 @@ const webhookHandlers: Record<string, WebhookHandler | undefined> = {
   "customer.subscription.deleted": handleCustomerSubscriptionDeleted,
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     if (req.method !== "POST") {
       throw new HttpCode({ statusCode: 405, message: "Method Not Allowed" });
     }
     const sig = req.headers["stripe-signature"];
     if (!sig) {
-      throw new HttpCode({ statusCode: 400, message: "Missing stripe-signature" });
+      throw new HttpCode({
+        statusCode: 400,
+        message: "Missing stripe-signature",
+      });
     }
 
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
-      throw new HttpCode({ statusCode: 500, message: "Missing process.env.STRIPE_WEBHOOK_SECRET" });
+      throw new HttpCode({
+        statusCode: 500,
+        message: "Missing process.env.STRIPE_WEBHOOK_SECRET",
+      });
     }
     const requestBuffer = await buffer(req);
     const payload = requestBuffer.toString();
 
-    const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const event = stripe.webhooks.constructEvent(
+      payload,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
 
     if (!event.account && event.type != "customer.subscription.deleted") {
-      throw new HttpCode({ statusCode: 202, message: "Incoming connected account" });
+      throw new HttpCode({
+        statusCode: 202,
+        message: "Incoming connected account",
+      });
     }
 
     const handler = webhookHandlers[event.type];

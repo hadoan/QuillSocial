@@ -1,4 +1,8 @@
-export const EmailCallToAction = (props: { label: string; href: string; secondary?: boolean }) => {
+export const EmailCallToAction = (props: {
+  label: string;
+  href: string;
+  secondary?: boolean;
+}) => {
   const { label, href, secondary } = props;
 
   return (
@@ -24,7 +28,8 @@ export const EmailCallToAction = (props: { label: string; href: string; secondar
         borderRadius: "6px",
         boxSizing: "border-box",
         height: "2.25rem",
-      }}>
+      }}
+    >
       <a
         style={{
           color: secondary ? "#5434D4" : "#FFFFFF",
@@ -36,7 +41,8 @@ export const EmailCallToAction = (props: { label: string; href: string; secondar
         }}
         href={href}
         target="_blank"
-        rel="noreferrer">
+        rel="noreferrer"
+      >
         {label}
       </a>
     </p>

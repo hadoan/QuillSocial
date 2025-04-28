@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { Dialog, DialogContent, DialogFooter, VideoPlayer } from "@quillsocial/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  VideoPlayer,
+} from "@quillsocial/ui";
 import { Button } from "@quillsocial/ui";
 import { uploadVideoGcp } from "@quillsocial/ui";
 import { Upload } from "@quillsocial/ui/components/icon";
@@ -10,7 +15,10 @@ interface UploadVideiDialogProps {
   onClose: (fileInfo: any) => Promise<void>;
 }
 
-export const UploadVideoDialog: React.FC<UploadVideiDialogProps> = ({ open, onClose }) => {
+export const UploadVideoDialog: React.FC<UploadVideiDialogProps> = ({
+  open,
+  onClose,
+}) => {
   const [canUseVideo, setCanUseVideo] = useState(false);
   const [fileInfo, setFileInfo] = useState<any>(undefined);
   const [signedUrl, setSignedUrl] = useState("");
@@ -40,18 +48,22 @@ export const UploadVideoDialog: React.FC<UploadVideiDialogProps> = ({ open, onCl
             onClick={async () => {
               await onClose(false);
             }}
-            className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+            className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+          >
             &times;
           </div>
         </div>
         <div className="mt-4">
-          <span className="mb-2 block text-sm font-semibold text-gray-700">Upload a Video</span>
+          <span className="mb-2 block text-sm font-semibold text-gray-700">
+            Upload a Video
+          </span>
           <div className="flex flex-col items-center justify-center rounded-lg  border border-gray-300 bg-slate-50 p-4">
             <Button
               className="text-dark mb-2 bg-slate-50 hover:text-white"
               onClick={() => {
                 document?.getElementById("fileUploadHelper")?.click();
-              }}>
+              }}
+            >
               <Upload />{" "}
             </Button>
             <input
@@ -68,9 +80,12 @@ export const UploadVideoDialog: React.FC<UploadVideiDialogProps> = ({ open, onCl
               }}
               hidden
             />
-            <span className="text-awst block text-xs  font-bold">Click to upload Video</span>
+            <span className="text-awst block text-xs  font-bold">
+              Click to upload Video
+            </span>
             <span className="block text-xs text-gray-500">
-              Only MP4 Video file is supported. (The maximum size per file is 200MB)
+              Only MP4 Video file is supported. (The maximum size per file is
+              200MB)
             </span>
           </div>
 
@@ -88,7 +103,8 @@ export const UploadVideoDialog: React.FC<UploadVideiDialogProps> = ({ open, onCl
           <Button
             className="rounded-xl"
             disabled={!canUseVideo}
-            onClick={async () => await onClose(fileInfo)}>
+            onClick={async () => await onClose(fileInfo)}
+          >
             Use Video
           </Button>
         </DialogFooter>

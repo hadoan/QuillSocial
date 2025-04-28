@@ -5,15 +5,20 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getStripeCustomerIdFromUserId } from "../lib/customer";
 import stripe from "../lib/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST" && req.method !== "GET")
     return res.status(405).json({ message: "Method not allowed" });
 
-  if (!req.session?.user?.id) return res.status(401).json({ message: "Not authenticated" });
+  if (!req.session?.user?.id)
+    return res.status(401).json({ message: "Not authenticated" });
 
   // If accessing a user's portal
   const customerId = await getStripeCustomerIdFromUserId(req.session.user.id);
-  if (!customerId) return res.status(400).json({ message: "CustomerId not found in stripe" });
+  if (!customerId)
+    return res.status(400).json({ message: "CustomerId not found in stripe" });
 
   let return_url = `${WEBAPP_URL}/settings/billing`;
 

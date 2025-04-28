@@ -8,7 +8,13 @@ interface CardProps {
   backgroundColor?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, subtitle, description, isNew, backgroundColor }) => {
+const Card: React.FC<CardProps> = ({
+  title,
+  subtitle,
+  description,
+  isNew,
+  backgroundColor,
+}) => {
   const cardStyle: React.CSSProperties = {
     backgroundColor: backgroundColor || "",
     maxWidth: "250px",
@@ -46,11 +52,13 @@ const Card: React.FC<CardProps> = ({ title, subtitle, description, isNew, backgr
       className="relative overflow-hidden rounded-lg shadow-lg"
       style={cardStyle}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.transform = "translateY(-10px)";
+        (e.currentTarget as HTMLDivElement).style.transform =
+          "translateY(-10px)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-      }}>
+      }}
+    >
       <div className="my-4 flex h-20 items-center justify-center">
         <h3 className="mb-1 text-lg font-bold " style={{ color: titleColor }}>
           {title}
@@ -63,7 +71,9 @@ const Card: React.FC<CardProps> = ({ title, subtitle, description, isNew, backgr
       )}
       <div className="bg-white bg-opacity-80 p-4" style={contentStyle}>
         <center>
-          <h4 className="text-base font-semibold leading-5 text-gray-950">{subtitle}</h4>
+          <h4 className="text-base font-semibold leading-5 text-gray-950">
+            {subtitle}
+          </h4>
         </center>
         <p className="mt-2 text-sm font-normal text-gray-500">{description}</p>
       </div>

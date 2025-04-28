@@ -11,7 +11,10 @@ type AcceptOrLeaveOptions = {
   input: TAcceptOrLeaveInputSchema;
 };
 
-export const acceptOrLeaveHandler = async ({ ctx, input }: AcceptOrLeaveOptions) => {
+export const acceptOrLeaveHandler = async ({
+  ctx,
+  input,
+}: AcceptOrLeaveOptions) => {
   if (input.accept) {
     const membership = await prisma.membership.update({
       where: {
@@ -37,7 +40,6 @@ export const acceptOrLeaveHandler = async ({ ctx, input }: AcceptOrLeaveOptions)
           userId_teamId: { userId: ctx.user.id, teamId: input.teamId },
         },
       });
-
     } catch (e) {
       console.error(e);
     }

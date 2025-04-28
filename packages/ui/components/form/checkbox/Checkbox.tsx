@@ -42,7 +42,9 @@ const CheckboxField = forwardRef<HTMLInputElement, Props>(
               {
                 className: classNames(
                   "relative flex items-start",
-                  !error && descriptionAsLabel ? "text-emphasis" : "text-emphasis",
+                  !error && descriptionAsLabel
+                    ? "text-emphasis"
+                    : "text-emphasis",
                   error && "text-error"
                 ),
               },
@@ -65,7 +67,11 @@ const CheckboxField = forwardRef<HTMLInputElement, Props>(
                     )}
                   />
                 </div>
-                <span className={classNames("text-sm", rest.descriptionClassName)}>{description}</span>
+                <span
+                  className={classNames("text-sm", rest.descriptionClassName)}
+                >
+                  {description}
+                </span>
               </>
             )}
             {/* {informationIconText && <InfoBadge content={informationIconText}></InfoBadge>} */}

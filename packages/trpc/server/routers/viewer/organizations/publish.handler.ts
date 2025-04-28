@@ -17,9 +17,13 @@ type PublishOptions = {
 export const publishHandler = async ({ ctx }: PublishOptions) => {
   const orgId = ctx.user.organizationId;
   if (!orgId)
-    throw new TRPCError({ code: "UNAUTHORIZED", message: "You do not have an organization to upgrade" });
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You do not have an organization to upgrade",
+    });
 
-  if (!(await isOrganisationAdmin(ctx.user.id, orgId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!(await isOrganisationAdmin(ctx.user.id, orgId)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
 
   const prevTeam = await prisma.team.findFirst({
     where: {
@@ -28,10 +32,18 @@ export const publishHandler = async ({ ctx }: PublishOptions) => {
     include: { members: true },
   });
 
-  if (!prevTeam) throw new TRPCError({ code: "NOT_FOUND", message: "Organization not found." });
+  if (!prevTeam)
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Organization not found.",
+    });
 
   const metadata = teamMetadataSchema.safeParse(prevTeam.metadata);
-  if (!metadata.success) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid team metadata" });
+  if (!metadata.success)
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Invalid team metadata",
+    });
 
   // Since this is an ORG we need to make sure ORG members are scyned with the team. Every time a user is added to the TEAM, we need to add them to the ORG
   // if (IS_TEAM_BILLING_ENABLED) {

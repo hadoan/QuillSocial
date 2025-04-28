@@ -16,7 +16,10 @@ import type { TRPCClientErrorLike } from "@quillsocial/trpc/client";
 import { trpc } from "@quillsocial/trpc/react";
 import type { AppRouter } from "@quillsocial/trpc/server/routers/_app";
 import { HorizontalTabs, TextAreaField } from "@quillsocial/ui";
-import type { VerticalTabItemProps, HorizontalTabItemProps } from "@quillsocial/ui";
+import type {
+  VerticalTabItemProps,
+  HorizontalTabItemProps,
+} from "@quillsocial/ui";
 import {
   Alert,
   Avatar,
@@ -48,7 +51,13 @@ import InstallApp from "@components/apps/InstallApp";
 import TwoFactor from "@components/auth/TwoFactor";
 import { SelectSkeletonLoader } from "@components/common/SkeletonLoader";
 
-const SkeletonLoader = ({ title, description }: { title: string; description: string }) => {
+const SkeletonLoader = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
   return (
     <SkeletonContainer>
       <Shell>
@@ -91,7 +100,8 @@ const ProfileView = () => {
   const { t } = useLocale();
   const utils = trpc.useContext();
   const { data: user, isLoading } = trpc.viewer.me.useQuery();
-  const { data: avatar, isLoading: isLoadingAvatar } = trpc.viewer.avatar.useQuery();
+  const { data: avatar, isLoading: isLoadingAvatar } =
+    trpc.viewer.avatar.useQuery();
   const mutation = trpc.viewer.updateProfile.useMutation({
     onSuccess: () => {
       showToast(t("settings_updated_successfully"), "success");
@@ -124,7 +134,8 @@ const ProfileView = () => {
 
   const [confirmPasswordOpen, setConfirmPasswordOpen] = useState(false);
   const [tempFormValues, setTempFormValues] = useState<FormValues | null>(null);
-  const [confirmPasswordErrorMessage, setConfirmPasswordDeleteErrorMessage] = useState("");
+  const [confirmPasswordErrorMessage, setConfirmPasswordDeleteErrorMessage] =
+    useState("");
 
   const [deleteAccountOpen, setDeleteAccountOpen] = useState(false);
   const [hasDeleteErrors, setHasDeleteErrors] = useState(false);
@@ -164,24 +175,29 @@ const ProfileView = () => {
       await utils.viewer.me.invalidate();
     },
   });
-  const deleteMeWithoutPasswordMutation = trpc.viewer.deleteMeWithoutPassword.useMutation({
-    onSuccess: onDeleteMeSuccessMutation,
-    onError: onDeleteMeErrorMutation,
-    async onSettled() {
-      await utils.viewer.me.invalidate();
-    },
-  });
+  const deleteMeWithoutPasswordMutation =
+    trpc.viewer.deleteMeWithoutPassword.useMutation({
+      onSuccess: onDeleteMeSuccessMutation,
+      onError: onDeleteMeErrorMutation,
+      async onSettled() {
+        await utils.viewer.me.invalidate();
+      },
+    });
 
   const isCALIdentityProviver = user?.identityProvider === IdentityProvider.DB;
 
-  const onConfirmPassword = (e: Event | React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const onConfirmPassword = (
+    e: Event | React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     e.preventDefault();
 
     const password = passwordRef.current.value;
     confirmPasswordMutation.mutate({ passwordInput: password });
   };
 
-  const onConfirmButton = (e: Event | React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const onConfirmButton = (
+    e: Event | React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (isCALIdentityProviver) {
       const totpCode = form.getValues("totpCode");
@@ -192,7 +208,10 @@ const ProfileView = () => {
     }
   };
 
-  const onConfirm = ({ totpCode }: DeleteAccountValues, e: BaseSyntheticEvent | undefined) => {
+  const onConfirm = (
+    { totpCode }: DeleteAccountValues,
+    e: BaseSyntheticEvent | undefined
+  ) => {
     e?.preventDefault();
     if (isCALIdentityProviver) {
       const password = passwordRef.current.value;
@@ -207,16 +226,27 @@ const ProfileView = () => {
 
   const errorMessages: { [key: string]: string } = {
     [ErrorCode.SecondFactorRequired]: t("2fa_enabled_instructions"),
-    [ErrorCode.IncorrectPassword]: `${t("incorrect_password")} ${t("please_try_again")}`,
+    [ErrorCode.IncorrectPassword]: `${t("incorrect_password")} ${t(
+      "please_try_again"
+    )}`,
     [ErrorCode.UserNotFound]: t("no_account_exists"),
-    [ErrorCode.IncorrectTwoFactorCode]: `${t("incorrect_2fa_code")} ${t("please_try_again")}`,
-    [ErrorCode.InternalServerError]: `${t("something_went_wrong")} ${t("please_try_again_and_contact_us")}`,
-    [ErrorCode.ThirdPartyIdentityProviderEnabled]: t("account_created_with_identity_provider"),
+    [ErrorCode.IncorrectTwoFactorCode]: `${t("incorrect_2fa_code")} ${t(
+      "please_try_again"
+    )}`,
+    [ErrorCode.InternalServerError]: `${t("something_went_wrong")} ${t(
+      "please_try_again_and_contact_us"
+    )}`,
+    [ErrorCode.ThirdPartyIdentityProviderEnabled]: t(
+      "account_created_with_identity_provider"
+    ),
   };
 
   if (isLoading || !user || isLoadingAvatar || !avatar)
     return (
-      <SkeletonLoader title={t("profile")} description={t("profile_description", { appName: APP_NAME })} />
+      <SkeletonLoader
+        title={t("profile")}
+        description={t("profile_description", { appName: APP_NAME })}
+      />
     );
 
   const defaultValues = {
@@ -239,8 +269,12 @@ const ProfileView = () => {
         withoutSeo
         heading="Profile"
         hideHeadingOnMobile
-        subtitle="Manage settings for your QuillAI profile.">
-        <Meta title={t("profile")} description={t("profile_description", { appName: "QuillAI" })} />
+        subtitle="Manage settings for your QuillAI profile."
+      >
+        <Meta
+          title={t("profile")}
+          description={t("profile_description", { appName: "QuillAI" })}
+        />
         <div className=" h-[37px] border-b-2 ">
           <div className="flex font-bold ">
             {" "}
@@ -288,16 +322,26 @@ const ProfileView = () => {
             <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
               <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">
-                  <img src="/logo/chatgpt-ai-logo.svg" className="rounded-lg"></img>
+                  <img
+                    src="/logo/chatgpt-ai-logo.svg"
+                    className="rounded-lg"
+                  ></img>
                 </div>
                 <div className="mt-4 text-sm font-bold">ChatGPT</div>
                 <div className="mb-4 flex-1 text-xs font-normal leading-6">
-                  ChatGPT is a chatbot and virtual assistant developed by OpenAI and launched on November 30,
-                  2022. Based on large language models (LLMs), it enables users to refine and steer a
-                  conversation towards a desired length, format, style, level of detail, and language
+                  ChatGPT is a chatbot and virtual assistant developed by OpenAI
+                  and launched on November 30, 2022. Based on large language
+                  models (LLMs), it enables users to refine and steer a
+                  conversation towards a desired length, format, style, level of
+                  detail, and language
                 </div>
                 <div>
-                  <InstallApp type="chatgpt_ai" slug="chatgpt" variant="ai" allowedMultipleInstalls={false} />
+                  <InstallApp
+                    type="chatgpt_ai"
+                    slug="chatgpt"
+                    variant="ai"
+                    allowedMultipleInstalls={false}
+                  />
                 </div>
               </div>
 
@@ -327,8 +371,9 @@ const ProfileView = () => {
                 </div>
                 <div className="mt-4 text-sm font-bold">Linkedin</div>
                 <div className="mb-4 flex-1 text-xs font-normal leading-6">
-                  LinkedIn is a business and employment-focused social media platform that works through
-                  websites and mobile apps. It was launched on May 5, 2003. Since December 2016, it has been a
+                  LinkedIn is a business and employment-focused social media
+                  platform that works through websites and mobile apps. It was
+                  launched on May 5, 2003. Since December 2016, it has been a
                   wholly owned subsidiary of Microsoft{" "}
                 </div>
                 <div>
@@ -347,10 +392,11 @@ const ProfileView = () => {
                 </div>
                 <div className="mt-4 text-sm font-bold">Facebook</div>
                 <div className="mb-4 flex-1 text-xs font-normal leading-6">
-                  Facebook, owned by Meta Platforms, is a popular online social media and networking service.
-                  Founded in 2004 by Mark Zuckerberg and his college roommates, it's a diverse platform
-                  enabling users to connect with loved ones, share updates, photos, videos, and explore varied
-                  content.{" "}
+                  Facebook, owned by Meta Platforms, is a popular online social
+                  media and networking service. Founded in 2004 by Mark
+                  Zuckerberg and his college roommates, it's a diverse platform
+                  enabling users to connect with loved ones, share updates,
+                  photos, videos, and explore varied content.{" "}
                 </div>
                 <div>
                   <InstallApp
@@ -391,13 +437,18 @@ const ProfileView = () => {
           </DialogTrigger>
           <DialogContent
             title={t("delete_account_modal_title")}
-            description={t("confirm_delete_account_modal", { appName: APP_NAME })}
+            description={t("confirm_delete_account_modal", {
+              appName: APP_NAME,
+            })}
             type="creation"
-            Icon={AlertTriangle}>
+            Icon={AlertTriangle}
+          >
             <>
               <div className="mb-10">
                 <p className="text-default mb-4">
-                  {t("delete_account_confirmation_message", { appName: APP_NAME })}
+                  {t("delete_account_confirmation_message", {
+                    appName: APP_NAME,
+                  })}
                 </p>
                 {isCALIdentityProviver && (
                   <PasswordField
@@ -417,7 +468,9 @@ const ProfileView = () => {
                   </Form>
                 )}
 
-                {hasDeleteErrors && <Alert severity="error" title={deleteErrorMessage} />}
+                {hasDeleteErrors && (
+                  <Alert severity="error" title={deleteErrorMessage} />
+                )}
               </div>
               <DialogFooter showDivider>
                 <DialogClose />
@@ -425,7 +478,8 @@ const ProfileView = () => {
                   color="primary"
                   className="text-white"
                   data-testid="delete-account-confirm"
-                  onClick={(e) => onConfirmButton(e)}>
+                  onClick={(e) => onConfirmButton(e)}
+                >
                   {t("delete_my_account")}
                 </Button>
               </DialogFooter>
@@ -434,12 +488,16 @@ const ProfileView = () => {
         </Dialog>
 
         {/* If changing email, confirm password */}
-        <Dialog open={confirmPasswordOpen} onOpenChange={setConfirmPasswordOpen}>
+        <Dialog
+          open={confirmPasswordOpen}
+          onOpenChange={setConfirmPasswordOpen}
+        >
           <DialogContent
             title={t("confirm_password")}
             description={t("confirm_password_change_email")}
             type="creation"
-            Icon={AlertTriangle}>
+            Icon={AlertTriangle}
+          >
             <div className="mb-10">
               <PasswordField
                 data-testid="password"
@@ -450,10 +508,16 @@ const ProfileView = () => {
                 label="Password"
                 ref={passwordRef}
               />
-              {confirmPasswordErrorMessage && <Alert severity="error" title={confirmPasswordErrorMessage} />}
+              {confirmPasswordErrorMessage && (
+                <Alert severity="error" title={confirmPasswordErrorMessage} />
+              )}
             </div>
             <DialogFooter showDivider>
-              <Button className="text-white" color="primary" onClick={(e) => onConfirmPassword(e)}>
+              <Button
+                className="text-white"
+                color="primary"
+                onClick={(e) => onConfirmPassword(e)}
+              >
                 {t("confirm")}
               </Button>
               <DialogClose />
@@ -483,7 +547,9 @@ const ProfileForm = ({
       .trim()
       .min(1, t("you_need_to_add_a_name"))
       .max(FULL_NAME_LENGTH_MAX_LIMIT, {
-        message: t("max_limit_allowed_hint", { limit: FULL_NAME_LENGTH_MAX_LIMIT }),
+        message: t("max_limit_allowed_hint", {
+          limit: FULL_NAME_LENGTH_MAX_LIMIT,
+        }),
       }),
     email: z.string().email(),
     bio: z.string(),
@@ -528,7 +594,9 @@ const ProfileForm = ({
                       />
                     }
                     handleImageChange={(newAvatar) => {
-                      formMethods.setValue("avatar", newAvatar, { shouldDirty: true });
+                      formMethods.setValue("avatar", newAvatar, {
+                        shouldDirty: true,
+                      });
                     }}
                     imageSrc={value || undefined}
                   />
@@ -543,7 +611,10 @@ const ProfileForm = ({
         <TextField label={t("full_name")} {...formMethods.register("name")} />
       </div>
       <div className="mt-9">
-        <TextField label={t("Email address")} {...formMethods.register("email")} />
+        <TextField
+          label={t("Email address")}
+          {...formMethods.register("email")}
+        />
       </div>
       <div className="mt-9">
         <InputField
@@ -594,7 +665,8 @@ const ProfileForm = ({
         disabled={isDisabled}
         color="primary"
         className="mt-8 text-white"
-        type="submit">
+        type="submit"
+      >
         Save Changes
       </Button>
     </Form>
@@ -643,7 +715,9 @@ const SettingForm = ({
         </select>
       </div> */}
       <div className="mt-9">
-        <label className="mb-[6px] block text-sm font-medium text-gray-900 dark:text-white">Timezone</label>
+        <label className="mb-[6px] block text-sm font-medium text-gray-900 dark:text-white">
+          Timezone
+        </label>
         <Controller
           name="timeZone"
           render={({ field: { onChange, value } }) =>
@@ -678,7 +752,10 @@ const SettingForm = ({
                   onChange={(val) => {
                     if (val) onChange(val.value);
                   }}
-                  defaultValue={hourOptions.find((option) => option.value === value) || hourOptions[0]}
+                  defaultValue={
+                    hourOptions.find((option) => option.value === value) ||
+                    hourOptions[0]
+                  }
                   options={hourOptions}
                 />
                 {error && (
@@ -692,8 +769,8 @@ const SettingForm = ({
           }}
         />
         <span className="text-justify text-xs font-normal leading-6">
-          This is an internal setting and will not affect how times are displayed on public booking pages for
-          you or anyone booking you.
+          This is an internal setting and will not affect how times are
+          displayed on public booking pages for you or anyone booking you.
         </span>
       </div>
       <div className="mt-7">
@@ -703,12 +780,18 @@ const SettingForm = ({
           control={formMethods.control}
           render={({ field: { onChange, value }, fieldState: { error } }) => {
             const weekOptions = [
-              ...["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
-                (day) => ({
-                  label: day,
-                  value: day,
-                })
-              ),
+              ...[
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ].map((day) => ({
+                label: day,
+                value: day,
+              })),
             ];
             return (
               <>
@@ -717,7 +800,10 @@ const SettingForm = ({
                   onChange={(val) => {
                     if (val) onChange(val.value);
                   }}
-                  defaultValue={weekOptions.find((option) => option.value === value) || weekOptions[0]}
+                  defaultValue={
+                    weekOptions.find((option) => option.value === value) ||
+                    weekOptions[0]
+                  }
                   options={weekOptions}
                 />
                 {error && (
@@ -736,7 +822,8 @@ const SettingForm = ({
         disabled={isDisabled}
         color="primary"
         className="mt-8 text-white"
-        type="submit">
+        type="submit"
+      >
         {t("Update")}
       </Button>
     </Form>
@@ -754,7 +841,10 @@ function NewPasswordButton({ name = "new-password" }: { name?: string }) {
   return (
     <Dialog name={name}>
       <DialogTrigger asChild>
-        <Button className="bg-awstbgbt text-awst w-full pl-[30%] text-sm hover:text-white" data-testid={name}>
+        <Button
+          className="bg-awstbgbt text-awst w-full pl-[30%] text-sm hover:text-white"
+          data-testid={name}
+        >
           {t("Password Change")}
         </Button>
       </DialogTrigger>
@@ -763,7 +853,8 @@ function NewPasswordButton({ name = "new-password" }: { name?: string }) {
           form={form}
           handleSubmit={(values) => {
             return values;
-          }}>
+          }}
+        >
           <InputField
             label={t("Old Pasword")}
             type="password"

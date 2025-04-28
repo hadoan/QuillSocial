@@ -13,10 +13,14 @@ type CreateInviteOptions = {
   input: TCreateInviteInputSchema;
 };
 
-export const createInviteHandler = async ({ ctx, input }: CreateInviteOptions) => {
+export const createInviteHandler = async ({
+  ctx,
+  input,
+}: CreateInviteOptions) => {
   const { teamId } = input;
 
-  if (!(await isTeamAdmin(ctx.user.id, teamId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!(await isTeamAdmin(ctx.user.id, teamId)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
 
   const token = randomBytes(32).toString("hex");
   await prisma.verificationToken.create({

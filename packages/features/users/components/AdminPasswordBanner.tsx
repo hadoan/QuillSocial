@@ -15,7 +15,10 @@ function AdminPasswordBanner() {
         text={t("invalid_admin_password", { user: data.user.username })}
         variant="warning"
         actions={
-          <Link href="/settings/security/password" className="border-b border-b-black">
+          <Link
+            href="/settings/security/password"
+            className="border-b border-b-black"
+          >
             {t("change_password_admin")}
           </Link>
         }

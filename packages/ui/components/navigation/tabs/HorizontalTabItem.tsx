@@ -19,7 +19,14 @@ export type HorizontalTabItemProps = {
   number?: string;
 };
 
-const HorizontalTabItem = function ({ name, href, linkProps, avatar, number, ...props }: HorizontalTabItemProps) {
+const HorizontalTabItem = function ({
+  name,
+  href,
+  linkProps,
+  avatar,
+  number,
+  ...props
+}: HorizontalTabItemProps) {
   const { t, isLocaleReady } = useLocale();
   const { asPath } = useRouter();
 
@@ -32,14 +39,16 @@ const HorizontalTabItem = function ({ name, href, linkProps, avatar, number, ...
       href={href}
       {...linkProps}
       className={classNames(
-        isCurrent ? "font-bold border-b-2 text-awst border-awst" : "font-bold text-[#717D96] hover:text-indigo-400 hover:text-sm hover:w-[80%] hover:border-black ",
+        isCurrent
+          ? "font-bold border-b-2 text-awst border-awst"
+          : "font-bold text-[#717D96] hover:text-indigo-400 hover:text-sm hover:w-[80%] hover:border-black ",
         "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium leading-4 md:mb-0",
         props.disabled && "pointer-events-none !opacity-30",
         props.className
       )}
-      aria-current={isCurrent ? "page" : undefined}>
+      aria-current={isCurrent ? "page" : undefined}
+    >
       {props.icon && (
-
         //@ts-ignore
         <props.icon
           className={classNames(
@@ -51,8 +60,13 @@ const HorizontalTabItem = function ({ name, href, linkProps, avatar, number, ...
       )}
       {isLocaleReady ? (
         <div className="flex items-center gap-x-2">
-          {avatar && <Avatar size="sm" imageSrc={avatar} alt="avatar" />} {t(name)}
-          { number && <span className="bg-awst h-5 w-5 text-center rounded text-white">{number}</span>}
+          {avatar && <Avatar size="sm" imageSrc={avatar} alt="avatar" />}{" "}
+          {t(name)}
+          {number && (
+            <span className="bg-awst h-5 w-5 text-center rounded text-white">
+              {number}
+            </span>
+          )}
         </div>
       ) : (
         <SkeletonText className="h-4 w-24" />

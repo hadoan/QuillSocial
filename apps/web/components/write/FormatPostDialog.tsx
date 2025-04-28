@@ -5,7 +5,10 @@ import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 
 import ModalEditOrNewCustom from "@components/post-generator/ModalEditOrNew";
 import ModalSelectFormat from "@components/post-generator/ModalSelectFormat";
-import { fetchAllFormat, fetchFormatRecomand } from "@components/post-generator/selectFormat";
+import {
+  fetchAllFormat,
+  fetchFormatRecomand,
+} from "@components/post-generator/selectFormat";
 import { WriteAiDialog } from "@components/write/WriteAiDialog";
 
 interface FormatPostDialog {
@@ -78,12 +81,12 @@ export const FormatPostDialog: React.FC<FormatPostDialog> = ({
   };
 
   const handleRetry = async (type: ReWriteAI | string) => {
-    setModalWriteAi(false); 
+    setModalWriteAi(false);
     setIsLoading(true);
     const rewritePost = await formatContent(type);
     setIsLoading(false);
-    setRewriteContent(rewritePost); 
-    setModalWriteAi(true); 
+    setRewriteContent(rewritePost);
+    setModalWriteAi(true);
   };
 
   return (
@@ -95,7 +98,8 @@ export const FormatPostDialog: React.FC<FormatPostDialog> = ({
               <div className="text-center">
                 <svg
                   className="bg-awst text-awst mx-auto mb-3 h-8 w-8 animate-spin"
-                  viewBox="0 0 24 24"></svg>
+                  viewBox="0 0 24 24"
+                ></svg>
                 <p className="text-default ml-2 text-[16px]">Loading...</p>
               </div>
             </DialogContent>

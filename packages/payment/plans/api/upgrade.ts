@@ -22,7 +22,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["subscription"],
   });
-  if (!checkoutSession) throw new HttpError({ statusCode: 404, message: "Checkout session not found" });
+  if (!checkoutSession)
+    throw new HttpError({
+      statusCode: 404,
+      message: "Checkout session not found",
+    });
 
   const subscription = checkoutSession.subscription as Stripe.Subscription;
   if (checkoutSession.payment_status !== "paid")

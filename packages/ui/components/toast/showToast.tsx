@@ -15,11 +15,14 @@ export const SuccessToast = ({ message, toastVisible, onClose }: IToast) => (
       "data-testid-toast-success bg-white text-inverted mb-2 flex h-auto items-center space-x-2 rounded-md p-3 text-sm font-semibold shadow-md rtl:space-x-reverse md:max-w-sm",
       toastVisible && "animate-fade-in-up cursor-pointer"
     )}
-    onClick={onClose}>
+    onClick={onClose}
+  >
     <span>
       <Check className="h-4 w-4 text-black" />
     </span>
-    <p data-testid="toast-success" className="text-black">{message}</p>
+    <p data-testid="toast-success" className="text-black">
+      {message}
+    </p>
   </div>
 );
 
@@ -29,7 +32,8 @@ export const ErrorToast = ({ message, toastVisible, onClose }: IToast) => (
       "animate-fade-in-up bg-error text-error mb-2 flex h-auto items-center space-x-2 rounded-md p-3 text-sm font-semibold shadow-md rtl:space-x-reverse md:max-w-sm",
       toastVisible && "animate-fade-in-up cursor-pointer"
     )}
-    onClick={onClose}>
+    onClick={onClose}
+  >
     <span>
       <Info className="h-4 w-4" />
     </span>
@@ -43,7 +47,8 @@ export const WarningToast = ({ message, toastVisible, onClose }: IToast) => (
       "animate-fade-in-up bg-brand-default text-brand mb-2 flex h-auto items-center space-x-2 rounded-md p-3 text-sm font-semibold shadow-md rtl:space-x-reverse md:max-w-sm",
       toastVisible && "animate-fade-in-up cursor-pointer"
     )}
-    onClick={onClose}>
+    onClick={onClose}
+  >
     <span>
       <Info className="h-4 w-4" />
     </span>
@@ -57,7 +62,8 @@ export const DefaultToast = ({ message, toastVisible, onClose }: IToast) => (
       "animate-fade-in-up bg-brand-default text-inverted mb-2 flex h-auto items-center space-x-2 rounded-md p-3 text-sm font-semibold shadow-md rtl:space-x-reverse md:max-w-sm",
       toastVisible && "animate-fade-in-up cursor-pointer"
     )}
-    onClick={onClose}>
+    onClick={onClose}
+  >
     <span>
       <Check className="h-4 w-4" />
     </span>
@@ -78,22 +84,46 @@ export function showToast(
   switch (variant) {
     case "success":
       return toast.custom(
-        (t) => <SuccessToast message={message} toastVisible={t.visible} onClose={onClose} />,
+        (t) => (
+          <SuccessToast
+            message={message}
+            toastVisible={t.visible}
+            onClose={onClose}
+          />
+        ),
         { duration }
       );
     case "error":
       return toast.custom(
-        (t) => <ErrorToast message={message} toastVisible={t.visible} onClose={onClose} />,
+        (t) => (
+          <ErrorToast
+            message={message}
+            toastVisible={t.visible}
+            onClose={onClose}
+          />
+        ),
         { duration }
       );
     case "warning":
       return toast.custom(
-        (t) => <WarningToast message={message} toastVisible={t.visible} onClose={onClose} />,
+        (t) => (
+          <WarningToast
+            message={message}
+            toastVisible={t.visible}
+            onClose={onClose}
+          />
+        ),
         { duration }
       );
     default:
       return toast.custom(
-        (t) => <DefaultToast message={message} toastVisible={t.visible} onClose={onClose} />,
+        (t) => (
+          <DefaultToast
+            message={message}
+            toastVisible={t.visible}
+            onClose={onClose}
+          />
+        ),
         { duration }
       );
   }

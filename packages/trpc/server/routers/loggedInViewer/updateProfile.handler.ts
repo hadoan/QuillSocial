@@ -21,7 +21,10 @@ type UpdateProfileOptions = {
   input: TUpdateProfileInputSchema;
 };
 
-export const updateProfileHandler = async ({ ctx, input }: UpdateProfileOptions) => {
+export const updateProfileHandler = async ({
+  ctx,
+  input,
+}: UpdateProfileOptions) => {
   const { user } = ctx;
   const data: Prisma.UserUpdateInput = {
     ...input,

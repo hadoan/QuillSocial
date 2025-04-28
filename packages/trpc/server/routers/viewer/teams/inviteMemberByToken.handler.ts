@@ -13,7 +13,10 @@ type InviteMemberByTokenOptions = {
   input: TInviteMemberByTokenSchemaInputSchema;
 };
 
-export const inviteMemberByTokenHandler = async ({ ctx, input }: InviteMemberByTokenOptions) => {
+export const inviteMemberByTokenHandler = async ({
+  ctx,
+  input,
+}: InviteMemberByTokenOptions) => {
   const { token } = input;
 
   const verificationToken = await prisma.verificationToken.findFirst({
@@ -30,7 +33,8 @@ export const inviteMemberByTokenHandler = async ({ ctx, input }: InviteMemberByT
     },
   });
 
-  if (!verificationToken) throw new TRPCError({ code: "NOT_FOUND", message: "Invite not found" });
+  if (!verificationToken)
+    throw new TRPCError({ code: "NOT_FOUND", message: "Invite not found" });
   if (!verificationToken.teamId || !verificationToken.team)
     throw new TRPCError({
       code: "NOT_FOUND",
@@ -51,7 +55,8 @@ export const inviteMemberByTokenHandler = async ({ ctx, input }: InviteMemberByT
       if (e.code === "P2002") {
         throw new TRPCError({
           code: "FORBIDDEN",
-          message: "This user is a member of this team / has a pending invitation.",
+          message:
+            "This user is a member of this team / has a pending invitation.",
         });
       }
     } else throw e;

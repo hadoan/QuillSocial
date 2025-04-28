@@ -45,7 +45,7 @@ export const meHandler = async ({ ctx }: MeOptions) => {
     mobile: user.mobile,
     isAdmin: user.isAdmin,
     currentSocialProfile: user.currentSocialProfile,
-    description:user.description,
-    speakAbout:user.speakAbout
+    description: user.description,
+    speakAbout: user.speakAbout,
   };
 };

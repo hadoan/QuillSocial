@@ -1,6 +1,12 @@
 import crypto from "crypto";
 
-export const defaultAvatarSrc = function ({ email, md5 }: { md5?: string; email?: string }) {
+export const defaultAvatarSrc = function ({
+  email,
+  md5,
+}: {
+  md5?: string;
+  email?: string;
+}) {
   if (!email && !md5) return "";
 
   if (email && !md5) {

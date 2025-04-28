@@ -4,7 +4,7 @@ import {
   ChatMessageItem,
   Notification,
   NotificationItem,
-	ChatItemWithGroupedNotifications
+  ChatItemWithGroupedNotifications,
 } from "@lib/types/chatDocProps";
 
 // Function to create a ChatMessageItem from a message

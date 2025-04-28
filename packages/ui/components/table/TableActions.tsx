@@ -24,7 +24,11 @@ export type ActionType = {
   color?: ButtonBaseProps["color"];
 } & (
   | { href: string; onClick?: never; actions?: never }
-  | { href?: never; onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void; actions?: never }
+  | {
+      href?: never;
+      onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+      actions?: never;
+    }
   | { actions?: ActionType[]; href?: never; onClick?: never }
 );
 
@@ -47,7 +51,12 @@ export const DropdownActions = ({
     <Dropdown>
       {!actionTrigger ? (
         <DropdownMenuTrigger asChild>
-          <Button type="button" color="secondary" variant="icon" StartIcon={MoreHorizontal} />
+          <Button
+            type="button"
+            color="secondary"
+            variant="icon"
+            StartIcon={MoreHorizontal}
+          />
         </DropdownMenuTrigger>
       ) : (
         <DropdownMenuTrigger asChild>{actionTrigger}</DropdownMenuTrigger>
@@ -62,7 +71,8 @@ export const DropdownActions = ({
                 data-testid={action.id}
                 StartIcon={action.icon}
                 href={action.href}
-                onClick={action.onClick || defaultAction}>
+                onClick={action.onClick || defaultAction}
+              >
                 {action.label}
               </DropdownItem>
             </DropdownMenuItem>
@@ -78,26 +88,33 @@ export const TableActions: FC<Props> = ({ actions }) => {
     <>
       <div className="flex space-x-2 justify-center items-center rtl:space-x-reverse">
         <ButtonGroup combined>
-        {actions.map((action) => {
-          const button = (
-            <Button
-              className="whitespace-nowrap font-bold text-[#2D3648] bg-default border hover:bg-sky-100 rounded-md"
-              key={action.id}
-              data-testid={action.id}
-              href={action.href}
-              onClick={action.onClick || defaultAction}
-              StartIcon={action.icon}
-              {...(action?.actions ? { EndIcon: ChevronDown } : null)}
-              disabled={action.disabled}
-              color={action.color || "secondary"}>
-              {action.label}
-            </Button>
-          );
-          if (!action.actions) {
-            return button;
-          }
-          return <DropdownActions key={action.id} actions={action.actions} actionTrigger={button} />;
-        })}
+          {actions.map((action) => {
+            const button = (
+              <Button
+                className="whitespace-nowrap font-bold text-[#2D3648] bg-default border hover:bg-sky-100 rounded-md"
+                key={action.id}
+                data-testid={action.id}
+                href={action.href}
+                onClick={action.onClick || defaultAction}
+                StartIcon={action.icon}
+                {...(action?.actions ? { EndIcon: ChevronDown } : null)}
+                disabled={action.disabled}
+                color={action.color || "secondary"}
+              >
+                {action.label}
+              </Button>
+            );
+            if (!action.actions) {
+              return button;
+            }
+            return (
+              <DropdownActions
+                key={action.id}
+                actions={action.actions}
+                actionTrigger={button}
+              />
+            );
+          })}
         </ButtonGroup>
       </div>
     </>

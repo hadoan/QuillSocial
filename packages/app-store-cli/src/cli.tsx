@@ -70,4 +70,6 @@ if (
   }
 }
 
-render(<App slug={slug} template={cli.flags.template || ""} command={command} />);
+render(
+  <App slug={slug} template={cli.flags.template || ""} command={command} />
+);

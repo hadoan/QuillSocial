@@ -3,7 +3,9 @@ function RedirectPage() {
 }
 
 export async function getServerSideProps() {
-  return { redirect: { permanent: false, destination: "/apps/installed/calendar" } };
+  return {
+    redirect: { permanent: false, destination: "/apps/installed/calendar" },
+  };
 }
 
 export default RedirectPage;

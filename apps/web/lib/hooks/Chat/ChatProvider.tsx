@@ -1,6 +1,9 @@
-import { ChatContextProps, ChatMessage, Notification } from "@lib/types/chatDocProps";
+import {
+  ChatContextProps,
+  ChatMessage,
+  Notification,
+} from "@lib/types/chatDocProps";
 import { createContext, useState } from "react";
-
 
 export const ChatContext = createContext<ChatContextProps | undefined>(
   undefined
@@ -13,7 +16,7 @@ export const ChatProvider = ({
 }): JSX.Element => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const addToHistory = (message: ChatMessage) => {
     setMessages((prevHistory) => [...prevHistory, message]);
@@ -61,8 +64,8 @@ export const ChatProvider = ({
         updateStreamingHistory,
         notifications,
         setNotifications,
-				isLoading,
-				setIsLoading
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

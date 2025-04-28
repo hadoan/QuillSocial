@@ -4,4 +4,6 @@ export const ZSendVerificationCodeInputSchema = z.object({
   phoneNumber: z.string(),
 });
 
-export type TSendVerificationCodeInputSchema = z.infer<typeof ZSendVerificationCodeInputSchema>;
+export type TSendVerificationCodeInputSchema = z.infer<
+  typeof ZSendVerificationCodeInputSchema
+>;

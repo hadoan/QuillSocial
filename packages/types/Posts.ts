@@ -3,7 +3,7 @@ export type Post = {
   idea: string;
   content: string;
   title?: string;
-  image?:string;
+  image?: string;
   avatarUrl?: string;
   emailOrUserName?: string;
   name?: string;

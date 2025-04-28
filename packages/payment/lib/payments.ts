@@ -24,11 +24,15 @@ export const checkIfTeamPaymentRequired = async ({ teamId = -1 }) => {
   if (!metadata?.paymentId) return { url: null };
   if (metadata?.paymentId === "LTD") return { url: WEBAPP_URL };
 
-  const checkoutSession = await stripe.checkout.sessions.retrieve(metadata.paymentId);
+  const checkoutSession = await stripe.checkout.sessions.retrieve(
+    metadata.paymentId
+  );
   /** If there's a pending session but it isn't paid, we need to pay this team */
   if (checkoutSession.payment_status !== "paid") return { url: null };
   /** If the session is already paid we return the upgrade URL so team is updated. */
-  return { url: `${WEBAPP_URL}/api/teams/${teamId}/upgrade?session_id=${metadata.paymentId}` };
+  return {
+    url: `${WEBAPP_URL}/api/teams/${teamId}/upgrade?session_id=${metadata.paymentId}`,
+  };
 };
 
 export const purchaseASubscription = async (input: {
@@ -52,7 +56,8 @@ export const purchaseASubscription = async (input: {
       },
     });
 
-    minimum = membersCount - purchasedUsers > 0 ? membersCount - purchasedUsers : 1;
+    minimum =
+      membersCount - purchasedUsers > 0 ? membersCount - purchasedUsers : 1;
   }
   const customer = await getStripeCustomerIdFromUserId(userId);
   let price =
@@ -131,7 +136,9 @@ export const purchaseTeamSubscription = async (input: {
     line_items: [
       {
         /** We only need to set the base price and we can upsell it directly on Stripe's checkout  */
-        price: isOrg ? process.env.STRIPE_ORG_MONTHLY_PRICE_ID : process.env.STRIPE_TEAM_MONTHLY_PRICE_ID,
+        price: isOrg
+          ? process.env.STRIPE_ORG_MONTHLY_PRICE_ID
+          : process.env.STRIPE_TEAM_MONTHLY_PRICE_ID,
         quantity: quantity,
       },
     ],
@@ -192,14 +199,18 @@ export const updateQuantitySubscriptionFromStripe = async (teamId: number) => {
     if (!subscriptionQuantity) throw new Error("Subscription not found");
 
     if (membershipCount < subscriptionQuantity) {
-      console.info(`Team ${teamId} has less members than seats, skipping updating subscription.`);
+      console.info(
+        `Team ${teamId} has less members than seats, skipping updating subscription.`
+      );
       return;
     }
 
     const newQuantity = membershipCount - subscriptionQuantity;
 
     await stripe.subscriptions.update(subscriptionId, {
-      items: [{ quantity: membershipCount + newQuantity, id: subscriptionItemId }],
+      items: [
+        { quantity: membershipCount + newQuantity, id: subscriptionItemId },
+      ],
     });
     console.info(
       `Updated subscription ${subscriptionId} for team ${teamId} to ${team.members.length} seats.`

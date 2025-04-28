@@ -1,6 +1,9 @@
 import type { Team } from "@quillsocial/prisma/client";
 
-type OrganizationWithRequestedSlug = Pick<Team, "name" | "id" | "slug" | "myVideoLogo"> & {
+type OrganizationWithRequestedSlug = Pick<
+  Team,
+  "name" | "id" | "slug" | "myVideoLogo"
+> & {
   requestedSlug: string | null;
 };
 

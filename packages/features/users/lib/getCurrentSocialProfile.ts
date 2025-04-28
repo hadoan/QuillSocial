@@ -23,12 +23,15 @@ export const getCurrentSocialProfile = async (userId: number) => {
         currentPageId: true,
         pageInfoes: {
           select: {
-            id: true
-          }
-        }
-      }
+            id: true,
+          },
+        },
+      },
     });
-    pageId = credential?.pageInfoes && credential.pageInfoes.length > 0 ? credential.pageInfoes[0].id : undefined;
+    pageId =
+      credential?.pageInfoes && credential.pageInfoes.length > 0
+        ? credential.pageInfoes[0].id
+        : undefined;
   } else {
     pageId = credential.currentPageId;
   }
@@ -38,6 +41,6 @@ export const getCurrentSocialProfile = async (userId: number) => {
     emailOrUserName: credential?.emailOrUserName ?? "john.doe@example.com",
     name: credential?.name ?? "Your Name",
     appId: credential?.appId!,
-    pageId
+    pageId,
   };
 };

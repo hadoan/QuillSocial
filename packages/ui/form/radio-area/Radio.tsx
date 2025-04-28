@@ -3,16 +3,23 @@ import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import type { ReactNode } from "react";
 import React from "react";
 
-export const Group = (props: RadioGroupPrimitive.RadioGroupProps & { children: ReactNode }) => (
-  <RadioGroupPrimitive.Root {...props}>{props.children}</RadioGroupPrimitive.Root>
+export const Group = (
+  props: RadioGroupPrimitive.RadioGroupProps & { children: ReactNode }
+) => (
+  <RadioGroupPrimitive.Root {...props}>
+    {props.children}
+  </RadioGroupPrimitive.Root>
 );
-export const Radio = (props: RadioGroupPrimitive.RadioGroupItemProps & { children: ReactNode }) => (
+export const Radio = (
+  props: RadioGroupPrimitive.RadioGroupItemProps & { children: ReactNode }
+) => (
   <RadioGroupPrimitive.Item
     {...props}
     className={classNames(
       "hover:bg-subtle border-default dark:checked:bg-brand-default dark:bg-darkgray-100 dark:hover:bg-subtle dark:checked:hover:bg-brand-default focus:ring-brand-default me-1.5 mt-0.5 h-4 w-4 flex-shrink-0 rounded-full border text-[--quill-brand] focus:ring-2 focus:ring-offset-1",
       props.disabled && "opacity-60"
-    )}>
+    )}
+  >
     {props.children}
   </RadioGroupPrimitive.Item>
 );
@@ -25,7 +32,9 @@ export const Indicator = ({ disabled }: { disabled?: boolean }) => (
   />
 );
 
-export const Label = (props: JSX.IntrinsicElements["label"] & { disabled?: boolean }) => (
+export const Label = (
+  props: JSX.IntrinsicElements["label"] & { disabled?: boolean }
+) => (
   <label
     {...props}
     className={classNames(

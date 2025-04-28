@@ -1,7 +1,10 @@
 import { appStoreMetadata } from "@quillsocial/app-store/appStoreMetaData";
 import { getAppFromSlug } from "@quillsocial/app-store/utils";
 import type { UserAdminTeams } from "@quillsocial/payment/teams/lib/getUserAdminTeams";
-import prisma, { safeAppSelect, safeCredentialSelect } from "@quillsocial/prisma";
+import prisma, {
+  safeAppSelect,
+  safeCredentialSelect,
+} from "@quillsocial/prisma";
 import { userMetadata } from "@quillsocial/prisma/zod-utils";
 import type { AppFrontendPayload as App } from "@quillsocial/types/App";
 import type { CredentialFrontendPayload as Credential } from "@quillsocial/types/Credential";
@@ -10,11 +13,15 @@ import { z } from "zod";
 /**
  * Get App metdata either using dirName or slug
  */
-export async function getAppWithMetadata(app: { dirName: string } | { slug: string }) {
+export async function getAppWithMetadata(
+  app: { dirName: string } | { slug: string }
+) {
   let appMetadata: App | null;
 
   if ("dirName" in app) {
-    appMetadata = appStoreMetadata[app.dirName as keyof typeof appStoreMetadata] as App;
+    appMetadata = appStoreMetadata[
+      app.dirName as keyof typeof appStoreMetadata
+    ] as App;
   } else {
     const foundEntry = Object.entries(appStoreMetadata).find(([, meta]) => {
       return meta.slug === app.slug;
@@ -56,7 +63,10 @@ export async function getAppRegistry() {
   return apps;
 }
 
-export async function getAppRegistryWithCredentials(userId: number, userAdminTeams: UserAdminTeams = []) {
+export async function getAppRegistryWithCredentials(
+  userId: number,
+  userAdminTeams: UserAdminTeams = []
+) {
   // Get teamIds to grab existing credentials
   const teamIds = [];
   for (const team of userAdminTeams) {
@@ -89,7 +99,8 @@ export async function getAppRegistryWithCredentials(userId: number, userAdminTea
     },
   });
 
-  const usersDefaultApp = userMetadata.parse(user?.metadata)?.defaultConferencingApp?.appSlug;
+  const usersDefaultApp = userMetadata.parse(user?.metadata)
+    ?.defaultConferencingApp?.appSlug;
   const apps = [] as (App & {
     credentials: Credential[];
     isDefault?: boolean;
@@ -108,7 +119,9 @@ export async function getAppRegistryWithCredentials(userId: number, userAdminTea
     if (app.dependencies) {
       dependencyData = app.dependencies.map((dependency) => {
         const dependencyInstalled = dbApps.some(
-          (dbAppIterator) => dbAppIterator.credentials.length && dbAppIterator.slug === dependency
+          (dbAppIterator) =>
+            dbAppIterator.credentials.length &&
+            dbAppIterator.slug === dependency
         );
         // If the app marked as dependency is simply deleted from the codebase, we can have the situation where App is marked installed in DB but we couldn't get the app.
         const dependencyName = getAppFromSlug(dependency)?.name;
@@ -131,8 +144,10 @@ export async function getAppRegistryWithCredentials(userId: number, userAdminTea
 }
 
 async function getMostPopularApps() {
-  const mostPopularApps = z.array(z.object({ appId: z.string(), installCount: z.number() })).parse(
-    await prisma.$queryRaw`
+  const mostPopularApps = z
+    .array(z.object({ appId: z.string(), installCount: z.number() }))
+    .parse(
+      await prisma.$queryRaw`
     SELECT
       c."appId",
       COUNT(*)::integer AS "installCount"
@@ -145,7 +160,7 @@ async function getMostPopularApps() {
     ORDER BY
       "installCount" DESC
     `
-  );
+    );
   return mostPopularApps.reduce((acc, { appId, installCount }) => {
     acc[appId] = installCount;
     return acc;

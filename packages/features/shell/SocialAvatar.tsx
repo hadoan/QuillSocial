@@ -11,7 +11,12 @@ interface SocialAvatarProps {
   size: string;
 }
 
-const SocialAvatar: React.FC<SocialAvatarProps> = ({ avatarUrl, name, size, appId }) => {
+const SocialAvatar: React.FC<SocialAvatarProps> = ({
+  avatarUrl,
+  name,
+  size,
+  appId,
+}) => {
   const mappedSize =
     size === "xxs" ||
     size === "xs" ||

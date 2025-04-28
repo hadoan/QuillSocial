@@ -5,7 +5,6 @@ import { defaultResponder } from "@quillsocial/lib/server";
 import prisma from "@quillsocial/prisma";
 import { PostStatus } from "@quillsocial/prisma/client";
 
-
 interface PostData {
   id: number;
   topic: string;

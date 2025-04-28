@@ -2,12 +2,7 @@ import { useState } from "react";
 
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import { checkUserToUsePlug } from "@quillsocial/features/shell/SocialAvatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  Switch,
-} from "@quillsocial/ui";
+import { Dialog, DialogContent, DialogFooter, Switch } from "@quillsocial/ui";
 import { Button, showToast } from "@quillsocial/ui";
 
 import PluginComment from "./PluginComment";
@@ -24,7 +19,11 @@ interface PostNowDialogProps {
   onUpdate: (pluginData?: PluginState) => void;
 }
 
-export const PostNowDialog: React.FC<PostNowDialogProps> = ({ open, onClose, onUpdate }) => {
+export const PostNowDialog: React.FC<PostNowDialogProps> = ({
+  open,
+  onClose,
+  onUpdate,
+}) => {
   const [isDisabledButton, setIsDisabledButton] = useState(false);
   const [isModalUpgradeOpen, setIsModalUpgradeOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -34,7 +33,6 @@ export const PostNowDialog: React.FC<PostNowDialogProps> = ({ open, onClose, onU
     timeType: "",
     comment: "",
   });
-
 
   const handleDialogClose = () => {
     if (onClose) {
@@ -87,14 +85,17 @@ export const PostNowDialog: React.FC<PostNowDialogProps> = ({ open, onClose, onU
           <div className="flex w-full justify-end">
             <div
               onClick={handleDialogClose}
-              className="mr-[-23px] mt-[-45px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+              className="mr-[-23px] mt-[-45px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+            >
               X
             </div>
           </div>
           <div className="mt-3 text-center">
             <div className="flex flex-col items-start justify-start">
               <span className="font-medium">Post Settings</span>
-              <span className="text-sm">These settings will affect this post only.</span>
+              <span className="text-sm">
+                These settings will affect this post only.
+              </span>
             </div>
             {checkPlug && (
               <div className="mt-2 flex">
@@ -106,7 +107,10 @@ export const PostNowDialog: React.FC<PostNowDialogProps> = ({ open, onClose, onU
                 />
                 <div className="flex flex-col items-start justify-start pl-4 pt-3 text-sm">
                   <p className="font-semibold">{"Auto plug(comment)"}</p>
-                  <p className="text-left"> Automatically add the first comment to your post.</p>
+                  <p className="text-left">
+                    {" "}
+                    Automatically add the first comment to your post.
+                  </p>
                 </div>
               </div>
             )}
@@ -114,19 +118,29 @@ export const PostNowDialog: React.FC<PostNowDialogProps> = ({ open, onClose, onU
               <PluginComment
                 isModalEmoji={isEmojiModal}
                 setIsModalEmoji={setIsEmojiModal}
-                onPluginAfterChange={(value) => handleSchelduleAfterChange({ ...value })}
+                onPluginAfterChange={(value) =>
+                  handleSchelduleAfterChange({ ...value })
+                }
               />
             )}
           </div>
           <DialogFooter className="flex items-center justify-end">
-            <Button disabled={isDisabledButton} type="submit" className="text-white" onClick={handleUpdate}>
+            <Button
+              disabled={isDisabledButton}
+              type="submit"
+              className="text-white"
+              onClick={handleUpdate}
+            >
               Publish Now
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
       <>
-        <ModalUpgrade isOpen={isModalUpgradeOpen} onClose={() => setIsModalUpgradeOpen(false)} />
+        <ModalUpgrade
+          isOpen={isModalUpgradeOpen}
+          onClose={() => setIsModalUpgradeOpen(false)}
+        />
       </>
     </>
   );

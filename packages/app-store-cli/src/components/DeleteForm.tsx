@@ -7,7 +7,13 @@ import { Message } from "../components/Message";
 import { BaseAppFork, generateAppFiles } from "../core";
 import { getApp } from "../utils/getApp";
 
-export default function DeleteForm({ slug, action }: { slug: string; action: "delete" | "delete-template" }) {
+export default function DeleteForm({
+  slug,
+  action,
+}: {
+  slug: string;
+  action: "delete" | "delete-template";
+}) {
   const [confirmedAppSlug, setConfirmedAppSlug] = useState("");
   const [state, setState] = useState<
     | "INITIALIZED"
@@ -39,7 +45,8 @@ export default function DeleteForm({ slug, action }: { slug: string; action: "de
     return (
       <>
         <ImportantText>
-          Type below the slug of the {isTemplate ? "Template" : "App"} that you want to delete.
+          Type below the slug of the {isTemplate ? "Template" : "App"} that you
+          want to delete.
         </ImportantText>
         <Text color="gray" italic>
           It would cleanup the app directory and App table and Credential table.
@@ -64,7 +71,9 @@ export default function DeleteForm({ slug, action }: { slug: string; action: "de
     return (
       <Message
         message={{
-          text: `${isTemplate ? "Template" : "App"} with slug ${slug} doesn't exist`,
+          text: `${
+            isTemplate ? "Template" : "App"
+          } with slug ${slug} doesn't exist`,
           type: "error",
         }}
       />

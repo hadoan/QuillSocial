@@ -10,7 +10,10 @@ type SendVerificationCodeOptions = {
   input: TSendVerificationCodeInputSchema;
 };
 
-export const sendVerificationCodeHandler = async ({ ctx: _ctx, input }: SendVerificationCodeOptions) => {
+export const sendVerificationCodeHandler = async ({
+  ctx: _ctx,
+  input,
+}: SendVerificationCodeOptions) => {
   const { phoneNumber } = input;
   return sendVerificationCode(phoneNumber);
 };

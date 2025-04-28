@@ -12,7 +12,10 @@ import { EventCollectionProvider } from "next-collect/client";
 import type { SSRConfig } from "next-i18next";
 import { appWithTranslation } from "next-i18next";
 import { ThemeProvider } from "next-themes";
-import type { AppProps as NextAppProps, AppProps as NextJsAppProps } from "next/app";
+import type {
+  AppProps as NextAppProps,
+  AppProps as NextJsAppProps,
+} from "next/app";
 import type { NextRouter } from "next/router";
 import { useRouter } from "next/router";
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react";
@@ -22,13 +25,15 @@ import type { WithNonceProps } from "@lib/withNonce";
 
 import { useViewerI18n } from "@components/I18nLanguageHandler";
 
-const I18nextAdapter = appWithTranslation<NextJsAppProps<SSRConfig> & { children: React.ReactNode }>(
-  ({ children }) => <>{children}</>
-);
+const I18nextAdapter = appWithTranslation<
+  NextJsAppProps<SSRConfig> & { children: React.ReactNode }
+>(({ children }) => <>{children}</>);
 
 // Workaround for https://github.com/vercel/next.js/issues/8592
 export type AppProps = Omit<
-  NextAppProps<WithNonceProps & { themeBasis?: string } & Record<string, unknown>>,
+  NextAppProps<
+    WithNonceProps & { themeBasis?: string } & Record<string, unknown>
+  >,
   "Component"
 > & {
   Component: NextAppProps["Component"] & {
@@ -87,7 +92,9 @@ const MyAppThemeProvider = (props: MyAppThemeProps) => {
   const isEmbedMode = typeof embedNamespace === "string";
 
   return (
-    <ThemeProvider {...getThemeProviderProps({ props, isEmbedMode, embedNamespace, router })}>
+    <ThemeProvider
+      {...getThemeProviderProps({ props, isEmbedMode, embedNamespace, router })}
+    >
       {/* Embed Mode can be detected reliably only on client side here as there can be static generated pages as well which can't determine if it's embed mode at backend */}
       {/* color-scheme makes background:transparent not work in iframe which is required by embed. */}
       {typeof window !== "undefined" && !isEmbedMode && (
@@ -154,7 +161,8 @@ function getThemeProviderProps({
     ? ThemeSupport.None
     : ThemeSupport.App;
 
-  const isBookingPageThemSupportRequired = themeSupport === ThemeSupport.Booking;
+  const isBookingPageThemSupportRequired =
+    themeSupport === ThemeSupport.Booking;
   const themeBasis = props.themeBasis;
 
   if ((isBookingPageThemSupportRequired || isEmbedMode) && !themeBasis) {
@@ -224,7 +232,8 @@ const AppProviders = (props: AppPropsWithChildren) => {
               themeBasis={props.pageProps.themeBasis}
               nonce={props.pageProps.nonce}
               isThemeSupported={props.Component.isThemeSupported}
-              isBookingPage={props.Component.isBookingPage}>
+              isBookingPage={props.Component.isBookingPage}
+            >
               {/* <FeatureFlagsProvider> */}
               {/* <OrgBrandProvider> */}
               <MetaProvider>{props.children}</MetaProvider>

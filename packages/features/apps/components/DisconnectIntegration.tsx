@@ -57,7 +57,8 @@ export default function DisconnectIntegration({
             size="base"
             variant={trashIcon && !label ? "icon" : "button"}
             disabled={isGlobal}
-            {...buttonProps}>
+            {...buttonProps}
+          >
             {label && label}
           </Button>
         </DialogTrigger>
@@ -65,10 +66,14 @@ export default function DisconnectIntegration({
           title={t("remove_app")}
           description={t("are_you_sure_you_want_to_remove_this_app")}
           type="confirmation"
-          Icon={AlertCircle}>
+          Icon={AlertCircle}
+        >
           <DialogFooter>
             <DialogClose onClick={() => setModalOpen(false)} />
-            <DialogClose color="primary" onClick={() => mutation.mutate({ id: credentialId })}>
+            <DialogClose
+              color="primary"
+              onClick={() => mutation.mutate({ id: credentialId })}
+            >
               {t("yes_remove_app")}
             </DialogClose>
           </DialogFooter>

@@ -1,4 +1,8 @@
-import { APP_NAME, WEBAPP_URL, IS_PRODUCTION } from "@quillsocial/lib/constants";
+import {
+  APP_NAME,
+  WEBAPP_URL,
+  IS_PRODUCTION,
+} from "@quillsocial/lib/constants";
 import type { TFunction } from "next-i18next";
 
 import { V2BaseEmailHtml, CallToAction } from "../components";
@@ -21,8 +25,11 @@ export const OrgAutoInviteEmail = (
         team: props.orgName,
         appName: APP_NAME,
         entity: "organization",
-      })}>
-      <p style={{ fontSize: "24px", marginBottom: "16px", textAlign: "center" }}>
+      })}
+    >
+      <p
+        style={{ fontSize: "24px", marginBottom: "16px", textAlign: "center" }}
+      >
         <>
           {props.language("organization_admin_invited_heading", {
             orgName: props.orgName,
@@ -51,7 +58,8 @@ export const OrgAutoInviteEmail = (
           marginBottom: "32px",
           marginTop: "32px",
           lineHeightStep: "24px",
-        }}>
+        }}
+      >
         <>
           {props.language("organization_admin_invited_body", {
             orgName: props.orgName,
@@ -76,7 +84,8 @@ export const OrgAutoInviteEmail = (
             marginBottom: "32px",
             marginTop: "32px",
             lineHeightStep: "24px",
-          }}>
+          }}
+        >
           <>
             {props.language("email_no_user_signoff", {
               appName: APP_NAME,
@@ -86,11 +95,22 @@ export const OrgAutoInviteEmail = (
         </p>
       </div>
 
-      <div style={{ borderTop: "1px solid #E1E1E1", marginTop: "32px", paddingTop: "32px" }}>
+      <div
+        style={{
+          borderTop: "1px solid #E1E1E1",
+          marginTop: "32px",
+          paddingTop: "32px",
+        }}
+      >
         <p style={{ fontWeight: 400, margin: 0 }}>
           <>
             {props.language("have_any_questions")}{" "}
-            <a href="mailto:support@quillsocial.co" style={{ color: "#3E3E3E" }} target="_blank" rel="noreferrer">
+            <a
+              href="mailto:support@quillsocial.co"
+              style={{ color: "#3E3E3E" }}
+              target="_blank"
+              rel="noreferrer"
+            >
               <>{props.language("contact")}</>
             </a>{" "}
             {props.language("our_support_team")}

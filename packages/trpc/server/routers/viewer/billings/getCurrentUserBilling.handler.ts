@@ -14,7 +14,9 @@ type GetCurrentUserBillingOptions = {
   };
 };
 
-export const getCurrentUserBillingHanlder = async ({ ctx }: GetCurrentUserBillingOptions) => {
+export const getCurrentUserBillingHanlder = async ({
+  ctx,
+}: GetCurrentUserBillingOptions) => {
   const userId = ctx.user.id;
   const memberships = await prisma?.membership.findMany({
     where: {
@@ -68,7 +70,9 @@ export const getCurrentUserBillingHanlder = async ({ ctx }: GetCurrentUserBillin
     teamId = memberships[0].teamId;
     const user = memberships.find((x) => x.role == MembershipRole.OWNER);
     createdDate =
-      user && user.team ? user.team.startTrialDate ?? user.team.createdAt : memberships[0].user.createdDate;
+      user && user.team
+        ? user.team.startTrialDate ?? user.team.createdAt
+        : memberships[0].user.createdDate;
   }
   const reminderType = getReminderType(createdDate, ctx.user.timeZone);
   const billings = await prisma.billing.findMany({

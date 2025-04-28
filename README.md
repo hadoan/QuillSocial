@@ -1,4 +1,3 @@
-
 # QuillSocial
 
 > **AI-powered social media management.**
@@ -12,6 +11,7 @@
 ![Dashboard](./assets/dashboard.png)
 
 ### ✨ Features
+
 - AI-driven post & caption generation
 - Smart scheduling across platforms (LinkedIn, Instagram, X, and more)
 - Analytics dashboard to monitor performance
@@ -20,10 +20,10 @@
 
 ![Content Creation](./assets/content.webp)
 
-
 ---
 
 ### 🛠️ Tech Stack
+
 - Next.js + TailwindCSS
 - OpenAI GPT Integration
 - Docker & Google Cloud Run
@@ -43,9 +43,9 @@ docker-compose up --build
 ---
 
 ### 📄 License
+
 [MIT License](LICENSE)
 
 ---
 
 **Give us a ⭐ if you like the project!**
-

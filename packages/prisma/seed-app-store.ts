@@ -3,7 +3,14 @@
  * This file is deprecated. The only use of this file is to seed the database for E2E tests. Each test should take care of seeding it's own data going forward.
  */
 import { appStoreMetadata } from "@quillsocial/app-store/appStoreMetaData";
-import { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET,TIKTOK_CLIENT_ID,TIKTOK_CLIENT_SECRET } from "@quillsocial/lib/constants";
+import {
+  FACEBOOK_APP_ID,
+  FACEBOOK_APP_SECRET,
+  LINKEDIN_CLIENT_ID,
+  LINKEDIN_CLIENT_SECRET,
+  TIKTOK_CLIENT_ID,
+  TIKTOK_CLIENT_SECRET,
+} from "@quillsocial/lib/constants";
 import type { Prisma } from "@prisma/client";
 import dotEnv from "dotenv";
 
@@ -24,7 +31,9 @@ async function seedAppData() {
     },
   });
   if (form) {
-    console.log(`Skipping Routing Form - Form Seed, "Seeded Form - Pro" already exists`);
+    console.log(
+      `Skipping Routing Form - Form Seed, "Seeded Form - Pro" already exists`
+    );
     return;
   }
 
@@ -127,11 +136,19 @@ async function seedAppData() {
           id: "898899aa-4567-489a-bcde-f1823f708646",
           action: { type: "customPageMessage", value: "Fallback Message" },
           isFallback: true,
-          queryValue: { id: "898899aa-4567-489a-bcde-f1823f708646", type: "group" },
+          queryValue: {
+            id: "898899aa-4567-489a-bcde-f1823f708646",
+            type: "group",
+          },
         },
       ],
       fields: [
-        { id: "c4296635-9f12-47b1-8153-c3a854649182", type: "text", label: "Test field", required: true },
+        {
+          id: "c4296635-9f12-47b1-8153-c3a854649182",
+          type: "text",
+          label: "Test field",
+          required: true,
+        },
         {
           id: "d4292635-9f12-17b1-9153-c3a854649182",
           type: "multiselect",
@@ -225,95 +242,181 @@ async function createApp(
 
 export default async function main() {
   // Calendar apps
-  await createApp("apple-calendar", "applecalendar", ["calendar"], "apple_calendar");
- 
-  await createApp("caldav-calendar", "caldavcalendar", ["calendar"], "caldav_calendar");
-  await createApp("google-cloudstorage", "googlecloudstorage", ["cloudstorage"], "goolge_cloudstorage");
+  await createApp(
+    "apple-calendar",
+    "applecalendar",
+    ["calendar"],
+    "apple_calendar"
+  );
 
-  await createApp("xconsumerkeys-social", "xconsumerkeyssocial", ["social"], "xconsumerkeys-social");
+  await createApp(
+    "caldav-calendar",
+    "caldavcalendar",
+    ["calendar"],
+    "caldav_calendar"
+  );
+  await createApp(
+    "google-cloudstorage",
+    "googlecloudstorage",
+    ["cloudstorage"],
+    "goolge_cloudstorage"
+  );
+
+  await createApp(
+    "xconsumerkeys-social",
+    "xconsumerkeyssocial",
+    ["social"],
+    "xconsumerkeys-social"
+  );
   await createApp("chatgpt-ai", "chatgptai", ["social"], "chatgpt-ai");
   await createApp("x-social", "xsocial", ["social"], "x_social", {
     client_id: process.env.TWITTER_API_KEY,
     client_secret: process.env.TWITTER_API_SECRET,
   });
-  await createApp("facebook-social", "facebooksocial", ["social"], "facebook_social", {
-    app_id: process.env.FACEBOOK_APP_ID,
-    app_secret: process.env.FACEBOOK_APP_SECRET,
-  });
+  await createApp(
+    "facebook-social",
+    "facebooksocial",
+    ["social"],
+    "facebook_social",
+    {
+      app_id: process.env.FACEBOOK_APP_ID,
+      app_secret: process.env.FACEBOOK_APP_SECRET,
+    }
+  );
 
-  await createApp("linkedin-social", "linkedinsocial", ["social"], "linkedin_social", {
-    app_id: LINKEDIN_CLIENT_ID,
-    app_secret: LINKEDIN_CLIENT_SECRET,
-  });
+  await createApp(
+    "linkedin-social",
+    "linkedinsocial",
+    ["social"],
+    "linkedin_social",
+    {
+      app_id: LINKEDIN_CLIENT_ID,
+      app_secret: LINKEDIN_CLIENT_SECRET,
+    }
+  );
 
- await createApp("tiktok-social", "tiktoksocial", ["social"], "tiktok_social", {
-    app_id: TIKTOK_CLIENT_ID,
-    app_secret: TIKTOK_CLIENT_SECRET,
-  });
+  await createApp(
+    "tiktok-social",
+    "tiktoksocial",
+    ["social"],
+    "tiktok_social",
+    {
+      app_id: TIKTOK_CLIENT_ID,
+      app_secret: TIKTOK_CLIENT_SECRET,
+    }
+  );
 
   try {
     const { client_secret, client_id, redirect_uris } = JSON.parse(
       process.env.GOOGLE_API_CREDENTIALS || ""
     ).web;
-    await createApp("medium-social", "mediumsocial", ["social"], "medium_social", {
-
-    });
-    await createApp("google-calendar", "googlecalendar", ["calendar"], "google_calendar", {
-      client_id,
-      client_secret,
-      redirect_uris,
-    });
-    await createApp("googlemybusiness-social", "googlemybusiness", ["social"], "googlemybusiness_social", {
-      client_id,
-      client_secret,
-      redirect_uris,
-    });
+    await createApp(
+      "medium-social",
+      "mediumsocial",
+      ["social"],
+      "medium_social",
+      {}
+    );
+    await createApp(
+      "google-calendar",
+      "googlecalendar",
+      ["calendar"],
+      "google_calendar",
+      {
+        client_id,
+        client_secret,
+        redirect_uris,
+      }
+    );
+    await createApp(
+      "googlemybusiness-social",
+      "googlemybusiness",
+      ["social"],
+      "googlemybusiness_social",
+      {
+        client_id,
+        client_secret,
+        redirect_uris,
+      }
+    );
     await createApp("youtube-social", "youtube", ["social"], "youtube_social", {
       client_id,
       client_secret,
       redirect_uris,
     });
-    await createApp("google-meet", "googlevideo", ["conferencing"], "google_video", {
-      client_id,
-      client_secret,
-      redirect_uris,
-    });
+    await createApp(
+      "google-meet",
+      "googlevideo",
+      ["conferencing"],
+      "google_video",
+      {
+        client_id,
+        client_secret,
+        redirect_uris,
+      }
+    );
   } catch (e) {
-    if (e instanceof Error) console.error("Error adding google credentials to DB:", e.message);
+    if (e instanceof Error)
+      console.error("Error adding google credentials to DB:", e.message);
   }
   if (process.env.MS_GRAPH_CLIENT_ID && process.env.MS_GRAPH_CLIENT_SECRET) {
-    await createApp("office365-calendar", "office365calendar", ["calendar"], "office365_calendar", {
-      client_id: process.env.MS_GRAPH_CLIENT_ID,
-      client_secret: process.env.MS_GRAPH_CLIENT_SECRET,
-    });
-    await createApp("msteams", "office365video", ["conferencing"], "office365_video", {
-      client_id: process.env.MS_GRAPH_CLIENT_ID,
-      client_secret: process.env.MS_GRAPH_CLIENT_SECRET,
-    });
+    await createApp(
+      "office365-calendar",
+      "office365calendar",
+      ["calendar"],
+      "office365_calendar",
+      {
+        client_id: process.env.MS_GRAPH_CLIENT_ID,
+        client_secret: process.env.MS_GRAPH_CLIENT_SECRET,
+      }
+    );
+    await createApp(
+      "msteams",
+      "office365video",
+      ["conferencing"],
+      "office365_video",
+      {
+        client_id: process.env.MS_GRAPH_CLIENT_ID,
+        client_secret: process.env.MS_GRAPH_CLIENT_SECRET,
+      }
+    );
   }
   if (
     process.env.LARK_OPEN_APP_ID &&
     process.env.LARK_OPEN_APP_SECRET &&
     process.env.LARK_OPEN_VERIFICATION_TOKEN
   ) {
-    await createApp("lark-calendar", "larkcalendar", ["calendar"], "lark_calendar", {
-      app_id: process.env.LARK_OPEN_APP_ID,
-      app_secret: process.env.LARK_OPEN_APP_SECRET,
-      open_verification_token: process.env.LARK_OPEN_VERIFICATION_TOKEN,
-    });
+    await createApp(
+      "lark-calendar",
+      "larkcalendar",
+      ["calendar"],
+      "lark_calendar",
+      {
+        app_id: process.env.LARK_OPEN_APP_ID,
+        app_secret: process.env.LARK_OPEN_APP_SECRET,
+        open_verification_token: process.env.LARK_OPEN_VERIFICATION_TOKEN,
+      }
+    );
   }
   // Video apps
   if (process.env.DAILY_API_KEY) {
-    await createApp("daily-video", "dailyvideo", ["conferencing"], "daily_video", {
-      api_key: process.env.DAILY_API_KEY,
-      scale_plan: process.env.DAILY_SCALE_PLAN,
-    });
+    await createApp(
+      "daily-video",
+      "dailyvideo",
+      ["conferencing"],
+      "daily_video",
+      {
+        api_key: process.env.DAILY_API_KEY,
+        scale_plan: process.env.DAILY_SCALE_PLAN,
+      }
+    );
   }
   if (process.env.TANDEM_CLIENT_ID && process.env.TANDEM_CLIENT_SECRET) {
     await createApp("tandem", "tandemvideo", ["conferencing"], "tandem_video", {
       client_id: process.env.TANDEM_CLIENT_ID as string,
       client_secret: process.env.TANDEM_CLIENT_SECRET as string,
-      base_url: (process.env.TANDEM_BASE_URL as string) || "https://tandem.chat",
+      base_url:
+        (process.env.TANDEM_BASE_URL as string) || "https://tandem.chat",
     });
   }
   if (process.env.ZOOM_CLIENT_ID && process.env.ZOOM_CLIENT_SECRET) {
@@ -330,11 +433,20 @@ export default async function main() {
       client_secret: process.env.HUBSPOT_CLIENT_SECRET,
     });
   }
-  if (process.env.SALESFORCE_CONSUMER_KEY && process.env.SALESFORCE_CONSUMER_SECRET) {
-    await createApp("salesforce", "salesforce", ["crm"], "salesforce_other_calendar", {
-      consumer_key: process.env.SALESFORCE_CONSUMER_KEY,
-      consumer_secret: process.env.SALESFORCE_CONSUMER_SECRET,
-    });
+  if (
+    process.env.SALESFORCE_CONSUMER_KEY &&
+    process.env.SALESFORCE_CONSUMER_SECRET
+  ) {
+    await createApp(
+      "salesforce",
+      "salesforce",
+      ["crm"],
+      "salesforce_other_calendar",
+      {
+        consumer_key: process.env.SALESFORCE_CONSUMER_KEY,
+        consumer_secret: process.env.SALESFORCE_CONSUMER_SECRET,
+      }
+    );
   }
   if (process.env.ZOHOCRM_CLIENT_ID && process.env.ZOHOCRM_CLIENT_SECRET) {
     await createApp("zohocrm", "zohocrm", ["crm"], "zohocrm_other_calendar", {
@@ -342,7 +454,12 @@ export default async function main() {
       client_secret: process.env.ZOHOCRM_CLIENT_SECRET,
     });
   }
-  await createApp("wipe-my-quill", "wipemycalother", ["automation"], "wipemycal_other");
+  await createApp(
+    "wipe-my-quill",
+    "wipemycalother",
+    ["automation"],
+    "wipemycal_other"
+  );
   if (process.env.GIPHY_API_KEY) {
     await createApp("giphy", "giphy", ["other"], "giphy_other", {
       api_key: process.env.GIPHY_API_KEY,
@@ -350,12 +467,18 @@ export default async function main() {
   }
 
   if (process.env.VITAL_API_KEY && process.env.VITAL_WEBHOOK_SECRET) {
-    await createApp("vital-automation", "vital", ["automation"], "vital_other", {
-      mode: process.env.VITAL_DEVELOPMENT_MODE || "sandbox",
-      region: process.env.VITAL_REGION || "us",
-      api_key: process.env.VITAL_API_KEY,
-      webhook_secret: process.env.VITAL_WEBHOOK_SECRET,
-    });
+    await createApp(
+      "vital-automation",
+      "vital",
+      ["automation"],
+      "vital_other",
+      {
+        mode: process.env.VITAL_DEVELOPMENT_MODE || "sandbox",
+        region: process.env.VITAL_REGION || "us",
+        api_key: process.env.VITAL_API_KEY,
+        webhook_secret: process.env.VITAL_WEBHOOK_SECRET,
+      }
+    );
   }
 
   if (process.env.ZAPIER_INVITE_LINK) {
@@ -364,7 +487,12 @@ export default async function main() {
     });
   }
 
-  await createApp("huddle01", "huddle01video", ["conferencing"], "huddle01_video");
+  await createApp(
+    "huddle01",
+    "huddle01video",
+    ["conferencing"],
+    "huddle01_video"
+  );
 
   // Payment apps
   if (

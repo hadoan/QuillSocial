@@ -2,9 +2,13 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 
-type OptionalKeys<T> = { [K in keyof T]-?: Record<string, unknown> extends Pick<T, K> ? K : never }[keyof T];
+type OptionalKeys<T> = {
+  [K in keyof T]-?: Record<string, unknown> extends Pick<T, K> ? K : never;
+}[keyof T];
 
-type FilteredKeys<T, U> = { [K in keyof T as T[K] extends U ? K : never]: T[K] };
+type FilteredKeys<T, U> = {
+  [K in keyof T as T[K] extends U ? K : never]: T[K];
+};
 
 // Take array as a string and return zod array
 export const queryNumberArray = z
@@ -62,7 +66,10 @@ export function useTypedQuery<T extends z.AnyZodObject>(schema: T) {
   }
 
   // push item to existing key
-  function pushItemToKey<J extends ArrayOutputKeys>(key: J, value: ArrayOutput[J][number]) {
+  function pushItemToKey<J extends ArrayOutputKeys>(
+    key: J,
+    value: ArrayOutput[J][number]
+  ) {
     const existingValue = parsedQuery[key];
     if (Array.isArray(existingValue)) {
       if (existingValue.includes(value)) return; // prevent adding the same value to the array
@@ -75,7 +82,10 @@ export function useTypedQuery<T extends z.AnyZodObject>(schema: T) {
   }
 
   // Remove item by key and value
-  function removeItemByKeyAndValue<J extends ArrayOutputKeys>(key: J, value: ArrayOutput[J][number]) {
+  function removeItemByKeyAndValue<J extends ArrayOutputKeys>(
+    key: J,
+    value: ArrayOutput[J][number]
+  ) {
     const existingValue = parsedQuery[key];
     if (Array.isArray(existingValue) && existingValue.length > 1) {
       const newValue = existingValue.filter((item: any) => item !== value);

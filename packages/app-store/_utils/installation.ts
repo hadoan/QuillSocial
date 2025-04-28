@@ -36,10 +36,10 @@ export async function createDefaultInstallation({
   slug,
   key = {},
   teamId,
-  // billingCycleStart,
-  // paymentStatus,
-  // subscriptionId,
-}: InstallationArgs) {
+}: // billingCycleStart,
+// paymentStatus,
+// subscriptionId,
+InstallationArgs) {
   const installation = await prisma.credential.create({
     data: {
       type: appType,

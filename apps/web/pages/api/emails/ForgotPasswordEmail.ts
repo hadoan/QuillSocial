@@ -49,7 +49,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         success: 0,
         failures: 1,
         errors: [],
-        warnings: ["In order to use Google Meet you must set your destination calendar to a Google Calendar"],
+        warnings: [
+          "In order to use Google Meet you must set your destination calendar to a Google Calendar",
+        ],
       },
     ],
   };
@@ -65,7 +67,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   res.statusCode = 200;
 
   res.setHeader("Content-Type", "text/html");
-  res.setHeader("Cache-Control", "no-cache, no-store, private, must-revalidate");
+  res.setHeader(
+    "Cache-Control",
+    "no-cache, no-store, private, must-revalidate"
+  );
   res.write(
     renderEmail("ForgotPasswordEmail", {
       language: t,

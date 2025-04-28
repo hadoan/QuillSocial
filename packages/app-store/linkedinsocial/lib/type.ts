@@ -1,12 +1,11 @@
 import { PageInfo } from "../../types";
 
-
 interface Results {
-    [key: string]: PageInfo;
+  [key: string]: PageInfo;
 }
 
 export interface PageInfoData {
-    results: Results;
+  results: Results;
 }
 
 // const jsonData: OrganizationData = /* Your JSON data here */;

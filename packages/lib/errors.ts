@@ -1,9 +1,10 @@
-export function getErrorFromUnknown(cause: unknown): Error & { statusCode?: number; code?: string } {
+export function getErrorFromUnknown(
+  cause: unknown
+): Error & { statusCode?: number; code?: string } {
   if (cause instanceof Error) {
     return cause;
   }
   if (typeof cause === "string") {
-    
     // @ts-ignore https://github.com/tc39/proposal-error-cause
     return new Error(cause, { cause });
   }
@@ -11,7 +12,9 @@ export function getErrorFromUnknown(cause: unknown): Error & { statusCode?: numb
   return new Error(`Unhandled error of type '${typeof cause}''`);
 }
 
-export async function handleErrorsJson<Type>(response: Response): Promise<Type> {
+export async function handleErrorsJson<Type>(
+  response: Response
+): Promise<Type> {
   if (response.headers.get("content-encoding") === "gzip") {
     const responseText = await response.text();
     return new Promise((resolve) => resolve(JSON.parse(responseText)));

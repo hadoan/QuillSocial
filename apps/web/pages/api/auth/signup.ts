@@ -4,7 +4,11 @@ import { z } from "zod";
 import dayjs from "@quillsocial/dayjs";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import { sendEmailVerification } from "@quillsocial/features/auth/lib/verifyEmail";
-import { sendToJuneSo, TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
+import {
+  sendToJuneSo,
+  TrackEventJuneSo,
+  EVENTS,
+} from "@quillsocial/features/june.so/juneso";
 import slugify from "@quillsocial/lib/slugify";
 import prisma from "@quillsocial/prisma";
 import { IdentityProvider } from "@quillsocial/prisma/enums";
@@ -21,7 +25,10 @@ const signupSchema = z.object({
   token: z.string().optional(),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(405).end();
   }
@@ -59,7 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  let foundToken: { id: number; teamId: number | null; expires: Date } | null = null;
+  let foundToken: { id: number; teamId: number | null; expires: Date } | null =
+    null;
   if (token) {
     foundToken = await prisma.verificationToken.findFirst({
       where: {
@@ -95,7 +103,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 OR: [
                   { emailVerified: { not: null } },
                   {
-                    AND: [{ password: { not: null } }, { username: { not: null } }],
+                    AND: [
+                      { password: { not: null } },
+                      { username: { not: null } },
+                    ],
                   },
                 ],
               },
@@ -107,7 +118,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (existingUser) {
       const message: string =
-        existingUser.email !== userEmail ? "Username already taken" : "Email address is already registered";
+        existingUser.email !== userEmail
+          ? "Username already taken"
+          : "Email address is already registered";
 
       return res.status(409).json({ message });
     }

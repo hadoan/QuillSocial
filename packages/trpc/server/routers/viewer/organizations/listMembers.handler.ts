@@ -15,7 +15,10 @@ type GetOptions = {
 export const listMembersHandler = async ({ ctx }: GetOptions) => {
   const organizationId = ctx.user.organizationId;
   if (!organizationId) {
-    throw new TRPCError({ code: "NOT_FOUND", message: "User is not part of any organization." });
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "User is not part of any organization.",
+    });
   }
   const team = await getTeamWithMembers(organizationId, undefined, ctx.user.id);
 
@@ -23,7 +26,9 @@ export const listMembersHandler = async ({ ctx }: GetOptions) => {
     throw new TRPCError({ code: "NOT_FOUND", message: "Team not found." });
   }
 
-  const membership = team?.members.find((membership) => membership.id === ctx.user.id);
+  const membership = team?.members.find(
+    (membership) => membership.id === ctx.user.id
+  );
 
   return {
     ...team,

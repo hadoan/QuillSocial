@@ -6,7 +6,12 @@ import React, { useEffect, useState } from "react";
 
 import type { AppMeta } from "@quillsocial/types/App";
 
-import { getSlugFromAppName, BaseAppFork, generateAppFiles, getAppDirPath } from "../core";
+import {
+  getSlugFromAppName,
+  BaseAppFork,
+  generateAppFiles,
+  getAppDirPath,
+} from "../core";
 import { getApp } from "../utils/getApp";
 import Templates from "../utils/templates";
 import Label from "./Label";
@@ -39,7 +44,9 @@ export const AppForm = ({
   if ((givenSlug && action === "edit-template") || action === "edit")
     try {
       const config = JSON.parse(
-        fs.readFileSync(`${getAppDirPath(givenSlug, isTemplate)}/config.json`).toString()
+        fs
+          .readFileSync(`${getAppDirPath(givenSlug, isTemplate)}/config.json`)
+          .toString()
       ) as AppMeta;
       initialConfig = {
         ...config,
@@ -124,13 +131,16 @@ export const AppForm = ({
   const fieldName = field?.name || "";
   let fieldValue = appInputData[fieldName as keyof typeof appInputData] || "";
   let validationResult: Parameters<typeof Message>[0]["message"] | null = null;
-  const { name, category, description, publisher, email, template } = appInputData;
+  const { name, category, description, publisher, email, template } =
+    appInputData;
 
   const [status, setStatus] = useState<"inProgress" | "done">("inProgress");
   const formCompleted = inputIndex === fields.length;
   if (field?.name === "appCategory") {
     // Use template category as the default category
-    fieldValue = Templates.find((t) => t.value === appInputData["template"])?.category || "";
+    fieldValue =
+      Templates.find((t) => t.value === appInputData["template"])?.category ||
+      "";
   }
   const slug = getSlugFromAppName(name) || givenSlug;
 
@@ -203,11 +213,13 @@ export const AppForm = ({
         {status === "done" && (
           <Box flexDirection="column" paddingTop={2} paddingBottom={2}>
             <Text bold>
-              Just wait for a few seconds for process to exit and then you are good to go. Your{" "}
-              {isTemplate ? "Template" : "App"} code exists at {getAppDirPath(slug, isTemplate)}
+              Just wait for a few seconds for process to exit and then you are
+              good to go. Your {isTemplate ? "Template" : "App"} code exists at{" "}
+              {getAppDirPath(slug, isTemplate)}
             </Text>
             <Text>
-              Tip : Go and change the logo of your {isTemplate ? "template" : "app"} by replacing{" "}
+              Tip : Go and change the logo of your{" "}
+              {isTemplate ? "template" : "app"} by replacing{" "}
               {getAppDirPath(slug, isTemplate) + "/static/icon.svg"}
             </Text>
             <Newline />
@@ -220,7 +232,9 @@ export const AppForm = ({
                 <Text>{slug}</Text>
               </Box>
               <Box flexDirection="row">
-                <Text color="green">{isTemplate ? "Template" : "App"} URL: </Text>
+                <Text color="green">
+                  {isTemplate ? "Template" : "App"} URL:{" "}
+                </Text>
                 <Text>{`http://localhost:3000/apps/${slug}`}</Text>
               </Box>
               <Box flexDirection="row">
@@ -244,20 +258,25 @@ export const AppForm = ({
                 <Text>{email}</Text>
               </Box>
               <Text bold>
-                Next Step: Enable the app from http://localhost:3000/settings/admin/apps as admin user (Email:
+                Next Step: Enable the app from
+                http://localhost:3000/settings/admin/apps as admin user (Email:
                 admin@example.com, Pass: ADMINadmin2022!)
               </Text>
             </Box>
           </Box>
         )}
         <Text italic color="gray">
-          Note: You should not rename app directory manually. Use cli only to do that as it needs to be
-          updated in DB as well
+          Note: You should not rename app directory manually. Use cli only to do
+          that as it needs to be updated in DB as well
         </Text>
       </Box>
     );
   }
-  if (slug && slug !== givenSlug && fs.existsSync(getAppDirPath(slug, isTemplate))) {
+  if (
+    slug &&
+    slug !== givenSlug &&
+    fs.existsSync(getAppDirPath(slug, isTemplate))
+  ) {
     validationResult = {
       text: `${
         action === "create" ? "App" : "Template"
@@ -270,14 +289,18 @@ export const AppForm = ({
     }
   }
   const selectedOptionIndex =
-    field?.type === "select" ? field?.options?.findIndex((o) => o.value === fieldValue) : 0;
+    field?.type === "select"
+      ? field?.options?.findIndex((o) => o.value === fieldValue)
+      : 0;
   return (
     <Box flexDirection="column">
       <Box flexDirection="column">
         {isEditAction ? (
           <Message
             message={{
-              text: `\nLet's edit your ${isTemplate ? "Template" : "App"}! We have prefilled the details.\n`,
+              text: `\nLet's edit your ${
+                isTemplate ? "Template" : "App"
+              }! We have prefilled the details.\n`,
             }}
           />
         ) : (
@@ -328,7 +351,9 @@ export const AppForm = ({
                 );
               }}
               key={fieldName}
-              initialIndex={selectedOptionIndex === -1 ? 0 : selectedOptionIndex}
+              initialIndex={
+                selectedOptionIndex === -1 ? 0 : selectedOptionIndex
+              }
               onSelect={(item) => {
                 setAppInputData((appInputData) => {
                   return {

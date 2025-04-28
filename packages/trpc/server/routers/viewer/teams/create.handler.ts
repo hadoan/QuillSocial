@@ -24,13 +24,14 @@ export const createHandler = async ({ ctx, input }: CreateOptions) => {
       slug: slug,
       parentId: currentOrgId
         ? {
-          equals: currentOrgId,
-        }
+            equals: currentOrgId,
+          }
         : null,
     },
   });
 
-  if (slugCollisions) throw new TRPCError({ code: "BAD_REQUEST", message: "team_url_taken" });
+  if (slugCollisions)
+    throw new TRPCError({ code: "BAD_REQUEST", message: "team_url_taken" });
 
   // Ensure that the user is not duplicating a requested team
   const duplicatedRequest = await prisma.team.findFirst({
@@ -65,7 +66,11 @@ export const createHandler = async ({ ctx, input }: CreateOptions) => {
       },
     });
 
-    if (nameCollisions) throw new TRPCError({ code: "BAD_REQUEST", message: "team_slug_exists_as_user" });
+    if (nameCollisions)
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "team_slug_exists_as_user",
+      });
 
     parentId = ctx.user.organization.id;
   }

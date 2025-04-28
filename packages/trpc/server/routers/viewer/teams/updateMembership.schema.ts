@@ -6,4 +6,6 @@ export const ZUpdateMembershipInputSchema = z.object({
   disableImpersonation: z.boolean(),
 });
 
-export type TUpdateMembershipInputSchema = z.infer<typeof ZUpdateMembershipInputSchema>;
+export type TUpdateMembershipInputSchema = z.infer<
+  typeof ZUpdateMembershipInputSchema
+>;

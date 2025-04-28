@@ -10,9 +10,16 @@ import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
 import LinkedInProvider from "next-auth/providers/linkedin";
-import { sendToJuneSo, TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
+import {
+  sendToJuneSo,
+  TrackEventJuneSo,
+  EVENTS,
+} from "@quillsocial/features/june.so/juneso";
 import { checkRateLimitAndThrowError } from "@quillsocial/lib/checkRateLimitAndThrowError";
-import { IS_TEAM_BILLING_ENABLED, WEBAPP_URL } from "@quillsocial/lib/constants";
+import {
+  IS_TEAM_BILLING_ENABLED,
+  WEBAPP_URL,
+} from "@quillsocial/lib/constants";
 import { symmetricDecrypt } from "@quillsocial/lib/crypto";
 import { defaultCookies } from "@quillsocial/lib/default-cookies";
 import { isENVDev } from "@quillsocial/lib/env";
@@ -20,7 +27,10 @@ import { randomString } from "@quillsocial/lib/random";
 import slugify from "@quillsocial/lib/slugify";
 import prisma from "@quillsocial/prisma";
 import { IdentityProvider } from "@quillsocial/prisma/enums";
-import { teamMetadataSchema, userMetadata } from "@quillsocial/prisma/zod-utils";
+import {
+  teamMetadataSchema,
+  userMetadata,
+} from "@quillsocial/prisma/zod-utils";
 
 import { publicDomain } from "../../../../apps/web/pages/api/auth/pulic-email";
 import { ErrorCode } from "./ErrorCode";
@@ -37,10 +47,13 @@ const { client_id: GOOGLE_CLIENT_ID, client_secret: GOOGLE_CLIENT_SECRET } =
   JSON.parse(GOOGLE_API_CREDENTIALS)?.web || {};
 const IS_GOOGLE_LOGIN_ENABLED = true;
 
-const usernameSlug = (username: string) => slugify(username) + "-" + randomString(6).toLowerCase();
+const usernameSlug = (username: string) =>
+  slugify(username) + "-" + randomString(6).toLowerCase();
 
 const loginWithTotp = async (user: { email: string }) =>
-  `/auth/login?totp=${await (await import("./signJwt")).default({ email: user.email })}`;
+  `/auth/login?totp=${await (
+    await import("./signJwt")
+  ).default({ email: user.email })}`;
 
 type UserTeams = {
   teams: (Membership & {
@@ -65,12 +78,23 @@ const providers: Provider[] = [
     name: "QuillAI",
     type: "credentials",
     credentials: {
-      email: { label: "Email Address", type: "email", placeholder: "john.doe@example.com" },
-      password: { label: "Password", type: "password", placeholder: "Your super secure password" },
-      totpCode: { label: "Two-factor Code", type: "input", placeholder: "Code from authenticator app" },
+      email: {
+        label: "Email Address",
+        type: "email",
+        placeholder: "john.doe@example.com",
+      },
+      password: {
+        label: "Password",
+        type: "password",
+        placeholder: "Your super secure password",
+      },
+      totpCode: {
+        label: "Two-factor Code",
+        type: "input",
+        placeholder: "Code from authenticator app",
+      },
     },
     async authorize(credentials) {
-
       if (!credentials) {
         console.error(`For some reason credentials are missing`);
         throw new Error(ErrorCode.InternalServerError);
@@ -114,11 +138,18 @@ const providers: Provider[] = [
         identifier: user.email,
       });
 
-      if (user.identityProvider !== IdentityProvider.DB && !credentials.totpCode) {
+      if (
+        user.identityProvider !== IdentityProvider.DB &&
+        !credentials.totpCode
+      ) {
         throw new Error(ErrorCode.ThirdPartyIdentityProviderEnabled);
       }
 
-      if (!user.password && user.identityProvider !== IdentityProvider.DB && !credentials.totpCode) {
+      if (
+        !user.password &&
+        user.identityProvider !== IdentityProvider.DB &&
+        !credentials.totpCode
+      ) {
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
@@ -126,7 +157,10 @@ const providers: Provider[] = [
         if (!user.password) {
           throw new Error(ErrorCode.IncorrectUsernamePassword);
         }
-        const isCorrectPassword = await verifyPassword(credentials.password, user.password);
+        const isCorrectPassword = await verifyPassword(
+          credentials.password,
+          user.password
+        );
         if (!isCorrectPassword) {
           throw new Error(ErrorCode.IncorrectUsernamePassword);
         }
@@ -138,16 +172,23 @@ const providers: Provider[] = [
         }
 
         if (!user.twoFactorSecret) {
-          console.error(`Two factor is enabled for user ${user.id} but they have no secret`);
+          console.error(
+            `Two factor is enabled for user ${user.id} but they have no secret`
+          );
           throw new Error(ErrorCode.InternalServerError);
         }
 
         if (!process.env.MY_APP_ENCRYPTION_KEY) {
-          console.error(`"Missing encryption key; cannot proceed with two factor login."`);
+          console.error(
+            `"Missing encryption key; cannot proceed with two factor login."`
+          );
           throw new Error(ErrorCode.InternalServerError);
         }
 
-        const secret = symmetricDecrypt(user.twoFactorSecret, process.env.MY_APP_ENCRYPTION_KEY);
+        const secret = symmetricDecrypt(
+          user.twoFactorSecret,
+          process.env.MY_APP_ENCRYPTION_KEY
+        );
         if (secret.length !== 32) {
           console.error(
             `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`
@@ -155,7 +196,10 @@ const providers: Provider[] = [
           throw new Error(ErrorCode.InternalServerError);
         }
 
-        const isValidToken = (await import("otplib")).authenticator.check(credentials.totpCode, secret);
+        const isValidToken = (await import("otplib")).authenticator.check(
+          credentials.totpCode,
+          secret
+        );
         if (!isValidToken) {
           throw new Error(ErrorCode.IncorrectTwoFactorCode);
         }
@@ -170,7 +214,11 @@ const providers: Provider[] = [
         // User's identity provider is not "DB"
         if (user.identityProvider !== IdentityProvider.DB) return role;
         // User's password is valid and two-factor authentication is enabled
-        if (isPasswordValid(credentials.password, false, true) && user.twoFactorEnabled) return role;
+        if (
+          isPasswordValid(credentials.password, false, true) &&
+          user.twoFactorEnabled
+        )
+          return role;
         // Code is running in a development environment
         if (isENVDev) return role;
         // By this point it is an ADMIN without valid security conditions
@@ -195,8 +243,8 @@ const providers: Provider[] = [
   }),
   LinkedinProvider({
     clientId: process.env.LINKEDIN_CLIENT_ID!,
-    clientSecret: process.env.LINKEDIN_CLIENT_SECRET!
-  })
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+  }),
 ];
 
 if (IS_GOOGLE_LOGIN_ENABLED) {
@@ -299,7 +347,8 @@ export const AUTH_OPTIONS: AuthOptions = {
         }
 
         // Check if the existingUser has any active teams
-        const belongsToActiveTeam = checkIfUserBelongsToActiveTeam(existingUser);
+        const belongsToActiveTeam =
+          checkIfUserBelongsToActiveTeam(existingUser);
         const { teams, ...existingUserWithoutTeamsField } = existingUser;
 
         return {
@@ -340,7 +389,9 @@ export const AUTH_OPTIONS: AuthOptions = {
           return token;
         }
         let idP: IdentityProvider =
-          account.provider === "saml" ? IdentityProvider.SAML : IdentityProvider.GOOGLE;
+          account.provider === "saml"
+            ? IdentityProvider.SAML
+            : IdentityProvider.GOOGLE;
         if (account.provider === "twitter") idP = IdentityProvider.TWITTER;
         if (account.provider === "linkedin") idP = IdentityProvider.LINKEDIN;
         const existingUser = await prisma.user.findFirst({
@@ -412,7 +463,10 @@ export const AUTH_OPTIONS: AuthOptions = {
         }
       }
 
-      const userEmail = account.provider === "twitter" ? account.providerAccountId + "@twitter.account" : user.email;
+      const userEmail =
+        account.provider === "twitter"
+          ? account.providerAccountId + "@twitter.account"
+          : user.email;
       if (!userEmail) {
         return false;
       }
@@ -425,7 +479,8 @@ export const AUTH_OPTIONS: AuthOptions = {
         const idP: IdentityProvider = mapIdentityProvider(account.provider);
 
         // @ts-ignore-error TODO validate email_verified key on profile
-        user.email_verified = user.email_verified || !!user.emailVerified || profile.email_verified;
+        user.email_verified =
+          user.email_verified || !!user.emailVerified || profile.email_verified;
 
         if (account?.provider !== "twitter" && !user.email_verified) {
           return "/auth/error?error=unverified-email";
@@ -479,12 +534,17 @@ export const AUTH_OPTIONS: AuthOptions = {
             try {
               // If old user without Account entry we link their google account
               if (existingUser.accounts.length === 0) {
-                const linkAccountWithUserData = { ...account, userId: existingUser.id };
+                const linkAccountWithUserData = {
+                  ...account,
+                  userId: existingUser.id,
+                };
                 await myAppAuthAdapter.linkAccount(linkAccountWithUserData);
               }
             } catch (error) {
               if (error instanceof Error) {
-                console.error("Error while linking account of already existing user");
+                console.error(
+                  "Error while linking account of already existing user"
+                );
               }
             }
             await updateUserCredentialFromProvider(user, account, profile);
@@ -503,7 +563,10 @@ export const AUTH_OPTIONS: AuthOptions = {
           });
 
           if (!userWithNewEmail) {
-            await prisma.user.update({ where: { id: existingUser.id }, data: { email: userEmail } });
+            await prisma.user.update({
+              where: { id: existingUser.id },
+              data: { email: userEmail },
+            });
             await updateUserCredentialFromProvider(user, account, profile);
             if (existingUser.twoFactorEnabled) {
               return loginWithTotp(existingUser);
@@ -571,7 +634,10 @@ export const AUTH_OPTIONS: AuthOptions = {
           // User signs up with email/password and then tries to login with Google/SAML using the same email
           if (
             existingUserWithEmail.identityProvider === IdentityProvider.DB &&
-            (idP === IdentityProvider.LINKEDIN || idP === IdentityProvider.TWITTER || idP === IdentityProvider.GOOGLE || idP === IdentityProvider.SAML)
+            (idP === IdentityProvider.LINKEDIN ||
+              idP === IdentityProvider.TWITTER ||
+              idP === IdentityProvider.GOOGLE ||
+              idP === IdentityProvider.SAML)
           ) {
             await prisma.user.update({
               where: { email: existingUserWithEmail.email },
@@ -589,7 +655,9 @@ export const AUTH_OPTIONS: AuthOptions = {
             } else {
               return true;
             }
-          } else if (existingUserWithEmail.identityProvider === IdentityProvider.DB) {
+          } else if (
+            existingUserWithEmail.identityProvider === IdentityProvider.DB
+          ) {
             return "/auth/error?error=use-password-login";
           }
 
@@ -609,15 +677,21 @@ export const AUTH_OPTIONS: AuthOptions = {
           },
         });
 
-        if(newUser)
-        {
-          sendToJuneSo({id: newUser.id, email:newUser.email,first_name:newUser.name});
+        if (newUser) {
+          sendToJuneSo({
+            id: newUser.id,
+            email: newUser.email,
+            first_name: newUser.name,
+          });
           TrackEventJuneSo({ id: newUser.toString(), event: EVENTS.SIGNED_UP });
         }
 
         const linkAccountNewUserData = { ...account, userId: newUser.id };
-        if (idP === "LINKEDIN" && 'refresh_token_expires_in' in linkAccountNewUserData) {
-          delete linkAccountNewUserData.refresh_token_expires_in
+        if (
+          idP === "LINKEDIN" &&
+          "refresh_token_expires_in" in linkAccountNewUserData
+        ) {
+          delete linkAccountNewUserData.refresh_token_expires_in;
         }
         await myAppAuthAdapter.linkAccount(linkAccountNewUserData);
         await updateUserCredentialFromProvider(user, account, profile);
@@ -634,13 +708,18 @@ export const AUTH_OPTIONS: AuthOptions = {
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same domain
-      else if (new URL(url).hostname === new URL(WEBAPP_URL).hostname) return url;
+      else if (new URL(url).hostname === new URL(WEBAPP_URL).hostname)
+        return url;
       return baseUrl;
     },
   },
 };
 
-const updateUserCredentialFromProvider = async (user: any, account: any, profile: any) => {
+const updateUserCredentialFromProvider = async (
+  user: any,
+  account: any,
+  profile: any
+) => {
   //only test for twitter and linkedin
   if (!(account.provider === "linkedin")) {
     return;
@@ -673,7 +752,9 @@ const updateUserCredentialFromProvider = async (user: any, account: any, profile
     account.provider === "twitter" ? profile.data.username : user.email,
     account.provider === "twitter" ? profile.data.name : user.name,
     account.provider === "twitter" ? user.image : profile.picture,
-    account.provider === "twitter" ? account.scope.split(" ") : account.scope.split(","),
+    account.provider === "twitter"
+      ? account.scope.split(" ")
+      : account.scope.split(","),
     account.expires_at,
     account.access_token,
     account.provider === "twitter" ? account.refresh_token : account.id_token

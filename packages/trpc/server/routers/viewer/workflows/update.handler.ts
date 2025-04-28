@@ -10,7 +10,11 @@ import { TRPCError } from "@trpc/server";
 
 import { hasTeamPlanHandler } from "../teams/hasTeamPlan.handler";
 import type { TUpdateInputSchema } from "./update.schema";
-import { isAuthorized, removeSmsReminderFieldForBooking, upsertSmsReminderFieldForBooking } from "./util";
+import {
+  isAuthorized,
+  removeSmsReminderFieldForBooking,
+  upsertSmsReminderFieldForBooking,
+} from "./util";
 
 type UpdateOptions = {
   ctx: {
@@ -41,13 +45,20 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     },
   });
 
-  const isUserAuthorized = await isAuthorized(userWorkflow, ctx.prisma, ctx.user.id, true);
+  const isUserAuthorized = await isAuthorized(
+    userWorkflow,
+    ctx.prisma,
+    ctx.user.id,
+    true
+  );
 
   if (!isUserAuthorized || !userWorkflow) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  const isCurrentUsernamePremium = hasKeyInMetadata(user, "isPremium") ? !!user.metadata.isPremium : false;
+  const isCurrentUsernamePremium = hasKeyInMetadata(user, "isPremium")
+    ? !!user.metadata.isPremium
+    : false;
 
   let isTeamsPlan = false;
   if (!isCurrentUsernamePremium) {

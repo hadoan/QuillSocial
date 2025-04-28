@@ -61,8 +61,8 @@ export type ChatContextProps = {
   updateStreamingHistory: (streamedChat: ChatMessage) => void;
   notifications: Notification[];
   setNotifications: (notifications: Notification[]) => void;
-	isLoading: boolean;
-	setIsLoading: (isLoading: boolean) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 export type ChatConfig = {

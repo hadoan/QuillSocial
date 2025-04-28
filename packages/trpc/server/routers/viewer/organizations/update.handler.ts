@@ -22,7 +22,8 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
 
   if (!currentOrgId) throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  if (!(await isOrganisationAdmin(ctx.user?.id, currentOrgId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!(await isOrganisationAdmin(ctx.user?.id, currentOrgId)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
 
   if (input.slug) {
     const userConflict = await prisma.team.findMany({
@@ -34,7 +35,10 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
       },
     });
     if (userConflict.some((t) => t.id !== currentOrgId))
-      throw new TRPCError({ code: "CONFLICT", message: "Slug already in use." });
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: "Slug already in use.",
+      });
   }
 
   const prevOrganisation = await prisma.team.findFirst({
@@ -48,7 +52,11 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     },
   });
 
-  if (!prevOrganisation) throw new TRPCError({ code: "NOT_FOUND", message: "Organisation not found." });
+  if (!prevOrganisation)
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Organisation not found.",
+    });
 
   const data: Prisma.TeamUpdateArgs["data"] = {
     name: input.name,
@@ -78,7 +86,9 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
       data.slug = input.slug;
 
       // If we save slug, we don't need the requestedSlug anymore
-      const metadataParse = teamMetadataSchema.safeParse(prevOrganisation.metadata);
+      const metadataParse = teamMetadataSchema.safeParse(
+        prevOrganisation.metadata
+      );
       if (metadataParse.success) {
         const { requestedSlug: _, ...cleanMetadata } = metadataParse.data || {};
         data.metadata = {

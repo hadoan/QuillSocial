@@ -1,7 +1,13 @@
 import dayjs from "@quillsocial/dayjs";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
-import { Dialog, DialogClose, DialogContent, DialogFooter, showToast } from "@quillsocial/ui";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  showToast,
+} from "@quillsocial/ui";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -40,8 +46,11 @@ export default function TimezoneChangeDialog() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     const tzDifferent =
-      !isLoading && dayjs.tz(undefined, currentTz).utcOffset() !== dayjs.tz(undefined, userTz).utcOffset();
-    const showDialog = tzDifferent && !document.cookie.includes("quillsocial-timezone-dialog=1");
+      !isLoading &&
+      dayjs.tz(undefined, currentTz).utcOffset() !==
+        dayjs.tz(undefined, userTz).utcOffset();
+    const showDialog =
+      tzDifferent && !document.cookie.includes("quillsocial-timezone-dialog=1");
     setOpen(showDialog);
   }, [currentTz, isLoading, userTz]);
 
@@ -65,13 +74,17 @@ export default function TimezoneChangeDialog() {
         title={t("update_timezone_question")}
         description={t("update_timezone_description", { formattedCurrentTz })}
         type="creation"
-        onInteractOutside={() => onCancel(ONE_DAY, false) /* 1 day expire */}>
+        onInteractOutside={() => onCancel(ONE_DAY, false) /* 1 day expire */}
+      >
         {/* todo: save this in db and auto-update when timezone changes (be able to disable??? if yes, /settings)
         <Checkbox description="Always update timezone" />
         */}
         <div className="mb-8" />
         <DialogFooter showDivider>
-          <DialogClose onClick={() => onCancel(THREE_MONTHS, true)} color="secondary">
+          <DialogClose
+            onClick={() => onCancel(THREE_MONTHS, true)}
+            color="secondary"
+          >
             {t("dont_update")}
           </DialogClose>
           <DialogClose onClick={() => updateTimezone()} color="primary">

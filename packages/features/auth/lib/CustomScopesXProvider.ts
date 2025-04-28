@@ -16,9 +16,14 @@ export const CustomScopesXProvider = (
     url: "https://api.twitter.com/2/oauth2/token",
     // TODO: Remove this
     async request({ client, params, checks, provider }) {
-      const response = await client.oauthCallback(provider.callbackUrl, params, checks, {
-        exchangeBody: { client_id: config.clientId },
-      });
+      const response = await client.oauthCallback(
+        provider.callbackUrl,
+        params,
+        checks,
+        {
+          exchangeBody: { client_id: config.clientId },
+        }
+      );
       return { tokens: response };
     },
   },

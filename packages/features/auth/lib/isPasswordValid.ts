@@ -4,7 +4,11 @@ export function isPasswordValid(
   breakdown: boolean,
   strict?: boolean
 ): { caplow: boolean; num: boolean; min: boolean; admin_min: boolean };
-export function isPasswordValid(password: string, breakdown?: boolean, strict?: boolean) {
+export function isPasswordValid(
+  password: string,
+  breakdown?: boolean,
+  strict?: boolean
+) {
   let cap = false, // Has uppercase characters
     low = false, // Has lowercase characters
     num = false, // At least one number
@@ -20,7 +24,8 @@ export function isPasswordValid(password: string, breakdown?: boolean, strict?: 
     }
   }
 
-  if (!breakdown) return cap && low && num && min && (strict ? admin_min : true);
+  if (!breakdown)
+    return cap && low && num && min && (strict ? admin_min : true);
 
   let errors: Record<string, boolean> = { caplow: cap && low, num, min };
   // Only return the admin key if strict mode is enabled.

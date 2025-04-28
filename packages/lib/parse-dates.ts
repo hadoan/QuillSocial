@@ -1,13 +1,23 @@
 import type { Dayjs } from "@quillsocial/dayjs";
 import dayjs from "@quillsocial/dayjs";
-import { detectBrowserTimeFormat, TimeFormat } from "@quillsocial/lib/timeFormat";
+import {
+  detectBrowserTimeFormat,
+  TimeFormat,
+} from "@quillsocial/lib/timeFormat";
 import { RRule } from "rrule";
 
 import { parseZone } from "./parse-zone";
 
-type ExtraOptions = { withDefaultTimeFormat?: boolean; selectedTimeFormat?: TimeFormat };
+type ExtraOptions = {
+  withDefaultTimeFormat?: boolean;
+  selectedTimeFormat?: TimeFormat;
+};
 
-const processDate = (date: string | null | Dayjs, language: string, options?: ExtraOptions) => {
+const processDate = (
+  date: string | null | Dayjs,
+  language: string,
+  options?: ExtraOptions
+) => {
   const parsedZone = parseZone(date);
   if (!parsedZone?.isValid()) return "Invalid date";
   const formattedTime = parsedZone?.format(
@@ -15,10 +25,18 @@ const processDate = (date: string | null | Dayjs, language: string, options?: Ex
       ? TimeFormat.TWELVE_HOUR
       : options?.selectedTimeFormat || detectBrowserTimeFormat
   );
-  return formattedTime + ", " + dayjs(date).toDate().toLocaleString(language, { dateStyle: "full" });
+  return (
+    formattedTime +
+    ", " +
+    dayjs(date).toDate().toLocaleString(language, { dateStyle: "full" })
+  );
 };
 
-export const parseDate = (date: string | null | Dayjs, language: string, options?: ExtraOptions) => {
+export const parseDate = (
+  date: string | null | Dayjs,
+  language: string,
+  options?: ExtraOptions
+) => {
   if (!date) return ["No date"];
   return processDate(date, language, options);
 };
@@ -49,12 +67,16 @@ export const parseDateTimeWithTimeZone = (
   if (options?.withDefaultTimeFormat) {
     timeOptions.hourCycle = "h12";
   } else if (options?.selectedTimeFormat) {
-    timeOptions.hourCycle = options.selectedTimeFormat === TimeFormat.TWELVE_HOUR ? "h12" : "h24";
+    timeOptions.hourCycle =
+      options.selectedTimeFormat === TimeFormat.TWELVE_HOUR ? "h12" : "h24";
     if (timeOptions.hourCycle === "h24") {
       delete timeOptions.hour12;
     }
   }
-  const formattedDate = new Date(date).toLocaleDateString(language, dateOptions);
+  const formattedDate = new Date(date).toLocaleDateString(
+    language,
+    dateOptions
+  );
   const formattedTime = new Date(date)
     .toLocaleTimeString(language, timeOptions)
     .replace(" ", "")
@@ -96,7 +118,10 @@ export const parseRecurringDates = (
   });
   const dateStrings = times.map((t) => {
     // finally; show in local timeZone again
-    return processDate(t.tz(timeZone), language, { selectedTimeFormat, withDefaultTimeFormat });
+    return processDate(t.tz(timeZone), language, {
+      selectedTimeFormat,
+      withDefaultTimeFormat,
+    });
   });
 
   return [dateStrings, times.map((t) => t.toDate())];

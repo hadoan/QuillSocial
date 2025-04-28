@@ -1,4 +1,7 @@
-import { isTeamAdmin, isTeamOwner } from "@quillsocial/lib/server/queries/teams";
+import {
+  isTeamAdmin,
+  isTeamOwner,
+} from "@quillsocial/lib/server/queries/teams";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
 import type { PrismaClient } from "@prisma/client";
 
@@ -15,11 +18,18 @@ type RemoveMemberOptions = {
   input: TRemoveMemberInputSchema;
 };
 
-export const removeMemberHandler = async ({ ctx, input }: RemoveMemberOptions) => {
+export const removeMemberHandler = async ({
+  ctx,
+  input,
+}: RemoveMemberOptions) => {
   const isAdmin = await isTeamAdmin(ctx.user.id, input.teamId);
-  if (!isAdmin && ctx.user.id !== input.memberId) throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!isAdmin && ctx.user.id !== input.memberId)
+    throw new TRPCError({ code: "UNAUTHORIZED" });
   // Only a team owner can remove another team owner.
-  if ((await isTeamOwner(input.memberId, input.teamId)) && !(await isTeamOwner(ctx.user.id, input.teamId)))
+  if (
+    (await isTeamOwner(input.memberId, input.teamId)) &&
+    !(await isTeamOwner(ctx.user.id, input.teamId))
+  )
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
   if (ctx.user.id === input.memberId && isAdmin)
@@ -30,7 +40,7 @@ export const removeMemberHandler = async ({ ctx, input }: RemoveMemberOptions) =
 
   const checkrole = await ctx.prisma.membership.findFirst({
     where: {
-     userId: input.memberId
+      userId: input.memberId,
     },
   });
   if (checkrole?.role === "ADMIN")
@@ -47,7 +57,6 @@ export const removeMemberHandler = async ({ ctx, input }: RemoveMemberOptions) =
     },
   });
 
- 
   if (input.isOrg) {
     // Deleting membership from all child teams
     await ctx.prisma.membership.deleteMany({
@@ -65,14 +74,12 @@ export const removeMemberHandler = async ({ ctx, input }: RemoveMemberOptions) =
     });
   }
 
-  
-  // If the user has invited but has not registered, they can be deleted, cuz rule check member of invite member in line 99 
+  // If the user has invited but has not registered, they can be deleted, cuz rule check member of invite member in line 99
   await ctx.prisma.user.deleteMany({
     where: {
       id: input.memberId,
-      username:null,
-      name:null,
+      username: null,
+      name: null,
     },
   });
-  
 };

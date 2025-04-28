@@ -17,7 +17,9 @@ export const getApp = (slug: string, isTemplate: boolean) => {
     .find((appName) => appName === slug);
   if (foundApp) {
     try {
-      return JSON.parse(fs.readFileSync(path.join(base, foundApp, "config.json")).toString());
+      return JSON.parse(
+        fs.readFileSync(path.join(base, foundApp, "config.json")).toString()
+      );
     } catch (e) {
       return {};
     }

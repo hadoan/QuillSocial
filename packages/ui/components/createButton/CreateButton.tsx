@@ -32,7 +32,6 @@ export type CreateBtnProps = {
   className: string;
 };
 
-
 export function CreateButton(props: CreateBtnProps) {
   const { t } = useLocale();
   const router = useRouter();
@@ -86,16 +85,14 @@ export function CreateButton(props: CreateBtnProps) {
           StartIcon={Plus}
           loading={isLoading}
           {...restProps}
-          className="bg-awst h-[40px]">
+          className="bg-awst h-[40px]"
+        >
           {buttonText ? buttonText : t("new")}
         </Button>
       ) : (
         <Dropdown>
           <DropdownMenuTrigger asChild>
-            <Button  
-              StartIcon={Plus}
-              loading={isLoading}
-              {...restProps}>
+            <Button StartIcon={Plus} loading={isLoading} {...restProps}>
               {buttonText ? buttonText : t("new")}
             </Button>
           </DropdownMenuTrigger>
@@ -111,7 +108,10 @@ export function CreateButton(props: CreateBtnProps) {
                   StartIcon={(props) => (
                     <Avatar
                       alt={option.label || ""}
-                      imageSrc={option.image || `${WEBAPP_URL}/${option.label}/avatar.png`} // if no image, use default avatar
+                      imageSrc={
+                        option.image ||
+                        `${WEBAPP_URL}/${option.label}/avatar.png`
+                      } // if no image, use default avatar
                       size="sm"
                       {...props}
                     />
@@ -122,7 +122,8 @@ export function CreateButton(props: CreateBtnProps) {
                       : createFunction
                       ? createFunction(option.teamId || undefined)
                       : null
-                  }>
+                  }
+                >
                   {" "}
                   {/*improve this code */}
                   <span>{option.label}</span>

@@ -1,4 +1,8 @@
-import { CONSOLE_URL, WEBAPP_URL, WEBSITE_URL } from "@quillsocial/lib/constants";
+import {
+  CONSOLE_URL,
+  WEBAPP_URL,
+  WEBSITE_URL,
+} from "@quillsocial/lib/constants";
 
 // It ensures that redirection URL safe where it is accepted through a query params or other means where user can change it.
 export const getSafeRedirectUrl = (url = "") => {
@@ -14,7 +18,11 @@ export const getSafeRedirectUrl = (url = "") => {
   const urlParsed = new URL(url);
 
   // Avoid open redirection security vulnerability
-  if (![CONSOLE_URL, WEBAPP_URL, WEBSITE_URL].some((u) => new URL(u).origin === urlParsed.origin)) {
+  if (
+    ![CONSOLE_URL, WEBAPP_URL, WEBSITE_URL].some(
+      (u) => new URL(u).origin === urlParsed.origin
+    )
+  ) {
     url = `${WEBAPP_URL}/`;
   }
 

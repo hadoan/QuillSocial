@@ -1,5 +1,10 @@
 import jackson from "@quillsocial/features/ee/sso/lib/jackson";
-import { canAccess, samlProductID, samlTenantID, tenantPrefix } from "@quillsocial/features/ee/sso/lib/saml";
+import {
+  canAccess,
+  samlProductID,
+  samlTenantID,
+  tenantPrefix,
+} from "@quillsocial/features/ee/sso/lib/saml";
 
 import { TRPCError } from "@trpc/server";
 
@@ -39,6 +44,9 @@ export const updateOIDCHandler = async ({ ctx, input }: UpdateOIDCOptions) => {
     });
   } catch (err) {
     console.error("Error updating OIDC connection", err);
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Updating OIDC Connection failed." });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Updating OIDC Connection failed.",
+    });
   }
 };

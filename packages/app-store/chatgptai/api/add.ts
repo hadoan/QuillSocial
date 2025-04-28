@@ -6,7 +6,10 @@ import prisma from "@quillsocial/prisma";
 
 import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     const { organizationId, apiKey, secret } = req.body;
     // Get user
@@ -37,10 +40,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     } catch (reason) {
       logger.error("Could not add this chatgpt account", reason);
-      return res.status(500).json({ message: "Could not add this chatgpt account" });
+      return res
+        .status(500)
+        .json({ message: "Could not add this chatgpt account" });
     }
 
-    return res.status(200).json({ url: getInstalledAppPath({ variant: "ai", slug: "chatgpt-ai" }) });
+    return res
+      .status(200)
+      .json({
+        url: getInstalledAppPath({ variant: "ai", slug: "chatgpt-ai" }),
+      });
   }
 
   if (req.method === "GET") {

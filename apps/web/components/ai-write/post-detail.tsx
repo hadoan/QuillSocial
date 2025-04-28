@@ -8,7 +8,12 @@ import { BillingType } from "@quillsocial/prisma/client";
 import { trpc } from "@quillsocial/trpc/react";
 import { Post } from "@quillsocial/types/Posts";
 import { Button, TextAreaField } from "@quillsocial/ui";
-import { Dialog as AccessDialog, DialogContent, DialogFooter, showToast } from "@quillsocial/ui";
+import {
+  Dialog as AccessDialog,
+  DialogContent,
+  DialogFooter,
+  showToast,
+} from "@quillsocial/ui";
 
 import useMeQuery from "@lib/hooks/useMeQuery";
 import { FileEvent } from "@lib/types/FileEvent";
@@ -29,7 +34,11 @@ type UseFileReaderProps = {
   onLoad?: (result: unknown) => void;
 };
 
-type ReadAsMethod = "readAsText" | "readAsDataURL" | "readAsArrayBuffer" | "readAsBinaryString";
+type ReadAsMethod =
+  | "readAsText"
+  | "readAsDataURL"
+  | "readAsArrayBuffer"
+  | "readAsBinaryString";
 
 const useFileReader = (options: UseFileReaderProps) => {
   const { method = "readAsText", onLoad } = options;
@@ -91,7 +100,6 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
 
   // const currentBillingQuery = trpc.viewer.billings.getCurrentUserBilling.useQuery();
   // const getCountSocial = trpc.viewer.socials.getSocialConditionsForBilling.useQuery();
- 
 
   const handleContentChange = (event: any) => {
     const newContent = event.target.value;
@@ -122,7 +130,9 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
   };
 
   const sendProcessedPosts = async (key?: string, newFileData?: any) => {
-    let requestBody: { data: any; time?: any; key?: string } = { data: newData };
+    let requestBody: { data: any; time?: any; key?: string } = {
+      data: newData,
+    };
     if (key) {
       requestBody.key = key;
     } else {
@@ -166,28 +176,29 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
   };
 
   const handlePostNow = async (id: number) => {
-   
-      setPostNow(true);
-      const urlSocial = user?.currentSocialProfile.appId.replace(/-/g, "");
-      const response = await fetch(`/api/integrations/${urlSocial}/post?id=${id}`, {
+    setPostNow(true);
+    const urlSocial = user?.currentSocialProfile.appId.replace(/-/g, "");
+    const response = await fetch(
+      `/api/integrations/${urlSocial}/post?id=${id}`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      if (!response.ok) {
-        console.error("Failed to send data");
-      } else {
-        const rs = await sendProcessedPosts("now");
-        if (rs) {
-          router.reload();
-          showToast("The post has been posted!", "success");
-        } else {
-          showToast("Error when Posting", "error");
-          setPostNow(false);
-        }
       }
-   
+    );
+    if (!response.ok) {
+      console.error("Failed to send data");
+    } else {
+      const rs = await sendProcessedPosts("now");
+      if (rs) {
+        router.reload();
+        showToast("The post has been posted!", "success");
+      } else {
+        showToast("Error when Posting", "error");
+        setPostNow(false);
+      }
+    }
   };
 
   const onInputFile = async (e: FileEvent<HTMLInputElement>) => {
@@ -268,7 +279,8 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
           enterTo="opacity-100"
           leave="ease-in-out duration-500"
           leaveFrom="opacity-100"
-          leaveTo="opacity-0">
+          leaveTo="opacity-0"
+        >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
         <div className="fixed inset-0" />
@@ -282,7 +294,8 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                 enterTo="translate-x-0"
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
                 leaveFrom="translate-x-0"
-                leaveTo="translate-x-full">
+                leaveTo="translate-x-full"
+              >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     {/* <div className="border-b border-gray-200 pt-5">
@@ -304,11 +317,17 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                         </nav>
                       </div>
                     </div> */}
-                    <ul role="list" className="flex-1 divide-y divide-gray-200 overflow-y-auto">
+                    <ul
+                      role="list"
+                      className="flex-1 divide-y divide-gray-200 overflow-y-auto"
+                    >
                       <li key={data.id}>
                         <div className="group relative items-center px-5 py-6">
                           <div className="-ml-4 flex items-center gap-x-4">
-                            <svg viewBox="0 0 2 2" className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+                            <svg
+                              viewBox="0 0 2 2"
+                              className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+                            >
                               <circle cx={1} cy={1} r={1} />
                             </svg>
                             <div className="flex gap-x-2.5">
@@ -319,7 +338,9 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                               />
                               <div className="mt-[7px] gap-3 text-xs">
                                 <p className="font-bold">{data.name}</p>
-                                <p className="text-gray-500">{data.emailOrUserName}</p>
+                                <p className="text-gray-500">
+                                  {data.emailOrUserName}
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -346,7 +367,11 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                         <div>
                           {showSaveButton && (
                             <div className="mt-5 flex px-4">
-                              <Button disabled={isLoadButtonSave} className="ml-auto" onClick={handleSave}>
+                              <Button
+                                disabled={isLoadButtonSave}
+                                className="ml-auto"
+                                onClick={handleSave}
+                              >
                                 Save
                               </Button>
                             </div>
@@ -417,13 +442,15 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                         <div className="mt-4 flex justify-center space-x-4">
                           <Button
                             onClick={() => setModalShowDay(true)}
-                            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                          >
                             Schedule for day
                           </Button>
                           <Button
                             onClick={() => handlePostNow(data.id)}
                             disabled={isPostNow}
-                            className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
+                            className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+                          >
                             Post Now
                           </Button>
                         </div>
@@ -435,7 +462,8 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                                   setModalShowDay(false);
                                   setSelectedDateTime("");
                                 }}
-                                className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+                                className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+                              >
                                 X
                               </div>
                             </div>
@@ -454,32 +482,42 @@ const PostDetail: React.FC<SlideOverProps> = ({ open, setOpen, data }) => {
                                 disabled={isUpdate}
                                 type="submit"
                                 className="text-white"
-                                onClick={handleUpdate}>
+                                onClick={handleUpdate}
+                              >
                                 OK
                               </Button>
                             </DialogFooter>
                           </DialogContent>
                         </AccessDialog>
-                        <AccessDialog open={isModalUpgrade} onOpenChange={setIsModalUpgrade}>
+                        <AccessDialog
+                          open={isModalUpgrade}
+                          onOpenChange={setIsModalUpgrade}
+                        >
                           <DialogContent>
                             <div>
                               <div className="flex items-center justify-center">
-                                <div className="text-center text-[20px] font-bold">Upgrade</div>
+                                <div className="text-center text-[20px] font-bold">
+                                  Upgrade
+                                </div>
                               </div>
                               <div className="text-default mt-10 text-center text-[16px]">
-                                <p>Please upgrade your subscription plan to use.</p>
+                                <p>
+                                  Please upgrade your subscription plan to use.
+                                </p>
                               </div>
                             </div>
                             <DialogFooter className=" mt-6 flex items-center justify-center">
                               <Button
                                 className="bg-default hover:bg-awstbgbt hover:text-awst text-awst"
-                                onClick={() => setIsModalUpgrade(false)}>
+                                onClick={() => setIsModalUpgrade(false)}
+                              >
                                 Close
                               </Button>
                               <Button
                                 type="submit"
                                 className="text-white"
-                                onClick={() => router.push("/billing/overview")}>
+                                onClick={() => router.push("/billing/overview")}
+                              >
                                 Upgrade
                               </Button>
                             </DialogFooter>

@@ -54,7 +54,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       // Don't leak information about whether an email is registered or not
       return res
         .status(200)
-        .json({ message: "If this email exists in our system, you should receive a Reset email." });
+        .json({
+          message:
+            "If this email exists in our system, you should receive a Reset email.",
+        });
     }
 
     const maybePreviousRequest = await prisma.resetPasswordRequest.findMany({
@@ -72,12 +75,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       passwordRequest = maybePreviousRequest[0];
     } else {
       const expiry = dayjs().add(PASSWORD_RESET_EXPIRY_HOURS, "hours").toDate();
-      const createdResetPasswordRequest = await prisma.resetPasswordRequest.create({
-        data: {
-          email: maybeUser.email,
-          expires: expiry,
-        },
-      });
+      const createdResetPasswordRequest =
+        await prisma.resetPasswordRequest.create({
+          data: {
+            email: maybeUser.email,
+            expires: expiry,
+          },
+        });
       passwordRequest = createdResetPasswordRequest;
     }
 
@@ -87,21 +91,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       user: maybeUser,
       resetLink,
     });
-    
+
     /** So we can test the password reset flow on CI */
     if (process.env.NEXT_PUBLIC_IS_E2E) {
       return res.status(201).json({
-        message: "If this email exists in our system, you should receive a Reset email.",
+        message:
+          "If this email exists in our system, you should receive a Reset email.",
         resetLink,
       });
     } else {
       return res
         .status(201)
-        .json({ message: "If this email exists in our system, you should receive a Reset email." });
+        .json({
+          message:
+            "If this email exists in our system, you should receive a Reset email.",
+        });
     }
   } catch (reason) {
-   
-    return res.status(500).json({ message: "Unable to create password reset request" });
+    return res
+      .status(500)
+      .json({ message: "Unable to create password reset request" });
   }
 }
 

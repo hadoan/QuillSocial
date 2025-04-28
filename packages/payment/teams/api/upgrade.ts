@@ -4,12 +4,20 @@ import { z } from "zod";
 
 import { getRequestedSlugError } from "@quillsocial/app-store/stripepayment/lib/team-billing";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
-import { sendToJuneSo, TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
+import {
+  sendToJuneSo,
+  TrackEventJuneSo,
+  EVENTS,
+} from "@quillsocial/features/june.so/juneso";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { HttpError } from "@quillsocial/lib/http-error";
 import { defaultHandler, defaultResponder } from "@quillsocial/lib/server";
 import prisma from "@quillsocial/prisma";
-import { BillingPaymentStatus, BillingStatus, BillingType } from "@quillsocial/prisma/enums";
+import {
+  BillingPaymentStatus,
+  BillingStatus,
+  BillingType,
+} from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
 
 import stripe from "../../server/stripe";
@@ -22,12 +30,21 @@ const querySchema = z.object({
 });
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { user: teamId, session_id, user_id, billing_type } = querySchema.parse(req.query); //query string in format {user,session_id!}
+  const {
+    user: teamId,
+    session_id,
+    user_id,
+    billing_type,
+  } = querySchema.parse(req.query); //query string in format {user,session_id!}
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["subscription"],
   });
-  if (!checkoutSession) throw new HttpError({ statusCode: 404, message: "Checkout session not found" });
+  if (!checkoutSession)
+    throw new HttpError({
+      statusCode: 404,
+      message: "Checkout session not found",
+    });
 
   const subscription = checkoutSession.subscription
     ? (checkoutSession.subscription as Stripe.Subscription)
@@ -39,9 +56,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   let team = await prisma.team.findFirst({
     where: { metadata: { path: ["paymentId"], equals: checkoutSession.id } },
   });
-  const subscriptionItemId = subscription?.items?.data && subscription?.items?.data?.length > 0 ? subscription?.items?.data[0].id : null;
+  const subscriptionItemId =
+    subscription?.items?.data && subscription?.items?.data?.length > 0
+      ? subscription?.items?.data[0].id
+      : null;
   if (!team) {
-    const prevTeam = await prisma.team.findFirstOrThrow({ where: { id: teamId } });
+    const prevTeam = await prisma.team.findFirstOrThrow({
+      where: { id: teamId },
+    });
     const metadata = teamMetadataSchema.parse(prevTeam.metadata);
     /** We save the metadata first to prevent duplicate payments */
     team = await prisma.team.update({
@@ -59,7 +81,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (slug) {
       try {
         /** Then we try to upgrade the slug, which may fail if a conflict came up since team creation */
-        team = await prisma.team.update({ where: { id: teamId }, data: { slug } });
+        team = await prisma.team.update({
+          where: { id: teamId },
+          data: { slug },
+        });
       } catch (error) {
         const { message, statusCode } = getRequestedSlugError(error, slug);
         return res.status(statusCode).json({ message });
@@ -73,7 +98,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     checkoutSession.subscription !== null
   ) {
     quantity =
-      checkoutSession.subscription.items && checkoutSession.subscription.items.data.length > 0
+      checkoutSession.subscription.items &&
+      checkoutSession.subscription.items.data.length > 0
         ? checkoutSession.subscription.items.data[0].quantity ?? 1
         : 1;
   }
@@ -109,7 +135,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (members) {
       for (const member of members) {
-        TrackEventJuneSo({ id: member.userId.toString(), event: EVENTS.PLAN_SUBSCRIBED });
+        TrackEventJuneSo({
+          id: member.userId.toString(),
+          event: EVENTS.PLAN_SUBSCRIBED,
+        });
       }
     }
   }

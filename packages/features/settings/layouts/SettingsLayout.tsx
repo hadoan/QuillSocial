@@ -13,7 +13,13 @@ import { UserPermissionRole } from "@quillsocial/prisma/enums";
 import { trpc } from "@quillsocial/trpc/react";
 import useAvatarQuery from "@quillsocial/trpc/react/hooks/useAvatarQuery";
 import type { VerticalTabItemProps } from "@quillsocial/ui";
-import { Button, ErrorBoundary, Skeleton, useMeta, VerticalTabItem } from "@quillsocial/ui";
+import {
+  Button,
+  ErrorBoundary,
+  Skeleton,
+  useMeta,
+  VerticalTabItem,
+} from "@quillsocial/ui";
 import {
   User,
   Key,
@@ -122,7 +128,10 @@ const tabs: VerticalTabItemProps[] = [
 tabs.find((tab) => {
   // Add "SAML SSO" to the tab
   if (tab.name === "security") {
-    tab.children?.push({ name: "sso_configuration", href: "/settings/security/sso" });
+    tab.children?.push({
+      name: "sso_configuration",
+      href: "/settings/security/sso",
+    });
   }
 });
 
@@ -141,8 +150,13 @@ const useTabs = () => {
     if (tab.href === "/settings/my-account") {
       tab.name = user?.name || "my_account";
       tab.icon = undefined;
-      tab.avatar = avatar?.avatar || WEBAPP_URL + "/" + session?.data?.user?.username + "/avatar.png";
-    } else if (tab.href === "/settings/security" && user?.identityProvider === IdentityProvider.GOOGLE) {
+      tab.avatar =
+        avatar?.avatar ||
+        WEBAPP_URL + "/" + session?.data?.user?.username + "/avatar.png";
+    } else if (
+      tab.href === "/settings/security" &&
+      user?.identityProvider === IdentityProvider.GOOGLE
+    ) {
       tab.children = tab?.children?.filter(
         (childTab) => childTab.href !== "/settings/security/two-factor-auth"
       );
@@ -152,7 +166,8 @@ const useTabs = () => {
 
   // check if name is in adminRequiredKeys
   return tabs.filter((tab) => {
-    if (organizationRequiredKeys.includes(tab.name)) return !!session.data?.user?.organizationId;
+    if (organizationRequiredKeys.includes(tab.name))
+      return !!session.data?.user?.organizationId;
 
     if (isAdmin) return true;
     return !adminRequiredKeys.includes(tab.name);
@@ -164,9 +179,15 @@ const BackButtonInSidebar = ({ name }: { name: string }) => {
     <Link
       href="/"
       className="hover:bg-subtle [&[aria-current='page']]:bg-emphasis [&[aria-current='page']]:text-emphasis group-hover:text-default text-emphasis group my-6 flex h-6 max-h-6 w-full flex-row items-center rounded-md px-3 py-2 text-sm font-medium leading-4"
-      data-testid={`vertical-tab-${name}`}>
+      data-testid={`vertical-tab-${name}`}
+    >
       <ArrowLeft className="h-4 w-4 stroke-[2px] md:mt-0 ltr:mr-[10px] rtl:ml-[10px] rtl:rotate-180" />
-      <Skeleton title={name} as="p" className="min-h-4 max-w-36 truncate" loadingClassName="ms-3">
+      <Skeleton
+        title={name}
+        as="p"
+        className="min-h-4 max-w-36 truncate"
+        loadingClassName="ms-3"
+      >
         {name}
       </Skeleton>
     </Link>
@@ -197,7 +218,8 @@ const SettingsSidebarContainer = ({
           ? "translate-x-0 opacity-100"
           : "-translate-x-full opacity-0 lg:translate-x-0 lg:opacity-100"
       )}
-      aria-label="Tabs">
+      aria-label="Tabs"
+    >
       <>
         <BackButtonInSidebar name={t("back")} />
         {tabsWithPermissions.map((tab) => {
@@ -219,7 +241,8 @@ const SettingsSidebarContainer = ({
                     title={tab.name}
                     as="p"
                     className="truncate text-sm font-medium leading-5"
-                    loadingClassName="ms-3">
+                    loadingClassName="ms-3"
+                  >
                     {t(tab.name)}
                   </Skeleton>
                 </div>
@@ -232,7 +255,11 @@ const SettingsSidebarContainer = ({
                     isExternalLink={child.isExternalLink}
                     href={child.href || "/"}
                     textClassNames="px-3 text-emphasis font-medium text-sm"
-                    className={`my-0.5 h-7 ${tab.children && index === tab.children?.length - 1 && "!mb-3"}`}
+                    className={`my-0.5 h-7 ${
+                      tab.children &&
+                      index === tab.children?.length - 1 &&
+                      "!mb-3"
+                    }`}
                     disableChevron
                   />
                 ))}
@@ -250,7 +277,8 @@ const SettingsSidebarContainer = ({
                       title={tab.name}
                       as="p"
                       className="truncate text-sm font-medium leading-5"
-                      loadingClassName="ms-3">
+                      loadingClassName="ms-3"
+                    >
                       {t(tab.name)}
                     </Skeleton>
                   </div>
@@ -264,7 +292,9 @@ const SettingsSidebarContainer = ({
   );
 };
 
-const MobileSettingsContainer = (props: { onSideContainerOpen?: () => void }) => {
+const MobileSettingsContainer = (props: {
+  onSideContainerOpen?: () => void;
+}) => {
   const { t } = useLocale();
   const router = useRouter();
 
@@ -272,13 +302,19 @@ const MobileSettingsContainer = (props: { onSideContainerOpen?: () => void }) =>
     <>
       <nav className="bg-muted border-muted sticky top-0 z-20 flex w-full items-center justify-between border-b py-2 sm:relative lg:hidden">
         <div className="flex items-center space-x-3 ">
-          <Button StartIcon={Menu} color="minimal" variant="icon" onClick={props.onSideContainerOpen}>
+          <Button
+            StartIcon={Menu}
+            color="minimal"
+            variant="icon"
+            onClick={props.onSideContainerOpen}
+          >
             <span className="sr-only">{t("show_navigation")}</span>
           </Button>
 
           <button
             className="hover:bg-emphasis flex items-center space-x-2 rounded-md px-3 py-1 rtl:space-x-reverse"
-            onClick={() => router.back()}>
+            onClick={() => router.back()}
+          >
             <ArrowLeft className="text-default h-4 w-4" />
             <p className="text-emphasis font-semibold">{t("settings")}</p>
           </button>
@@ -328,18 +364,24 @@ export default function SettingsLayout({
           {sideContainerOpen && (
             <button
               onClick={() => setSideContainerOpen(false)}
-              className="fixed left-0 top-0 z-10 h-full w-full bg-black/50">
+              className="fixed left-0 top-0 z-10 h-full w-full bg-black/50"
+            >
               <span className="sr-only">{t("hide_navigation")}</span>
             </button>
           )}
-          <SettingsSidebarContainer navigationIsOpenedOnMobile={sideContainerOpen} />
+          <SettingsSidebarContainer
+            navigationIsOpenedOnMobile={sideContainerOpen}
+          />
         </>
       }
       drawerState={state}
       MobileNavigationContainer={null}
       TopNavContainer={
-        <MobileSettingsContainer onSideContainerOpen={() => setSideContainerOpen(!sideContainerOpen)} />
-      }>
+        <MobileSettingsContainer
+          onSideContainerOpen={() => setSideContainerOpen(!sideContainerOpen)}
+        />
+      }
+    >
       <div className="flex flex-1 [&>*]:flex-1">
         <div className="mx-auto max-w-full justify-center md:max-w-3xl">
           <ShellHeader />
@@ -352,7 +394,9 @@ export default function SettingsLayout({
   );
 }
 
-export const getLayout = (page: React.ReactElement) => <SettingsLayout>{page}</SettingsLayout>;
+export const getLayout = (page: React.ReactElement) => (
+  <SettingsLayout>{page}</SettingsLayout>
+);
 
 function ShellHeader() {
   const { meta } = useMeta();
@@ -374,7 +418,9 @@ function ShellHeader() {
             <div className="bg-emphasis mb-1 h-6 w-24 animate-pulse rounded-md" />
           )}
           {meta.description && isLocaleReady ? (
-            <p className="text-default text-sm ltr:mr-4 rtl:ml-4">{t(meta.description)}</p>
+            <p className="text-default text-sm ltr:mr-4 rtl:ml-4">
+              {t(meta.description)}
+            </p>
           ) : (
             <div className="bg-emphasis mb-1 h-6 w-32 animate-pulse rounded-md" />
           )}

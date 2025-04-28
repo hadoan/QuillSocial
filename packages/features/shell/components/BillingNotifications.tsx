@@ -10,22 +10,30 @@ import { Notifications } from "@quillsocial/ui";
 import { withQuery } from "./QueryCell";
 
 export const BillingNotifications = ({ pricingData }: any) => {
- 
-  const [notificationBillingDays, setNotificationBillingDays] = useState<string | null>(null);
-  const [notificationBillingDaysExpired, setNotificationBillingDaysExpired] = useState<string | null>(null);
+  const [notificationBillingDays, setNotificationBillingDays] = useState<
+    string | null
+  >(null);
+  const [notificationBillingDaysExpired, setNotificationBillingDaysExpired] =
+    useState<string | null>(null);
 
   const router = useRouter();
 
   useEffect(() => {
-    setNotificationBillingDays(sessionStorage.getItem("notificationBillingDays"));
-    setNotificationBillingDaysExpired(sessionStorage.getItem("notificationBillingDaysExpired"));
+    setNotificationBillingDays(
+      sessionStorage.getItem("notificationBillingDays")
+    );
+    setNotificationBillingDaysExpired(
+      sessionStorage.getItem("notificationBillingDaysExpired")
+    );
   }, []);
   return (
     <>
       <Notifications
         day={pricingData?.day}
         title={
-          pricingData?.day < 14 ? `${Math.round(pricingData?.dayTrial) + 1}/14 Days Free Trial` : `Your Free Trial Has Ended 🙁`
+          pricingData?.day < 14
+            ? `${Math.round(pricingData?.dayTrial) + 1}/14 Days Free Trial`
+            : `Your Free Trial Has Ended 🙁`
         }
         desc={
           pricingData?.day < 14
@@ -46,7 +54,8 @@ export const BillingNotifications = ({ pricingData }: any) => {
           ((pricingData?.day < 14 && !notificationBillingDays) ||
             (pricingData?.day >= 14 && !notificationBillingDaysExpired))
         }
-        dismisText="Dismiss"></Notifications>
+        dismisText="Dismiss"
+      ></Notifications>
     </>
   );
 };

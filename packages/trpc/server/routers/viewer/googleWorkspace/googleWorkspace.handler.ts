@@ -32,9 +32,13 @@ export const checkForGWorkspace = async ({ ctx }: CheckForGCalOptions) => {
 };
 
 export const getUsersFromGWorkspace = async ({ ctx }: CheckForGCalOptions) => {
-  const { client_id, client_secret } = await getAppKeysFromSlug("google-calendar");
-  if (!client_id || typeof client_id !== "string") throw new Error("Google client_id missing.");
-  if (!client_secret || typeof client_secret !== "string") throw new Error("Google client_secret missing.");
+  const { client_id, client_secret } = await getAppKeysFromSlug(
+    "google-calendar"
+  );
+  if (!client_id || typeof client_id !== "string")
+    throw new Error("Google client_id missing.");
+  if (!client_secret || typeof client_secret !== "string")
+    throw new Error("Google client_secret missing.");
 
   const hasExistingCredentials = await prisma.credential.findFirst({
     where: {
@@ -53,7 +57,10 @@ export const getUsersFromGWorkspace = async ({ ctx }: CheckForGCalOptions) => {
   oAuth2Client.setCredentials(credentials);
 
   // Create a new instance of the Admin SDK directory API
-  const directory = google.admin({ version: "directory_v1", auth: oAuth2Client });
+  const directory = google.admin({
+    version: "directory_v1",
+    auth: oAuth2Client,
+  });
 
   const { data } = await directory.users.list({
     maxResults: 200, // Up this if we ever need to get more than 200 users
@@ -61,11 +68,14 @@ export const getUsersFromGWorkspace = async ({ ctx }: CheckForGCalOptions) => {
   });
 
   // We only want their email addresses
-  const emails = data.users?.map((user) => user.primaryEmail as string) ?? ([] as string[]);
+  const emails =
+    data.users?.map((user) => user.primaryEmail as string) ?? ([] as string[]);
   return emails;
 };
 
-export const removeCurrentGoogleWorkspaceConnection = async ({ ctx }: CheckForGCalOptions) => {
+export const removeCurrentGoogleWorkspaceConnection = async ({
+  ctx,
+}: CheckForGCalOptions) => {
   // There should only ever be one google_workspace_directory credential per user but we delete many as we can't make type unique
   const gWorkspacePresent = await prisma.credential.deleteMany({
     where: {

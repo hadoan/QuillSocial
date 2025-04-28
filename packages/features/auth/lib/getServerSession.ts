@@ -1,5 +1,9 @@
 import { LRUCache } from "lru-cache";
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import { AuthOptions, Session } from "next-auth";
 import { getToken } from "next-auth/jwt";
 
@@ -43,7 +47,8 @@ export async function getServerSession(options: {
 
   const cachedSession = CACHE.get(JSON.stringify(token));
   const userId = cachedSession?.user?.id ?? 0;
-  let currentSocialProfile = userId > 0 ? await getCachedSocialProfile(userId) : undefined;
+  let currentSocialProfile =
+    userId > 0 ? await getCachedSocialProfile(userId) : undefined;
   if (cachedSession) {
     cachedSession.currentSocialProfile = currentSocialProfile;
     return cachedSession;
@@ -66,7 +71,9 @@ export async function getServerSession(options: {
   const session: Session = {
     hasValidLicense,
     currentSocialProfile,
-    expires: new Date(typeof token.exp === "number" ? token.exp * 1000 : Date.now()).toISOString(),
+    expires: new Date(
+      typeof token.exp === "number" ? token.exp * 1000 : Date.now()
+    ).toISOString(),
     user: {
       id: user.id,
       name: user.name,

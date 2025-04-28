@@ -52,7 +52,8 @@ export default class Sendgrid {
 
   constructor(providedApiKey = "") {
     this.log = logger.getChildLogger({ prefix: [`[[lib] sendgrid`] });
-    if (!providedApiKey && !environmentApiKey) throw Error("Sendgrid Api Key not present");
+    if (!providedApiKey && !environmentApiKey)
+      throw Error("Sendgrid Api Key not present");
     client.setApiKey(providedApiKey || environmentApiKey);
   }
 
@@ -64,11 +65,14 @@ export default class Sendgrid {
     return username;
   };
 
-  public async sendgridRequest<R = ClientResponse>(data: ClientRequest): Promise<R> {
+  public async sendgridRequest<R = ClientResponse>(
+    data: ClientRequest
+  ): Promise<R> {
     this.log.debug("sendgridRequest:request", data);
     const results = await client.request(data);
     this.log.debug("sendgridRequest:results", results);
-    if (results[1].errors) throw Error(`Sendgrid request error: ${results[1].errors}`);
+    if (results[1].errors)
+      throw Error(`Sendgrid request error: ${results[1].errors}`);
     return results[1];
   }
 
@@ -93,9 +97,17 @@ export default class Sendgrid {
     allFields.custom_fields = allFields.custom_fields ?? [];
     this.log.debug("sync:sendgrid:getCustomFieldsIds:allFields", allFields);
     const customFieldsNames = allFields.custom_fields.map((fie) => fie.name);
-    this.log.debug("sync:sendgrid:getCustomFieldsIds:customFieldsNames", customFieldsNames);
-    const customFieldsExist = customFields.map((cusFie) => customFieldsNames.includes(cusFie[0]));
-    this.log.debug("sync:sendgrid:getCustomFieldsIds:customFieldsExist", customFieldsExist);
+    this.log.debug(
+      "sync:sendgrid:getCustomFieldsIds:customFieldsNames",
+      customFieldsNames
+    );
+    const customFieldsExist = customFields.map((cusFie) =>
+      customFieldsNames.includes(cusFie[0])
+    );
+    this.log.debug(
+      "sync:sendgrid:getCustomFieldsIds:customFieldsExist",
+      customFieldsExist
+    );
     return await Promise.all(
       customFieldsExist.map(async (exist, idx) => {
         if (!exist) {
@@ -108,10 +120,15 @@ export default class Sendgrid {
               field_type,
             },
           });
-          this.log.debug("sync:sendgrid:getCustomFieldsIds:customField:created", created);
+          this.log.debug(
+            "sync:sendgrid:getCustomFieldsIds:customField:created",
+            created
+          );
           return created.id;
         } else {
-          const index = customFieldsNames.findIndex((val) => val === customFields[idx][0]);
+          const index = customFieldsNames.findIndex(
+            (val) => val === customFields[idx][0]
+          );
           if (index >= 0) {
             this.log.debug(
               "sync:sendgrid:getCustomFieldsIds:customField:existed",

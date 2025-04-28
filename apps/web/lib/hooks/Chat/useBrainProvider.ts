@@ -2,8 +2,17 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { CreateBrainInput, MinimalBrainForUser, Prompt } from "@lib/types/brains";
-import { createBrain, deleteBrain, getBrains, getDefaultBrain } from "@lib/chat/brain";
+import {
+  CreateBrainInput,
+  MinimalBrainForUser,
+  Prompt,
+} from "@lib/types/brains";
+import {
+  createBrain,
+  deleteBrain,
+  getBrains,
+  getDefaultBrain,
+} from "@lib/chat/brain";
 import { getPublicPrompts } from "@lib/chat/prompt";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -17,7 +26,9 @@ export const useBrainProvider = () => {
   const [publicPrompts, setPublicPrompts] = useState<Prompt[]>([]);
   const [currentPromptId, setCurrentPromptId] = useState<null | string>(null);
 
-  const currentPrompt = publicPrompts.find((prompt) => prompt.id === currentPromptId);
+  const currentPrompt = publicPrompts.find(
+    (prompt) => prompt.id === currentPromptId
+  );
   const currentBrain = allBrains.find((brain) => brain.id === currentBrainId);
 
   const fetchAllBrains = useCallback(async () => {
@@ -56,7 +67,9 @@ export const useBrainProvider = () => {
   const deleteBrainHandler = useCallback(
     async (id: string) => {
       await deleteBrain(id);
-      setAllBrains((prevBrains) => prevBrains.filter((brain) => brain.id !== id));
+      setAllBrains((prevBrains) =>
+        prevBrains.filter((brain) => brain.id !== id)
+      );
       // void track("DELETE_BRAIN");
       // publish({
       //   variant: "success",

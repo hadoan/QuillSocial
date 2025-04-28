@@ -71,7 +71,8 @@ function ConnectOrDisconnectIntegrationMenuItem(props: {
           color="destructive"
           onClick={() => handleDisconnect(credentialId)}
           disabled={isGlobal}
-          StartIcon={Trash}>
+          StartIcon={Trash}
+        >
           {t("remove_app")}
         </DropdownItem>
       </DropdownMenuItem>
@@ -90,7 +91,11 @@ function ConnectOrDisconnectIntegrationMenuItem(props: {
     <InstallAppButton
       type={type}
       render={(buttonProps) => (
-        <Button color="secondary" {...buttonProps} data-testid="integration-connection-button">
+        <Button
+          color="secondary"
+          {...buttonProps}
+          data-testid="integration-connection-button"
+        >
           {t("install")}
         </Button>
       )}
@@ -111,7 +116,11 @@ interface IntegrationsListProps {
   handleDisconnect: (credentialId: number) => void;
 }
 
-const IntegrationsList = ({ data, handleDisconnect, variant }: IntegrationsListProps) => {
+const IntegrationsList = ({
+  data,
+  handleDisconnect,
+  variant,
+}: IntegrationsListProps) => {
   const utils = trpc.useContext();
   const [bulkUpdateModal, setBulkUpdateModal] = useState(false);
 
@@ -122,15 +131,16 @@ const IntegrationsList = ({ data, handleDisconnect, variant }: IntegrationsListP
     showToast("Default app updated successfully", "success");
   }, []);
 
-  const updateDefaultAppMutation = trpc.viewer.updateUserDefaultConferencingApp.useMutation({
-    onSuccess: () => {
-      showToast("Default app updated successfully", "success");
-      utils.viewer.getUsersDefaultConferencingApp.invalidate();
-    },
-    onError: (error) => {
-      showToast(`Error: ${error.message}`, "error");
-    },
-  });
+  const updateDefaultAppMutation =
+    trpc.viewer.updateUserDefaultConferencingApp.useMutation({
+      onSuccess: () => {
+        showToast("Default app updated successfully", "success");
+        utils.viewer.getUsersDefaultConferencingApp.invalidate();
+      },
+      onError: (error) => {
+        showToast(`Error: ${error.message}`, "error");
+      },
+    });
 
   const { t } = useLocale();
   return (
@@ -143,13 +153,18 @@ const IntegrationsList = ({ data, handleDisconnect, variant }: IntegrationsListP
 
             let emailOrUserName = "";
             if (listAccount.data) {
-              const accounts = listAccount.data.find((a) => a.id === item.credentialIds[0]);
+              const accounts = listAccount.data.find(
+                (a) => a.id === item.credentialIds[0]
+              );
               if (accounts) {
                 emailOrUserName = accounts.emailOrUserName || "";
               }
             }
             return (
-              <div className="border-subtle my-5 rounded-md border" key={item.name}>
+              <div
+                className="border-subtle my-5 rounded-md border"
+                key={item.name}
+              >
                 <AppListCard
                   key={item.name}
                   description={emailOrUserName}
@@ -163,7 +178,11 @@ const IntegrationsList = ({ data, handleDisconnect, variant }: IntegrationsListP
                     <div className="flex justify-end">
                       <Dropdown modal={false}>
                         <DropdownMenuTrigger asChild>
-                          <Button StartIcon={MoreHorizontal} variant="icon" color="secondary" />
+                          <Button
+                            StartIcon={MoreHorizontal}
+                            variant="icon"
+                            color="secondary"
+                          />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <ConnectOrDisconnectIntegrationMenuItem
@@ -177,7 +196,8 @@ const IntegrationsList = ({ data, handleDisconnect, variant }: IntegrationsListP
                         </DropdownMenuContent>
                       </Dropdown>
                     </div>
-                  }>
+                  }
+                >
                   {/* <hr/>
                 <div className="ml-3 text-sm text-subtle mt-2">Select page to post your status</div>
                 <div className="ml-3 pb-2">
@@ -212,7 +232,11 @@ const IntegrationsContainer = ({
   handleDisconnect,
 }: IntegrationsContainerProps): JSX.Element => {
   const { t } = useLocale();
-  const query = trpc.viewer.integrations.useQuery({ variant, exclude, onlyInstalled: true });
+  const query = trpc.viewer.integrations.useQuery({
+    variant,
+    exclude,
+    onlyInstalled: true,
+  });
 
   // TODO: Refactor and reuse getAppCategories?
   const emptyIcon: Record<AppCategories, LucideIcon> = {
@@ -228,7 +252,7 @@ const IntegrationsContainer = ({
     crm: Contact,
     social: Share2,
     cloudstorage: CreditCard,
-    ai: Bot 
+    ai: Bot,
   };
 
   return (
@@ -241,9 +265,13 @@ const IntegrationsContainer = ({
             <EmptyScreen
               Icon={emptyIcon[variant || "other"]}
               headline={t("no_category_apps", {
-                category: (variant && t(variant).toLowerCase()) || t("other").toLowerCase(),
+                category:
+                  (variant && t(variant).toLowerCase()) ||
+                  t("other").toLowerCase(),
               })}
-              description={t(`no_category_apps_description_${variant || "other"}`)}
+              description={t(
+                `no_category_apps_description_${variant || "other"}`
+              )}
               // buttonRaw={
               //   <Button
               //     color="secondary"
@@ -270,7 +298,11 @@ const IntegrationsContainer = ({
               //   </Button>
               // }
             />
-            <IntegrationsList handleDisconnect={handleDisconnect} data={data} variant={variant} />
+            <IntegrationsList
+              handleDisconnect={handleDisconnect}
+              data={data}
+              variant={variant}
+            />
           </div>
         );
       }}
@@ -294,13 +326,18 @@ export default function InstalledApps() {
   const router = useRouter();
   const category = router.query.category as querySchemaType["category"];
 
-  const categoryList: AppCategories[] = Object.values(AppCategories).filter((category) => {
-    // Exclude calendar and other from categoryList, we handle those slightly differently below
-    return !(category in { other: null, calendar: null });
-  });
+  const categoryList: AppCategories[] = Object.values(AppCategories).filter(
+    (category) => {
+      // Exclude calendar and other from categoryList, we handle those slightly differently below
+      return !(category in { other: null, calendar: null });
+    }
+  );
 
   const [data, updateData] = useReducer(
-    (data: ModalState, partialData: Partial<ModalState>) => ({ ...data, ...partialData }),
+    (data: ModalState, partialData: Partial<ModalState>) => ({
+      ...data,
+      ...partialData,
+    }),
     {
       isOpen: false,
       credentialId: null,
@@ -317,9 +354,15 @@ export default function InstalledApps() {
 
   return (
     <>
-      <InstalledAppsLayout heading={t("installed_apps")} subtitle={t("manage_your_connected_apps")}>
+      <InstalledAppsLayout
+        heading={t("installed_apps")}
+        subtitle={t("manage_your_connected_apps")}
+      >
         {categoryList.includes(category) && (
-          <IntegrationsContainer handleDisconnect={handleDisconnect} variant={category} />
+          <IntegrationsContainer
+            handleDisconnect={handleDisconnect}
+            variant={category}
+          />
         )}
         {/* {category === "calendar" && <CalendarListContainer />} */}
         {category === "other" && (
@@ -346,7 +389,10 @@ export async function getServerSideProps(ctx: AppGetServerSidePropsContext) {
   if (cookies && cookies["return-to"]) {
     const returnTo = cookies["return-to"];
     if (returnTo) {
-      ctx.res.setHeader("Set-Cookie", "return-to=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+      ctx.res.setHeader(
+        "Set-Cookie",
+        "return-to=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
+      );
       return {
         redirect: {
           destination: `${returnTo}`,

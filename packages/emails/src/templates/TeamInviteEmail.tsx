@@ -1,4 +1,8 @@
-import { APP_NAME, WEBAPP_URL, IS_PRODUCTION } from "@quillsocial/lib/constants";
+import {
+  APP_NAME,
+  WEBAPP_URL,
+  IS_PRODUCTION,
+} from "@quillsocial/lib/constants";
 import type { TFunction } from "next-i18next";
 
 import { V2BaseEmailHtml, CallToAction } from "../components";
@@ -22,15 +26,22 @@ export const TeamInviteEmail = (
         user: props.from,
         team: props.teamName,
         appName: APP_NAME,
-        entity: props.language(props.isOrg ? "organization" : "team").toLowerCase(),
-      })}>
-      <p style={{ fontSize: "24px", marginBottom: "16px", textAlign: "center" }}>
+        entity: props
+          .language(props.isOrg ? "organization" : "team")
+          .toLowerCase(),
+      })}
+    >
+      <p
+        style={{ fontSize: "24px", marginBottom: "16px", textAlign: "center" }}
+      >
         <>
           {props.language("email_no_user_invite_heading", {
             invitedBy: props.from,
             appName: APP_NAME,
             teamName: props.teamName,
-            entity: props.language(props.isOrg ? "organization" : "team").toLowerCase(),
+            entity: props
+              .language(props.isOrg ? "organization" : "team")
+              .toLowerCase(),
           })}
         </>
       </p>
@@ -40,7 +51,7 @@ export const TeamInviteEmail = (
           height: "40px",
           width: "200px",
           marginLeft: "auto",
-          marginRight: "auto"
+          marginRight: "auto",
         }}
         src={WEBAPP_URL + "/img/logo.png"}
       />
@@ -51,19 +62,24 @@ export const TeamInviteEmail = (
           marginBottom: "32px",
           marginTop: "32px",
           lineHeightStep: "24px",
-        }}>
+        }}
+      >
         <>
           {props.language("email_user_invite_subheading", {
             invitedBy: props.from,
             appName: APP_NAME,
             teamName: props.teamName,
-            entity: props.language(props.isOrg ? "organization" : "team").toLowerCase(),
+            entity: props
+              .language(props.isOrg ? "organization" : "team")
+              .toLowerCase(),
           })}
         </>
       </p>
       <div style={{ display: "flex" }}>
         <CallToAction
-          label={props.language(props.isAccessMember ? "View Invitation " : "create_your_account")}
+          label={props.language(
+            props.isAccessMember ? "View Invitation " : "create_your_account"
+          )}
           href={props.joinLink}
         />
       </div>
@@ -74,14 +90,17 @@ export const TeamInviteEmail = (
           marginBottom: "32px",
           marginTop: "48px",
           lineHeightStep: "24px",
-        }}>
+        }}
+      >
         <>
           {props.language("email_no_user_invite_steps_intro", {
-            entity: props.language(props.isOrg ? "organization" : "team").toLowerCase(),
+            entity: props
+              .language(props.isOrg ? "organization" : "team")
+              .toLowerCase(),
           })}
         </>
       </p>
-{/* 
+      {/* 
       {!props.isAccessMember && (
         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
           <EmailStep
@@ -127,7 +146,8 @@ export const TeamInviteEmail = (
             marginBottom: "32px",
             marginTop: "32px",
             lineHeightStep: "24px",
-          }}>
+          }}
+        >
           <>
             {props.language("email_no_user_signoff", {
               appName: APP_NAME,
@@ -136,11 +156,22 @@ export const TeamInviteEmail = (
         </p>
       </div>
 
-      <div style={{ borderTop: "1px solid #E1E1E1", marginTop: "32px", paddingTop: "32px" }}>
+      <div
+        style={{
+          borderTop: "1px solid #E1E1E1",
+          marginTop: "32px",
+          paddingTop: "32px",
+        }}
+      >
         <p style={{ fontWeight: 400, margin: 0 }}>
           <>
             {props.language("have_any_questions")}{" "}
-            <a href="mailto:hi@quillsocial.co" style={{ color: "#3E3E3E" }} target="_blank" rel="noreferrer">
+            <a
+              href="mailto:hi@quillsocial.co"
+              style={{ color: "#3E3E3E" }}
+              target="_blank"
+              rel="noreferrer"
+            >
               <>{props.language("contact")}</>
             </a>{" "}
             {props.language("our_support_team")}
@@ -165,8 +196,13 @@ const EmailStep = (props: { translationString: string; iconsrc: string }) => {
           alignItems: "center",
           color: "white",
           marginRight: "16px",
-        }}>
-        <img src={props.iconsrc} alt="#" style={{ height: "24px", width: "auto" }} />
+        }}
+      >
+        <img
+          src={props.iconsrc}
+          alt="#"
+          style={{ height: "24px", width: "auto" }}
+        />
       </div>
       <p
         style={{
@@ -175,7 +211,8 @@ const EmailStep = (props: { translationString: string; iconsrc: string }) => {
           fontSize: "18px",
           lineHeight: "20px",
           color: "#black",
-        }}>
+        }}
+      >
         <>{props.translationString}</>
       </p>
     </div>

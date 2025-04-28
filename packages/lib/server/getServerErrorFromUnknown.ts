@@ -1,4 +1,7 @@
-import { PrismaClientKnownRequestError, NotFoundError } from "@prisma/client/runtime/library";
+import {
+  PrismaClientKnownRequestError,
+  NotFoundError,
+} from "@prisma/client/runtime/library";
 import Stripe from "stripe";
 import type { ZodIssue } from "zod";
 import { ZodError } from "zod";
@@ -10,7 +13,9 @@ function hasName(cause: unknown): cause is { name: string } {
 }
 
 function isZodError(cause: unknown): cause is ZodError {
-  return cause instanceof ZodError || (hasName(cause) && cause.name === "ZodError");
+  return (
+    cause instanceof ZodError || (hasName(cause) && cause.name === "ZodError")
+  );
 }
 
 function parseZodErrorIssues(issues: ZodIssue[]): string {

@@ -10,7 +10,10 @@ type GetVerifiedNumbersOptions = {
   input: TGetVerifiedNumbersInputSchema;
 };
 
-export const getVerifiedNumbersHandler = async ({ ctx, input }: GetVerifiedNumbersOptions) => {
+export const getVerifiedNumbersHandler = async ({
+  ctx,
+  input,
+}: GetVerifiedNumbersOptions) => {
   const { user } = ctx;
   const verifiedNumbers = await prisma.verifiedNumber.findMany({
     where: {

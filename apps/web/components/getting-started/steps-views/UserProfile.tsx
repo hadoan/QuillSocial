@@ -2,7 +2,14 @@ import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { md } from "@quillsocial/lib/markdownIt";
 import turndown from "@quillsocial/lib/turndownService";
 import { trpc } from "@quillsocial/trpc/react";
-import { Avatar, Button, Editor, ImageUploader, Label, showToast } from "@quillsocial/ui";
+import {
+  Avatar,
+  Button,
+  Editor,
+  ImageUploader,
+  Label,
+  showToast,
+} from "@quillsocial/ui";
 import { ArrowRight } from "@quillsocial/ui/components/icon";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
@@ -32,8 +39,6 @@ const UserProfile = () => {
         showToast(t("your_user_profile_updated_successfully"), "success");
         await utils.viewer.me.refetch();
       } else {
-       
-
         await utils.viewer.me.refetch();
         router.push("/");
       }
@@ -114,7 +119,9 @@ const UserProfile = () => {
               nativeInputValueSetter?.call(avatarRef.current, newAvatar);
               const ev2 = new Event("input", { bubbles: true });
               avatarRef.current?.dispatchEvent(ev2);
-              updateProfileHandler(ev2 as unknown as FormEvent<HTMLFormElement>);
+              updateProfileHandler(
+                ev2 as unknown as FormEvent<HTMLFormElement>
+              );
               setImageSrc(newAvatar);
             }}
             imageSrc={imageSrc}
@@ -122,7 +129,9 @@ const UserProfile = () => {
         </div>
       </div>
       <fieldset className="mt-8">
-        <Label className="text-default mb-2 block text-sm font-medium">{t("about")}</Label>
+        <Label className="text-default mb-2 block text-sm font-medium">
+          {t("about")}
+        </Label>
         <Editor
           getText={() => md.render(getValues("bio") || user?.bio || "")}
           setText={(value: string) => setValue("bio", turndown(value))}
@@ -136,7 +145,8 @@ const UserProfile = () => {
       </fieldset>
       <Button
         type="submit"
-        className="text-white  text-inverted mt-8 flex w-full flex-row justify-center rounded-md border p-2 text-center text-sm">
+        className="text-white  text-inverted mt-8 flex w-full flex-row justify-center rounded-md border p-2 text-center text-sm"
+      >
         {t("finish")}
         <ArrowRight className="ml-2 h-4 w-4 self-center" aria-hidden="true" />
       </Button>

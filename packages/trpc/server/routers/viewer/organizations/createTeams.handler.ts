@@ -15,7 +15,10 @@ type CreateTeamsOptions = {
   input: TCreateTeamsSchema;
 };
 
-export const createTeamsHandler = async ({ ctx, input }: CreateTeamsOptions) => {
+export const createTeamsHandler = async ({
+  ctx,
+  input,
+}: CreateTeamsOptions) => {
   const { teamNames, orgId } = input;
 
   const organization = await prisma.team.findFirst({
@@ -25,7 +28,10 @@ export const createTeamsHandler = async ({ ctx, input }: CreateTeamsOptions) => 
   const metadata = teamMetadataSchema.parse(organization?.metadata);
 
   if (!metadata?.requestedSlug && !organization?.slug)
-    throw new TRPCError({ code: "BAD_REQUEST", message: "no_organization_slug" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "no_organization_slug",
+    });
 
   const userMembership = await prisma.membership.findFirst({
     where: {
@@ -43,15 +49,23 @@ export const createTeamsHandler = async ({ ctx, input }: CreateTeamsOptions) => 
     throw new TRPCError({ code: "BAD_REQUEST", message: "not_authorized" });
 
   const [teamSlugs, userSlugs] = await prisma.$transaction([
-    prisma.team.findMany({ where: { parentId: orgId }, select: { slug: true } }),
-    prisma.user.findMany({ where: { organizationId: orgId }, select: { username: true } }),
+    prisma.team.findMany({
+      where: { parentId: orgId },
+      select: { slug: true },
+    }),
+    prisma.user.findMany({
+      where: { organizationId: orgId },
+      select: { username: true },
+    }),
   ]);
 
   const existingSlugs = teamSlugs
     .flatMap((ts) => ts.slug ?? [])
     .concat(userSlugs.flatMap((us) => us.username ?? []));
 
-  const duplicatedSlugs = existingSlugs.filter((slug) => teamNames.includes(slug));
+  const duplicatedSlugs = existingSlugs.filter((slug) =>
+    teamNames.includes(slug)
+  );
 
   await prisma.$transaction(
     teamNames.flatMap((name) => {
@@ -62,7 +76,11 @@ export const createTeamsHandler = async ({ ctx, input }: CreateTeamsOptions) => 
             parentId: orgId,
             slug: slugify(name),
             members: {
-              create: { userId: ctx.user.id, role: MembershipRole.OWNER, accepted: true },
+              create: {
+                userId: ctx.user.id,
+                role: MembershipRole.OWNER,
+                accepted: true,
+              },
             },
           },
         });

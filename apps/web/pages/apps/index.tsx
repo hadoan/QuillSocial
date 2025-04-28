@@ -1,4 +1,7 @@
-import { getAppRegistry, getAppRegistryWithCredentials } from "@quillsocial/app-store/_appRegistry";
+import {
+  getAppRegistry,
+  getAppRegistryWithCredentials,
+} from "@quillsocial/app-store/_appRegistry";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { classNames } from "@quillsocial/lib";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
@@ -49,7 +52,9 @@ function AppsSearch({
   );
 }
 
-export default function Apps({ appStore }: inferSSRProps<typeof getServerSideProps>) {
+export default function Apps({
+  appStore,
+}: inferSSRProps<typeof getServerSideProps>) {
   const { t } = useLocale();
   const [searchText, setSearchText] = useState<string | undefined>(undefined);
 
@@ -64,12 +69,16 @@ export default function Apps({ appStore }: inferSSRProps<typeof getServerSidePro
             <HorizontalTabs tabs={tabs} />
           </div>
           <div>
-            <AppsSearch className={className} onChange={(e) => setSearchText(e.target.value)} />
+            <AppsSearch
+              className={className}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
           </div>
         </div>
       )}
       headerClassName="sm:hidden lg:block hidden"
-      emptyStore={!appStore.length}>
+      emptyStore={!appStore.length}
+    >
       <div className="flex flex-col gap-y-8">
         <AllApps apps={appStore} />
       </div>
@@ -79,7 +88,9 @@ export default function Apps({ appStore }: inferSSRProps<typeof getServerSidePro
 
 Apps.PageWrapper = PageWrapper;
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const { req, res } = context;
 
   const ssr = await ssrInit(context);

@@ -7,14 +7,21 @@ import { getAppName } from "./getAppName";
 const Templates = fs
   .readdirSync(TEMPLATES_PATH)
   .filter((dir) => {
-    if (fs.statSync(path.join(TEMPLATES_PATH, dir)).isDirectory() && getAppName(dir)) {
+    if (
+      fs.statSync(path.join(TEMPLATES_PATH, dir)).isDirectory() &&
+      getAppName(dir)
+    ) {
       return true;
     }
     return false;
   })
   .map((dir) => {
     try {
-      const config = JSON.parse(fs.readFileSync(path.join(TEMPLATES_PATH, dir, "config.json")).toString());
+      const config = JSON.parse(
+        fs
+          .readFileSync(path.join(TEMPLATES_PATH, dir, "config.json"))
+          .toString()
+      );
       return {
         label: `${config.description}`,
         value: dir,
@@ -25,5 +32,9 @@ const Templates = fs
       return null;
     }
   })
-  .filter((item) => !!item) as { label: string; value: string; category: string }[];
+  .filter((item) => !!item) as {
+  label: string;
+  value: string;
+  category: string;
+}[];
 export default Templates;

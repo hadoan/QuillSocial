@@ -8,7 +8,10 @@ function pluralize(opts: { num: number; plural: string; singular: string }) {
   return opts.singular;
 }
 
-export default function SubHeadingTitleWithConnections(props: { title: ReactNode; numConnections?: number }) {
+export default function SubHeadingTitleWithConnections(props: {
+  title: ReactNode;
+  numConnections?: number;
+}) {
   const num = props.numConnections;
   return (
     <>

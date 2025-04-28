@@ -1,7 +1,10 @@
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import useMediaQuery from "@quillsocial/lib/hooks/useMediaQuery";
-import type { HorizontalTabItemProps, VerticalTabItemProps } from "@quillsocial/ui";
+import type {
+  HorizontalTabItemProps,
+  VerticalTabItemProps,
+} from "@quillsocial/ui";
 import { HeadSeo } from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import { z } from "zod";
@@ -41,20 +44,28 @@ const BillingPage = () => {
     //   href: "/billing/manage",
     // },
   ];
-  const { tab } = router.isReady ? querySchema.parse(router.query) : { tab: "overview" as const };
+  const { tab } = router.isReady
+    ? querySchema.parse(router.query)
+    : { tab: "overview" as const };
   return (
     <div>
-      <HeadSeo title="Billing" description="Manage your subscription and payment methods." />
+      <HeadSeo
+        title="Billing"
+        description="Manage your subscription and payment methods."
+      />
       {/* <BannerRemindTrial/> */}
       <Shell
         withoutSeo
         heading="Billing"
         hideHeadingOnMobile
-        subtitle="Manage your subscription and payment methods.">
+        subtitle="Manage your subscription and payment methods."
+      >
         <div>
           <div className="ml-[20px] flex flex-wrap md:ml-0">
             {/* <HorizontalTabs tabs={tabs} /> */}
-            <div className="overflow-x-auto lg:ml-auto">{/* <FiltersContainer /> */}</div>
+            <div className="overflow-x-auto lg:ml-auto">
+              {/* <FiltersContainer /> */}
+            </div>
           </div>
           {tab === "overview" && <BillingOverview></BillingOverview>}
           {tab === "history" && <BillingHistory></BillingHistory>}

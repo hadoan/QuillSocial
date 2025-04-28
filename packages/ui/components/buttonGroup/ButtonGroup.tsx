@@ -1,7 +1,11 @@
 import classNames from "@quillsocial/lib/classNames";
 import React from "react";
 
-type Props = { children: React.ReactNode; combined?: boolean; containerProps?: JSX.IntrinsicElements["div"] };
+type Props = {
+  children: React.ReactNode;
+  combined?: boolean;
+  containerProps?: JSX.IntrinsicElements["div"];
+};
 
 /**
  * Breakdown of Tailwind Magic below
@@ -12,7 +16,11 @@ type Props = { children: React.ReactNode; combined?: boolean; containerProps?: J
  * We dont need to add border to the right as we never remove it
  */
 
-export function ButtonGroup({ children, combined = false, containerProps }: Props) {
+export function ButtonGroup({
+  children,
+  combined = false,
+  containerProps,
+}: Props) {
   return (
     <div
       {...containerProps}
@@ -22,7 +30,8 @@ export function ButtonGroup({ children, combined = false, containerProps }: Prop
           ? "space-x-2 rtl:space-x-reverse"
           : "ltr:[&>*:first-child]:ml-0 ltr:[&>*:first-child]:rounded-l-md ltr:[&>*:first-child]:border-l rtl:[&>*:first-child]:rounded-r-md rtl:[&>*:first-child]:border-r ltr:[&>*:last-child]:rounded-r-md rtl:[&>*:last-child]:rounded-l-md [&>a]:-ml-[1px] hover:[&>a]:z-[1] [&>button]:-ml-[1px] hover:[&>button]:z-[1] [&_a]:rounded-none [&_button]:rounded-none",
         containerProps?.className
-      )}>
+      )}
+    >
       {children}
     </div>
   );

@@ -5,4 +5,6 @@ export const ZGetMembershipbyUserInputSchema = z.object({
   memberId: z.number(),
 });
 
-export type TGetMembershipbyUserInputSchema = z.infer<typeof ZGetMembershipbyUserInputSchema>;
+export type TGetMembershipbyUserInputSchema = z.infer<
+  typeof ZGetMembershipbyUserInputSchema
+>;

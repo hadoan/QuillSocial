@@ -47,7 +47,11 @@ export const Select = <
             state.isSelected && "bg-emphasis text-default",
             props.classNames?.option
           ),
-        placeholder: (state) => cx("text-muted", state.isFocused && variant !== "checkbox" && "hidden"),
+        placeholder: (state) =>
+          cx(
+            "text-muted",
+            state.isFocused && variant !== "checkbox" && "hidden"
+          ),
         dropdownIndicator: () => "text-default",
         control: (state) =>
           cx(
@@ -58,13 +62,20 @@ export const Select = <
                 : state.hasValue
                 ? "p-1 h-fit"
                 : "px-3 py-2 h-fit"
-              : "py-1 px-3",  //px-2 h-fit",
+              : "py-1 px-3", //px-2 h-fit",
             props.isDisabled && "bg-subtle",
             props.classNames?.control
           ),
-        singleValue: () => cx("text-emphasis placeholder:text-muted", props.classNames?.singleValue),
+        singleValue: () =>
+          cx(
+            "text-emphasis placeholder:text-muted",
+            props.classNames?.singleValue
+          ),
         valueContainer: () =>
-          cx("text-emphasis placeholder:text-muted flex gap-1", props.classNames?.valueContainer),
+          cx(
+            "text-emphasis placeholder:text-muted flex gap-1",
+            props.classNames?.valueContainer
+          ),
         multiValue: () =>
           cx(
             "bg-subtle text-default rounded-md py-1.5 px-2 flex items-center text-sm leading-none",
@@ -75,8 +86,13 @@ export const Select = <
             "rounded-md bg-default text-sm leading-4 text-default mt-1 border border-subtle",
             props.classNames?.menu
           ),
-        groupHeading: () => "leading-none text-xs uppercase text-default pl-2.5 pt-4 pb-2",
-        menuList: () => cx("scroll-bar scrollbar-track-w-20 rounded-md", props.classNames?.menuList),
+        groupHeading: () =>
+          "leading-none text-xs uppercase text-default pl-2.5 pt-4 pb-2",
+        menuList: () =>
+          cx(
+            "scroll-bar scrollbar-track-w-20 rounded-md",
+            props.classNames?.menuList
+          ),
         indicatorsContainer: (state) =>
           cx(
             state.selectProps.menuIsOpen
@@ -109,13 +125,23 @@ export const SelectField = function SelectField<
   } & SelectProps<Option, IsMulti, Group>
 ) {
   const { t } = useLocale();
-  const { label = t(props.name || ""), containerClassName, labelProps, className, ...passThrough } = props;
+  const {
+    label = t(props.name || ""),
+    containerClassName,
+    labelProps,
+    className,
+    ...passThrough
+  } = props;
   const id = useId();
   return (
     <div className={cx(containerClassName)}>
       <div className={cx(className)}>
         {!!label && (
-          <Label htmlFor={id} {...labelProps} className={cx(props.error && "text-error")}>
+          <Label
+            htmlFor={id}
+            {...labelProps}
+            className={cx(props.error && "text-error")}
+          >
             {label}
           </Label>
         )}
@@ -145,15 +171,18 @@ export function SelectWithValidation<
     return value.value || "";
   });
 
-  const setHiddenInputValue = React.useCallback((value: MultiValue<Option> | SingleValue<Option>) => {
-    let hiddenInputValue = "";
-    if (value instanceof Array) {
-      hiddenInputValue = value.map((val) => val.value).join(",");
-    } else {
-      hiddenInputValue = value?.value || "";
-    }
-    _setHiddenInputValue(hiddenInputValue);
-  }, []);
+  const setHiddenInputValue = React.useCallback(
+    (value: MultiValue<Option> | SingleValue<Option>) => {
+      let hiddenInputValue = "";
+      if (value instanceof Array) {
+        hiddenInputValue = value.map((val) => val.value).join(",");
+      } else {
+        hiddenInputValue = value?.value || "";
+      }
+      _setHiddenInputValue(hiddenInputValue);
+    },
+    []
+  );
 
   React.useEffect(() => {
     if (!value) {

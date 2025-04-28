@@ -49,8 +49,10 @@ export const ScheduleDialog: React.FC<ScheduleDialogProps> = ({
     comment: "",
   });
 
-  const currentBillingQuery = trpc.viewer.billings.getCurrentUserBilling.useQuery();
-  const getCountSocial = trpc.viewer.socials.getSocialConditionsForBilling.useQuery();
+  const currentBillingQuery =
+    trpc.viewer.billings.getCurrentUserBilling.useQuery();
+  const getCountSocial =
+    trpc.viewer.socials.getSocialConditionsForBilling.useQuery();
   // const checkCondition = getConditionToUpgrade(
   //   getCountSocial.data,
   //   currentBillingQuery.data?.type ?? BillingType.FREE_TIER
@@ -135,7 +137,8 @@ export const ScheduleDialog: React.FC<ScheduleDialogProps> = ({
           <div className="flex w-full justify-end">
             <div
               onClick={handleDialogClose}
-              className="mr-[-23px] mt-[-45px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+              className="mr-[-23px] mt-[-45px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+            >
               X
             </div>
           </div>
@@ -159,7 +162,10 @@ export const ScheduleDialog: React.FC<ScheduleDialogProps> = ({
                 />
                 <div className="flex flex-col items-start justify-start pl-4 pt-3 text-sm">
                   <p className="font-semibold">{"Auto plug(comment)"}</p>
-                  <p className="text-left"> Automatically add the first comment to your post.</p>
+                  <p className="text-left">
+                    {" "}
+                    Automatically add the first comment to your post.
+                  </p>
                 </div>
               </div>
             )}
@@ -167,19 +173,29 @@ export const ScheduleDialog: React.FC<ScheduleDialogProps> = ({
               <PluginComment
                 isModalEmoji={isEmojiModal}
                 setIsModalEmoji={setIsEmojiModal}
-                onPluginAfterChange={(value) => handleSchelduleAfterChange({ ...value })}
+                onPluginAfterChange={(value) =>
+                  handleSchelduleAfterChange({ ...value })
+                }
               />
             )}
           </div>
           <DialogFooter className="flex items-center justify-end">
-            <Button disabled={isDisabledButton} type="submit" className="text-white" onClick={handleUpdate}>
+            <Button
+              disabled={isDisabledButton}
+              type="submit"
+              className="text-white"
+              onClick={handleUpdate}
+            >
               Schedule Now
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
       <>
-        <ModalUpgrade isOpen={isModalUpgradeOpen} onClose={() => setIsModalUpgradeOpen(false)} />
+        <ModalUpgrade
+          isOpen={isModalUpgradeOpen}
+          onClose={() => setIsModalUpgradeOpen(false)}
+        />
       </>
     </>
   );

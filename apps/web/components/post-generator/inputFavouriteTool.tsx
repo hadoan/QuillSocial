@@ -9,11 +9,15 @@ const InputFavouriteTool: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [favoriteTool, setFavoriteTool] = useState("");
   const [reasonForNecessity, setReasonForNecessity] = useState("");
 
-  const handleFavoriteToolChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFavoriteToolChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFavoriteTool(event.target.value);
   };
 
-  const handleReasonForNecessityChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleReasonForNecessityChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setReasonForNecessity(event.target.value);
   };
 

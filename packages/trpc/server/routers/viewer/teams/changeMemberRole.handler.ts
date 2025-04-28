@@ -1,4 +1,7 @@
-import { isTeamAdmin, isTeamOwner } from "@quillsocial/lib/server/queries/teams";
+import {
+  isTeamAdmin,
+  isTeamOwner,
+} from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
@@ -14,10 +17,17 @@ type ChangeMemberRoleOptions = {
   input: TChangeMemberRoleInputSchema;
 };
 
-export const changeMemberRoleHandler = async ({ ctx, input }: ChangeMemberRoleOptions) => {
-  if (!(await isTeamAdmin(ctx.user?.id, input.teamId))) throw new TRPCError({ code: "UNAUTHORIZED" });
+export const changeMemberRoleHandler = async ({
+  ctx,
+  input,
+}: ChangeMemberRoleOptions) => {
+  if (!(await isTeamAdmin(ctx.user?.id, input.teamId)))
+    throw new TRPCError({ code: "UNAUTHORIZED" });
   // Only owners can award owner role.
-  if (input.role === MembershipRole.OWNER && !(await isTeamOwner(ctx.user?.id, input.teamId)))
+  if (
+    input.role === MembershipRole.OWNER &&
+    !(await isTeamOwner(ctx.user?.id, input.teamId))
+  )
     throw new TRPCError({ code: "UNAUTHORIZED" });
   const memberships = await prisma.membership.findMany({
     where: {
@@ -27,9 +37,14 @@ export const changeMemberRoleHandler = async ({ ctx, input }: ChangeMemberRoleOp
 
   const targetMembership = memberships.find((m) => m.userId === input.memberId);
   const myMembership = memberships.find((m) => m.userId === ctx.user.id);
-  const teamHasMoreThanOneOwner = memberships.some((m) => m.role === MembershipRole.OWNER);
+  const teamHasMoreThanOneOwner = memberships.some(
+    (m) => m.role === MembershipRole.OWNER
+  );
 
-  if (myMembership?.role === MembershipRole.ADMIN && targetMembership?.role === MembershipRole.OWNER) {
+  if (
+    myMembership?.role === MembershipRole.ADMIN &&
+    targetMembership?.role === MembershipRole.OWNER
+  ) {
     throw new TRPCError({
       code: "FORBIDDEN",
       message: "You can not change the role of an owner if you are an admin.",
@@ -66,5 +81,4 @@ export const changeMemberRoleHandler = async ({ ctx, input }: ChangeMemberRoleOp
       user: true,
     },
   });
-
 };

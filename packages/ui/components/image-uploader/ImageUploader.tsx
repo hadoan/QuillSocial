@@ -6,10 +6,20 @@ import Cropper from "react-easy-crop";
 
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 
-import { Button, Dialog, DialogClose, DialogContent, DialogTrigger } from "../..";
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "../..";
 import { showToast } from "../toast";
 
-type ReadAsMethod = "readAsText" | "readAsDataURL" | "readAsArrayBuffer" | "readAsBinaryString";
+type ReadAsMethod =
+  | "readAsText"
+  | "readAsDataURL"
+  | "readAsArrayBuffer"
+  | "readAsBinaryString";
 
 type UseFileReaderProps = {
   method: ReadAsMethod;
@@ -99,7 +109,9 @@ function CropContainer({
           zoom={zoom}
           aspect={1}
           onCropChange={setCrop}
-          onCropComplete={(croppedArea, croppedAreaPixels) => onCropComplete(croppedAreaPixels)}
+          onCropComplete={(croppedArea, croppedAreaPixels) =>
+            onCropComplete(croppedAreaPixels)
+          }
           onZoomChange={setZoom}
         />
       </div>
@@ -177,7 +189,8 @@ export default function ImageUploader({
     <Dialog
       onOpenChange={
         (opened) => !opened && setFile(null) // unset file on close
-      }>
+      }
+    >
       <DialogTrigger asChild>
         <Button color="secondary" type="button" className={className}>
           {buttonMsg}
@@ -186,7 +199,10 @@ export default function ImageUploader({
       <DialogContent>
         <div className="mb-4 sm:flex sm:items-start">
           <div className="mt-3 text-center sm:mt-0 sm:text-left">
-            <h3 className="font-quill text-emphasis text-lg leading-6" id="modal-title">
+            <h3
+              className="font-quill text-emphasis text-lg leading-6"
+              id="modal-title"
+            >
               {t("upload_target", { target })}
             </h3>
           </div>
@@ -202,12 +218,19 @@ export default function ImageUploader({
                 )}
                 {imageSrc && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img className="h-20 w-20 rounded-full" src={imageSrc} alt={target} />
+                  <img
+                    className="h-20 w-20 rounded-full"
+                    src={imageSrc}
+                    alt={target}
+                  />
                 )}
               </div>
             )}
             {result && !disableCropTool && (
-              <CropContainer imageSrc={result as string} onCropComplete={setCroppedAreaPixels} />
+              <CropContainer
+                imageSrc={result as string}
+                onCropComplete={setCroppedAreaPixels}
+              />
             )}
             {result && disableCropTool && (
               <NextImage
@@ -216,7 +239,8 @@ export default function ImageUploader({
                 height={0}
                 sizes="100vw"
                 src={result as string}
-                style={{ width: "auto", height: "250px" }}></NextImage>
+                style={{ width: "auto", height: "250px" }}
+              ></NextImage>
             )}
             <label className="bg-subtle hover:bg-muted hover:text-emphasis border-subtle text-default mt-8 rounded-sm border px-3 py-1 text-xs font-medium leading-4 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-1">
               <input
@@ -235,8 +259,11 @@ export default function ImageUploader({
           <DialogClose
             className="bg-awst hover:bg-awst text-white"
             onClick={() =>
-              disableCropTool ? showImage(result as string) : showCroppedImage(croppedAreaPixels)
-            }>
+              disableCropTool
+                ? showImage(result as string)
+                : showCroppedImage(croppedAreaPixels)
+            }
+          >
             {t("save")}
           </DialogClose>
           <DialogClose color="minimal">{t("cancel")}</DialogClose>
@@ -255,19 +282,26 @@ const createImage = (url: string) =>
     image.src = url;
   });
 
-async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<string> {
+async function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: Area
+): Promise<string> {
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Context is null, this should never happen.");
 
   const maxSize = Math.max(image.naturalWidth, image.naturalHeight);
-  const resizeRatio = MAX_IMAGE_SIZE / maxSize < 1 ? Math.max(MAX_IMAGE_SIZE / maxSize, 0.75) : 1;
+  const resizeRatio =
+    MAX_IMAGE_SIZE / maxSize < 1 ? Math.max(MAX_IMAGE_SIZE / maxSize, 0.75) : 1;
   // huh, what? - Having this turned off actually improves image quality as otherwise anti-aliasing is applied
   // this reduces the quality of the image overall because it anti-aliases the existing, copied image; blur results
   ctx.imageSmoothingEnabled = false;
   // pixelCrop is always 1:1 - width = height
-  canvas.width = canvas.height = Math.min(maxSize * resizeRatio, pixelCrop.width);
+  canvas.width = canvas.height = Math.min(
+    maxSize * resizeRatio,
+    pixelCrop.width
+  );
 
   ctx.drawImage(
     image,
@@ -310,7 +344,8 @@ const Slider = ({
     value={[value]}
     aria-label={label}
     onValueChange={(value: number[]) => changeHandler(value[0] ?? value)}
-    {...props}>
+    {...props}
+  >
     <SliderPrimitive.Track className="slider-track">
       <SliderPrimitive.Range className="slider-range" />
     </SliderPrimitive.Track>

@@ -71,12 +71,22 @@ export const getPricingTeamHanlder = async ({ ctx }: GetPricingTeamOptions) => {
     });
   }
   const quantity = sumArray(billings.map((x: any) => x.quantity));
-  const reminderType = getReminderType(member.team?.startTrialDate ?? new Date(), timeZone);
-  const dayTrial = getDayTrial(member.team?.startTrialDate ?? new Date(), timeZone);
+  const reminderType = getReminderType(
+    member.team?.startTrialDate ?? new Date(),
+    timeZone
+  );
+  const dayTrial = getDayTrial(
+    member.team?.startTrialDate ?? new Date(),
+    timeZone
+  );
   let isRemind = true;
   const teamLength = (member.team as any)?.members?.length ?? 1;
 
-  if (billings && billings.length > 0 && (billings[0].paymentId === "LTD" || billings[0].type === "LTD")) {
+  if (
+    billings &&
+    billings.length > 0 &&
+    (billings[0].paymentId === "LTD" || billings[0].type === "LTD")
+  ) {
     //Check LTD
     isRemind = false;
     isLTD = true;

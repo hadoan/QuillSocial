@@ -10,7 +10,13 @@ export default class SlugReplacementEmail extends BaseEmail {
   slug: string;
   t: TFunction;
 
-  constructor(email: string, name: string, teamName: string | null, slug: string, t: TFunction) {
+  constructor(
+    email: string,
+    name: string,
+    teamName: string | null,
+    slug: string,
+    t: TFunction
+  ) {
     super();
     this.email = email;
     this.name = name;
@@ -35,8 +41,8 @@ export default class SlugReplacementEmail extends BaseEmail {
   }
 
   protected getTextBody(): string {
-    return `${this.t("email_body_slug_replacement_notice", { slug: this.slug })} ${this.t(
-      "email_body_slug_replacement_suggestion"
-    )}`;
+    return `${this.t("email_body_slug_replacement_notice", {
+      slug: this.slug,
+    })} ${this.t("email_body_slug_replacement_suggestion")}`;
   }
 }

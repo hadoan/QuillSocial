@@ -14,11 +14,15 @@ type GetWorkflowActionOptionsOptions = {
   };
 };
 
-export const getWorkflowActionOptionsHandler = async ({ ctx }: GetWorkflowActionOptionsOptions) => {
+export const getWorkflowActionOptionsHandler = async ({
+  ctx,
+}: GetWorkflowActionOptionsOptions) => {
   const { user } = ctx;
 
   const isCurrentUsernamePremium =
-    user && hasKeyInMetadata(user, "isPremium") ? !!user.metadata.isPremium : false;
+    user && hasKeyInMetadata(user, "isPremium")
+      ? !!user.metadata.isPremium
+      : false;
 
   let isTeamsPlan = false;
   if (!isCurrentUsernamePremium) {
@@ -26,5 +30,8 @@ export const getWorkflowActionOptionsHandler = async ({ ctx }: GetWorkflowAction
     isTeamsPlan = !!hasTeamPlan;
   }
   const t = await getTranslation(ctx.user.locale, "common");
-  return getWorkflowActionOptions(t, IS_SELF_HOSTED || isCurrentUsernamePremium || isTeamsPlan);
+  return getWorkflowActionOptions(
+    t,
+    IS_SELF_HOSTED || isCurrentUsernamePremium || isTeamsPlan
+  );
 };

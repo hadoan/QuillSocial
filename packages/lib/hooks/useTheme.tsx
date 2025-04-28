@@ -8,7 +8,12 @@ import { useEffect } from "react";
  * It handles embed configured theme as well.
  */
 export default function useTheme(themeToSet?: Maybe<string>) {
-  const { resolvedTheme, setTheme, forcedTheme, theme: activeTheme } = useNextTheme();
+  const {
+    resolvedTheme,
+    setTheme,
+    forcedTheme,
+    theme: activeTheme,
+  } = useNextTheme();
 
   useEffect(() => {
     // If themeToSet is not provided the app intends to not apply a specific theme

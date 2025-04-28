@@ -1,2 +1,5 @@
 export { ToggleGroup } from "./ToggleGroup";
-export { BooleanToggleGroup, BooleanToggleGroupField } from "./BooleanToggleGroup";
+export {
+  BooleanToggleGroup,
+  BooleanToggleGroupField,
+} from "./BooleanToggleGroup";

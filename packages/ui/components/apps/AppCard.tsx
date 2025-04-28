@@ -32,12 +32,19 @@ export function AppCard({ app, credentials, searchText }: AppCardProps) {
   //   },
   // });
 
-  const allowedMultipleInstalls = app.categories && app.categories.indexOf("calendar") > -1;
+  const allowedMultipleInstalls =
+    app.categories && app.categories.indexOf("calendar") > -1;
   const appAdded = (credentials && credentials.length) || 0;
-  const [searchTextIndex, setSearchTextIndex] = useState<number | undefined>(undefined);
+  const [searchTextIndex, setSearchTextIndex] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    setSearchTextIndex(searchText ? app.name.toLowerCase().indexOf(searchText.toLowerCase()) : undefined);
+    setSearchTextIndex(
+      searchText
+        ? app.name.toLowerCase().indexOf(searchText.toLowerCase())
+        : undefined
+    );
   }, [app.name, searchText]);
 
   return (
@@ -59,7 +66,10 @@ export function AppCard({ app, credentials, searchText }: AppCardProps) {
             <>
               {app.name.substring(0, searchTextIndex)}
               <span className="bg-yellow-300">
-                {app.name.substring(searchTextIndex, searchTextIndex + searchText.length)}
+                {app.name.substring(
+                  searchTextIndex,
+                  searchTextIndex + searchText.length
+                )}
               </span>
               {app.name.substring(searchTextIndex + searchText.length)}
             </>
@@ -79,7 +89,8 @@ export function AppCard({ app, credentials, searchText }: AppCardProps) {
           display: "-webkit-box",
           WebkitBoxOrient: "vertical",
           WebkitLineClamp: "3",
-        }}>
+        }}
+      >
         {app.description}
       </p>
 
@@ -88,7 +99,8 @@ export function AppCard({ app, credentials, searchText }: AppCardProps) {
           color="secondary"
           className="flex w-32 flex-grow justify-center"
           href={`/apps/${app.slug}`}
-          data-testid={`app-store-app-card-${app.slug}`}>
+          data-testid={`app-store-app-card-${app.slug}`}
+        >
           {t("details")}
         </Button>
       </div>
@@ -99,7 +111,9 @@ export function AppCard({ app, credentials, searchText }: AppCardProps) {
           </span>
         )}
         {app.isTemplate && (
-          <span className="bg-error rounded-md px-2 py-1 text-sm font-normal text-red-800">Template</span>
+          <span className="bg-error rounded-md px-2 py-1 text-sm font-normal text-red-800">
+            Template
+          </span>
         )}
 
         {(app.isDefault || (!app.isDefault && app.isGlobal)) && (

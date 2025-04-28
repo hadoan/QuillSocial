@@ -19,7 +19,12 @@ export interface CalPageWrapper {
   PageWrapper?: AppProps["Component"]["PageWrapper"];
 }
 
-const interFont = Inter({ subsets: ["latin"], variable: "--font-inter", preload: true, display: "swap" });
+const interFont = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  preload: true,
+  display: "swap",
+});
 
 function PageWrapper(props: AppProps) {
   const { Component, pageProps, err, router } = props;
@@ -35,7 +40,12 @@ function PageWrapper(props: AppProps) {
   // It also avoids hydration warning that says that Client has the nonce value but server has "" because browser removes nonce attributes before DOM is built
   // See https://github.com/kentcdodds/nonce-hydration-issues
   // Set "" only if server had it set otherwise keep it undefined because server has to match with client to avoid hydration error
-  const nonce = typeof window !== "undefined" ? (pageProps.nonce ? "" : undefined) : pageProps.nonce;
+  const nonce =
+    typeof window !== "undefined"
+      ? pageProps.nonce
+        ? ""
+        : undefined
+      : pageProps.nonce;
   const providerProps = {
     ...props,
     pageProps: {
@@ -75,7 +85,9 @@ function PageWrapper(props: AppProps) {
       <Script
         nonce={nonce}
         id="page-status"
-        dangerouslySetInnerHTML={{ __html: `window.CalComPageStatus = '${pageStatus}'` }}
+        dangerouslySetInnerHTML={{
+          __html: `window.CalComPageStatus = '${pageStatus}'`,
+        }}
       />
 
       <style jsx global>{`

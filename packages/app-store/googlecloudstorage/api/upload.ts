@@ -5,9 +5,11 @@ import { uploadGCP } from "../lib/uploadGCP";
 import prisma from "@quillsocial/prisma";
 import { getUserFromToken } from "@quillsocial/lib/teams/getUserFromToken";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
-
     const form = formidable();
 
     const user = await getUserFromToken(req, res);
@@ -27,22 +29,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const gcpResult = await uploadGCP(title, path);
       if (!gcpResult.success) {
-        return res.status(400).json({ message: "Could not upload file to GCP" });
+        return res
+          .status(400)
+          .json({ message: "Could not upload file to GCP" });
       }
       const cloudFile = await prisma.cloudFile.create({
         data: {
           cloudFileId: gcpResult.uuid,
           fileExt: gcpResult.ext,
           fileName: gcpResult.originFileName,
-          fileSize: !uploadedDocument || uploadedDocument.length == 0 ? undefined : uploadedDocument[0].size
-        }
-      })
+          fileSize:
+            !uploadedDocument || uploadedDocument.length == 0
+              ? undefined
+              : uploadedDocument[0].size,
+        },
+      });
       return res.status(201).send({
         ...cloudFile,
-        fileSize: !uploadedDocument || uploadedDocument.length == 0 ? undefined : uploadedDocument[0].size
+        fileSize:
+          !uploadedDocument || uploadedDocument.length == 0
+            ? undefined
+            : uploadedDocument[0].size,
       });
     });
-
   } else {
     res.status(405).json({ message: "Method not allowed" });
   }

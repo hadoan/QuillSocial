@@ -10,15 +10,21 @@ const InputBookLearnings: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [keyLearning, setKeyLearning] = useState("");
   const [quotesOfBook, setQuotesOfBook] = useState("");
 
-  const handleNameOfBookChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameOfBookChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setNameOfBook(event.target.value);
   };
 
-  const handleKeyLearningChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleKeyLearningChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setKeyLearning(event.target.value);
   };
 
-  const handleQuotesOfBookChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleQuotesOfBookChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setQuotesOfBook(event.target.value);
   };
 
@@ -58,7 +64,8 @@ const InputBookLearnings: React.FC<InputTemplateProps> = ({ onInputData }) => {
           onChange={handleNameOfBookChange}
         />
         <label className="block text-sm font-medium leading-6 text-gray-900">
-          What are few key learnings from that book that you want to share with your audience?
+          What are few key learnings from that book that you want to share with
+          your audience?
         </label>
         <TextAreaField
           id="keyLearning"

@@ -31,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       userId: session?.user?.id,
       credentialId: data.credentialId,
       usageTokens: undefined,
-      pageId: data.pageId
+      pageId: data.pageId,
     }));
     if (postData.length > 0) {
       postData[0].usageTokens = tokens;
@@ -58,7 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 avatarUrl: true,
                 name: true,
                 emailOrUserName: true,
-                appId: true
+                appId: true,
               },
             },
           },

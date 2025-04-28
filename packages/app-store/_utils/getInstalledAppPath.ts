@@ -15,5 +15,7 @@ export default function getInstalledAppPath(
 
   if (!slug) return `/apps/installed/${variant}${locationSearch}`;
 
-  return `/apps/installed/${variant}?hl=${slug}${locationSearch && locationSearch.slice(1)}`;
+  return `/apps/installed/${variant}?hl=${slug}${
+    locationSearch && locationSearch.slice(1)
+  }`;
 }

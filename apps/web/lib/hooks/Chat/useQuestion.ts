@@ -6,7 +6,10 @@ import { useBrainContext } from "./useBrainContext";
 import { useHandleStream } from "./useHanldeStream";
 
 interface UseChatService {
-  addStreamQuestion: (chatId: string, chatQuestion: ChatQuestion) => Promise<void>;
+  addStreamQuestion: (
+    chatId: string,
+    chatQuestion: ChatQuestion
+  ) => Promise<void>;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "";
@@ -36,7 +39,10 @@ export const useQuestion = (): UseChatService => {
     return;
   };
 
-  const addStreamQuestion = async (chatId: string, chatQuestion: ChatQuestion): Promise<void> => {
+  const addStreamQuestion = async (
+    chatId: string,
+    chatQuestion: ChatQuestion
+  ): Promise<void> => {
     const headers = {
       "Content-Type": "application/json",
       Accept: "text/event-stream",
@@ -45,7 +51,9 @@ export const useQuestion = (): UseChatService => {
 
     try {
       const response = await fetch(
-        `${API_URL}/chat/${chatId}/question/stream?brain_id=${chatQuestion?.brain_id ?? ""}`,
+        `${API_URL}/chat/${chatId}/question/stream?brain_id=${
+          chatQuestion?.brain_id ?? ""
+        }`,
         {
           method: "POST",
           body,

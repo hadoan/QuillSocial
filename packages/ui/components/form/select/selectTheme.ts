@@ -1,4 +1,8 @@
-import type { GroupBase, SelectComponentsConfig, MenuPlacement } from "react-select";
+import type {
+  GroupBase,
+  SelectComponentsConfig,
+  MenuPlacement,
+} from "react-select";
 
 import { InputComponent, OptionComponent } from "./components";
 

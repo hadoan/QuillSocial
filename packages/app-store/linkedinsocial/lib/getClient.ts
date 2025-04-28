@@ -10,12 +10,17 @@ export const getClient = async (credentialId: number) => {
 
   let accessToken: string | undefined;
   // accessToken = await refreshAccessToken(accessToken,client_id,client_secret,client_id);
-  if (credential && typeof credential.key === "object" && credential.key !== null) {
-    accessToken = (credential.key as Record<string, unknown>).access_token as string | undefined;
+  if (
+    credential &&
+    typeof credential.key === "object" &&
+    credential.key !== null
+  ) {
+    accessToken = (credential.key as Record<string, unknown>).access_token as
+      | string
+      | undefined;
     if (!accessToken && (credential.key as any).token !== null) {
-      accessToken = ((credential.key as any).token as Record<string, unknown>).access_token as
-        | string
-        | undefined;
+      accessToken = ((credential.key as any).token as Record<string, unknown>)
+        .access_token as string | undefined;
     }
   }
   if (accessToken) return accessToken;

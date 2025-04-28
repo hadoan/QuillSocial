@@ -12,7 +12,9 @@ type getFirstOrCreateOrgOfUserOptions = {
   };
 };
 
-export const getFirstOrCreateOrgOfUserHandler = async ({ ctx }: getFirstOrCreateOrgOfUserOptions) => {
+export const getFirstOrCreateOrgOfUserHandler = async ({
+  ctx,
+}: getFirstOrCreateOrgOfUserOptions) => {
   const team = await getTeamWithMembers(undefined, undefined, ctx.user.id);
   if (!team) {
     const createTeam = await prisma.team.create({

@@ -28,7 +28,12 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
     },
   });
 
-  const isUserAuthorized = await isAuthorized(workflowToDelete, prisma, ctx.user.id, true);
+  const isUserAuthorized = await isAuthorized(
+    workflowToDelete,
+    prisma,
+    ctx.user.id,
+    true
+  );
 
   if (!isUserAuthorized || !workflowToDelete) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -56,7 +61,10 @@ export const deleteHandler = async ({ ctx, input }: DeleteOptions) => {
   });
 
   for (const activeOn of workflowToDelete.activeOn) {
-    await removeSmsReminderFieldForBooking({ workflowId: id, eventTypeId: activeOn.eventTypeId });
+    await removeSmsReminderFieldForBooking({
+      workflowId: id,
+      eventTypeId: activeOn.eventTypeId,
+    });
   }
 
   await prisma.workflow.deleteMany({

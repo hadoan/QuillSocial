@@ -24,7 +24,9 @@ export const Breadcrumb = ({ children }: BreadcrumbProps) => {
 
   return (
     <nav className="text-default text-sm font-normal leading-5">
-      <ol className="flex items-center space-x-2 rtl:space-x-reverse">{childrenSeperated}</ol>
+      <ol className="flex items-center space-x-2 rtl:space-x-reverse">
+        {childrenSeperated}
+      </ol>
     </nav>
   );
 };
@@ -35,7 +37,11 @@ type BreadcrumbItemProps = {
   listProps?: JSX.IntrinsicElements["li"];
 };
 
-export const BreadcrumbItem = ({ children, href, listProps }: BreadcrumbItemProps) => {
+export const BreadcrumbItem = ({
+  children,
+  href,
+  listProps,
+}: BreadcrumbItemProps) => {
   return (
     <li {...listProps}>
       <Link href={href}>{children}</Link>

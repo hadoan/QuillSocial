@@ -2,7 +2,10 @@ import type { Session } from "next-auth";
 
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { defaultAvatarSrc } from "@quillsocial/lib/defaultAvatarImage";
-import { teamMetadataSchema, userMetadata } from "@quillsocial/prisma/zod-utils";
+import {
+  teamMetadataSchema,
+  userMetadata,
+} from "@quillsocial/prisma/zod-utils";
 
 import type { Maybe } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
@@ -11,7 +14,10 @@ import type { TRPCContextInner } from "../createContext";
 import { middleware } from "../trpc";
 import { MembershipRole } from ".prisma/client";
 
-export async function getUserFromSession(ctx: TRPCContextInner, session: Maybe<Session>) {
+export async function getUserFromSession(
+  ctx: TRPCContextInner,
+  session: Maybe<Session>
+) {
   const { prisma } = ctx;
   if (!session?.user?.id) {
     return null;
@@ -90,10 +96,14 @@ export async function getUserFromSession(ctx: TRPCContextInner, session: Maybe<S
   }
   const { currentSocialProfile } = session as any;
   const userMetaData = userMetadata.parse(user.metadata || {});
-  const orgMetadata = teamMetadataSchema.parse(user.organization?.metadata || {});
+  const orgMetadata = teamMetadataSchema.parse(
+    user.organization?.metadata || {}
+  );
   const rawAvatar = user.avatar;
   // This helps to prevent reaching the 4MB payload limit by avoiding base64 and instead passing the avatar url
-  user.avatar = rawAvatar ? `${WEBAPP_URL}/${user.username}/avatar.png` : defaultAvatarSrc({ email });
+  user.avatar = rawAvatar
+    ? `${WEBAPP_URL}/${user.username}/avatar.png`
+    : defaultAvatarSrc({ email });
   const locale = user?.locale || ctx.locale;
   let isAdmin = true;
   if (user.teams && user.teams.length > 0) {
@@ -128,7 +138,9 @@ export type UserFromSession = Awaited<ReturnType<typeof getUserFromSession>>;
 
 const getSession = async (ctx: TRPCContextInner) => {
   const { req, res } = ctx;
-  const { getServerSession } = await import("@quillsocial/features/auth/lib/getServerSession");
+  const { getServerSession } = await import(
+    "@quillsocial/features/auth/lib/getServerSession"
+  );
   return req ? await getServerSession({ req, res }) : null;
 };
 

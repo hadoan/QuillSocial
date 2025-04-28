@@ -13,7 +13,11 @@ export function WizardLayout({
   isOptionalCallback,
 }: {
   children: React.ReactNode;
-} & { maxSteps?: number; currentStep?: number; isOptionalCallback?: () => void }) {
+} & {
+  maxSteps?: number;
+  currentStep?: number;
+  isOptionalCallback?: () => void;
+}) {
   const { t, isLocaleReady } = useLocale();
   const [meta, setMeta] = useState({ title: "", subtitle: " " });
   const router = useRouter();
@@ -22,14 +26,18 @@ export function WizardLayout({
   useEffect(() => {
     setMeta({
       title: window.document.title,
-      subtitle: window.document.querySelector('meta[name="description"]')?.getAttribute("content") || "",
+      subtitle:
+        window.document
+          .querySelector('meta[name="description"]')
+          ?.getAttribute("content") || "",
     });
   }, [router.asPath]);
 
   return (
     <div
       className="dark:bg-brand dark:text-brand-contrast text-emphasis min-h-screen"
-      data-testid="onboarding">
+      data-testid="onboarding"
+    >
       <div>
         <Toaster position="bottom-right" />
       </div>
@@ -43,7 +51,9 @@ export function WizardLayout({
                     <p className="font-quill mb-3 text-[28px] font-medium leading-7">
                       {title.replace(` | ${APP_NAME}`, "")}&nbsp;
                     </p>
-                    <p className="text-subtle font-sans text-sm font-normal">{subtitle}&nbsp;</p>
+                    <p className="text-subtle font-sans text-sm font-normal">
+                      {subtitle}&nbsp;
+                    </p>
                   </>
                 ) : (
                   <>
@@ -52,7 +62,11 @@ export function WizardLayout({
                   </>
                 )}
               </header>
-              <Steps maxSteps={maxSteps} currentStep={currentStep} navigateToStep={noop} />
+              <Steps
+                maxSteps={maxSteps}
+                currentStep={currentStep}
+                navigateToStep={noop}
+              />
             </div>
             <StepCard>{children}</StepCard>
           </div>
@@ -69,4 +83,6 @@ export function WizardLayout({
   );
 }
 
-export const getLayout = (page: React.ReactElement) => <WizardLayout>{page}</WizardLayout>;
+export const getLayout = (page: React.ReactElement) => (
+  <WizardLayout>{page}</WizardLayout>
+);

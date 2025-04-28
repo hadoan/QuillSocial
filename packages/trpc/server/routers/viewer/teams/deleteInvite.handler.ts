@@ -12,7 +12,10 @@ type DeleteInviteOptions = {
   input: TDeleteInviteInputSchema;
 };
 
-export const deleteInviteHandler = async ({ ctx, input }: DeleteInviteOptions) => {
+export const deleteInviteHandler = async ({
+  ctx,
+  input,
+}: DeleteInviteOptions) => {
   const { token } = input;
 
   const verificationToken = await prisma.verificationToken.findFirst({
@@ -26,8 +29,13 @@ export const deleteInviteHandler = async ({ ctx, input }: DeleteInviteOptions) =
   });
 
   if (!verificationToken) throw new TRPCError({ code: "NOT_FOUND" });
-  if (!verificationToken.teamId || !(await isTeamAdmin(ctx.user.id, verificationToken.teamId)))
+  if (
+    !verificationToken.teamId ||
+    !(await isTeamAdmin(ctx.user.id, verificationToken.teamId))
+  )
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  await prisma.verificationToken.delete({ where: { id: verificationToken.id } });
+  await prisma.verificationToken.delete({
+    where: { id: verificationToken.id },
+  });
 };

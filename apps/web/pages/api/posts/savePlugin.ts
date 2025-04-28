@@ -16,7 +16,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const post = await prisma.post.findUnique({ where: { id } });
     const time = parseInt(plugin?.time, 10);
     const timeType = plugin?.timeType as TimeType;
-    const postDate = post?.schedulePostDate ? post.schedulePostDate : post?.createdDate ?? new Date();
+    const postDate = post?.schedulePostDate
+      ? post.schedulePostDate
+      : post?.createdDate ?? new Date();
     const seconds = timeType === TimeType.MINUTE ? 1000 * 60 : 1000 * 60 * 60;
     const schedulePostDate = new Date(postDate.getTime() + time * seconds);
 
@@ -28,10 +30,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         schedulePostDate,
         post: {
           connect: {
-            id
-          }
-        }
-      }
+            id,
+          },
+        },
+      },
     });
     return newPlug;
   } else {

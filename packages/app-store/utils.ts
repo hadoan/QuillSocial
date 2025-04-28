@@ -13,7 +13,9 @@ type LocationOption = {
 };
 
 const ALL_APPS_MAP = Object.keys(appStoreMetadata).reduce((store, key) => {
-  const metadata = appStoreMetadata[key as keyof typeof appStoreMetadata] as AppMeta;
+  const metadata = appStoreMetadata[
+    key as keyof typeof appStoreMetadata
+  ] as AppMeta;
 
   store[key] = metadata;
 
@@ -26,7 +28,14 @@ const ALL_APPS_MAP = Object.keys(appStoreMetadata).reduce((store, key) => {
 }, {} as Record<string, AppMeta>);
 
 const credentialData = Prisma.validator<Prisma.CredentialArgs>()({
-  select: { id: true, type: true, key: true, userId: true, appId: true, invalid: true },
+  select: {
+    id: true,
+    type: true,
+    key: true,
+    userId: true,
+    appId: true,
+    invalid: true,
+  },
 });
 
 export type CredentialData = Prisma.CredentialGetPayload<typeof credentialData>;
@@ -40,14 +49,19 @@ export async function getLocationGroupedOptions(
 ) {
   const apps: Record<
     string,
-    { label: string; value: string; disabled?: boolean; icon?: string; slug?: string }[]
+    {
+      label: string;
+      value: string;
+      disabled?: boolean;
+      icon?: string;
+      slug?: string;
+    }[]
   > = {};
   integrations.forEach((app) => {
     if (app.locationOption) {
       // All apps that are labeled as a locationOption are video apps. Extract the secondary category if available
       const category = AppCategories.conferencing;
       const option = { ...app.locationOption, icon: app.logo, slug: app.slug };
-      
     }
   });
   const locations = [];
@@ -64,7 +78,7 @@ export async function getLocationGroupedOptions(
 
     locations.push(tmp);
   }
- 
+
   return locations;
 }
 
@@ -74,7 +88,9 @@ export async function getLocationGroupedOptions(
  */
 function getApps(userCredentials: CredentialData[]) {
   const apps = ALL_APPS.map((appMeta) => {
-    const credentials = userCredentials.filter((credential) => credential.type === appMeta.type);
+    const credentials = userCredentials.filter(
+      (credential) => credential.type === appMeta.type
+    );
     let locationOption: LocationOption | null = null;
 
     /** If the app is a globally installed one, let's inject it's key */
@@ -98,7 +114,8 @@ function getApps(userCredentials: CredentialData[]) {
       };
     }
 
-    const credential: (typeof credentials)[number] | null = credentials[0] || null;
+    const credential: (typeof credentials)[number] | null =
+      credentials[0] || null;
     return {
       ...appMeta,
       /**
@@ -147,4 +164,3 @@ export function getAppFromLocationValue(type: string): AppMeta | undefined {
 }
 
 export default getApps;
-

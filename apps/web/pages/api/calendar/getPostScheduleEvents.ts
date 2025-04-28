@@ -14,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { query } = req;
     const { credentialId } = query;
     let numCredentialId = 0;
-    if (typeof credentialId === 'string') {
+    if (typeof credentialId === "string") {
       numCredentialId = parseInt(credentialId, 10);
     }
     const posts = await prisma.post.findMany({
@@ -29,17 +29,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       select: {
         id: true,
         content: true,
-        schedulePostDate:true,
+        schedulePostDate: true,
         credential: {
           select: {
             name: true,
             emailOrUserName: true,
-            appId:true,
-          }
-        }
-      }
+            appId: true,
+          },
+        },
+      },
     });
-     res.status(200).json({ data: posts });
+    res.status(200).json({ data: posts });
     return;
   } else {
     res.status(405).json({ message: "Method not allowed" });

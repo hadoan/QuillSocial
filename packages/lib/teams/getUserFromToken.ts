@@ -1,6 +1,10 @@
 import prisma from "@quillsocial/prisma";
 import { User as PrismaUser } from "@prisma/client";
-import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
 

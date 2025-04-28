@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 import { Dialog, DialogContent, DialogFooter, Button } from "@quillsocial/ui";
-import { Pencil } from 'lucide-react';
+import { Pencil } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { debounce } from "lodash";
 import { Post } from "@quillsocial/types/Posts";
 import useMeQuery from "@lib/hooks/useMeQuery";
-import { router } from '@quillsocial/trpc/server/trpc';
+import { router } from "@quillsocial/trpc/server/trpc";
 import { useRouter } from "next/router";
 
 interface PickDraftDialogProps {
   open: boolean;
   onClose: () => void;
-  onEditAndPost: (draft: { id: number, content: string }) => void;
+  onEditAndPost: (draft: { id: number; content: string }) => void;
 }
 
 export const PickDraftDialog: React.FC<PickDraftDialogProps> = ({
@@ -31,19 +31,21 @@ export const PickDraftDialog: React.FC<PickDraftDialogProps> = ({
     ) {
       setCredentialId(user?.currentSocialProfile?.credentialId);
     }
-
   }, [user?.currentSocialProfile?.credentialId]);
 
   const debouncedApiCall = useMemo(() => {
     return debounce(async () => {
       if (credentialId !== null) {
-        const response = await fetch(`/api/posts/getAll?credentialId=${credentialId}`, {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `/api/posts/getAll?credentialId=${credentialId}`,
+          {
+            credentials: "include",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           console.error("Failed to get data");
         }
@@ -68,10 +70,10 @@ export const PickDraftDialog: React.FC<PickDraftDialogProps> = ({
     }
   }, [debouncedApiCall, credentialId]);
 
-  const handleEditAndPost = (draft: { id: number, content: string } ) => {
-    router.push(`/write/${draft.id}`)
+  const handleEditAndPost = (draft: { id: number; content: string }) => {
+    router.push(`/write/${draft.id}`);
     onEditAndPost(draft);
-    onClose(); 
+    onClose();
   };
 
   return (
@@ -86,12 +88,24 @@ export const PickDraftDialog: React.FC<PickDraftDialogProps> = ({
             &times;
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap gap-4 overflow-auto" style={{ maxHeight: '400px' }}>
+        <div
+          className="mt-4 flex flex-wrap gap-4 overflow-auto"
+          style={{ maxHeight: "400px" }}
+        >
           {allDrafts?.map((draft) => (
-            <div key={draft.id} className="p-4 flex border rounded-lg hover:bg-blue-50 w-full sm:w-[230px] flex-col justify-between border-b">
-              <p className="flex-1 break-words whitespace-normal">{draft.content}</p>
-              <div className='border-t w-full border-slate-300 my-2 pt-3'></div>
-              <Button onClick={()=>handleEditAndPost(draft)} StartIcon={Pencil} className="mt-auto text-sm">
+            <div
+              key={draft.id}
+              className="p-4 flex border rounded-lg hover:bg-blue-50 w-full sm:w-[230px] flex-col justify-between border-b"
+            >
+              <p className="flex-1 break-words whitespace-normal">
+                {draft.content}
+              </p>
+              <div className="border-t w-full border-slate-300 my-2 pt-3"></div>
+              <Button
+                onClick={() => handleEditAndPost(draft)}
+                StartIcon={Pencil}
+                className="mt-auto text-sm"
+              >
                 Edit & Post
               </Button>
             </div>
@@ -101,4 +115,3 @@ export const PickDraftDialog: React.FC<PickDraftDialogProps> = ({
     </Dialog>
   );
 };
-

@@ -2,7 +2,11 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { resetCachedSocialProfile } from "@quillsocial/features/auth/lib/socialProfiles";
-import { LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET, WEBAPP_URL } from "@quillsocial/lib/constants";
+import {
+  LINKEDIN_CLIENT_ID,
+  LINKEDIN_CLIENT_SECRET,
+  WEBAPP_URL,
+} from "@quillsocial/lib/constants";
 import prisma from "@quillsocial/prisma";
 
 import getInstalledAppPath from "../../_utils/getInstalledAppPath";
@@ -13,7 +17,10 @@ import { getUserProfile } from "../lib/linkedinManager";
 const app_id = LINKEDIN_CLIENT_ID;
 const app_secret = LINKEDIN_CLIENT_SECRET;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { code } = req.query;
   const redirectUri = WEBAPP_URL + "/api/integrations/linkedinsocial/callback";
 
@@ -22,7 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
   if (!req.session?.user?.id) {
-    return res.status(401).json({ message: "You must be logged in to do this" });
+    return res
+      .status(401)
+      .json({ message: "You must be logged in to do this" });
   }
 
   if (typeof code === "string") {
@@ -36,7 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         info: user,
       },
     ];
-    const companyPages = await LinkedinManager.getLinkedInPages(token.access_token);
+    const companyPages = await LinkedinManager.getLinkedInPages(
+      token.access_token
+    );
     if (companyPages) {
       pages.push(...companyPages);
     }
@@ -110,17 +121,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await resetCachedSocialProfile(req.session.user.id);
 
-    res.redirect(getInstalledAppPath({ variant: "social", slug: "linkedin-social" }));
+    res.redirect(
+      getInstalledAppPath({ variant: "social", slug: "linkedin-social" })
+    );
   }
 }
 
-async function getAccessToken(code: string, app_id: string, app_secret: string, redirectUri: string) {
+async function getAccessToken(
+  code: string,
+  app_id: string,
+  app_secret: string,
+  redirectUri: string
+) {
   const params = new URLSearchParams();
   params.append("grant_type", "authorization_code");
   params.append("code", code);
   params.append("client_id", app_id);
   params.append("client_secret", app_secret);
   params.append("redirect_uri", redirectUri);
-  const response = await axios.post("https://www.linkedin.com/oauth/v2/accessToken", params);
+  const response = await axios.post(
+    "https://www.linkedin.com/oauth/v2/accessToken",
+    params
+  );
   return response.data;
 }

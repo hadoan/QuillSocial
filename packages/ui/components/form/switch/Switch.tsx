@@ -6,7 +6,13 @@ import React from "react";
 
 import { Tooltip } from "../../tooltip";
 
-const Wrapper = ({ children, tooltip }: { tooltip?: string; children: React.ReactNode }) => {
+const Wrapper = ({
+  children,
+  tooltip,
+}: {
+  tooltip?: string;
+  children: React.ReactNode;
+}) => {
   if (!tooltip) {
     return <>{children}</>;
   }
@@ -25,7 +31,8 @@ const Switch = (
     };
   }
 ) => {
-  const { label, fitToHeight, classNames, labelOnLeading, ...primitiveProps } = props;
+  const { label, fitToHeight, classNames, labelOnLeading, ...primitiveProps } =
+    props;
   const id = useId();
   const isChecked = props.checked || props.defaultChecked;
   return (
@@ -36,7 +43,8 @@ const Switch = (
           fitToHeight && "h-fit",
           labelOnLeading && "flex-row-reverse",
           classNames?.container
-        )}>
+        )}
+      >
         <PrimitiveSwitch.Root
           className={cx(
             isChecked ? "bg-awst" : "bg-gray-200",
@@ -44,7 +52,8 @@ const Switch = (
             " h-5 w-[34px] rounded-full shadow-none border-neutral-300 outline-none",
             props.className
           )}
-          {...primitiveProps}>
+          {...primitiveProps}
+        >
           <PrimitiveSwitch.Thumb
             id={id}
             className={cx(
@@ -59,9 +68,12 @@ const Switch = (
             htmlFor={id}
             className={cx(
               "text-emphasis ms-2 align-text-top text-sm font-medium",
-              primitiveProps.disabled ? "cursor-not-allowed opacity-25" : "cursor-pointer",
+              primitiveProps.disabled
+                ? "cursor-not-allowed opacity-25"
+                : "cursor-pointer",
               labelOnLeading && "flex-1"
-            )}>
+            )}
+          >
             {label}
           </Label.Root>
         )}

@@ -12,7 +12,8 @@ const handler: AppDeclarativeHandler = {
   redirect: {
     url: "/apps/typeform/how-to-use",
   },
-  createCredential: ({ appType, user, slug }) => createDefaultInstallation({ appType, user, slug, key: {} }),
+  createCredential: ({ appType, user, slug }) =>
+    createDefaultInstallation({ appType, user, slug, key: {} }),
 };
 
 export default handler;

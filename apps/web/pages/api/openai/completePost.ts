@@ -5,7 +5,10 @@ import { completePostStatus } from "@quillsocial/app-store/chatgptai/lib/complet
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
 
-async function handler(req: NextApiRequest & { userId?: number }, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest & { userId?: number },
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method not allowed" });
     return;
@@ -20,7 +23,11 @@ async function handler(req: NextApiRequest & { userId?: number }, res: NextApiRe
 
   /* To mimic API behavior and comply with types */
   req.userId = session?.user?.id || -1;
-  const { tokens, post } = await completePostStatus(req.userId, instruction, idea);
+  const { tokens, post } = await completePostStatus(
+    req.userId,
+    instruction,
+    idea
+  );
   return { tokens, post };
 }
 

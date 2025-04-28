@@ -13,7 +13,10 @@ type VerifyPasswordOptions = {
   input: TVerifyPasswordInputSchema;
 };
 
-export const verifyPasswordHandler = async ({ input, ctx }: VerifyPasswordOptions) => {
+export const verifyPasswordHandler = async ({
+  input,
+  ctx,
+}: VerifyPasswordOptions) => {
   const user = await prisma.user.findUnique({
     where: {
       id: ctx.user.id,
@@ -24,7 +27,10 @@ export const verifyPasswordHandler = async ({ input, ctx }: VerifyPasswordOption
     throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
   }
 
-  const passwordsMatch = await verifyPassword(input.passwordInput, user.password);
+  const passwordsMatch = await verifyPassword(
+    input.passwordInput,
+    user.password
+  );
 
   if (!passwordsMatch) {
     throw new TRPCError({ code: "UNAUTHORIZED" });

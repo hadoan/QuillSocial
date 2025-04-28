@@ -5,4 +5,6 @@ export const ZUpdateAppCredentialsInputSchema = z.object({
   key: z.object({}).passthrough(),
 });
 
-export type TUpdateAppCredentialsInputSchema = z.infer<typeof ZUpdateAppCredentialsInputSchema>;
+export type TUpdateAppCredentialsInputSchema = z.infer<
+  typeof ZUpdateAppCredentialsInputSchema
+>;

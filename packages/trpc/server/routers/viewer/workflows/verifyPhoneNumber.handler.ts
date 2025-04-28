@@ -10,9 +10,17 @@ type VerifyPhoneNumberOptions = {
   input: TVerifyPhoneNumberInputSchema;
 };
 
-export const verifyPhoneNumberHandler = async ({ ctx, input }: VerifyPhoneNumberOptions) => {
+export const verifyPhoneNumberHandler = async ({
+  ctx,
+  input,
+}: VerifyPhoneNumberOptions) => {
   const { phoneNumber, code, teamId } = input;
   const { user } = ctx;
-  const verifyStatus = await verifyPhoneNumber(phoneNumber, code, user.id, teamId);
+  const verifyStatus = await verifyPhoneNumber(
+    phoneNumber,
+    code,
+    user.id,
+    teamId
+  );
   return verifyStatus;
 };

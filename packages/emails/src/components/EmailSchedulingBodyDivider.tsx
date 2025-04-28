@@ -3,7 +3,9 @@ import { CSSProperties } from "react";
 import EmailCommonDivider from "./EmailCommonDivider";
 import RawHtml from "./RawHtml";
 
-export const EmailSchedulingBodyDivider = (props: { headStyles?: CSSProperties }) => (
+export const EmailSchedulingBodyDivider = (props: {
+  headStyles?: CSSProperties;
+}) => (
   <EmailCommonDivider headStyles={props.headStyles}>
     <td
       align="center"
@@ -12,7 +14,8 @@ export const EmailSchedulingBodyDivider = (props: { headStyles?: CSSProperties }
         padding: "10px 25px",
         paddingBottom: 15,
         wordBreak: "break-word",
-      }}>
+      }}
+    >
       <p
         style={{
           borderTop: "solid 1px #E1E1E1",

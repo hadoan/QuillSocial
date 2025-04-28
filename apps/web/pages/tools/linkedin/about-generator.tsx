@@ -20,7 +20,13 @@ import {
 
 import PageWrapper from "@components/PageWrapper";
 
-const SkeletonLoader = ({ title, description }: { title: string; description: string }) => {
+const SkeletonLoader = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
   return (
     <SkeletonContainer>
       <Shell>
@@ -45,7 +51,8 @@ const AboutGeneratorView = () => {
   const { t } = useLocale();
   const { data: user, isLoading } = trpc.viewer.me.useQuery();
   const [abouts, setAbouts] = useState<string[]>([]);
-  const { data: avatar, isLoading: isLoadingAvatar } = trpc.viewer.avatar.useQuery();
+  const { data: avatar, isLoading: isLoadingAvatar } =
+    trpc.viewer.avatar.useQuery();
 
   const { isLoading: ischeckForAIAppsLoading, data: isAIPresent } =
     trpc.viewer.appsRouter.checkForAIApps.useQuery();
@@ -84,7 +91,8 @@ const AboutGeneratorView = () => {
         withoutSeo
         heading="About generator"
         hideHeadingOnMobile
-        subtitle="LinkedIn About Generator creates highly engaging LinkedIn about to get more profile visits & grow your following.">
+        subtitle="LinkedIn About Generator creates highly engaging LinkedIn about to get more profile visits & grow your following."
+      >
         <Meta
           title="About generator"
           description="LinkedIn About Generator creates highly engaging LinkedIn about to get more profile visits & grow your following."
@@ -98,7 +106,10 @@ const AboutGeneratorView = () => {
               isLoading={mutation.isLoading}
               onSubmit={(values) => {
                 if (!ischeckForAIAppsLoading && !isAIPresent) {
-                  showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+                  showToast(
+                    "Please install ChatGPT app from Apps menu to use this feature",
+                    "error"
+                  );
                   router.push(`/settings/my-account/app-integrations`);
                   return;
                 }
@@ -154,7 +165,8 @@ const AboutGeneratorForm = ({
                 <div className="flex flex-col">
                   <span className="text-subtle font-bold"> Your CV</span>
                   <span className="text-subtle font-normal">
-                    Add your CV's content here, you don't have to format your CV.
+                    Add your CV's content here, you don't have to format your
+                    CV.
                   </span>
                 </div>
               </>
@@ -167,7 +179,8 @@ const AboutGeneratorForm = ({
           disabled={isDisabled}
           color="primary"
           className="mt-8 text-white"
-          type="submit">
+          type="submit"
+        >
           Generate About
         </Button>
       </Form>
@@ -176,9 +189,15 @@ const AboutGeneratorForm = ({
         {abouts.map((about, index) => (
           <article
             key={`about-${index + 1}`}
-            className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-4 py-4  shadow ">
+            className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-4 py-4  shadow "
+          >
             <div className="mb-2 h-[120px]  max-h-[350px]  overflow-y-auto text-left text-sm">
-              <span className="" dangerouslySetInnerHTML={{ __html: about.replace(/\n/g, "<br />") }} />
+              <span
+                className=""
+                dangerouslySetInnerHTML={{
+                  __html: about.replace(/\n/g, "<br />"),
+                }}
+              />
             </div>
             <div className="ml-auto space-x-2">
               <button
@@ -186,7 +205,8 @@ const AboutGeneratorForm = ({
                 onClick={async () => {
                   await navigator.clipboard.writeText(about);
                   showToast("Copy successfully", "success");
-                }}>
+                }}
+              >
                 Copy
               </button>
             </div>

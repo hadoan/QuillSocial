@@ -39,7 +39,10 @@ const ColorPicker = (props: ColorPickerProps) => {
           </Popover.Trigger>
         </div>
         <Popover.Portal container={props.container}>
-          <Popover.Content align={props.popoverAlign ?? "center"} sideOffset={10}>
+          <Popover.Content
+            align={props.popoverAlign ?? "center"}
+            sideOffset={10}
+          >
             <HexColorPicker
               color={color}
               className="!h-32 !w-32"

@@ -19,7 +19,9 @@ const installApps = async (page: Page, users: Fixtures["users"]) => {
   await user.apiLogin();
   await page.goto(`/apps/typeform`);
   await page.click('[data-testid="install-app-button"]');
-  (await page.waitForSelector('[data-testid="install-app-button-personal"]')).click();
+  (
+    await page.waitForSelector('[data-testid="install-app-button-personal"]')
+  ).click();
   await page.waitForURL((url) => url.pathname === `/apps/typeform/how-to-use`);
 };
 
@@ -30,7 +32,11 @@ test.describe("Typeform App", () => {
   });
 
   test.describe("Typeform Redirect Link", () => {
-    test("should copy link in editing area", async ({ page, context, users }) => {
+    test("should copy link in editing area", async ({
+      page,
+      context,
+      users,
+    }) => {
       await installApps(page, users);
       context.grantPermissions(["clipboard-read", "clipboard-write"]);
 
@@ -46,10 +52,16 @@ test.describe("Typeform App", () => {
       const text = await page.evaluate(async () => {
         return navigator.clipboard.readText();
       });
-      expect(text).toBe(`${CAL_URL}/router?form=${formId}&test={Recalled_Response_For_This_Field}`);
+      expect(text).toBe(
+        `${CAL_URL}/router?form=${formId}&test={Recalled_Response_For_This_Field}`
+      );
     });
 
-    test("should copy link in RoutingForms list", async ({ page, context, users }) => {
+    test("should copy link in RoutingForms list", async ({
+      page,
+      context,
+      users,
+    }) => {
       await installApps(page, users);
       context.grantPermissions(["clipboard-read", "clipboard-write"]);
 
@@ -66,7 +78,9 @@ test.describe("Typeform App", () => {
       const text = await page.evaluate(async () => {
         return navigator.clipboard.readText();
       });
-      expect(text).toBe(`${CAL_URL}/router?form=${formId}&test={Recalled_Response_For_This_Field}`);
+      expect(text).toBe(
+        `${CAL_URL}/router?form=${formId}&test={Recalled_Response_For_This_Field}`
+      );
     });
   });
 });

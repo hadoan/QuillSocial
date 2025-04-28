@@ -4,7 +4,11 @@ import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { HttpError } from "@quillsocial/lib/http-error";
 import { defaultHandler, defaultResponder } from "@quillsocial/lib/server";
 import prisma from "@quillsocial/prisma";
-import { BillingPaymentStatus, BillingStatus, BillingType } from "@quillsocial/prisma/enums";
+import {
+  BillingPaymentStatus,
+  BillingStatus,
+  BillingType,
+} from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type Stripe from "stripe";
@@ -20,12 +24,21 @@ const querySchema = z.object({
 });
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { user: teamId, session_id, user_id, billing_type } = querySchema.parse(req.query); //query string in format {user,session_id!}
+  const {
+    user: teamId,
+    session_id,
+    user_id,
+    billing_type,
+  } = querySchema.parse(req.query); //query string in format {user,session_id!}
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["subscription"],
   });
-  if (!checkoutSession) throw new HttpError({ statusCode: 404, message: "Checkout session not found" });
+  if (!checkoutSession)
+    throw new HttpError({
+      statusCode: 404,
+      message: "Checkout session not found",
+    });
 
   const subscription = checkoutSession.subscription as Stripe.Subscription;
   if (checkoutSession.payment_status !== "paid")

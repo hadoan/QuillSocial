@@ -5,6 +5,6 @@ export const xCredentialSchema = z.object({
     userId: z.string(),
     screenName: z.string(),
     accessToken: z.string(),
-    accessSecret: z.string()
+    accessSecret: z.string(),
   }),
-}); 
+});

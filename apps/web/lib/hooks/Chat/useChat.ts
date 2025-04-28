@@ -17,7 +17,9 @@ export const useChat = () => {
 
   const router = useRouter();
   // let chat_id: any = router?.query?.id ?? "";
-  const [chatId, setChatId] = useState<string | undefined>(router?.query?.id as string | undefined);
+  const [chatId, setChatId] = useState<string | undefined>(
+    router?.query?.id as string | undefined
+  );
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
   const { messages } = useChatContext();
   const { currentBrain, currentPromptId, currentBrainId } = useBrainContext();
@@ -47,7 +49,6 @@ export const useChat = () => {
         });
       }
 
-
       const chatQuestion: ChatQuestion = {
         question,
       };
@@ -61,7 +62,6 @@ export const useChat = () => {
       }
     } catch (error) {
       console.error({ error });
-
     } finally {
       setGeneratingAnswer(false);
     }
@@ -75,7 +75,8 @@ export const useChat = () => {
   };
 };
 
-const getChatNameFromQuestion = (question: string): string => question.split(" ").slice(0, 3).join(" ");
+const getChatNameFromQuestion = (question: string): string =>
+  question.split(" ").slice(0, 3).join(" ");
 
 const chatConfigLocalStorageKey = "chat-config";
 

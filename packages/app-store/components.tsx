@@ -8,7 +8,11 @@ import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import type { RouterOutputs } from "@quillsocial/trpc/react";
 import type { App } from "@quillsocial/types/App";
-import { AlertCircle, ArrowRight, Check } from "@quillsocial/ui/components/icon";
+import {
+  AlertCircle,
+  ArrowRight,
+  Check,
+} from "@quillsocial/ui/components/icon";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
@@ -23,7 +27,8 @@ export const InstallAppButtonWithoutPlanCheck = (
 ) => {
   const mutation = useAddAppMutation(null);
   const key = deriveAppDictKeyFromType(props.type, InstallAppButtonMap);
-  const InstallAppButtonComponent = InstallAppButtonMap[key as keyof typeof InstallAppButtonMap];
+  const InstallAppButtonComponent =
+    InstallAppButtonMap[key as keyof typeof InstallAppButtonMap];
   if (!InstallAppButtonComponent)
     return (
       <>
@@ -69,7 +74,9 @@ export const InstallAppButton = (
       (e) => {
         if (!user) {
           router.push(
-            `${WEBAPP_URL}/auth/login?callbackUrl=${WEBAPP_URL + location.pathname + location.search}`
+            `${WEBAPP_URL}/auth/login?callbackUrl=${
+              WEBAPP_URL + location.pathname + location.search
+            }`
           );
           e.stopPropagation();
           return;
@@ -112,8 +119,12 @@ export const AppDependencyComponent = ({
     <div
       className={classNames(
         "rounded-md px-4 py-3",
-        dependencyData && dependencyData.some((dependency) => !dependency.installed) ? "bg-info" : "bg-subtle"
-      )}>
+        dependencyData &&
+          dependencyData.some((dependency) => !dependency.installed)
+          ? "bg-info"
+          : "bg-subtle"
+      )}
+    >
       {dependencyData &&
         dependencyData.map((dependency) => {
           return dependency.installed ? (
@@ -147,7 +158,10 @@ export const AppDependencyComponent = ({
                 </div>
                 <div>
                   <span className="font-semibold">
-                    {t("this_app_requires_connected_account", { appName, dependencyName: dependency.name })}
+                    {t("this_app_requires_connected_account", {
+                      appName,
+                      dependencyName: dependency.name,
+                    })}
                   </span>
 
                   <div>
@@ -155,9 +169,12 @@ export const AppDependencyComponent = ({
                       <>
                         <Link
                           href={`${MY_APP_URL}/apps/${dependency.slug}`}
-                          className="text-info flex items-center underline">
+                          className="text-info flex items-center underline"
+                        >
                           <span className="mr-1">
-                            {t("connect_app", { dependencyName: dependency.name })}
+                            {t("connect_app", {
+                              dependencyName: dependency.name,
+                            })}
                           </span>
                           <ArrowRight />
                         </Link>

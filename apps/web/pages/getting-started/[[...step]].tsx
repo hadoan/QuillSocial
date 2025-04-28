@@ -23,7 +23,11 @@ import { UserSettings } from "@components/getting-started/steps-views/UserSettin
 import { ssrInit } from "@server/lib/ssr";
 
 const INITIAL_STEP = "user-settings";
-const steps = ["user-settings", "connected-apps", "ghost-writer-setting"] as const;
+const steps = [
+  "user-settings",
+  "connected-apps",
+  "ghost-writer-setting",
+] as const;
 
 const stepTransform = (step: (typeof steps)[number]) => {
   const stepIndex = steps.indexOf(step);
@@ -52,7 +56,10 @@ const OnboardingPage = () => {
   const headers = [
     {
       title: `${t("welcome_to_cal_header", { appName: APP_NAME })}`,
-      subtitle: [`${t("we_just_need_basic_info")}`, `${t("edit_form_later_subtitle")}`],
+      subtitle: [
+        `${t("we_just_need_basic_info")}`,
+        `${t("edit_form_later_subtitle")}`,
+      ],
     },
     {
       title: "Connect to your LinkedIn account",
@@ -82,7 +89,8 @@ const OnboardingPage = () => {
           "--quill-brand-subtle": "#9CA3AF",
         } as CSSProperties
       }
-      key={pathname}>
+      key={pathname}
+    >
       <Head>
         <title>{`${APP_NAME} - ${t("getting_started")}`}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -98,22 +106,36 @@ const OnboardingPage = () => {
                 </p>
 
                 {headers[currentStepIndex]?.subtitle.map((subtitle, index) => (
-                  <p className="text-subtle font-sans text-sm font-normal" key={index}>
+                  <p
+                    className="text-subtle font-sans text-sm font-normal"
+                    key={index}
+                  >
                     {subtitle}
                   </p>
                 ))}
               </header>
-              <Steps maxSteps={steps.length} currentStep={currentStepIndex + 1} navigateToStep={goToIndex} />
+              <Steps
+                maxSteps={steps.length}
+                currentStep={currentStepIndex + 1}
+                navigateToStep={goToIndex}
+              />
             </div>
             <StepCard>
               <Suspense fallback={<Loader />}>
                 {currentStep === "user-settings" && (
-                  <UserSettings nextStep={() => goToIndex(1)} hideUsername={from === "signup"} />
+                  <UserSettings
+                    nextStep={() => goToIndex(1)}
+                    hideUsername={from === "signup"}
+                  />
                 )}
                 {/* {currentStep === "connected-apps" && <ConnectedCalendars nextStep={() => goToIndex(3)} />}*/}
-                {currentStep === "connected-apps" && <ConnectedLinkedinStep nextStep={() => goToIndex(2)} />}
+                {currentStep === "connected-apps" && (
+                  <ConnectedLinkedinStep nextStep={() => goToIndex(2)} />
+                )}
 
-                {currentStep === "ghost-writer-setting" && <GhostWriteSetting />}
+                {currentStep === "ghost-writer-setting" && (
+                  <GhostWriteSetting />
+                )}
               </Suspense>
             </StepCard>
           </div>
@@ -123,7 +145,9 @@ const OnboardingPage = () => {
   );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const { req, res } = context;
 
   const session = await getServerSession({ req, res });
@@ -169,7 +193,8 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     props: {
       ...(await serverSideTranslations(context.locale ?? "", ["common"])),
       trpcState: ssr.dehydrate(),
-      hasPendingInvites: user.teams.find((team) => team.accepted === false) ?? false,
+      hasPendingInvites:
+        user.teams.find((team) => team.accepted === false) ?? false,
     },
   };
 };

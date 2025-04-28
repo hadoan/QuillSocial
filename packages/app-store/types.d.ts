@@ -8,11 +8,14 @@ export type IntegrationOAuthCallbackState = {
   installGoogleVideo?: boolean;
   onErrorReturnTo?: string;
   fromApp?: boolean;
-  
+
   teamId?: number;
 };
 
-type AppScript = { attrs?: Record<string, string> } & { src?: string; content?: string };
+type AppScript = { attrs?: Record<string, string> } & {
+  src?: string;
+  content?: string;
+};
 
 export type Tag = {
   scripts: AppScript[];

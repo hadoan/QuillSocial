@@ -15,7 +15,10 @@ type UpdateAboutGeneratorOptions = {
   input: TGenerateAboutInputSchema;
 };
 
-export const generateAboutHandler = async ({ ctx, input }: UpdateAboutGeneratorOptions) => {
+export const generateAboutHandler = async ({
+  ctx,
+  input,
+}: UpdateAboutGeneratorOptions) => {
   const { user } = ctx;
   const id = user?.id || undefined;
   if (id) {

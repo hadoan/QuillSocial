@@ -4,4 +4,6 @@ export const ZGenerateAboutInputSchema = z.object({
   cv: z.string(),
 });
 
-export type TGenerateAboutInputSchema = z.infer<typeof ZGenerateAboutInputSchema>;
+export type TGenerateAboutInputSchema = z.infer<
+  typeof ZGenerateAboutInputSchema
+>;

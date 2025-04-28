@@ -36,16 +36,23 @@ export default class AccountVerifyEmail extends BaseEmail {
 
   protected getTextBody(): string {
     return `
-${this.verifyAccountInput.language("verify_email_subject", { appName: APP_NAME })}
+${this.verifyAccountInput.language("verify_email_subject", {
+  appName: APP_NAME,
+})}
 ${this.verifyAccountInput.language("verify_email_email_header")}
-${this.verifyAccountInput.language("hi_user_name", { name: this.verifyAccountInput.user.name })},
-${this.verifyAccountInput.language("verify_email_email_body", { appName: APP_NAME })}
+${this.verifyAccountInput.language("hi_user_name", {
+  name: this.verifyAccountInput.user.name,
+})},
+${this.verifyAccountInput.language("verify_email_email_body", {
+  appName: APP_NAME,
+})}
 ${this.verifyAccountInput.language("verify_email_email_link_text")}
 ${this.verifyAccountInput.verificationEmailLink}
-${this.verifyAccountInput.language("happy_scheduling")} ${this.verifyAccountInput.language(
-      "the_access_team",
-      { companyName: COMPANY_NAME }
-    )}
+${this.verifyAccountInput.language(
+  "happy_scheduling"
+)} ${this.verifyAccountInput.language("the_access_team", {
+      companyName: COMPANY_NAME,
+    })}
 `.replace(/(<([^>]+)>)/gi, "");
   }
 }

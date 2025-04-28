@@ -26,10 +26,12 @@ const initClock = () => {
     return;
   }
   // This only sets browser locale if there's no preference on localStorage.
-  if (getIs24hClockFromLocalStorage() === null) set24hClock(isBrowserLocale24h());
+  if (getIs24hClockFromLocalStorage() === null)
+    set24hClock(isBrowserLocale24h());
   timeOptions.is24hClock = !!getIs24hClockFromLocalStorage();
   const tz = getBrowerTimeZone();
-  timeOptions.inviteeTimeZone = localStorage.getItem("timeOption.preferredTimeZone") || tz;
+  timeOptions.inviteeTimeZone =
+    localStorage.getItem("timeOption.preferredTimeZone") || tz;
 };
 
 const is24h = (is24hClock?: boolean) => {

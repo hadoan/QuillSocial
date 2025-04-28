@@ -1,5 +1,10 @@
 import jackson from "@quillsocial/features/ee/sso/lib/jackson";
-import { canAccess, samlProductID, samlTenantID, tenantPrefix } from "@quillsocial/features/ee/sso/lib/saml";
+import {
+  canAccess,
+  samlProductID,
+  samlTenantID,
+  tenantPrefix,
+} from "@quillsocial/features/ee/sso/lib/saml";
 
 import { TRPCError } from "@trpc/server";
 
@@ -37,6 +42,9 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     });
   } catch (err) {
     console.error("Error updating SAML connection", err);
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Updating SAML Connection failed." });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Updating SAML Connection failed.",
+    });
   }
 };

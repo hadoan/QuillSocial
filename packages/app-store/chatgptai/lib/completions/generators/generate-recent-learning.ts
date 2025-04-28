@@ -1,6 +1,14 @@
-import { getChatCompletions, getRewriteCompletions } from "../getChatCompletions";
+import {
+  getChatCompletions,
+  getRewriteCompletions,
+} from "../getChatCompletions";
 
-const getMessageTexts = (recentLearn: string, how: string, keyLearning: string, format?: string) => {
+const getMessageTexts = (
+  recentLearn: string,
+  how: string,
+  keyLearning: string,
+  format?: string
+) => {
   const instruction = format
     ? `write a paragraph about recent learning and complete it to share in social networks for the topic "${recentLearn}", the key learnings i would like to share "${keyLearning}", "${how}" is how did I learn it, then convert the paragraph into the pre-defined format as below:
     ${format}.

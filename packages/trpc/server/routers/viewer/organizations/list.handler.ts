@@ -13,7 +13,10 @@ type ListHandlerInput = {
 // This functionality is essentially the same as the teams/list.handler.ts but it's easier for SOC to have it in a separate file.
 export const listHandler = async ({ ctx }: ListHandlerInput) => {
   if (!ctx.user.organization?.id) {
-    throw new TRPCError({ code: "BAD_REQUEST", message: "You do not belong to an organization" });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "You do not belong to an organization",
+    });
   }
 
   const membership = await ctx.prisma.membership.findFirst({

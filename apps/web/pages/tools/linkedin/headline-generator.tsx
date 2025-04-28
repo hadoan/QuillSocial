@@ -20,7 +20,13 @@ import {
 
 import PageWrapper from "@components/PageWrapper";
 
-const SkeletonLoader = ({ title, description }: { title: string; description: string }) => {
+const SkeletonLoader = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
   return (
     <SkeletonContainer>
       <Shell>
@@ -45,7 +51,8 @@ const HeadlineGeneratorView = () => {
   const { t } = useLocale();
   const { data: user, isLoading } = trpc.viewer.me.useQuery();
   const [headlines, setHeadlines] = useState<string[]>([]);
-  const { data: avatar, isLoading: isLoadingAvatar } = trpc.viewer.avatar.useQuery();
+  const { data: avatar, isLoading: isLoadingAvatar } =
+    trpc.viewer.avatar.useQuery();
   const router = useRouter();
 
   const { isLoading: ischeckForAIAppsLoading, data: isAIPresent } =
@@ -85,7 +92,8 @@ const HeadlineGeneratorView = () => {
         withoutSeo
         heading="Headline generator"
         hideHeadingOnMobile
-        subtitle="LinkedIn Headline Generator creates highly engaging LinkedIn headlines to get more profile visits & grow your following.">
+        subtitle="LinkedIn Headline Generator creates highly engaging LinkedIn headlines to get more profile visits & grow your following."
+      >
         <Meta
           title="Headline generator"
           description="LinkedIn Headline Generator creates highly engaging LinkedIn headlines to get more profile visits & grow your following."
@@ -99,7 +107,10 @@ const HeadlineGeneratorView = () => {
               isLoading={mutation.isLoading}
               onSubmit={(values) => {
                 if (!ischeckForAIAppsLoading && !isAIPresent) {
-                  showToast("Please install ChatGPT app from Apps menu to use this feature", "error");
+                  showToast(
+                    "Please install ChatGPT app from Apps menu to use this feature",
+                    "error"
+                  );
                   router.push(`/settings/my-account/app-integrations`);
                   return;
                 }
@@ -155,7 +166,8 @@ const HeadlineGeneratorForm = ({
                 <div className="flex flex-col">
                   <span className="text-subtle font-bold"> Your CV</span>
                   <span className="text-subtle font-normal">
-                    Add your CV's content here, you don't have to format your CV.
+                    Add your CV's content here, you don't have to format your
+                    CV.
                   </span>
                 </div>
               </>
@@ -168,7 +180,8 @@ const HeadlineGeneratorForm = ({
           disabled={isDisabled}
           color="primary"
           className="mt-8 text-white"
-          type="submit">
+          type="submit"
+        >
           Generate Headlines
         </Button>
       </Form>
@@ -177,9 +190,15 @@ const HeadlineGeneratorForm = ({
         {headlines.map((headline, index) => (
           <article
             key={`headline-${index + 1}`}
-            className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-4 py-4  shadow ">
+            className="relative isolate flex cursor-pointer flex-col overflow-hidden rounded-2xl bg-white px-4 py-4  shadow "
+          >
             <div className="mb-2 h-[120px]  max-h-[350px]  overflow-y-auto text-left text-sm">
-              <span className="" dangerouslySetInnerHTML={{ __html: headline.replace(/\n/g, "<br />") }} />
+              <span
+                className=""
+                dangerouslySetInnerHTML={{
+                  __html: headline.replace(/\n/g, "<br />"),
+                }}
+              />
             </div>
             <div className="ml-auto space-x-2">
               <button
@@ -187,7 +206,8 @@ const HeadlineGeneratorForm = ({
                 onClick={async () => {
                   await navigator.clipboard.writeText(headline);
                   showToast("Copy successfully", "success");
-                }}>
+                }}
+              >
                 Copy
               </button>
             </div>

@@ -7,7 +7,9 @@ import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-type ShouldHighlight = { slug: string; shouldHighlight: true } | { shouldHighlight?: never; slug?: never };
+type ShouldHighlight =
+  | { slug: string; shouldHighlight: true }
+  | { shouldHighlight?: never; slug?: never };
 
 type AppListCardProps = {
   logo?: string;
@@ -62,12 +64,19 @@ export default function AppListCard(props: AppListCardProps) {
   }, []);
 
   return (
-    <div className={`${highlight ? "dark:bg-muted bg-yellow-100" : ""}`} key={slug}>
+    <div
+      className={`${highlight ? "dark:bg-muted bg-yellow-100" : ""}`}
+      key={slug}
+    >
       <div className="flex gap-x-3 px-5 py-4">
-        {logo ? <img className="h-10 w-10" src={logo} alt={`${title} logo`} /> : null}
+        {logo ? (
+          <img className="h-10 w-10" src={logo} alt={`${title} logo`} />
+        ) : null}
         <div className="flex grow flex-col gap-y-1 truncate">
           <div className="flex items-center gap-x-2">
-            <h3 className="text-emphasis truncate text-sm font-semibold">{title}</h3>
+            <h3 className="text-emphasis truncate text-sm font-semibold">
+              {title}
+            </h3>
             <div className="flex items-center gap-x-2">
               {isDefault && <Badge variant="green">{t("default")}</Badge>}
               {isTemplate && <Badge variant="red">Template</Badge>}
@@ -77,7 +86,10 @@ export default function AppListCard(props: AppListCardProps) {
           {invalidCredential && (
             <div className="flex gap-x-2 pt-2">
               <AlertCircle className="h-8 w-8 text-red-500 sm:h-4 sm:w-4" />
-              <ListItemText component="p" className="whitespace-pre-wrap text-red-500">
+              <ListItemText
+                component="p"
+                className="whitespace-pre-wrap text-red-500"
+              >
                 {t("invalid_credential")}
               </ListItemText>
             </div>

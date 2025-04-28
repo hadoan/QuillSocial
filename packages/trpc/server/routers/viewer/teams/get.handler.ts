@@ -21,7 +21,9 @@ export const getHandler = async ({ ctx, input }: GetOptions) => {
     throw new TRPCError({ code: "NOT_FOUND", message: "Team not found." });
   }
 
-  const membership = team?.members.find((membership) => membership.id === ctx.user.id);
+  const membership = team?.members.find(
+    (membership) => membership.id === ctx.user.id
+  );
 
   return {
     ...team,

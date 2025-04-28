@@ -13,7 +13,9 @@ const InputArticlePost: React.FC<InputTemplateProps> = ({ onInputData }) => {
     setUrl(event.target.value);
   };
 
-  const handleInstructionsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInstructionsChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setInstructions(event.target.value);
   };
 
@@ -51,7 +53,9 @@ const InputArticlePost: React.FC<InputTemplateProps> = ({ onInputData }) => {
           value={url}
           onChange={handleUrlChange}
         />
-        <span className="block text-sm font-medium leading-6 text-gray-900">Add your instructions</span>
+        <span className="block text-sm font-medium leading-6 text-gray-900">
+          Add your instructions
+        </span>
         <TextAreaField
           id="instructions"
           name=""

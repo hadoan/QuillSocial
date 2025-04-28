@@ -7,8 +7,10 @@ type GetSocialConditionsOptions = {
   };
 };
 
-export const getSocialConditionsForBillingHanlder = async ({ ctx }: GetSocialConditionsOptions) => {
-const userId = ctx.user.id;
+export const getSocialConditionsForBillingHanlder = async ({
+  ctx,
+}: GetSocialConditionsOptions) => {
+  const userId = ctx.user.id;
   if (!ctx.user || !ctx.user.id) {
     throw new Error("Invalid user");
   }
@@ -17,21 +19,18 @@ const userId = ctx.user.id;
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-
   const countPost = await prisma.post.count({
-    where:
-    {
+    where: {
       userId: userId,
       createdDate: {
         gte: startOfMonth,
-        lte:endOfMonth
-      }
-    }
+        lte: endOfMonth,
+      },
+    },
   });
-  
+
   const accounts = await prisma.credential.findMany({
-    where:
-    {
+    where: {
       userId: userId,
     },
     select: {
@@ -41,8 +40,8 @@ const userId = ctx.user.id;
     },
   });
   const countAccount = accounts.length > 0 ? accounts.length : 0;
-  return  {
+  return {
     countAccount,
     countPost,
-  }
+  };
 };

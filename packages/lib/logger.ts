@@ -7,14 +7,21 @@ const logger = new Logger({
   dateTimePattern: "hour:minute:second.millisecond",
   displayFunctionName: false,
   displayFilePath: "hidden",
-  dateTimeTimezone: IS_PRODUCTION ? "utc" : Intl.DateTimeFormat().resolvedOptions().timeZone,
+  dateTimeTimezone: IS_PRODUCTION
+    ? "utc"
+    : Intl.DateTimeFormat().resolvedOptions().timeZone,
   prettyInspectHighlightStyles: {
     name: "yellow",
     number: "blue",
     bigint: "blue",
     boolean: "blue",
   },
-  maskValuesOfKeys: ["password", "passwordConfirmation", "credentials", "credential"],
+  maskValuesOfKeys: [
+    "password",
+    "passwordConfirmation",
+    "credentials",
+    "credential",
+  ],
   exposeErrorCodeFrame: !IS_PRODUCTION,
 });
 

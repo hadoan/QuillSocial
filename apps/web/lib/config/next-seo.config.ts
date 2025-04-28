@@ -1,4 +1,8 @@
-import { APP_NAME, SEO_IMG_DEFAULT, SEO_IMG_OGIMG } from "@quillsocial/lib/constants";
+import {
+  APP_NAME,
+  SEO_IMG_DEFAULT,
+  SEO_IMG_OGIMG,
+} from "@quillsocial/lib/constants";
 import type { DefaultSeoProps, NextSeoProps } from "next-seo";
 
 export type HeadSeoProps = {

@@ -38,7 +38,10 @@ const generators: Generators = {
   8: generateFormatContent,
 };
 
-async function handler(req: NextApiRequest & { userId?: number }, res: NextApiResponse) {
+async function handler(
+  req: NextApiRequest & { userId?: number },
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method not allowed" });
     return;
@@ -52,7 +55,9 @@ async function handler(req: NextApiRequest & { userId?: number }, res: NextApiRe
   const { code, format, inputs } = req.body as RequestInput;
   const numId = getIdFromCode(code);
 
-  const isValidInputs = inputs.input.every((item) => item.value !== null && item.value !== "");
+  const isValidInputs = inputs.input.every(
+    (item) => item.value !== null && item.value !== ""
+  );
 
   if (!isValidInputs) {
     res.status(400).json({ message: "Invalid inputs" });
@@ -66,7 +71,9 @@ async function handler(req: NextApiRequest & { userId?: number }, res: NextApiRe
 
   if (code === "from-article") {
     const url = inputs.input.find((x) => x.id === "url")?.value;
-    const instructions = inputs.input.find((x) => x.id === "instructions")?.value;
+    const instructions = inputs.input.find(
+      (x) => x.id === "instructions"
+    )?.value;
     if (!url || !isValidUrl(url)) {
       res.status(400).json({ message: "Invalid url" });
       return;
@@ -84,7 +91,11 @@ async function handler(req: NextApiRequest & { userId?: number }, res: NextApiRe
     const generatorFunc = generators[numId];
     if (generatorFunc) {
       const valuesInput = inputs.input.map((input) => input.value || null);
-      const content = await generatorFunc(session?.user?.id!, ...valuesInput, format ? format : undefined);
+      const content = await generatorFunc(
+        session?.user?.id!,
+        ...valuesInput,
+        format ? format : undefined
+      );
       return content;
     } else {
       console.error("Invalid code");

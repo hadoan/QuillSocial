@@ -3,7 +3,9 @@ import BaseTable from "./BaseTable";
 import EmailHead from "./EmailHead";
 import EmailScheduledBodyHeaderContent from "./EmailScheduledBodyHeaderContent";
 import EmailSchedulingBodyDivider from "./EmailSchedulingBodyDivider";
-import EmailSchedulingBodyHeader, { BodyHeadType } from "./EmailSchedulingBodyHeader";
+import EmailSchedulingBodyHeader, {
+  BodyHeadType,
+} from "./EmailSchedulingBodyHeader";
 import RawHtml from "./RawHtml";
 import Row from "./Row";
 
@@ -39,16 +41,26 @@ export const V2BaseEmailHtml = (props: {
                   padding: "0px",
                   paddingTop: "40px",
                   textAlign: "center",
-                }}>
+                }}
+              >
                 <RawHtml
                   html={`<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr></tr></table><![endif]-->`}
                 />
               </td>
             </Row>
           </div>
-          {props.headerType && <EmailSchedulingBodyHeader headerType={props.headerType} />}
-          {props.title && <EmailScheduledBodyHeaderContent title={props.title} subtitle={props.subtitle} />}
-          {(props.headerType || props.title || props.subtitle) && <EmailSchedulingBodyDivider />}
+          {props.headerType && (
+            <EmailSchedulingBodyHeader headerType={props.headerType} />
+          )}
+          {props.title && (
+            <EmailScheduledBodyHeaderContent
+              title={props.title}
+              subtitle={props.subtitle}
+            />
+          )}
+          {(props.headerType || props.title || props.subtitle) && (
+            <EmailSchedulingBodyDivider />
+          )}
 
           <RawHtml
             html={`<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" className="" style="width:600px;" width="600" bgcolor="#FFFFFF" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->`}
@@ -57,7 +69,8 @@ export const V2BaseEmailHtml = (props: {
             style={{
               margin: "0px auto",
               maxWidth: 600,
-            }}>
+            }}
+          >
             <Row align="center" border="0" style={{ width: "100%" }}>
               <td
                 style={{
@@ -65,7 +78,8 @@ export const V2BaseEmailHtml = (props: {
                   fontSize: 0,
                   padding: 0,
                   textAlign: "center",
-                }}>
+                }}
+              >
                 <RawHtml
                   html={`<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td className="" style="vertical-align:top;width:598px;" ><![endif]-->`}
                 />
@@ -80,7 +94,8 @@ export const V2BaseEmailHtml = (props: {
                     width: "100%",
                     border: "1px solid #E1E1E1",
                     borderRadius: "6px",
-                  }}>
+                  }}
+                >
                   <Row
                     border="0"
                     style={{
@@ -89,7 +104,8 @@ export const V2BaseEmailHtml = (props: {
                       background: "#FFFFFF",
                       backgroundColor: "#FFFFFF",
                     }}
-                    width="100%">
+                    width="100%"
+                  >
                     <td
                       align="left"
                       style={{
@@ -97,7 +113,8 @@ export const V2BaseEmailHtml = (props: {
                         padding: "40px",
 
                         wordBreak: "break-word",
-                      }}>
+                      }}
+                    >
                       <div
                         style={{
                           fontFamily: "Roboto, Helvetica, sans-serif",
@@ -106,7 +123,8 @@ export const V2BaseEmailHtml = (props: {
                           lineHeight: 1,
                           textAlign: "left",
                           color: "#3E3E3E",
-                        }}>
+                        }}
+                      >
                         {props.children}
                       </div>
                     </td>
@@ -125,7 +143,8 @@ export const V2BaseEmailHtml = (props: {
             style={{
               margin: "0px auto",
               maxWidth: 600,
-            }}>
+            }}
+          >
             <Row align="center" border="0" style={{ width: "100%" }}>
               <td
                 style={{
@@ -133,7 +152,8 @@ export const V2BaseEmailHtml = (props: {
                   fontSize: 0,
                   padding: 0,
                   textAlign: "center",
-                }}>
+                }}
+              >
                 <RawHtml
                   html={`<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td className="" style="vertical-align:top;width:598px;" ><![endif]-->`}
                 />
@@ -147,21 +167,36 @@ export const V2BaseEmailHtml = (props: {
                       display: "inline-block",
                       verticalAlign: "top",
                       width: "100%",
-                    }}>
-                    <BaseTable border="0" style={{ verticalAlign: "top" }} width="100%">
+                    }}
+                  >
+                    <BaseTable
+                      border="0"
+                      style={{ verticalAlign: "top" }}
+                      width="100%"
+                    >
                       <tbody>
                         <tr>
                           <td
                             align="center"
                             vertical-align="middle"
-                            style={{ fontSize: 0, padding: "10px 25px", wordBreak: "break-word" }}>
+                            style={{
+                              fontSize: 0,
+                              padding: "10px 25px",
+                              wordBreak: "break-word",
+                            }}
+                          >
                             {props.callToAction}
                           </td>
                         </tr>
                         <tr>
                           <td
                             align="left"
-                            style={{ fontSize: 0, padding: "10px 25px", wordBreak: "break-word" }}>
+                            style={{
+                              fontSize: 0,
+                              padding: "10px 25px",
+                              wordBreak: "break-word",
+                            }}
+                          >
                             <div
                               style={{
                                 fontFamily: "Roboto, Helvetica, sans-serif",
@@ -189,11 +224,17 @@ export const V2BaseEmailHtml = (props: {
             fontFamily: " Helvetica",
             fontSize: 13,
             color: "#808C96",
-            margin: "30px"
-          }}>
-          
-            Powered by <a className="text-awst" href="https://quillsocial.co" target="_blank">QuillAI</a>
-            
+            margin: "30px",
+          }}
+        >
+          Powered by{" "}
+          <a
+            className="text-awst"
+            href="https://quillsocial.co"
+            target="_blank"
+          >
+            QuillAI
+          </a>
         </div>
       </body>
     </Html>

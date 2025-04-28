@@ -8,10 +8,11 @@ import { useRouter } from "next/router";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChatNotificationsSync = () => {
-  const { setMessages, setNotifications, notifications, setIsLoading } = useChatContext();
+  const { setMessages, setNotifications, notifications, setIsLoading } =
+    useChatContext();
   // const { setShouldDisplayFeedCard } = useKnowledgeToFeedContext();
   const router = useRouter();
-	
+
   const chatId = router?.query?.id as string | undefined;
 
   const chatNotificationsQueryKey = `notifications-${chatId}`;
@@ -51,11 +52,11 @@ export const useChatNotificationsSync = () => {
   useEffect(() => {
     // setShouldDisplayFeedCard(false);
     const fetchHistory = async () => {
-			setIsLoading(true);
+      setIsLoading(true);
       if (chatId === undefined) {
         setMessages([]);
         setNotifications([]);
-				setIsLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -63,22 +64,20 @@ export const useChatNotificationsSync = () => {
 
       setMessages(getMessagesFromChatItems(chatItems));
       setNotifications(getNotificationsFromChatItems(chatItems));
-			setIsLoading(false);
+      setIsLoading(false);
     };
     void fetchHistory();
   }, [chatId]);
 };
 
-const getMessagesFromChatItems = (
-  chatItems: ChatItem[]
-): ChatMessage[] => {
+const getMessagesFromChatItems = (chatItems: ChatItem[]): ChatMessage[] => {
   const messages = chatItems
     .filter((item) => item.item_type === "MESSAGE")
     .map((item) => item.body as ChatMessage);
 
   return messages;
 };
- const getNotificationsFromChatItems = (
+const getNotificationsFromChatItems = (
   chatItems: ChatItem[]
 ): Notification[] => {
   const messages = chatItems

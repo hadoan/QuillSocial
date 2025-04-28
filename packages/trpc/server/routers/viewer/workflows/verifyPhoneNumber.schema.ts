@@ -6,4 +6,6 @@ export const ZVerifyPhoneNumberInputSchema = z.object({
   teamId: z.number().optional(),
 });
 
-export type TVerifyPhoneNumberInputSchema = z.infer<typeof ZVerifyPhoneNumberInputSchema>;
+export type TVerifyPhoneNumberInputSchema = z.infer<
+  typeof ZVerifyPhoneNumberInputSchema
+>;

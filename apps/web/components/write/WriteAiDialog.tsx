@@ -1,7 +1,13 @@
 import { useState } from "react";
 
 import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
-import { Dialog, DialogContent, DialogFooter, TextArea, showToast } from "@quillsocial/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  TextArea,
+  showToast,
+} from "@quillsocial/ui";
 
 interface WriteAiDialogProps {
   open: boolean;
@@ -26,7 +32,8 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
 }) => {
   const [isButtonStop, setIsButtonStop] = useState(false);
   const [myContent, setMyContent] = useState(content);
-  const retryType = initialRetryType !== undefined ? initialRetryType : ReWriteAI.Complete;
+  const retryType =
+    initialRetryType !== undefined ? initialRetryType : ReWriteAI.Complete;
 
   const handleRetry = async () => {
     if (onRetry) {
@@ -54,7 +61,8 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
           <div className="mr-auto font-bold">Rewrite with AI</div>
           <div
             onClick={onClose}
-            className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none">
+            className="mr-[-23px] mt-[-25px] flex h-[40px] w-[40px] items-center justify-center rounded-full border-none bg-white text-center text-red-700 hover:cursor-pointer hover:border-none hover:bg-red-100 focus:border-none"
+          >
             &times;
           </div>
         </div>
@@ -67,7 +75,11 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
             </div>
           </div>
           <div className="flex flex-col rounded-lg border  border-gray-300 bg-slate-50 p-4 text-[12px]">
-            <TextArea rows={20} value={myContent} onChange={handleEditorChange} />
+            <TextArea
+              rows={20}
+              value={myContent}
+              onChange={handleEditorChange}
+            />
           </div>
         </div>
         <DialogFooter>
@@ -78,7 +90,8 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
                   onClick={() => {
                     setIsButtonStop(false);
                   }}
-                  className="rounded-xl border px-4 py-2 text-sm text-red-500">
+                  className="rounded-xl border px-4 py-2 text-sm text-red-500"
+                >
                   Stop
                 </button>
               </div>
@@ -87,7 +100,8 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
                 <div>
                   <button
                     onClick={() => onClose()}
-                    className="mr-auto rounded-xl border border-gray-300 bg-transparent px-4 py-2 text-sm hover:bg-gray-100">
+                    className="mr-auto rounded-xl border border-gray-300 bg-transparent px-4 py-2 text-sm hover:bg-gray-100"
+                  >
                     Discard
                   </button>
                 </div>
@@ -96,12 +110,14 @@ export const WriteAiDialog: React.FC<WriteAiDialogProps> = ({
                     onClick={() => {
                       handleRetry();
                     }}
-                    className="rounded-xl border border-gray-300 bg-transparent px-4 py-2 text-sm hover:bg-gray-100">
+                    className="rounded-xl border border-gray-300 bg-transparent px-4 py-2 text-sm hover:bg-gray-100"
+                  >
                     Retry
                   </button>
                   <button
                     className="rounded-xl bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-600"
-                    onClick={handleCopyAndClose}>
+                    onClick={handleCopyAndClose}
+                  >
                     Copy and Close
                   </button>
                 </div>

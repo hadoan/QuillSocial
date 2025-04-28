@@ -8,22 +8,33 @@ import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 const scopes = [
   "https://www.googleapis.com/auth/userinfo.email",
   "https://www.googleapis.com/auth/userinfo.profile",
-  "https://www.googleapis.com/auth/youtube.upload"
+  "https://www.googleapis.com/auth/youtube.upload",
 ];
 
 let client_id = "";
 let client_secret = "";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "GET") {
     // Get token from Google Calendar API
     const appKeys = await getAppKeysFromSlug("google-calendar");
     if (typeof appKeys.client_id === "string") client_id = appKeys.client_id;
-    if (typeof appKeys.client_secret === "string") client_secret = appKeys.client_secret;
-    if (!client_id) return res.status(400).json({ message: "Google client_id missing." });
-    if (!client_secret) return res.status(400).json({ message: "Google client_secret missing." });
-    const redirect_uri = WEBAPP_URL + "/api/integrations/youtubesocial/callback";
-    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
+    if (typeof appKeys.client_secret === "string")
+      client_secret = appKeys.client_secret;
+    if (!client_id)
+      return res.status(400).json({ message: "Google client_id missing." });
+    if (!client_secret)
+      return res.status(400).json({ message: "Google client_secret missing." });
+    const redirect_uri =
+      WEBAPP_URL + "/api/integrations/youtubesocial/callback";
+    const oAuth2Client = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uri
+    );
 
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",

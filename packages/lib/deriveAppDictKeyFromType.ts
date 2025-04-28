@@ -1,4 +1,7 @@
-export function deriveAppDictKeyFromType(appType: string, dict: Record<string, unknown>) {
+export function deriveAppDictKeyFromType(
+  appType: string,
+  dict: Record<string, unknown>
+) {
   let handlers = dict[appType];
 
   if (handlers) {
@@ -15,7 +18,8 @@ export function deriveAppDictKeyFromType(appType: string, dict: Record<string, u
 
   // Transform `zoom_video` to `zoomvideo`;
   const appTypeVariant2 =
-    appType.substring(0, appType.lastIndexOf("_")) + appType.substring(appType.lastIndexOf("_") + 1);
+    appType.substring(0, appType.lastIndexOf("_")) +
+    appType.substring(appType.lastIndexOf("_") + 1);
   handlers = dict[appTypeVariant2];
   if (handlers) {
     return appTypeVariant2;

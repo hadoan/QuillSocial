@@ -5,7 +5,10 @@ import prisma from "@quillsocial/prisma";
 import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
 import { TwitterV1Manager } from "@quillsocial/app-store/twitterv1social/lib";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   console.log("---------------");
   console.log("schedule job");
   console.log("---------------");

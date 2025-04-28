@@ -5,7 +5,9 @@ import { MembershipRole } from "@quillsocial/prisma/enums";
 import type { Workflow } from "@prisma/client";
 
 export function getSender(
-  step: Pick<WorkflowStep, "action" | "sender"> & { senderName: string | null | undefined }
+  step: Pick<WorkflowStep, "action" | "sender"> & {
+    senderName: string | null | undefined;
+  }
 ) {
   return undefined;
 }
@@ -77,9 +79,7 @@ export async function upsertSmsReminderFieldForBooking({
   workflowId: number;
   isSmsReminderNumberRequired: boolean;
   eventTypeId: number;
-}) {
- 
-}
+}) {}
 
 export async function removeSmsReminderFieldForBooking({
   workflowId,
@@ -87,6 +87,4 @@ export async function removeSmsReminderFieldForBooking({
 }: {
   workflowId: number;
   eventTypeId: number;
-}) {
-
-}
+}) {}

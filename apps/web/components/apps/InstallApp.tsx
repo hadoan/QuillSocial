@@ -64,7 +64,9 @@ export default function InstallApp({
   //   }
   // );
 
-  const appCredentials = trpc.viewer.appCredentialsByType.useQuery({ appType: type });
+  const appCredentials = trpc.viewer.appCredentialsByType.useQuery({
+    appType: type,
+  });
 
   useEffect(
     function refactorMeWithoutEffect() {
@@ -76,12 +78,16 @@ export default function InstallApp({
     [appCredentials.data]
   );
 
-  const dependencyData = trpc.viewer.appsRouter.queryForDependencies.useQuery(dependencies, {
-    enabled: !!dependencies,
-  });
+  const dependencyData = trpc.viewer.appsRouter.queryForDependencies.useQuery(
+    dependencies,
+    {
+      enabled: !!dependencies,
+    }
+  );
 
   const disableInstall =
-    dependencyData.data && dependencyData.data.some((dependency) => !dependency.installed);
+    dependencyData.data &&
+    dependencyData.data.some((dependency) => !dependency.installed);
 
   const mutation = useAddAppMutation(null, {
     onSuccess: (data) => {
@@ -89,12 +95,14 @@ export default function InstallApp({
       showToast(t("app_successfully_installed"), "success");
     },
     onError: (error) => {
-      if (error instanceof Error) showToast(error.message || t("app_could_not_be_installed"), "error");
+      if (error instanceof Error)
+        showToast(error.message || t("app_could_not_be_installed"), "error");
     },
   });
 
   const saveKeys = async (keyData: any) => {
-    const url = WEBAPP_URL + `/api/integrations/${type.replace("_", "")}/saveToken`;
+    const url =
+      WEBAPP_URL + `/api/integrations/${type.replace("_", "")}/saveToken`;
 
     const response = await fetch(url, {
       credentials: "include",
@@ -140,12 +148,15 @@ export default function InstallApp({
               className="px-2 py-4 text-sm lg:px-4 lg:py-2"
               StartIcon={Check}
               color="secondary"
-              disabled>
+              disabled
+            >
               {existingCredentials.length > 0
                 ? t("active_install", { count: existingCredentials.length })
                 : t("default")}
             </Button>
-            {existingCredentials.length > 0 && <ManageAppLink type={type}></ManageAppLink>}
+            {existingCredentials.length > 0 && (
+              <ManageAppLink type={type}></ManageAppLink>
+            )}
             {!isGlobal && (
               <InstallAppButton
                 type={type}
@@ -174,7 +185,8 @@ export default function InstallApp({
                       // having to duplicate InstallAppButton for now.
                       color="primary"
                       size="base"
-                      data-testid="install-app-button">
+                      data-testid="install-app-button"
+                    >
                       {t("install_another")}
                     </Button>
                   );
@@ -184,7 +196,9 @@ export default function InstallApp({
           </div>
         ) : existingCredentials.length > 0 ? (
           <div className="flex space-x-3">
-            {existingCredentials.length > 0 && <ManageAppLink type={type}></ManageAppLink>}
+            {existingCredentials.length > 0 && (
+              <ManageAppLink type={type}></ManageAppLink>
+            )}
             <DisconnectIntegration
               buttonProps={{ color: "secondary" }}
               label={t("disconnect")}
@@ -196,7 +210,9 @@ export default function InstallApp({
           </div>
         ) : (
           <div className="flex space-x-3">
-            {existingCredentials.length > 0 && <ManageAppLink type={type}></ManageAppLink>}
+            {existingCredentials.length > 0 && (
+              <ManageAppLink type={type}></ManageAppLink>
+            )}
             <InstallAppButton
               type={type}
               disableInstall={disableInstall}
@@ -222,7 +238,8 @@ export default function InstallApp({
                     // @TODO: Overriding color and size prevent us from
                     // having to duplicate InstallAppButton for now.
                     color="primary"
-                    size="base">
+                    size="base"
+                  >
                     {t("install_app")}
                   </Button>
                 );
@@ -247,10 +264,15 @@ export default function InstallApp({
             <DialogFooter className=" mt-6 flex items-center justify-center">
               <Button
                 className="bg-default hover:bg-awstbgbt hover:text-awst text-awst"
-                onClick={() => setIsModalUpgrade(false)}>
+                onClick={() => setIsModalUpgrade(false)}
+              >
                 Close
               </Button>
-              <Button type="submit" className="text-white" onClick={() => router.push("/billing/overview")}>
+              <Button
+                type="submit"
+                className="text-white"
+                onClick={() => router.push("/billing/overview")}
+              >
                 Upgrade
               </Button>
             </DialogFooter>
@@ -265,10 +287,13 @@ export default function InstallApp({
               form={getKeysFormMethods(type) as any}
               handleSubmit={async (values) => {
                 await saveKeys(values);
-              }}>
+              }}
+            >
               <div>
                 <div className="flex items-center justify-center">
-                  <div className="text-center text-[20px] font-bold">{inputDialogTitle}</div>
+                  <div className="text-center text-[20px] font-bold">
+                    {inputDialogTitle}
+                  </div>
                 </div>
 
                 <div className="text-default mt-10  text-[16px]">
@@ -282,7 +307,10 @@ export default function InstallApp({
                           if (!value) return `${key.name} is required.`;
                         },
                       }}
-                      render={({ field: { onChange }, fieldState: { error } }) => (
+                      render={({
+                        field: { onChange },
+                        fieldState: { error },
+                      }) => (
                         <>
                           <TextField
                             label={key.name}
@@ -294,7 +322,11 @@ export default function InstallApp({
                               onChange(e.target.value.trim());
                             }}
                           />
-                          {error && <span className="text-sm text-red-800">{error.message}</span>}
+                          {error && (
+                            <span className="text-sm text-red-800">
+                              {error.message}
+                            </span>
+                          )}
                         </>
                       )}
                     />
@@ -304,7 +336,8 @@ export default function InstallApp({
               <DialogFooter className=" mt-6 flex items-center justify-center">
                 <Button
                   className="bg-default hover:bg-awstbgbt hover:text-awst text-awst"
-                  onClick={() => setInputDialogOpen(false)}>
+                  onClick={() => setInputDialogOpen(false)}
+                >
                   Close
                 </Button>
                 <Button type="submit" className="text-white">

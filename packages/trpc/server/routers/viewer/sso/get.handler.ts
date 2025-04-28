@@ -53,10 +53,16 @@ export const getHandler = async ({ ctx, input }: GetOptions) => {
       type,
       acsUrl: type === "saml" ? SPConfig.acsUrl : null,
       entityId: type === "saml" ? SPConfig.entityId : null,
-      callbackUrl: type === "oidc" ? `${process.env.NEXT_PUBLIC_WEBAPP_URL}${oidcPath}` : null,
+      callbackUrl:
+        type === "oidc"
+          ? `${process.env.NEXT_PUBLIC_WEBAPP_URL}${oidcPath}`
+          : null,
     };
   } catch (err) {
     console.error("Error getting SSO connection", err);
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Fetching SSO connection failed." });
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "Fetching SSO connection failed.",
+    });
   }
 };

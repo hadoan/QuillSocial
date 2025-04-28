@@ -47,8 +47,13 @@ export const updateUserCredential = async (
           },
         };
 
-  const appId = provider === IdentityProvider.TWITTER ? TWITTER_APP_ID : provider.toLocaleLowerCase() + "-social";
-  const existed = existedCredentials?.find((x) => x.appId === appId && x.emailOrUserName == emailOrUserName);
+  const appId =
+    provider === IdentityProvider.TWITTER
+      ? TWITTER_APP_ID
+      : provider.toLocaleLowerCase() + "-social";
+  const existed = existedCredentials?.find(
+    (x) => x.appId === appId && x.emailOrUserName == emailOrUserName
+  );
   const data = {
     type: appId.replace("-", "_"),
     key,

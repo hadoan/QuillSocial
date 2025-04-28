@@ -12,14 +12,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
     const { query } = req;
     const { credentialId, id } = query;
-    
+
     let numCredentialId = 0;
-    if (typeof credentialId === 'string') {
+    if (typeof credentialId === "string") {
       numCredentialId = parseInt(credentialId, 10);
     }
 
     let numId = 0;
-    if (typeof id === 'string') {
+    if (typeof id === "string") {
       numId = parseInt(id, 10);
     }
 
@@ -27,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       where: {
         userId: session?.user?.id,
         credentialId: numCredentialId,
-        id: numId, 
+        id: numId,
       },
       select: {
         id: true,
@@ -39,10 +39,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           select: {
             avatarUrl: true,
             name: true,
-            emailOrUserName: true
-          }
-        }
-      }
+            emailOrUserName: true,
+          },
+        },
+      },
     });
     res.status(200).json({ data: post });
     return;

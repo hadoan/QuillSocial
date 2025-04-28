@@ -5,4 +5,6 @@ export const ZDeleteCredentialInputSchema = z.object({
   externalId: z.string().optional(),
 });
 
-export type TDeleteCredentialInputSchema = z.infer<typeof ZDeleteCredentialInputSchema>;
+export type TDeleteCredentialInputSchema = z.infer<
+  typeof ZDeleteCredentialInputSchema
+>;

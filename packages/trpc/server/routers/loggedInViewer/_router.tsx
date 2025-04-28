@@ -5,7 +5,10 @@ import { ZAppsInputSchema } from "./apps.schema";
 import { ZDeleteCredentialInputSchema } from "./deleteCredential.schema";
 import { ZDeleteMeInputSchema } from "./deleteMe.schema";
 import { ZGenerateAboutInputSchema } from "./generate-about.schema";
-import { TGenerateHeadlineInputSchema, ZGenerateHeadlineInputSchema } from "./generate-headline.schema";
+import {
+  TGenerateHeadlineInputSchema,
+  ZGenerateHeadlineInputSchema,
+} from "./generate-headline.schema";
 import { ZIntegrationsInputSchema } from "./integrations.schema";
 import { ZUpdateProfileInputSchema } from "./updateProfile.schema";
 import { ZUpdateUserDefaultConferencingAppInputSchema } from "./updateUserDefaultConferencingApp.schema";
@@ -43,70 +46,83 @@ export const loggedInViewerRouter = router({
         throw new Error("Failed to load handler");
       }
 
-      return UNSTABLE_HANDLER_CACHE.updateUserDefaultConferencingApp({ ctx, input });
+      return UNSTABLE_HANDLER_CACHE.updateUserDefaultConferencingApp({
+        ctx,
+        input,
+      });
     }),
 
-  generateHeadline: authedProcedure.input(ZGenerateHeadlineInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.generateHeadline) {
-      UNSTABLE_HANDLER_CACHE.generateHeadline = await import("./generate-headline.handler").then(
-        (mod) => mod.generateHeadlineHandler
-      );
-    }
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.generateHeadline) {
-      throw new Error("Failed to load handler");
-    }
+  generateHeadline: authedProcedure
+    .input(ZGenerateHeadlineInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.generateHeadline) {
+        UNSTABLE_HANDLER_CACHE.generateHeadline = await import(
+          "./generate-headline.handler"
+        ).then((mod) => mod.generateHeadlineHandler);
+      }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.generateHeadline) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.generateHeadline({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.generateHeadline({
+        ctx,
+        input,
+      });
+    }),
 
-  generateAbout: authedProcedure.input(ZGenerateAboutInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.generateAbout) {
-      UNSTABLE_HANDLER_CACHE.generateAbout = await import("./generate-about.handler").then(
-        (mod) => mod.generateAboutHandler
-      );
-    }
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.generateAbout) {
-      throw new Error("Failed to load handler");
-    }
+  generateAbout: authedProcedure
+    .input(ZGenerateAboutInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.generateAbout) {
+        UNSTABLE_HANDLER_CACHE.generateAbout = await import(
+          "./generate-about.handler"
+        ).then((mod) => mod.generateAboutHandler);
+      }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.generateAbout) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.generateAbout({
-      ctx,
-      input,
-    });
-  }),
+      return UNSTABLE_HANDLER_CACHE.generateAbout({
+        ctx,
+        input,
+      });
+    }),
 
-  integrations: authedProcedure.input(ZIntegrationsInputSchema).query(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.integrations) {
-      UNSTABLE_HANDLER_CACHE.integrations = (await import("./integrations.handler")).integrationsHandler;
-    }
+  integrations: authedProcedure
+    .input(ZIntegrationsInputSchema)
+    .query(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.integrations) {
+        UNSTABLE_HANDLER_CACHE.integrations = (
+          await import("./integrations.handler")
+        ).integrationsHandler;
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.integrations) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.integrations) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.integrations({ ctx, input });
-  }),
+      return UNSTABLE_HANDLER_CACHE.integrations({ ctx, input });
+    }),
 
-  deleteCredential: authedProcedure.input(ZDeleteCredentialInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.deleteCredential) {
-      UNSTABLE_HANDLER_CACHE.deleteCredential = (
-        await import("./deleteCredential.handler")
-      ).deleteCredentialHandler;
-    }
+  deleteCredential: authedProcedure
+    .input(ZDeleteCredentialInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.deleteCredential) {
+        UNSTABLE_HANDLER_CACHE.deleteCredential = (
+          await import("./deleteCredential.handler")
+        ).deleteCredentialHandler;
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.deleteCredential) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.deleteCredential) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.deleteCredential({ ctx, input });
-  }),
+      return UNSTABLE_HANDLER_CACHE.deleteCredential({ ctx, input });
+    }),
 
   appCredentialsByType: authedProcedure
     .input(ZAppCredentialsByTypeInputSchema)
@@ -125,18 +141,22 @@ export const loggedInViewerRouter = router({
       return UNSTABLE_HANDLER_CACHE.appCredentialsByType({ ctx, input });
     }),
 
-  apps: authedProcedure.input(ZAppsInputSchema).query(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.apps) {
-      UNSTABLE_HANDLER_CACHE.apps = (await import("./apps.handler")).appsHandler;
-    }
+  apps: authedProcedure
+    .input(ZAppsInputSchema)
+    .query(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.apps) {
+        UNSTABLE_HANDLER_CACHE.apps = (
+          await import("./apps.handler")
+        ).appsHandler;
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.apps) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.apps) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.apps({ ctx, input });
-  }),
+      return UNSTABLE_HANDLER_CACHE.apps({ ctx, input });
+    }),
 
   me: authedProcedure.query(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.me) {
@@ -166,22 +186,28 @@ export const loggedInViewerRouter = router({
     return UNSTABLE_HANDLER_CACHE.getUsersDefaultConferencingApp({ ctx });
   }),
 
-  updateProfile: authedProcedure.input(ZUpdateProfileInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.updateProfile) {
-      UNSTABLE_HANDLER_CACHE.updateProfile = (await import("./updateProfile.handler")).updateProfileHandler;
-    }
+  updateProfile: authedProcedure
+    .input(ZUpdateProfileInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.updateProfile) {
+        UNSTABLE_HANDLER_CACHE.updateProfile = (
+          await import("./updateProfile.handler")
+        ).updateProfileHandler;
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.updateProfile) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.updateProfile) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.updateProfile({ ctx, input });
-  }),
+      return UNSTABLE_HANDLER_CACHE.updateProfile({ ctx, input });
+    }),
 
   avatar: authedProcedure.query(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.avatar) {
-      UNSTABLE_HANDLER_CACHE.avatar = (await import("./avatar.handler")).avatarHandler;
+      UNSTABLE_HANDLER_CACHE.avatar = (
+        await import("./avatar.handler")
+      ).avatarHandler;
     }
 
     // Unreachable code but required for type safety
@@ -191,18 +217,22 @@ export const loggedInViewerRouter = router({
 
     return UNSTABLE_HANDLER_CACHE.avatar({ ctx });
   }),
-  deleteMe: authedProcedure.input(ZDeleteMeInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.deleteMe) {
-      UNSTABLE_HANDLER_CACHE.deleteMe = (await import("./deleteMe.handler")).deleteMeHandler;
-    }
+  deleteMe: authedProcedure
+    .input(ZDeleteMeInputSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!UNSTABLE_HANDLER_CACHE.deleteMe) {
+        UNSTABLE_HANDLER_CACHE.deleteMe = (
+          await import("./deleteMe.handler")
+        ).deleteMeHandler;
+      }
 
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.deleteMe) {
-      throw new Error("Failed to load handler");
-    }
+      // Unreachable code but required for type safety
+      if (!UNSTABLE_HANDLER_CACHE.deleteMe) {
+        throw new Error("Failed to load handler");
+      }
 
-    return UNSTABLE_HANDLER_CACHE.deleteMe({ ctx, input });
-  }),
+      return UNSTABLE_HANDLER_CACHE.deleteMe({ ctx, input });
+    }),
 
   deleteMeWithoutPassword: authedProcedure.mutation(async ({ ctx }) => {
     if (!UNSTABLE_HANDLER_CACHE.deleteMeWithoutPassword) {

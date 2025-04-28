@@ -1,18 +1,27 @@
-import type { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+} from "next";
 
 export type EmbedProps = {
   isEmbed?: boolean;
 };
 
 export default function withEmbedSsr(getServerSideProps: GetServerSideProps) {
-  return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<EmbedProps>> => {
+  return async (
+    context: GetServerSidePropsContext
+  ): Promise<GetServerSidePropsResult<EmbedProps>> => {
     const ssrResponse = await getServerSideProps(context);
     const embed = context.query.embed;
     const layout = context.query.layout;
 
     if ("redirect" in ssrResponse) {
       // Use a dummy URL https://base as the fallback base URL so that URL parsing works for relative URLs as well.
-      const destinationUrlObj = new URL(ssrResponse.redirect.destination, "https://base");
+      const destinationUrlObj = new URL(
+        ssrResponse.redirect.destination,
+        "https://base"
+      );
 
       // Make sure that redirect happens to /embed page and pass on embed query param as is for preserving Quill JS API namespace
       const newDestinationUrl =

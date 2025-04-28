@@ -19,7 +19,12 @@ export const DisabledAppEmail = (
       {appType.some((type) => type === "payment") ? (
         <>
           <p>
-            <>{t("disabled_app_affects_event_type", { appName: appName, eventType: title })}</>
+            <>
+              {t("disabled_app_affects_event_type", {
+                appName: appName,
+                eventType: title,
+              })}
+            </>
           </p>
           <p style={{ fontWeight: 400, lineHeight: "24px" }}>
             <>{t("payment_disabled_still_able_to_book")}</>
@@ -35,7 +40,12 @@ export const DisabledAppEmail = (
       ) : title && eventTypeId ? (
         <>
           <p>
-            <>{(t("app_disabled_with_event_type"), { appName: appName, title: title })}</>
+            <>
+              {
+                (t("app_disabled_with_event_type"),
+                { appName: appName, title: title })
+              }
+            </>
           </p>
 
           <hr style={{ marginBottom: "24px" }} />
@@ -53,7 +63,10 @@ export const DisabledAppEmail = (
 
           <hr style={{ marginBottom: "24px" }} />
 
-          <CallToAction label={t("navigate_installed_apps")} href={`${MY_APP_URL}/apps/installed`} />
+          <CallToAction
+            label={t("navigate_installed_apps")}
+            href={`${MY_APP_URL}/apps/installed`}
+          />
         </>
       ) : appType.some((type) => type === "calendar") ? (
         <>
@@ -66,7 +79,10 @@ export const DisabledAppEmail = (
 
           <hr style={{ marginBottom: "24px" }} />
 
-          <CallToAction label={t("navigate_installed_apps")} href={`${MY_APP_URL}/apps/installed`} />
+          <CallToAction
+            label={t("navigate_installed_apps")}
+            href={`${MY_APP_URL}/apps/installed`}
+          />
         </>
       ) : (
         <>
@@ -76,7 +92,10 @@ export const DisabledAppEmail = (
 
           <hr style={{ marginBottom: "24px" }} />
 
-          <CallToAction label={t("navigate_installed_apps")} href={`${MY_APP_URL}/apps/installed`} />
+          <CallToAction
+            label={t("navigate_installed_apps")}
+            href={`${MY_APP_URL}/apps/installed`}
+          />
         </>
       )}
     </BaseEmailHtml>

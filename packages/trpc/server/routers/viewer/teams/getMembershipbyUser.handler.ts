@@ -12,7 +12,10 @@ type GetMembershipbyUserOptions = {
   input: TGetMembershipbyUserInputSchema;
 };
 
-export const getMembershipbyUserHandler = async ({ ctx, input }: GetMembershipbyUserOptions) => {
+export const getMembershipbyUserHandler = async ({
+  ctx,
+  input,
+}: GetMembershipbyUserOptions) => {
   if (ctx.user.id !== input.memberId) {
     throw new TRPCError({
       code: "UNAUTHORIZED",

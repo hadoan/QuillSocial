@@ -22,7 +22,9 @@ export const ZUpdateProfileInputSchema = z.object({
   metadata: userMetadata.optional(),
   mobile: z.string().optional(),
   description: z.string().optional(),
-  speakAbout:z.string().optional(),
+  speakAbout: z.string().optional(),
 });
 
-export type TUpdateProfileInputSchema = z.infer<typeof ZUpdateProfileInputSchema>;
+export type TUpdateProfileInputSchema = z.infer<
+  typeof ZUpdateProfileInputSchema
+>;

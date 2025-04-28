@@ -3,7 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import prisma from "@quillsocial/prisma";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(400).json({ message: "" });
   }
@@ -13,7 +16,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const rawRequestId = req.body?.requestId;
 
     if (!rawPassword || !rawRequestId) {
-      return res.status(400).json({ message: "Couldn't find an account for this email" });
+      return res
+        .status(400)
+        .json({ message: "Couldn't find an account for this email" });
     }
 
     const maybeRequest = await prisma.resetPasswordRequest.findUnique({
@@ -23,7 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!maybeRequest) {
-      return res.status(400).json({ message: "Couldn't find an account for this email" });
+      return res
+        .status(400)
+        .json({ message: "Couldn't find an account for this email" });
     }
 
     const maybeUser = await prisma.user.findUnique({
@@ -33,7 +40,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!maybeUser) {
-      return res.status(400).json({ message: "Couldn't find an account for this email" });
+      return res
+        .status(400)
+        .json({ message: "Couldn't find an account for this email" });
     }
 
     const hashedPassword = await hashPassword(rawPassword);
@@ -50,6 +59,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(201).json({ message: "Password reset." });
   } catch (reason) {
     console.error(reason);
-    return res.status(500).json({ message: "Unable to create password reset request" });
+    return res
+      .status(500)
+      .json({ message: "Unable to create password reset request" });
   }
 }

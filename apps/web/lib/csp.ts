@@ -28,7 +28,11 @@ function getCspPolicy(nonce: string) {
     base-uri 'none';
 	  child-src app.quillsocial.co;
 	  style-src 'self' ${
-      IS_PRODUCTION ? (useNonStrictPolicy ? "'unsafe-inline'" : "") : "'unsafe-inline'"
+      IS_PRODUCTION
+        ? useNonStrictPolicy
+          ? "'unsafe-inline'"
+          : ""
+        : "'unsafe-inline'"
     } app.quillsocial.co;
 	  font-src 'self';
 	  img-src 'self' ${WEBAPP_URL} https://www.gravatar.com https://img.youtube.com https://eu.ui-avatars.com/api/ data:;
@@ -61,7 +65,8 @@ export function csp(req: IncomingMessage | null, res: OutgoingMessage | null) {
   const nonce = crypto.randomBytes(16).toString("base64");
 
   const parsedUrl = new URL(req.url, "http://base_url");
-  const cspEnabledForPage = cspEnabledForInstance && isPagePathRequest(parsedUrl);
+  const cspEnabledForPage =
+    cspEnabledForInstance && isPagePathRequest(parsedUrl);
   if (!cspEnabledForPage) {
     return {
       nonce: undefined,

@@ -94,7 +94,9 @@ const cvaCardTypeByVariant = cva("", {
   ],
 });
 
-type CVACardType = Required<Pick<VariantProps<typeof cvaCardTypeByVariant>, "variant">>;
+type CVACardType = Required<
+  Pick<VariantProps<typeof cvaCardTypeByVariant>, "variant">
+>;
 
 export interface BaseCardProps extends CVACardType {
   image?: string;
@@ -129,7 +131,8 @@ export function Card({
   thumbnailUrl,
   learnMore,
 }: BaseCardProps) {
-  const LinkComponent = learnMore && learnMore.href.startsWith("https") ? "a" : Link;
+  const LinkComponent =
+    learnMore && learnMore.href.startsWith("https") ? "a" : Link;
   return (
     <div
       className={classNames(
@@ -137,7 +140,8 @@ export function Card({
         cvaCardTypeByVariant({ variant, structure: "card" }),
         "bg-default border-subtle text-default flex flex-col justify-between rounded-md border"
       )}
-      {...containerProps}>
+      {...containerProps}
+    >
       <div>
         {icon && icon}
         {image && (
@@ -157,13 +161,18 @@ export function Card({
           className={classNames(
             cvaCardTypeByVariant({ variant, structure: "title" }),
             "text-emphasis line-clamp-1 font-bold leading-5"
-          )}>
+          )}
+        >
           {title}
         </h5>
         {description && (
           <p
             title={description.toString()}
-            className={classNames(cvaCardTypeByVariant({ variant, structure: "description" }), "pt-1")}>
+            className={classNames(
+              cvaCardTypeByVariant({ variant, structure: "description" }),
+              "pt-1"
+            )}
+          >
             {description}
           </p>
         )}
@@ -174,13 +183,15 @@ export function Card({
           target="_blank"
           rel="noreferrer"
           href={mediaLink}
-          className="group relative my-3 flex aspect-video items-center overflow-hidden rounded">
+          className="group relative my-3 flex aspect-video items-center overflow-hidden rounded"
+        >
           <div className="absolute inset-0 bg-black bg-opacity-50 transition-opacity group-hover:bg-opacity-40" />
           <svg
             className="text-inverted absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 transform rounded-full shadow-lg hover:-mt-px"
             viewBox="0 0 32 32"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z"
               fill="white"
@@ -201,7 +212,12 @@ export function Card({
       {/* TODO: this should be CardActions https://mui.com/material-ui/api/card-actions/ */}
       <div>
         {variant === "basic" && (
-          <Button color="secondary" href={actionButton?.href} className="mt-10" EndIcon={ArrowRight}>
+          <Button
+            color="secondary"
+            href={actionButton?.href}
+            className="mt-10"
+            EndIcon={ArrowRight}
+          >
             {actionButton?.child}
           </Button>
         )}
@@ -215,7 +231,8 @@ export function Card({
               onClick={actionButton?.onClick}
               target="_blank"
               rel="noreferrer"
-              className="text-default text-xs font-medium">
+              className="text-default text-xs font-medium"
+            >
               {learnMore.text}
             </LinkComponent>
           )}
@@ -223,7 +240,8 @@ export function Card({
             <button
               className="text-default hover:text-emphasis p-0 text-xs font-normal"
               color="minimal"
-              onClick={actionButton?.onClick}>
+              onClick={actionButton?.onClick}
+            >
               {actionButton?.child}
             </button>
           )}

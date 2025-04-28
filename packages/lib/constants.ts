@@ -1,12 +1,16 @@
-export const WEBAPP_URL = process.env.NEXT_PUBLIC_WEBAPP_URL || "http://localhost:3000";
+export const WEBAPP_URL =
+  process.env.NEXT_PUBLIC_WEBAPP_URL || "http://localhost:3000";
 /** @deprecated use `WEBAPP_URL` */
 export const BASE_URL = WEBAPP_URL;
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "QuillAI";
-export const SUPPORT_MAIL_ADDRESS = process.env.NEXT_PUBLIC_SUPPORT_MAIL_ADDRESS || "help@quillsocial.co";
-export const COMPANY_NAME = process.env.NEXT_PUBLIC_COMPANY_NAME || "QuillAI, Inc.";
+export const SUPPORT_MAIL_ADDRESS =
+  process.env.NEXT_PUBLIC_SUPPORT_MAIL_ADDRESS || "help@quillsocial.co";
+export const COMPANY_NAME =
+  process.env.NEXT_PUBLIC_COMPANY_NAME || "QuillAI, Inc.";
 export const SENDER_ID = process.env.NEXT_PUBLIC_SENDER_ID || "QuillAI";
-export const SENDER_NAME = process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || "QuillAI";
+export const SENDER_NAME =
+  process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || "QuillAI";
 
 // This is the URL from which all Quill Links and their assets are served.
 // Use website URL to make links shorter(quillsocial.co and not app.quillsocial.co)
@@ -14,15 +18,16 @@ export const SENDER_NAME = process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || "Quil
 export const MY_APP_URL = WEBSITE_URL;
 
 export const CONSOLE_URL =
-  new URL(WEBAPP_URL).hostname.endsWith(".app.quillsocial.co") || process.env.NODE_ENV !== "production"
+  new URL(WEBAPP_URL).hostname.endsWith(".app.quillsocial.co") ||
+  process.env.NODE_ENV !== "production"
     ? `https://console.app.quillsocial.co`
     : `https://console.quillsocial.co`;
 
-    
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export const TRIAL_LIMIT_DAYS = 14;
 /** @deprecated use `WEBAPP_URL` */
-export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_WEBAPP_URL || `https://${process.env.VERCEL_URL}`;
+export const NEXT_PUBLIC_BASE_URL =
+  process.env.NEXT_PUBLIC_WEBAPP_URL || `https://${process.env.VERCEL_URL}`;
 export const LOGO = "/quillsocial-logo-white-word.svg";
 export const LOGO_ICON = "/quill-com-icon-white.svg";
 export const FAVICON_16 = "/favicon-16x16.png";
@@ -57,8 +62,12 @@ export const FULL_NAME_LENGTH_MAX_LIMIT = 50;
 export const MINUTES_TO_BOOK = process.env.NEXT_PUBLIC_MINUTES_TO_BOOK || "5";
 
 // Needed for orgs
-export const ALLOWED_HOSTNAMES = JSON.parse(`[${process.env.ALLOWED_HOSTNAMES || ""}]`) as string[];
-export const RESERVED_SUBDOMAINS = JSON.parse(`[${process.env.RESERVED_SUBDOMAINS || ""}]`) as string[];
+export const ALLOWED_HOSTNAMES = JSON.parse(
+  `[${process.env.ALLOWED_HOSTNAMES || ""}]`
+) as string[];
+export const RESERVED_SUBDOMAINS = JSON.parse(
+  `[${process.env.RESERVED_SUBDOMAINS || ""}]`
+) as string[];
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 export const OPENAI_ORG_ID = process.env.OPENAI_ORG_ID;
@@ -68,7 +77,8 @@ export const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 export const AZURE_OPENAI_KEY = process.env.AZURE_OPENAI_KEY;
 export const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
 export const AZURE_OPENAI_VERSION = process.env.AZURE_OPENAI_VERSION;
-export const AZURE_OPENAI_DEPLOYMENT_ID = process.env.AZURE_OPENAI_DEPLOYMENT_ID!;
+export const AZURE_OPENAI_DEPLOYMENT_ID =
+  process.env.AZURE_OPENAI_DEPLOYMENT_ID!;
 
 export const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID;
 export const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET;

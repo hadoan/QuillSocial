@@ -12,7 +12,10 @@ type UpdateMembershipOptions = {
   input: TUpdateMembershipInputSchema;
 };
 
-export const updateMembershipHandler = async ({ ctx, input }: UpdateMembershipOptions) => {
+export const updateMembershipHandler = async ({
+  ctx,
+  input,
+}: UpdateMembershipOptions) => {
   if (ctx.user.id !== input.memberId) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
