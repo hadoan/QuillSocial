@@ -1,0 +1,21 @@
+{
+  "name": "@quillsocial/emails",
+  "sideEffects": false,
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dx": "docker compose up -d || docker-compose up -d"
+  },
+  "dependencies": {
+    "@quillsocial/dayjs": "*",
+    "@quillsocial/lib": "*",
+    "next-i18next": "^13.2.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rrule": "^2.7.1"
+  },
+  "devDependencies": {
+    "@quillsocial/tsconfig": "*",
+    "@quillsocial/types": "*"
+  }
+}

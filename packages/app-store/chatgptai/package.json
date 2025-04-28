@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "private": true,
+  "name": "@quillsocial/chatgpt",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "description": "",
+  "dependencies": {
+    "@quillsocial/prisma": "*",
+    "openai": "^4.56.0",
+    "react-hook-form": "^7.43.3"
+  },
+  "devDependencies": {
+    "@quillsocial/types": "*"
+  }
+}

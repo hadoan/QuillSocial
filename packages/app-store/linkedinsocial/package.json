@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "private": true,
+  "name": "@quillsocial/linkedinsocial",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "description": "",
+  "dependencies": {
+    "@quillsocial/prisma": "*",
+    "twitter-api-sdk": "^1.2.1"
+  },
+  "devDependencies": {
+    "@quillsocial/types": "*"
+  }
+}

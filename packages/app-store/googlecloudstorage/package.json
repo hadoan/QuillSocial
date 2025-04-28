@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "private": true,
+  "name": "@quillsocial/googlecloudstorage",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "description": "Google Cloud Storage",
+  "dependencies": {
+    "@quillsocial/prisma": "*",
+    "@types/formidable": "^3.4.3",
+    "formidable": "^3.5.1",
+    "googleapis": "^84.0.0"
+  },
+  "devDependencies": {
+    "@quillsocial/types": "*"
+  }
+}

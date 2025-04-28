@@ -1,0 +1,14 @@
+{
+  "/*": "Don't modify slug - If required, do it using cli edit command",
+  "name": "Typeform",
+  "slug": "typeform",
+  "type": "typeform_other",
+  "logo": "icon-dark.svg",
+  "url": "https://quillai.social/",
+  "variant": "other",
+  "categories": ["automation"],
+  "publisher": "quillai.social",
+  "email": "help@quillai.social",
+  "description": "Adds a link to copy Typeform Redirect URL",
+  "__createdUsingCli": true
+}

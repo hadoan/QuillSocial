@@ -1,0 +1,692 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views", "jsonProtocol"]
+}
+
+generator zod {
+  provider      = "zod-prisma"
+  output        = "./zod"
+  imports       = "./zod-utils"
+  relationModel = "default"
+}
+
+generator enums {
+  provider = "ts-node --transpile-only ./enum-generator"
+}
+
+model Credential {
+  id                   Int        @id @default(autoincrement())
+  // @@type is deprecated
+  type                 String
+  key                  Json
+  user                 User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId               Int?
+  app                  App?       @relation(fields: [appId], references: [slug], onDelete: Cascade)
+  // How to make it a required column?
+  appId                String?
+  invalid              Boolean?   @default(false)
+  Team                 Team?      @relation(fields: [teamId], references: [id])
+  teamId               Int?
+  isUserCurrentProfile Boolean?   @default(false)
+  emailOrUserName      String?
+  avatarUrl            String?
+  name                 String?
+  posts                Post[]
+  pageInfoes           PageInfo[]
+  currentPageId        String?
+
+  @@unique([userId, appId, emailOrUserName])
+  @@index([userId])
+  @@index([appId])
+}
+
+model PageInfo {
+  dbId         Int        @id @default(autoincrement())
+  id           String
+  name         String
+  isCurrent    Boolean?   @default(false)
+  info         Json
+  credential   Credential @relation(fields: [credentialId], references: [id])
+  credentialId Int
+
+  @@unique([credentialId, id])
+}
+
+enum IdentityProvider {
+  DB
+  GOOGLE
+  SAML
+  TWITTER
+  LINKEDIN
+}
+
+enum UserPermissionRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id                  Int              @id @default(autoincrement())
+  username            String?
+  name                String?
+  /// @zod.email()
+  email               String
+  emailVerified       DateTime?
+  password            String?
+  bio                 String?
+  avatar              String?
+  timeZone            String           @default("Europe/London")
+  weekStart           String           @default("Sunday")
+  // DEPRECATED - TO BE REMOVED
+  startTime           Int              @default(0)
+  endTime             Int              @default(1440)
+  // </DEPRECATED>
+  bufferTime          Int              @default(0)
+  hideBranding        Boolean          @default(false)
+  theme               String?
+  createdDate         DateTime         @default(now()) @map(name: "created")
+  trialEndsAt         DateTime?
+  credentials         Credential[]
+  teams               Membership[]
+  defaultScheduleId   Int?
+  completedOnboarding Boolean          @default(false)
+  locale              String?
+  timeFormat          Int?             @default(12)
+  twoFactorSecret     String?
+  twoFactorEnabled    Boolean          @default(false)
+  identityProvider    IdentityProvider @default(DB)
+  identityProviderId  String?
+  invitedTo           Int?
+  webhooks            Webhook[]
+  brandColor          String           @default("#5434D4")
+  darkBrandColor      String           @default("#fafafa")
+
+  away                 Boolean                 @default(false)
+  // participate in dynamic group booking or not
+  allowDynamicBooking  Boolean?                @default(true)
+  /// @zod.custom(imports.userMetadata)
+  metadata             Json?
+  verified             Boolean?                @default(false)
+  role                 UserPermissionRole      @default(USER)
+  disableImpersonation Boolean                 @default(false)
+  impersonatedUsers    Impersonations[]        @relation("impersonated_user")
+  impersonatedBy       Impersonations[]        @relation("impersonated_by_user")
+  apiKeys              ApiKey[]
+  accounts             Account[]
+  sessions             Session[]
+  Feedback             Feedback[]
+  workflows            Workflow[]
+  routingForms         App_RoutingForms_Form[] @relation("routing-form")
+  verifiedNumbers      VerifiedNumber[]
+  organizationId       Int?
+  organization         Team?                   @relation("scope", fields: [organizationId], references: [id], onDelete: SetNull)
+  Billings             Billing[]
+  mobile               String?
+  description          String?
+  speakAbout           String?
+  userExtraDataId      Int?
+  userExtraData        UserExtraData?          @relation(fields: [userExtraDataId], references: [id])
+
+  @@unique([email])
+  @@unique([email, username])
+  @@unique([username, organizationId])
+  @@index([emailVerified])
+  @@index([identityProvider])
+  @@index([identityProviderId])
+  @@map(name: "users")
+}
+
+model Team {
+  id                  Int                     @id @default(autoincrement())
+  /// @zod.min(1)
+  name                String
+  /// @zod.min(1)
+  slug                String?
+  logo                String?
+  appLogo             String?
+  appIconLogo         String?
+  bio                 String?
+  hideBranding        Boolean                 @default(false)
+  hideBookATeamMember Boolean                 @default(false)
+  members             Membership[]
+  workflows           Workflow[]
+  createdAt           DateTime                @default(now())
+  /// @zod.custom(imports.teamMetadataSchema)
+  metadata            Json?
+  theme               String?
+  brandColor          String                  @default("#5434D4")
+  darkBrandColor      String                  @default("#fafafa")
+  verifiedNumbers     VerifiedNumber[]
+  parentId            Int?
+  parent              Team?                   @relation("organization", fields: [parentId], references: [id], onDelete: Cascade)
+  children            Team[]                  @relation("organization")
+  orgUsers            User[]                  @relation("scope")
+  inviteToken         VerificationToken?
+  webhooks            Webhook[]
+  timeFormat          Int?
+  timeZone            String                  @default("Europe/London")
+  weekStart           String                  @default("Sunday")
+  routingForms        App_RoutingForms_Form[]
+  credentials         Credential[]
+  billings            Billing[]
+  startTrialDate      DateTime?
+
+  @@unique([slug, parentId])
+}
+
+enum MembershipRole {
+  MEMBER
+  ADMIN
+  OWNER
+}
+
+model Membership {
+  id                   Int            @id @default(autoincrement())
+  teamId               Int
+  userId               Int
+  accepted             Boolean        @default(false)
+  role                 MembershipRole
+  team                 Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  disableImpersonation Boolean        @default(false)
+
+  @@unique([userId, teamId])
+  @@index([teamId])
+  @@index([userId])
+}
+
+model VerificationToken {
+  id            Int      @id @default(autoincrement())
+  identifier    String
+  token         String   @unique
+  expires       DateTime
+  expiresInDays Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  teamId        Int?     @unique
+  team          Team?    @relation(fields: [teamId], references: [id])
+
+  @@unique([identifier, token])
+  @@index([token])
+}
+
+model ResetPasswordRequest {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String
+  expires   DateTime
+}
+
+enum ReminderType {
+  PENDING_BOOKING_CONFIRMATION
+}
+
+model ReminderMail {
+  id             Int          @id @default(autoincrement())
+  referenceId    Int
+  reminderType   ReminderType
+  elapsedMinutes Int
+  createdAt      DateTime     @default(now())
+
+  @@index([referenceId])
+  @@index([reminderType])
+}
+
+model Payment {
+  id            Int            @id @default(autoincrement())
+  uid           String         @unique
+  app           App?           @relation(fields: [appId], references: [slug], onDelete: Cascade)
+  appId         String?
+  bookingId     Int
+  amount        Int
+  fee           Int
+  currency      String
+  success       Boolean
+  refunded      Boolean
+  data          Json
+  externalId    String         @unique
+  paymentOption PaymentOption? @default(ON_BOOKING)
+
+  @@index([bookingId])
+  @@index([externalId])
+}
+
+enum PaymentOption {
+  ON_BOOKING
+  HOLD
+}
+
+enum WebhookTriggerEvents {
+  BOOKING_CREATED
+  BOOKING_PAID
+  BOOKING_RESCHEDULED
+  BOOKING_REQUESTED
+  BOOKING_CANCELLED
+  BOOKING_REJECTED
+  FORM_SUBMITTED
+  MEETING_ENDED
+  RECORDING_READY
+}
+
+model Webhook {
+  id              String                 @id @unique
+  userId          Int?
+  teamId          Int?
+  eventTypeId     Int?
+  /// @zod.url()
+  subscriberUrl   String
+  payloadTemplate String?
+  createdAt       DateTime               @default(now())
+  active          Boolean                @default(true)
+  eventTriggers   WebhookTriggerEvents[]
+  user            User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team            Team?                  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  app             App?                   @relation(fields: [appId], references: [slug], onDelete: Cascade)
+  appId           String?
+  secret          String?
+
+  @@unique([userId, subscriberUrl], name: "courseIdentifier")
+}
+
+model Impersonations {
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  impersonatedUser   User     @relation("impersonated_user", fields: [impersonatedUserId], references: [id], onDelete: Cascade)
+  impersonatedBy     User     @relation("impersonated_by_user", fields: [impersonatedById], references: [id], onDelete: Cascade)
+  impersonatedUserId Int
+  impersonatedById   Int
+}
+
+model ApiKey {
+  id         String    @id @unique @default(cuid())
+  userId     Int
+  note       String?
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  lastUsedAt DateTime?
+  hashedKey  String    @unique()
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  app        App?      @relation(fields: [appId], references: [slug], onDelete: Cascade)
+  appId      String?
+
+  @@index([userId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@index([type])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum AppCategories {
+  calendar
+  messaging
+  other
+  payment
+  video // deprecated, please use 'conferencing' instead
+  web3 // deprecated, we should no longer have any web3 apps
+  automation
+  analytics
+  conferencing
+  crm
+  social
+  cloudstorage
+  ai
+}
+
+model App {
+  // The slug for the app store public page inside `/apps/[slug]`
+  slug        String          @id @unique
+  // The directory name for `/packages/app-store/[dirName]`
+  dirName     String          @unique
+  // Needed API Keys
+  keys        Json?
+  // One or multiple categories to which this app belongs
+  categories  AppCategories[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  credentials Credential[]
+  payments    Payment[]
+  Webhook     Webhook[]
+  ApiKey      ApiKey[]
+  enabled     Boolean         @default(false)
+  posts       Post[]
+
+  @@index([enabled])
+}
+
+model App_RoutingForms_Form {
+  id          String                          @id @default(cuid())
+  description String?
+  routes      Json?
+  createdAt   DateTime                        @default(now())
+  updatedAt   DateTime                        @updatedAt
+  name        String
+  fields      Json?
+  user        User                            @relation("routing-form", fields: [userId], references: [id], onDelete: Cascade)
+  // This is the user who created the form and also the user who has read-write quillsocial to the form
+  // If teamId is set, the members of the team would also have quillsocial to form readOnly or read-write depending on their permission level as team member.
+  userId      Int
+  team        Team?                           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId      Int?
+  responses   App_RoutingForms_FormResponse[]
+  disabled    Boolean                         @default(false)
+  /// @zod.custom(imports.RoutingFormSettings)
+  settings    Json?
+
+  @@index([userId])
+  @@index([disabled])
+}
+
+model App_RoutingForms_FormResponse {
+  id           Int                   @id @default(autoincrement())
+  formFillerId String                @default(cuid())
+  form         App_RoutingForms_Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  formId       String
+  response     Json
+  createdAt    DateTime              @default(now())
+
+  @@unique([formFillerId, formId])
+  @@index([formFillerId])
+  @@index([formId])
+}
+
+model Feedback {
+  id      Int      @id @default(autoincrement())
+  date    DateTime @default(now())
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating  String
+  comment String?
+
+  @@index([userId])
+  @@index([rating])
+}
+
+enum WorkflowTriggerEvents {
+  BEFORE_EVENT
+  EVENT_CANCELLED
+  NEW_EVENT
+  AFTER_EVENT
+  RESCHEDULE_EVENT
+}
+
+enum WorkflowActions {
+  EMAIL_HOST
+  EMAIL_ATTENDEE
+  SMS_ATTENDEE
+  SMS_NUMBER
+  EMAIL_ADDRESS
+}
+
+model WorkflowStep {
+  id                        Int                @id @default(autoincrement())
+  stepNumber                Int
+  action                    WorkflowActions
+  workflowId                Int
+  workflow                  Workflow           @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  sendTo                    String?
+  reminderBody              String?
+  emailSubject              String?
+  template                  WorkflowTemplates  @default(REMINDER)
+  workflowReminders         WorkflowReminder[]
+  numberRequired            Boolean?
+  sender                    String?
+  numberVerificationPending Boolean            @default(true)
+
+  @@index([workflowId])
+}
+
+model Workflow {
+  id       Int                   @id @default(autoincrement())
+  name     String
+  userId   Int?
+  user     User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team     Team?                 @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId   Int?
+  trigger  WorkflowTriggerEvents
+  time     Int?
+  timeUnit TimeUnit?
+  steps    WorkflowStep[]
+
+  @@index([userId])
+  @@index([teamId])
+}
+
+model Deployment {
+  /// This is a single row table, so we use a fixed id
+  id              Int       @id @default(1)
+  logo            String?
+  /// @zod.custom(imports.DeploymentTheme)
+  theme           Json?
+  licenseKey      String?
+  agreedLicenseAt DateTime?
+}
+
+enum TimeUnit {
+  DAY    @map("day")
+  HOUR   @map("hour")
+  MINUTE @map("minute")
+}
+
+model WorkflowReminder {
+  id             Int             @id @default(autoincrement())
+  bookingUid     String?
+  method         WorkflowMethods
+  scheduledDate  DateTime
+  referenceId    String?         @unique
+  scheduled      Boolean
+  workflowStepId Int?
+  workflowStep   WorkflowStep?   @relation(fields: [workflowStepId], references: [id])
+  cancelled      Boolean?
+
+  @@index([bookingUid])
+  @@index([workflowStepId])
+}
+
+enum WorkflowTemplates {
+  REMINDER
+  CUSTOM
+}
+
+enum WorkflowMethods {
+  EMAIL
+  SMS
+}
+
+model VerifiedNumber {
+  id          Int    @id @default(autoincrement())
+  userId      Int?
+  user        User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId      Int?
+  team        Team?  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  phoneNumber String
+
+  @@index([userId])
+  @@index([teamId])
+}
+
+model Billing {
+  id                 Int                   @id @default(autoincrement())
+  quantity           Int                   @default(1) // for per user plan
+  // userId        Int?
+  // user          User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type               BillingType?          @default(FREE_TIER)
+  paymentStatus      BillingPaymentStatus? @default(INIT)
+  status             BillingStatus?        @default(INACTIVE)
+  createdAt          DateTime?             @default(now())
+  updatedAt          DateTime?             @default(now()) @updatedAt
+  teamId             Int?
+  team               Team?                 @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  paymentId          String?
+  subscriptionId     String?
+  subscriptionItemId String?
+  userId             Int?
+  User               User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentData        Json?
+}
+
+enum BillingType {
+  FREE_TIER @map("freeTier")
+  BUSINESS  @map("business")
+  UNLIMITED @map("unlimited")
+  TEAM      @map("team")
+  PER_USER  @map("perUser")
+  LTD       @map("ltd")
+}
+
+enum BillingStatus {
+  INACTIVE @map("INACTIVE")
+  ACTIVE   @map("ACTIVE")
+}
+
+enum BillingPaymentStatus {
+  INIT    @map("INIT")
+  PAID    @map("PAID")
+  ERROR   @map("ERROR")
+  UNKNOWN @map("UNKNOWN")
+}
+
+model Feature {
+  // The feature slug, ex: 'v2-workflows'
+  slug        String       @id @unique
+  // If the feature is currently enabled
+  enabled     Boolean      @default(false)
+  // A short description of the feature
+  description String?
+  // The type of feature flag
+  type        FeatureType? @default(RELEASE)
+  // If the flag is considered stale
+  stale       Boolean?     @default(false)
+  lastUsedAt  DateTime?
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @default(now()) @updatedAt
+  updatedBy   Int?
+
+  @@index([enabled])
+  @@index([stale])
+}
+
+enum FeatureType {
+  RELEASE
+  EXPERIMENT
+  OPERATIONAL
+  KILL_SWITCH
+  PERMISSION
+}
+
+model Post {
+  id               Int             @id @default(autoincrement())
+  idea             String
+  content          String
+  createdDate      DateTime        @default(now()) @map(name: "created")
+  status           PostStatus      @default(NEW)
+  postedDate       DateTime?
+  schedulePostDate DateTime?
+  userId           Int
+  credentialId     Int?
+  credential       Credential?     @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+  imagesDataURL    String[]
+  usageTokens      Json?
+  appId            String?
+  app              App?            @relation(fields: [appId], references: [slug], onDelete: Cascade)
+  plug             Plug[]
+  result           Json?
+  pageId           String?
+  cloudFiles       PostCloudFile[]
+  title            String?
+  tagOrKeywords    String?
+}
+
+enum PostStatus {
+  NEW
+  SCHEDULED
+  POSTED
+  ERROR
+}
+
+model Plug {
+  id               Int        @id @default(autoincrement())
+  content          String
+  createdDate      DateTime   @default(now()) @map(name: "created")
+  postId           Int?
+  post             Post?      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  time             Int
+  timeType         TimeType   @default(MINUTE)
+  status           PostStatus @default(NEW)
+  postedDate       DateTime?
+  result           Json?
+  schedulePostDate DateTime?
+}
+
+model Example {
+  id          Int      @id @default(autoincrement())
+  content     String
+  createdDate DateTime @default(now()) @map(name: "created")
+}
+
+enum TimeType {
+  MINUTE
+  HOUR
+}
+
+model PostCloudFile {
+  id     Int   @id @default(autoincrement())
+  postId Int?
+  post   Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  cloudFileId Int?
+  cloudFile   CloudFile? @relation(fields: [cloudFileId], references: [id], onDelete: Cascade)
+}
+
+model CloudFile {
+  id          Int     @id @default(autoincrement())
+  cloudFileId String  @unique //uuid
+  fileName    String
+  fileExt     String
+  fileSize    BigInt?
+  notes       String?
+
+  posts PostCloudFile[]
+}
+
+model UserExtraData {
+  id          Int     @id @default(autoincrement())
+  cv          String?
+  usageTokens Json?
+  users       User[]
+}

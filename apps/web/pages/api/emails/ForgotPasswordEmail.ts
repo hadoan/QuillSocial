@@ -1,0 +1,84 @@
+import { renderEmail } from "@quillsocial/emails";
+import { getTranslation } from "@quillsocial/lib/server/i18n";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  // if (process.env.NODE_ENV !== "development") return res.write("Only for development purposes"), res.end();
+  const t = await getTranslation("en", "common");
+  const language = { translate: t, locale: "en" };
+
+  const evt = {
+    type: "30min",
+    title: "30min between Pro Example and pro@example.com",
+    description: null,
+    additionalNotes: "asdasdas",
+    startTime: "2022-06-03T09:00:00-06:00",
+    endTime: "2022-06-03T09:30:00-06:00",
+    organizer: {
+      name: "Pro Example",
+      email: "pro@example.com",
+      timeZone: "Europe/London",
+      language,
+    },
+    attendees: [
+      {
+        email: "pro@example.com",
+        name: "pro@example.com",
+        timeZone: "America/Chihuahua",
+        language,
+      },
+    ],
+    location: "Zoom video",
+    destinationCalendar: null,
+    hideCalendarNotes: false,
+    uid: "xxyPr4cg2xx4XoS2KeMEQy",
+    metadata: {},
+    recurringEvent: null,
+    appsStatus: [
+      {
+        appName: "Outlook Calendar",
+        type: "office365_calendar",
+        success: 1,
+        failures: 0,
+        errors: [],
+        warnings: [],
+      },
+      {
+        appName: "Google Meet",
+        type: "conferencing",
+        success: 0,
+        failures: 1,
+        errors: [],
+        warnings: ["In order to use Google Meet you must set your destination calendar to a Google Calendar"],
+      },
+    ],
+  };
+  const person = {
+    name: "Ha Doan",
+    email: "ha.doanmanh@gmail.com",
+    timeZone: "Europe/London",
+    language,
+    username: "ha.doanmanh",
+    id: 111,
+    bookingId: 111,
+  };
+  res.statusCode = 200;
+
+  res.setHeader("Content-Type", "text/html");
+  res.setHeader("Cache-Control", "no-cache, no-store, private, must-revalidate");
+  res.write(
+    renderEmail("ForgotPasswordEmail", {
+      language: t,
+      user: {
+        name: "Pro Example",
+        email: "pro@example.com",
+      },
+      resetLink:
+        "http://localhost:3000/api/auth/verify-email?token=b91af0eee5a9a24a8d83a3d3d6a58c1606496e94ced589441649273c66100f5b",
+    })
+  );
+
+  res.end();
+};
+
+export default handler;

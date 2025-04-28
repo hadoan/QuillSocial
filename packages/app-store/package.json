@@ -1,0 +1,27 @@
+{
+    "name": "@quillsocial/app-store",
+    "private": true,
+    "sideEffects": false,
+    "version": "0.0.0",
+    "main": "./index.ts",
+    "files": [
+        "components.ts"
+    ],
+    "scripts": {
+        "type-check": "tsc --pretty --noEmit",
+        "type-check:ci": "tsc-absolute --pretty --noEmit"
+    },
+    "dependencies": {
+        "@quillsocial/dayjs": "*",
+        "@quillsocial/features": "*",
+        "@quillsocial/lib": "*",
+        "@quillsocial/trpc": "*",
+        "@quillsocial/ui": "*",
+        "lodash": "^4.17.21",
+        "qs-stringify": "^1.2.1",
+        "react-i18next": "^12.2.0"
+    },
+    "devDependencies": {
+        "@quillsocial/types": "*"
+    }
+}

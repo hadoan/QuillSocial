@@ -1,0 +1,24 @@
+{
+    "extends": "@quillsocial/tsconfig/react-library.json",
+    "exclude": ["dist", "build", "node_modules"],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        /* A `package` should never import from `apps` ↓ */
+        "@components/*": ["../../apps/web/components/*"],
+        /* A `package` should never import from `apps` ↓ */
+        "@lib/*": ["../../apps/web/lib/*"],
+        "@prisma/client/*": ["@quillsocial/prisma/client/*"]
+      },
+      "resolveJsonModule": true
+    },
+    "include": [
+      "next-env.d.ts",
+      "@quillsocial/types",
+      "../types/*.d.ts",
+      "../types/next-auth.d.ts",
+      "**/*.ts",
+      "**/*.tsx"
+    ]
+  }
+  

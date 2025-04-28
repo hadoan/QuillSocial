@@ -1,0 +1,48 @@
+
+:root {
+  /* background */
+
+  --quill-bg-emphasis: #E5E7EB;
+  --quill-bg: white;
+  --quill-bg-subtle: #F3F4F6;
+  --quill-bg-muted: #F9FAFB;
+  --quill-bg-inverted: #111827;
+
+  /* background -> components*/
+  --quill-bg-info: #DEE9FC;
+  --quill-bg-success: #E2FBE8;
+  --quill-bg-attention: #FCEED8;
+  --quill-bg-error: #F9E3E2;
+  --quill-bg-dark-error: #752522;
+
+
+  /* Borders */
+  --quill-border-emphasis:#9CA3AF;
+  --quill-border: #D1D5DB;
+  --quill-border-subtle:#E5E7EB;
+  --quill-border-muted:#F3F4F6;
+  --quill-border-error: #aa2e26;
+
+  /* Content/Text */
+  --quillsocial-text-emphasis: #111827;
+  --quillsocial-text:#374151;
+  --quillsocial-text-subtle:#6B7280;
+  --quillsocial-text-muted:#9CA3AF;
+  --quillsocial-text-inverted:white;
+
+  /* Content/Text -> components */
+  --quillsocial-text-info:#253985;
+  --quillsocial-text-success:#285231;
+  --quillsocial-text-attention:#73321B;
+  --quillsocial-text-error:#752522;
+
+  /* Brand shenanigans
+    -> These will be computed for the users theme at runtime.
+  */
+  --quill-brand:#111827;
+  --quill-brand-emphasis:#101010;
+}
+
+/* Darkmode Colors  -- TODO: WIP*/
+
+
