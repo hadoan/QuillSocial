@@ -83,6 +83,12 @@
         "dist/**",
         "build/**"
       ]
+    },
+    "type-check": {
+      "cache": false
+    },
+    "type-check:ci": {
+      "cache": false
     }
   }
 }
