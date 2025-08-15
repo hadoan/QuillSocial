@@ -7,10 +7,12 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "../../packages/app-store/**/*{components,pages}/**/*.{js,ts,jsx,tsx}",
-    "../../packages/features/**/*.{js,ts,jsx,tsx}",
-    "../../packages/ui/**/*.{js,ts,jsx,tsx}",
-    "../../packages/atoms/**/*.{js,ts,jsx,tsx}",
+    "../../packages/app-store/*/components/**/*.{js,ts,jsx,tsx}",
+    "../../packages/app-store/*/pages/**/*.{js,ts,jsx,tsx}",
+    "../../packages/features/*/components/**/*.{js,ts,jsx,tsx}",
+    "../../packages/features/*/lib/**/*.{js,ts,jsx,tsx}",
+    "../../packages/ui/components/**/*.{js,ts,jsx,tsx}",
+    "../../packages/atoms/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -69,7 +71,7 @@ module.exports = {
         error: "var(--quill-border-error, #AA2E26)",
         awst:'#1E88E5',
         awsthv:'#1976D2',
-      },    
+      },
       textColor: {
         emphasis: "var(--quillsocial-text-emphasis, #111827)",
         default: "var(--quillsocial-text, #374151)",

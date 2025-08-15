@@ -1,4 +1,5 @@
-require("dotenv").config({ path: "../../.env" });
+const envFile = process.env.NODE_ENV === 'production' ? '../../.env.production' : '../../.env.development';
+require("dotenv").config({ path: envFile });
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const os = require("os");
 const englishTranslation = require("./public/static/locales/en/common.json");
@@ -164,7 +165,7 @@ const nextConfig = {
     lodash: {
       transform: "lodash/{{member}}",
     },
-   
+
   },
   images: {
     unoptimized: true,
@@ -221,7 +222,7 @@ const nextConfig = {
     return config;
   },
   async rewrites() {
-    
+
 
     let afterFiles = [
       {
@@ -289,7 +290,7 @@ const nextConfig = {
             },
           ],
         },
-       
+
         {
           ...matcherConfigUserPath,
           headers: [
