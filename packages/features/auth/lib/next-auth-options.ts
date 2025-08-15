@@ -38,10 +38,22 @@ import { verifyPassword } from "./verifyPassword";
 import { LinkedinProvider } from "./LinkedinProvider";
 import { CustomScopesXProvider } from "./CustomScopesXProvider";
 import getAppKeysFromSlug from "@quillsocial/app-store/_utils/getAppKeysFromSlug";
+import logger from "@quillsocial/lib/logger";
 
 const GOOGLE_API_CREDENTIALS = process.env.GOOGLE_API_CREDENTIALS || "{}";
+const safeParseGoogleCreds = (raw: string): any => {
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn(
+      "Invalid GOOGLE_API_CREDENTIALS JSON in auth options; Google login disabled. Error:",
+      (e as Error).message
+    );
+    return {};
+  }
+};
 const { client_id: GOOGLE_CLIENT_ID, client_secret: GOOGLE_CLIENT_SECRET } =
-  JSON.parse(GOOGLE_API_CREDENTIALS)?.web || {};
+  safeParseGoogleCreds(GOOGLE_API_CREDENTIALS)?.web || {};
 const IS_GOOGLE_LOGIN_ENABLED = true;
 
 const usernameSlug = (username: string) =>
@@ -97,6 +109,20 @@ const providers: Provider[] = [
         throw new Error(ErrorCode.InternalServerError);
       }
 
+      const authLog = logger.getChildLogger({ prefix: ["Auth", "Login"] });
+      const debugEnabled = [
+        process.env.AUTH_DEBUG,
+        process.env.NEXT_PUBLIC_AUTH_DEBUG,
+        process.env.NEXT_PUBLIC_DEBUG,
+      ].some((v) => v === "1" || v === "true");
+      if (debugEnabled)
+        authLog.debug("Attempting login", {
+          email: credentials.email,
+          hasPassword: !!credentials.password,
+          hasTotpCode: !!credentials.totpCode,
+          ts: new Date().toISOString(),
+        });
+
       const user = await prisma.user.findUnique({
         where: {
           email: credentials.email.toLowerCase(),
@@ -126,8 +152,18 @@ const providers: Provider[] = [
         },
       });
 
+      if (debugEnabled)
+        authLog.debug("User lookup", {
+          found: !!user,
+          id: user?.id,
+          identityProvider: user?.identityProvider,
+          hasPassword: !!user?.password,
+          twoFactorEnabled: !!user?.twoFactorEnabled,
+        });
+
       // Don't leak information about it being username or password that is invalid
       if (!user) {
+  if (debugEnabled) authLog.debug("No user found for email");
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
@@ -139,6 +175,10 @@ const providers: Provider[] = [
         user.identityProvider !== IdentityProvider.DB &&
         !credentials.totpCode
       ) {
+        if (debugEnabled)
+          authLog.debug("Blocked: Non-DB identity provider requires totpCode", {
+            identityProvider: user.identityProvider,
+          });
         throw new Error(ErrorCode.ThirdPartyIdentityProviderEnabled);
       }
 
@@ -152,12 +192,19 @@ const providers: Provider[] = [
 
       if (user.password || !credentials.totpCode) {
         if (!user.password) {
+          if (debugEnabled)
+            authLog.debug("No stored password while password path expected");
           throw new Error(ErrorCode.IncorrectUsernamePassword);
         }
         const isCorrectPassword = await verifyPassword(
           credentials.password,
           user.password
         );
+        if (debugEnabled)
+          authLog.debug("Password verification", {
+            isCorrectPassword,
+            providedPasswordLength: credentials.password?.length,
+          });
         if (!isCorrectPassword) {
           throw new Error(ErrorCode.IncorrectUsernamePassword);
         }
@@ -165,6 +212,8 @@ const providers: Provider[] = [
 
       if (user.twoFactorEnabled) {
         if (!credentials.totpCode) {
+          if (debugEnabled)
+            authLog.debug("Two-factor required but no code provided");
           throw new Error(ErrorCode.SecondFactorRequired);
         }
 
@@ -197,6 +246,7 @@ const providers: Provider[] = [
           credentials.totpCode,
           secret
         );
+  if (debugEnabled) authLog.debug("2FA token validation", { isValidToken });
         if (!isValidToken) {
           throw new Error(ErrorCode.IncorrectTwoFactorCode);
         }
@@ -222,15 +272,24 @@ const providers: Provider[] = [
         return "INACTIVE_ADMIN";
       };
 
-      return {
+      const result: any = {
         id: user.id,
         username: user.username,
         email: user.email,
         name: user.name,
-        role: validateRole(user.role),
+        role: validateRole(user.role) as UserPermissionRole | "INACTIVE_ADMIN",
         belongsToActiveTeam: hasActiveTeams,
         organizationId: user.organizationId,
       };
+      if (debugEnabled)
+        authLog.debug("Role validation", { originalRole: user.role, finalRole: result.role });
+      if (debugEnabled)
+        authLog.debug("Login success", {
+          id: result.id,
+          role: result.role,
+          belongsToActiveTeam: result.belongsToActiveTeam,
+        });
+      return result;
     },
   }),
   CustomScopesXProvider({

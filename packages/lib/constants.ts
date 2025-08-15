@@ -52,12 +52,34 @@ export const FULL_NAME_LENGTH_MAX_LIMIT = 50;
 export const MINUTES_TO_BOOK = process.env.NEXT_PUBLIC_MINUTES_TO_BOOK || "5";
 
 // Needed for orgs
-export const ALLOWED_HOSTNAMES = JSON.parse(
-  `[${process.env.ALLOWED_HOSTNAMES || ""}]`
-) as string[];
-export const RESERVED_SUBDOMAINS = JSON.parse(
-  `[${process.env.RESERVED_SUBDOMAINS || ""}]`
-) as string[];
+// Helper to parse list-style env vars. Supports:
+// 1. Comma or semicolon separated list: foo.com,bar.com
+// 2. JSON array: ["foo.com","bar.com"]
+// 3. Legacy single quoted segments: 'foo.com','bar.com'
+// Any invalid input results in an empty array rather than throwing at module import time.
+const parseStringArrayEnv = (name: string): string[] => {
+  const raw = process.env[name];
+  if (!raw || !raw.trim()) return [];
+  const trimmed = raw.trim();
+  // If already a JSON array attempt to parse directly
+  if (trimmed.startsWith("[")) {
+    try {
+      const arr = JSON.parse(trimmed);
+      return Array.isArray(arr) ? arr.map(String) : [];
+    } catch (e) {
+      console.warn(`Invalid JSON array provided for ${name}, falling back to delimiter parsing.`);
+    }
+  }
+  // Split on commas / semicolons
+  return trimmed
+    .split(/[;,]/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => s.replace(/^['"]|['"]$/g, "")); // remove wrapping quotes
+};
+
+export const ALLOWED_HOSTNAMES = parseStringArrayEnv("ALLOWED_HOSTNAMES");
+export const RESERVED_SUBDOMAINS = parseStringArrayEnv("RESERVED_SUBDOMAINS");
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 export const OPENAI_ORG_ID = process.env.OPENAI_ORG_ID;

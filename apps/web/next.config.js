@@ -132,6 +132,7 @@ const matcherConfigUserPath = {
 const nextConfig = {
   i18n,
   productionBrowserSourceMaps: true,
+  output: 'standalone',
   /* We already do type check on GH actions */
   typescript: {
     ignoreBuildErrors: !!process.env.CI,

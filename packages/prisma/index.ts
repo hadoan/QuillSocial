@@ -11,7 +11,33 @@ const prismaOptions: Prisma.PrismaClientOptions = {};
 if (!!process.env.NEXT_PUBLIC_DEBUG)
   prismaOptions.log = ["query", "error", "warn"];
 
-export const prisma = globalThis.prisma || new PrismaClient(prismaOptions);
+if (!process.env.DATABASE_URL) {
+  console.warn(
+    "DATABASE_URL is not defined at Prisma init. Database operations will fail until it is provided."
+  );
+}
+
+const prismaMissingDbUrl = () => {
+  throw new Error(
+    "DATABASE_URL is not defined. Pass it at container runtime (e.g. docker run --env-file .env.production or -e DATABASE_URL=...)."
+  );
+};
+
+export const prisma =
+  globalThis.prisma ||
+  (process.env.DATABASE_URL
+    ? new PrismaClient(prismaOptions)
+    : (new Proxy(
+        {},
+        {
+          get() {
+            prismaMissingDbUrl();
+          },
+          apply() {
+            prismaMissingDbUrl();
+          },
+        }
+      ) as unknown as PrismaClient));
 
 export const customPrisma = (options: Prisma.PrismaClientOptions) =>
   new PrismaClient({ ...prismaOptions, ...options });

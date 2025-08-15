@@ -28,6 +28,8 @@ FROM node:18.20.8-alpine AS builder
 WORKDIR /quillsocial
 ENV NODE_ENV=production
 RUN corepack enable && corepack prepare yarn@3.4.1 --activate
+## Prisma needs OpenSSL; install early so native bindings link correctly
+RUN apk add --no-cache openssl
 
 # Copy lockfile and installed dependencies (zero-install/cache strategy)
 COPY --from=deps /quillsocial/.yarn ./.yarn
@@ -62,12 +64,15 @@ ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 RUN corepack enable && corepack prepare yarn@3.4.1 --activate
+## Install OpenSSL runtime for Prisma client (avoids libssl detection warning)
+RUN apk add --no-cache openssl
 
 # Copy production focused node_modules and built app
-COPY --from=builder /quillsocial/node_modules ./node_modules
-COPY --from=builder /quillsocial/package.json ./
-COPY --from=builder /quillsocial/apps/web ./apps/web
-COPY --from=builder /quillsocial/packages ./packages
+## Copy standalone output (contains minimal node_modules and server files)
+COPY --from=builder /quillsocial/apps/web/.next/standalone ./
+## Copy static assets
+COPY --from=builder /quillsocial/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /quillsocial/apps/web/public ./apps/web/public
 
 # Expose only what Next.js needs (PORT default 3000)
 ENV PORT=3000
@@ -76,4 +81,5 @@ EXPOSE 3000
 USER nextjs
 
 # Use json form CMD; start the web workspace
-CMD ["yarn", "workspace", "@quillsocial/web", "start"]
+# Start Next.js server (standalone output placed server.js under apps/web)
+CMD ["node", "apps/web/server.js"]
