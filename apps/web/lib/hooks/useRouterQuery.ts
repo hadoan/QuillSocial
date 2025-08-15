@@ -9,7 +9,6 @@ export default function useRouterQuery<T extends string>(name: T) {
   // Following error is thrown by Typescript:
   // 'Type 'URLSearchParams' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher'
   // We should change the target to higher ES2019 atleast maybe
-  // @ts-expect-error urlParams should be error
   for (const [key, value] of urlParams) {
     if (!query[key]) {
       query[key] = value;

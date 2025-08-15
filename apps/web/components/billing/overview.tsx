@@ -162,7 +162,7 @@ const BillingOverview: FC = () => {
                       </div>
                     </div>
                     <div className="text-awst mt-auto flex h-[50px] items-center rounded-b-lg bg-gray-50 pl-3 text-center text-sm font-medium leading-5">
-                      <a href="https://QuillAI.social/pricing">View Pricing Plans</a>
+                      <a href="https://quillsocial.com/pricing">View Pricing Plans</a>
                     </div>
                   </div> */}
                 </div>
@@ -170,7 +170,7 @@ const BillingOverview: FC = () => {
             </div>
             <div className="mt-5 text-sm text-slate-500">
               For more information, feel free to reach out to us at
-              ha@quillai.social or live chat anytime.
+              ha@quillsocial.com or live chat anytime.
             </div>
           </div>
         );

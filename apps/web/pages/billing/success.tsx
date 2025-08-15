@@ -69,7 +69,7 @@ export default function Success() {
                     <div className="col-span-3 font-medium">
                       If you have any questions or suggestions, don't hesitate
                       to reach out at{" "}
-                      <a href="mailto:team@workramen.com">hi@quillai.social</a>.
+                      <a href="mailto:team@workramen.com">hi@quillsocial.com</a>.
                       Your feedback is invaluable to us. Welcome aboard! 🎉
                     </div>
                     {/* <div className="col-span-3 mb-6 mt-2 last:mb-0"></div> */}

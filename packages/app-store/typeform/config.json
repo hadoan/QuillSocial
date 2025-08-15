@@ -4,11 +4,11 @@
   "slug": "typeform",
   "type": "typeform_other",
   "logo": "icon-dark.svg",
-  "url": "https://quillai.social/",
+  "url": "https://quillsocial.com/",
   "variant": "other",
   "categories": ["automation"],
-  "publisher": "quillai.social",
-  "email": "help@quillai.social",
+  "publisher": "quillsocial.com",
+  "email": "help@quillsocial.com",
   "description": "Adds a link to copy Typeform Redirect URL",
   "__createdUsingCli": true
 }

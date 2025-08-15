@@ -18,7 +18,7 @@ ENV NODE_ENV=${NODE_ENV} \
 RUN yarn set version 3.4.1
 
 
-RUN yarn config set httpTimeout 1200000 
+RUN yarn config set httpTimeout 1200000
 RUN yarn install
 
 RUN yarn turbo run build --filter=@quillsocial/web
@@ -27,7 +27,7 @@ RUN yarn turbo run build --filter=@quillsocial/web
 FROM node:18.20.8-alpine as builder-two
 
 WORKDIR /quillsocial
-ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillai.social
+ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillsocial.com
 
 ENV NODE_ENV production
 
@@ -57,7 +57,7 @@ RUN yarn set version 3.4.1
 
 COPY --from=builder-two /quillsocial ./
 
-ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillai.social
+ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillsocial.com
 ENV NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL \
     BUILT_NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL
 

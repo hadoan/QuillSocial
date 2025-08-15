@@ -2,7 +2,7 @@
 
 > **AI-powered social media management.**
 
-[Website](https://www.quillai.social) | [GitHub](https://github.com/hadoan/QuillSocial) | [Docs](https://docs.quillai.social)
+[Website](https://www.quillsocial.com) | [GitHub](https://github.com/hadoan/QuillSocial) | [Docs](https://docs.quillsocial.com)
 
 ---
 
