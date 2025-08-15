@@ -44,7 +44,7 @@ docker-compose up --build
 
 ### 📄 License
 
-[MIT License](LICENSE)
+[AGPL License](LICENSE)
 
 ---
 
