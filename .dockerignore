@@ -1,0 +1,77 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+.next/
+dist/
+build/
+
+# Environment variables (keep production env for Docker build)
+.env.local
+.env*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Testing
+coverage/
+.nyc_output/
+jest.config.js
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache directories
+.cache/
+.turbo/
+
+# Prisma
+prisma/migrations/
+
+# Build artifacts
+*.tsbuildinfo
+
+# Deployment files
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Development tools
+.editorconfig
+.eslintrc*
+.prettierrc*

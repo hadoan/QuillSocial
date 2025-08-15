@@ -1,67 +1,79 @@
-FROM node:18.20.8-alpine as builder
-
+###########################
+# Stage 1: deps
+###########################
+FROM node:18.20.8-alpine AS deps
 WORKDIR /quillsocial
 
+# Corepack (Yarn) already bundled with Node 18; pin Yarn version
+RUN corepack enable && corepack prepare yarn@3.4.1 --activate
 
-COPY package.json yarn.lock .yarnrc.yml turbo.json git-init.sh git-setup.sh ./
-COPY apps/web ./apps/web
+# Copy only manifest files first for better layer caching
+COPY package.json yarn.lock .yarnrc.yml turbo.json ./
+COPY .yarn ./.yarn
+COPY apps/web/package.json apps/web/
 COPY packages ./packages
-COPY .yarn ./.yarn
+## Copy environment files only for build-time (NOT copied to final image)
+COPY .env.production ./.env.production
+COPY .env.development ./.env.development
 
+# (Optional) ensure prisma package manifest present for generate
 
-ARG MAX_OLD_SPACE_SIZE=4096
-ARG NODE_ENV
+ENV YARN_ENABLE_IMMUTABLE_INSTALLS=true
+RUN yarn install --immutable
 
-ENV NODE_ENV=${NODE_ENV} \
-    NODE_OPTIONS=--max-old-space-size=${MAX_OLD_SPACE_SIZE}
-
-RUN yarn set version 3.4.1
-
-
-RUN yarn config set httpTimeout 1200000
-RUN yarn install
-
-RUN yarn turbo run build --filter=@quillsocial/web
-
-
-FROM node:18.20.8-alpine as builder-two
-
+###########################
+# Stage 2: builder
+###########################
+FROM node:18.20.8-alpine AS builder
 WORKDIR /quillsocial
-ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillsocial.com
+ENV NODE_ENV=production
+RUN corepack enable && corepack prepare yarn@3.4.1 --activate
 
-ENV NODE_ENV production
+# Copy lockfile and installed dependencies (zero-install/cache strategy)
+COPY --from=deps /quillsocial/.yarn ./.yarn
+COPY --from=deps /quillsocial/.yarnrc.yml ./
+COPY --from=deps /quillsocial/yarn.lock ./
+COPY --from=deps /quillsocial/node_modules ./node_modules
+COPY --from=deps /quillsocial/package.json ./
+COPY --from=deps /quillsocial/turbo.json ./
+COPY --from=deps /quillsocial/packages ./packages
+COPY --from=deps /quillsocial/apps/web/package.json ./apps/web/
 
-RUN yarn set version 3.4.1
+# Copy the rest of source (pages, components, etc.)
+COPY apps/web ./apps/web
+## Provide env file only for build stage (not copied to final runtime)
+COPY --from=deps /quillsocial/.env.production ./.env.production
 
-COPY package.json .yarnrc.yml turbo.json ./
-COPY .yarn ./.yarn
-COPY --from=builder /quillsocial/yarn.lock ./yarn.lock
+# Generate Prisma Client before build (needed for TS types like BillingType)
+RUN yarn workspace @quillsocial/prisma prisma generate
 
+# Build only the web app (will invoke next build). We rely on copied .env.production
+# (NODE_ENV=production set earlier) so next.config.js can read required secrets.
+# No secrets are baked into final runtime image: runner stage does NOT copy .env.* files.
+RUN yarn workspace @quillsocial/web build
+
+
+###########################
+# Stage 3: runner
+###########################
+FROM node:18.20.8-alpine AS runner
+WORKDIR /quillsocial
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1
+RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+RUN corepack enable && corepack prepare yarn@3.4.1 --activate
+
+# Copy production focused node_modules and built app
 COPY --from=builder /quillsocial/node_modules ./node_modules
-COPY --from=builder /quillsocial/packages ./packages
+COPY --from=builder /quillsocial/package.json ./
 COPY --from=builder /quillsocial/apps/web ./apps/web
-COPY --from=builder /quillsocial/packages/prisma/schema.prisma ./prisma/schema.prisma
-COPY scripts scripts
+COPY --from=builder /quillsocial/packages ./packages
 
-# Save value used during this build stage. If NEXT_PUBLIC_WEBAPP_URL and BUILT_NEXT_PUBLIC_WEBAPP_URL differ at
-# run-time, then start.sh will find/replace static values again.
-ENV NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL \
-    BUILT_NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL
-
-# RUN scripts/replace-placeholder.sh http://NEXT_PUBLIC_WEBAPP_URL_PLACEHOLDER ${NEXT_PUBLIC_WEBAPP_URL}
-
-FROM node:18.20.8-alpine as runner
-
-WORKDIR /quillsocial
-RUN yarn set version 3.4.1
-
-COPY --from=builder-two /quillsocial ./
-
-ARG NEXT_PUBLIC_WEBAPP_URL=https://app.quillsocial.com
-ENV NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL \
-    BUILT_NEXT_PUBLIC_WEBAPP_URL=$NEXT_PUBLIC_WEBAPP_URL
-
-ENV NODE_ENV production
+# Expose only what Next.js needs (PORT default 3000)
+ENV PORT=3000
 EXPOSE 3000
 
-CMD yarn start
+USER nextjs
+
+# Use json form CMD; start the web workspace
+CMD ["yarn", "workspace", "@quillsocial/web", "start"]
