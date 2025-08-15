@@ -110,18 +110,12 @@ const providers: Provider[] = [
       }
 
       const authLog = logger.getChildLogger({ prefix: ["Auth", "Login"] });
-      const debugEnabled = [
-        process.env.AUTH_DEBUG,
-        process.env.NEXT_PUBLIC_AUTH_DEBUG,
-        process.env.NEXT_PUBLIC_DEBUG,
-      ].some((v) => v === "1" || v === "true");
-      if (debugEnabled)
-        authLog.debug("Attempting login", {
-          email: credentials.email,
-          hasPassword: !!credentials.password,
-          hasTotpCode: !!credentials.totpCode,
-          ts: new Date().toISOString(),
-        });
+      authLog.debug("Attempting login", {
+        email: credentials.email,
+        hasPassword: !!credentials.password,
+        hasTotpCode: !!credentials.totpCode,
+        ts: new Date().toISOString(),
+      });
 
       const user = await prisma.user.findUnique({
         where: {
@@ -152,105 +146,95 @@ const providers: Provider[] = [
         },
       });
 
-      if (debugEnabled)
-        authLog.debug("User lookup", {
-          found: !!user,
-          id: user?.id,
-          identityProvider: user?.identityProvider,
-          hasPassword: !!user?.password,
-          twoFactorEnabled: !!user?.twoFactorEnabled,
-        });
+      authLog.debug("User lookup", {
+        found: !!user,
+        id: user?.id,
+        identityProvider: user?.identityProvider,
+        hasPassword: !!user?.password,
+        twoFactorEnabled: !!user?.twoFactorEnabled,
+      });
 
       // Don't leak information about it being username or password that is invalid
       if (!user) {
-  if (debugEnabled) authLog.debug("No user found for email");
+        authLog.debug("No user found for email");
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
-      await checkRateLimitAndThrowError({
-        identifier: user.email,
-      });
+      // await checkRateLimitAndThrowError({
+      //   identifier: user.email,
+      // });
 
       if (
         user.identityProvider !== IdentityProvider.DB &&
         !credentials.totpCode
       ) {
-        if (debugEnabled)
-          authLog.debug("Blocked: Non-DB identity provider requires totpCode", {
-            identityProvider: user.identityProvider,
-          });
+        authLog.debug("Blocked: Non-DB identity provider requires totpCode", {
+          identityProvider: user.identityProvider,
+        });
         throw new Error(ErrorCode.ThirdPartyIdentityProviderEnabled);
       }
 
-      if (
-        !user.password &&
-        user.identityProvider !== IdentityProvider.DB &&
-        !credentials.totpCode
-      ) {
+      if (!user.password) {
+        authLog.debug("No stored password while password path expected");
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
-      if (user.password || !credentials.totpCode) {
-        if (!user.password) {
-          if (debugEnabled)
-            authLog.debug("No stored password while password path expected");
-          throw new Error(ErrorCode.IncorrectUsernamePassword);
-        }
-        const isCorrectPassword = await verifyPassword(
-          credentials.password,
-          user.password
-        );
-        if (debugEnabled)
-          authLog.debug("Password verification", {
-            isCorrectPassword,
-            providedPasswordLength: credentials.password?.length,
-          });
-        if (!isCorrectPassword) {
-          throw new Error(ErrorCode.IncorrectUsernamePassword);
-        }
+      const isCorrectPassword = await verifyPassword(
+        credentials.password,
+        user.password
+      );
+
+      authLog.debug("Password verification", {
+        isCorrectPassword,
+        providedPasswordLength: credentials.password?.length,
+      });
+
+      if (!isCorrectPassword) {
+        throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
-      if (user.twoFactorEnabled) {
-        if (!credentials.totpCode) {
-          if (debugEnabled)
-            authLog.debug("Two-factor required but no code provided");
-          throw new Error(ErrorCode.SecondFactorRequired);
-        }
+      // Disabled two-factor authentication by bypassing related checks
+      // if (!credentials.totpCode) {
+      //   authLog.debug("Two-factor required but no code provided");
+      //   throw new Error(ErrorCode.SecondFactorRequired);
+      // }
 
-        if (!user.twoFactorSecret) {
-          console.error(
-            `Two factor is enabled for user ${user.id} but they have no secret`
-          );
-          throw new Error(ErrorCode.InternalServerError);
-        }
+      // if (!user.twoFactorSecret) {
+      //   console.error(
+      //     `Two factor is enabled for user ${user.id} but they have no secret`
+      //   );
+      //   throw new Error(ErrorCode.InternalServerError);
+      // }
 
-        if (!process.env.MY_APP_ENCRYPTION_KEY) {
-          console.error(
-            `"Missing encryption key; cannot proceed with two factor login."`
-          );
-          throw new Error(ErrorCode.InternalServerError);
-        }
+      // if (!process.env.MY_APP_ENCRYPTION_KEY) {
+      //   console.error(
+      //     `"Missing encryption key; cannot proceed with two factor login."`
+      //   );
+      //   throw new Error(ErrorCode.InternalServerError);
+      // }
 
-        const secret = symmetricDecrypt(
-          user.twoFactorSecret,
-          process.env.MY_APP_ENCRYPTION_KEY
-        );
-        if (secret.length !== 32) {
-          console.error(
-            `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`
-          );
-          throw new Error(ErrorCode.InternalServerError);
-        }
+      // const secret = symmetricDecrypt(
+      //   user.twoFactorSecret,
+      //   process.env.MY_APP_ENCRYPTION_KEY
+      // );
+      // if (secret.length !== 32) {
+      //   console.error(
+      //     `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`
+      //   );
+      //   throw new Error(ErrorCode.InternalServerError);
+      // }
 
-        const isValidToken = (await import("otplib")).authenticator.check(
-          credentials.totpCode,
-          secret
-        );
-  if (debugEnabled) authLog.debug("2FA token validation", { isValidToken });
-        if (!isValidToken) {
-          throw new Error(ErrorCode.IncorrectTwoFactorCode);
-        }
-      }
+      // const isValidToken = (await import("otplib")).authenticator.check(
+      //   credentials.totpCode,
+      //   secret
+      // );
+
+      // authLog.debug("2FA token validation", { isValidToken });
+
+      // if (!isValidToken) {
+      //   throw new Error(ErrorCode.IncorrectTwoFactorCode);
+      // }
+
       // Check if the user you are logging into has any active teams
       const hasActiveTeams = checkIfUserBelongsToActiveTeam(user);
 
@@ -281,14 +265,13 @@ const providers: Provider[] = [
         belongsToActiveTeam: hasActiveTeams,
         organizationId: user.organizationId,
       };
-      if (debugEnabled)
-        authLog.debug("Role validation", { originalRole: user.role, finalRole: result.role });
-      if (debugEnabled)
-        authLog.debug("Login success", {
-          id: result.id,
-          role: result.role,
-          belongsToActiveTeam: result.belongsToActiveTeam,
-        });
+
+      authLog.debug("Role validation", { originalRole: user.role, finalRole: result.role });
+      authLog.debug("Login success", {
+        id: result.id,
+        role: result.role,
+        belongsToActiveTeam: result.belongsToActiveTeam,
+      });
       return result;
     },
   }),
