@@ -32,7 +32,8 @@
   "files": [
     "client",
     "zod",
-    "zod-utils.ts"
+    "zod-utils.ts",
+    "enums"
   ],
   "prisma": {
     "seed": "ts-node --transpile-only ./seed.ts"

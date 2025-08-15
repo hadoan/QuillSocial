@@ -1,0 +1,13 @@
+{
+  "extends": "@quillsocial/tsconfig/base.json",
+  "include": [
+    "**/*.ts"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "types": ["node"]
+    }
+  }
+}
