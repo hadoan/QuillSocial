@@ -99,3 +99,4 @@ stg-key.json
 
 .yarn/
 ha-deployment.txt
+env.yaml
