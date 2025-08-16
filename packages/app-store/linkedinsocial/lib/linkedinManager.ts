@@ -13,7 +13,7 @@ const versionNumber = "202402";
 function transformToV2ShareFormat(payload: any): any {
   // Transform REST API payload to v2/shares format based on official LinkedIn documentation
   // Reference: https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/share-api
-  
+
   const v2Payload: any = {
     owner: payload.author, // Map author to owner
     text: {
@@ -26,10 +26,10 @@ function transformToV2ShareFormat(payload: any): any {
     v2Payload.distribution = {
       linkedInDistributionTarget: {}
     };
-    
+
     // Map feedDistribution if present
     if (payload.distribution.feedDistribution) {
-      v2Payload.distribution.linkedInDistributionTarget.visibleToGuest = 
+      v2Payload.distribution.linkedInDistributionTarget.visibleToGuest =
         payload.distribution.feedDistribution === "MAIN_FEED";
     }
   } else {
@@ -53,7 +53,7 @@ function transformToV2ShareFormat(payload: any): any {
   // Remove fields not supported by v2/shares API
   // v2/shares only supports: owner, text, distribution, content
   // Does NOT support: lifecycleState, visibility, commentary, author, isReshareDisabledByAuthor
-  
+
   return v2Payload;
 }
 
@@ -78,7 +78,7 @@ async function linkedinApiRequest({
     "Content-Type": "application/json",
     ...extraHeaders,
   };
-  
+
   try {
     console.log("Trying REST API first:", urlRest);
     if (method === "get") {
@@ -89,11 +89,11 @@ async function linkedinApiRequest({
   } catch (err) {
     const error = err as any;
     console.log("REST API failed with status:", error.response?.status);
-    
+
     // For production, only fallback on 426 Upgrade Required
     if (error.response && error.response.status === 426 && urlV2) {
       console.log("Fallback to v2 API:", urlV2);
-      
+
       if (method === "get") {
         return await axios.get(urlV2, { headers: headersV2 });
       } else {
@@ -335,7 +335,7 @@ async function postLinkedInPost(token: string, postData: any) {
       token,
       version: versionNumber
     });
-    
+
     console.log(response.headers);
     return response.status === 201 ? response.headers["x-restli-id"] : false;
   } catch (error: any) {
