@@ -9,6 +9,108 @@ import { PageInfoData } from "./type";
 
 const versionNumber = "202402";
 
+// Utility for LinkedIn REST/v2 fallback
+function transformToV2ShareFormat(payload: any): any {
+  // Transform REST API payload to v2/shares format based on official LinkedIn documentation
+  // Reference: https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/share-api
+  
+  const v2Payload: any = {
+    owner: payload.author, // Map author to owner
+    text: {
+      text: payload.commentary || ""
+    }
+  };
+
+  // Add distribution based on v2/shares format
+  if (payload.distribution) {
+    v2Payload.distribution = {
+      linkedInDistributionTarget: {}
+    };
+    
+    // Map feedDistribution if present
+    if (payload.distribution.feedDistribution) {
+      v2Payload.distribution.linkedInDistributionTarget.visibleToGuest = 
+        payload.distribution.feedDistribution === "MAIN_FEED";
+    }
+  } else {
+    // Default distribution for v2/shares
+    v2Payload.distribution = {
+      linkedInDistributionTarget: {}
+    };
+  }
+
+  // Add content based on v2/shares format for images
+  if (payload.content && payload.content.media) {
+    v2Payload.content = {
+      contentEntities: [{
+        entity: payload.content.media.id, // Use the image URN directly
+        entityLocation: "" // Empty for images
+      }],
+      title: payload.content.media.title || ""
+    };
+  }
+
+  // Remove fields not supported by v2/shares API
+  // v2/shares only supports: owner, text, distribution, content
+  // Does NOT support: lifecycleState, visibility, commentary, author, isReshareDisabledByAuthor
+  
+  return v2Payload;
+}
+
+async function linkedinApiRequest({
+  urlRest,
+  urlV2,
+  method = "get",
+  data,
+  token,
+  version = versionNumber,
+  extraHeaders = {},
+}) {
+  let headersRest = {
+    Authorization: `Bearer ${token}`,
+    "X-Restli-Protocol-Version": "2.0.0",
+    "LinkedIn-Version": version,
+    "Content-Type": "application/json",
+    ...extraHeaders,
+  };
+  let headersV2 = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    ...extraHeaders,
+  };
+  
+  try {
+    console.log("Trying REST API first:", urlRest);
+    if (method === "get") {
+      return await axios.get(urlRest, { headers: headersRest });
+    } else {
+      return await axios.post(urlRest, data, { headers: headersRest });
+    }
+  } catch (err) {
+    const error = err as any;
+    console.log("REST API failed with status:", error.response?.status);
+    
+    // For production, only fallback on 426 Upgrade Required
+    if (error.response && error.response.status === 426 && urlV2) {
+      console.log("Fallback to v2 API:", urlV2);
+      
+      if (method === "get") {
+        return await axios.get(urlV2, { headers: headersV2 });
+      } else {
+        // Transform data for v2/shares if needed
+        let v2Data = data;
+        if (urlV2.includes("/shares")) {
+          console.log("Original data:", JSON.stringify(data, null, 2));
+          v2Data = transformToV2ShareFormat(data);
+          console.log("Transformed v2 data:", JSON.stringify(v2Data, null, 2));
+        }
+        return await axios.post(urlV2, v2Data, { headers: headersV2 });
+      }
+    }
+    throw err;
+  }
+}
+
 export const post = async (postId: number) => {
   try {
     const linkedInPost = await prisma.post.findUnique({
@@ -76,28 +178,39 @@ export const post = async (postId: number) => {
 };
 
 export async function getLinkedInPages(accessToken: string) {
-  // GET https://api.linkedin.com/rest/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&projection=(elements*(*,roleAssignee~(localizedFirstName, localizedLastName), organization~(localizedName)))
-  const url =
-    " https://api.linkedin.com/rest/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
-
-  const headers = {
+  // Try new REST API endpoint first
+  let url = "https://api.linkedin.com/rest/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
+  let headers: any = {
     Authorization: `Bearer ${accessToken}`,
     "X-Restli-Protocol-Version": "2.0.0",
     "LinkedIn-Version": versionNumber,
     "Content-Type": "application/json",
   };
-  const pagesResponse = await axios.get(url, {
-    headers,
-  });
+  let pagesResponse;
+  try {
+    pagesResponse = await axios.get(url, { headers });
+  } catch (err: any) {
+    if (err.response && err.response.status === 426) {
+      // Fallback to v2 endpoint if 426 Upgrade Required
+      url = "https://api.linkedin.com/v2/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
+      headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      };
+      pagesResponse = await axios.get(url, { headers });
+    } else {
+      throw err;
+    }
+  }
   if (pagesResponse.status !== 200) return undefined;
 
   const pages = pagesResponse.data?.elements.map((x: any) =>
     extractIdFromUrn(x.organization)
   );
   if (pages) {
-    const pageDetailUrl = `https://api.linkedin.com/rest/organizations?ids=List(${pages.join(
-      ","
-    )})`;
+    // Use the same API version as the organizationAcls call
+    const orgApiBase = url.includes("/v2/") ? "https://api.linkedin.com/v2/organizations" : "https://api.linkedin.com/rest/organizations";
+    const pageDetailUrl = `${orgApiBase}?ids=List(${pages.join(",")})`;
     const pageDetailsResponse = await axios.get(pageDetailUrl, {
       headers,
     });
@@ -213,21 +326,20 @@ const uploadImage = async (
 };
 
 async function postLinkedInPost(token: string, postData: any) {
-  const url = "https://api.linkedin.com/rest/posts";
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "X-Restli-Protocol-Version": "2.0.0",
-    "LinkedIn-Version": versionNumber,
-    "Content-Type": "application/json",
-  };
-
   try {
-    const response = await axios.post(url, postData, { headers });
-    // console.log(response.headers["x-restli-i "]);//'urn:li:share:7158498305902100482'
+    const response = await linkedinApiRequest({
+      urlRest: "https://api.linkedin.com/rest/posts",
+      urlV2: "https://api.linkedin.com/v2/shares",
+      method: "post",
+      data: postData,
+      token,
+      version: versionNumber
+    });
+    
     console.log(response.headers);
     return response.status === 201 ? response.headers["x-restli-id"] : false;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error("Error posting to LinkedIn:", error.response ? error.response.data : error.message);
     return false;
   }
 }
