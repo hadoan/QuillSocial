@@ -218,13 +218,16 @@ function getThemeProviderProps({
 // }
 
 const AppProviders = (props: AppPropsWithChildren) => {
-  const session = trpc.viewer.public.session.useQuery().data;
+  // Remove the tRPC session query dependency that was causing session status to be stuck in loading
+  // NextAuth SessionProvider should handle session state internally
+  // const session = trpc.viewer.public.session.useQuery().data;
+
   // No need to have intercom on public pages - Good for Page Performance
   const isPublicPage = usePublicPage();
 
   const RemainingProviders = (
     <EventCollectionProvider options={{ apiPath: "/api/collect-events" }}>
-      <SessionProvider session={session || undefined}>
+      <SessionProvider>
         <CustomI18nextProvider {...props}>
           <TooltipProvider>
             {/* color-scheme makes background:transparent not work which is required by embed. We need to ensure next-theme adds color-scheme to `body` instead of `html`(https://github.com/pacocoursey/next-themes/blob/main/src/index.tsx#L74). Once that's done we can enable color-scheme support */}

@@ -1,13 +1,7 @@
-import type { User as UserAuth } from "next-auth";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import type { NextRouter } from "next/router";
-import { useRouter } from "next/router";
-import router from "next/router";
-import type { Dispatch, ReactNode, SetStateAction } from "react";
-import React, { Fragment, useEffect, useState, useRef } from "react";
-import { Toaster } from "react-hot-toast";
-
+import { redirectIfTrialOver } from "../payments/redirectIfTrialOver";
+import { ModalAccount } from "./SocialAccountsDialog";
+import SocialAvatar from "./SocialAvatar";
+import { BillingNotifications } from "./components/BillingNotifications";
 import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
 import dayjs from "@quillsocial/dayjs";
 import {
@@ -72,11 +66,15 @@ import {
   Linkedin,
   BookOpen,
 } from "@quillsocial/ui/components/icon";
-
-import { redirectIfTrialOver } from "../payments/redirectIfTrialOver";
-import { ModalAccount } from "./SocialAccountsDialog";
-import SocialAvatar from "./SocialAvatar";
-import { BillingNotifications } from "./components/BillingNotifications";
+import type { User as UserAuth } from "next-auth";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import type { NextRouter } from "next/router";
+import { useRouter } from "next/router";
+import router from "next/router";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
+import { Toaster } from "react-hot-toast";
 
 export const ONBOARDING_INTRODUCED_AT = dayjs("September 1 2021").toISOString();
 
@@ -713,7 +711,6 @@ const NavigationItem: React.FC<{
   );
 
   if (!shouldDisplayNavigationItem) return null;
-
   return (
     <Fragment>
       <Tooltip side="right" content={t(item.name)} className="lg:hidden">
@@ -761,7 +758,16 @@ const NavigationItem: React.FC<{
 };
 
 function MobileNavigationContainer() {
-  const { status } = useSession();
+  const sessionData = useSession();
+  const { status, data: sessionUserData } = sessionData;
+
+  console.log("MobileNavigationContainer debug:", {
+    status,
+    shouldShowMobileNav: status === "authenticated",
+    sessionDataExists: !!sessionUserData,
+    fullSessionData: sessionData,
+  });
+
   if (status !== "authenticated") return null;
   return <MobileNavigation />;
 }
@@ -883,6 +889,13 @@ function SideBarContainer({
 }: SideBarContainerProps) {
   const { status } = useSession();
 
+  console.log("SideBarContainer debug:", {
+    status,
+    bannersHeight,
+    user,
+    currentUser,
+  });
+
   if (status !== "loading" && status !== "authenticated") return null;
   return (
     <SideBar
@@ -896,14 +909,17 @@ function SideBarContainer({
 function SideBar({ bannersHeight, user, currentUser }: SideBarProps) {
   const { t } = useLocale();
   const publicPageUrl = "";
+
+  console.log("SideBar debug:", { bannersHeight, user, currentUser });
+
   return (
-    <div className="relative">
+    <div className="w-[200px] flex-shrink-0">
       <aside
         style={{
-          maxHeight: `calc(100vh - ${bannersHeight}px)`,
-          top: `${bannersHeight}px`,
+          maxHeight: `calc(100vh - ${bannersHeight || 0}px)`,
+          width: "200px !important",
         }}
-        className="desktop-transparent bg-default fixed left-0 hidden h-full max-h-screen w-14 flex-col overflow-y-auto  overflow-x-hidden border-r md:sticky md:flex lg:w-56 dark:bg-gradient-to-tr "
+        className="desktop-transparent bg-default h-full max-h-screen flex-col overflow-y-auto overflow-x-hidden border-r flex sticky top-0"
       >
         <div className="-pl-1 -ml-2 gap-2.5 pt-5">
           <img
@@ -1054,7 +1070,16 @@ function MainContainer({
 }
 
 function TopNavContainer() {
-  const { status } = useSession();
+  const sessionData = useSession();
+  const { status, data: sessionUserData } = sessionData;
+
+  console.log("TopNavContainer debug:", {
+    status,
+    shouldShowTopNav: status === "authenticated",
+    sessionDataExists: !!sessionUserData,
+    fullSessionData: sessionData,
+  });
+
   if (status !== "authenticated") return null;
   return <TopNav />;
 }

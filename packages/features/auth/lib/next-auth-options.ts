@@ -272,6 +272,7 @@ const providers: Provider[] = [
         role: result.role,
         belongsToActiveTeam: result.belongsToActiveTeam,
       });
+
       return result;
     },
   }),
@@ -481,6 +482,7 @@ export const AUTH_OPTIONS: AuthOptions = {
           organizationId: token?.organizationId,
         },
       };
+
       return calendsoSession;
     },
     async signIn(params) {
