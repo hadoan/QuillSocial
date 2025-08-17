@@ -1,4 +1,5 @@
 import { getEnvAppKeys } from "../getAppKeys";
+import { logOpenAIUsage, canUserMakeOpenAIRequest } from "@quillsocial/lib/openai-usage";
 import OpenAI from "openai";
 
 export const getChatCompletions = async (
@@ -7,6 +8,18 @@ export const getChatCompletions = async (
   platform?: string
 ) => {
   try {
+    // Check if user can make the request (token limits)
+    const canMakeRequest = await canUserMakeOpenAIRequest(userId, 500); // Estimate 500 tokens
+    if (!canMakeRequest.allowed) {
+      return {
+        tokens: null,
+        post: "",
+        chatCompletion: null,
+        error: canMakeRequest.reason,
+        limitExceeded: true,
+      };
+    }
+
     // Send request to OpenAI API
     // const userMsg =
     const socialMedia = platform ?? "social media";
@@ -38,6 +51,26 @@ export const getChatCompletions = async (
     if (response && response.choices && response.choices.length > 0) {
       statusContent = response?.choices[0]?.message?.content!;
       tokens.push(response.usage);
+
+      // Log usage to database
+      if (response.usage) {
+        try {
+          await logOpenAIUsage({
+            userId,
+            prompt,
+            result: statusContent,
+            promptTokens: response.usage.prompt_tokens,
+            completionTokens: response.usage.completion_tokens,
+            totalTokens: response.usage.total_tokens,
+            requestType: "chat_completion",
+            apiEndpoint: "getChatCompletions",
+            model: "gpt-4o-mini",
+          });
+        } catch (error) {
+          console.error("Error logging OpenAI usage:", error);
+          // Don't fail the request if logging fails
+        }
+      }
     }
 
     return {
@@ -51,6 +84,7 @@ export const getChatCompletions = async (
       tokens: null,
       post: "",
       chatCompletion: null,
+      error: "Error generating content",
     };
   }
 };
@@ -60,6 +94,18 @@ export const getRewriteCompletions = async (
   instruction: string
 ) => {
   try {
+    // Check if user can make the request (token limits)
+    const canMakeRequest = await canUserMakeOpenAIRequest(userId, 500); // Estimate 500 tokens
+    if (!canMakeRequest.allowed) {
+      return {
+        tokens: null,
+        post: "",
+        chatCompletion: null,
+        error: canMakeRequest.reason,
+        limitExceeded: true,
+      };
+    }
+
     // Send request to OpenAI API
     // const userMsg =
     const response = await (
@@ -95,6 +141,26 @@ export const getRewriteCompletions = async (
     if (response && response.choices && response.choices.length > 0) {
       statusContent = response?.choices[0]?.message?.content!;
       tokens.push(response.usage);
+
+      // Log usage to database
+      if (response.usage) {
+        try {
+          await logOpenAIUsage({
+            userId,
+            prompt: instruction,
+            result: statusContent,
+            promptTokens: response.usage.prompt_tokens,
+            completionTokens: response.usage.completion_tokens,
+            totalTokens: response.usage.total_tokens,
+            requestType: "rewrite_completion",
+            apiEndpoint: "getRewriteCompletions",
+            model: "gpt-4o-mini",
+          });
+        } catch (error) {
+          console.error("Error logging OpenAI usage:", error);
+          // Don't fail the request if logging fails
+        }
+      }
     }
 
     return {

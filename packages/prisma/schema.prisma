@@ -134,6 +134,7 @@ model User {
   speakAbout           String?
   userExtraDataId      Int?
   userExtraData        UserExtraData?          @relation(fields: [userExtraDataId], references: [id])
+  openAIUsages         OpenAIUsage[]
 
   @@unique([email])
   @@unique([email, username])
@@ -178,6 +179,7 @@ model Team {
   credentials         Credential[]
   billings            Billing[]
   startTrialDate      DateTime?
+  openAIUsages        OpenAIUsage[]
 
   @@unique([slug, parentId])
 }
@@ -689,4 +691,27 @@ model UserExtraData {
   cv          String?
   usageTokens Json?
   users       User[]
+}
+
+model OpenAIUsage {
+  id                Int      @id @default(autoincrement())
+  userId            Int
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId            Int?
+  team              Team?    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  prompt            String   @db.Text
+  result            String   @db.Text
+  promptTokens      Int      @default(0)
+  completionTokens  Int      @default(0)
+  totalTokens       Int      @default(0)
+  requestType       String   // 'chat_completion', 'rewrite', 'ai_write', etc.
+  apiEndpoint       String?  // which API endpoint was used
+  model             String   @default("gpt-4o-mini")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([teamId])
+  @@index([createdAt])
+  @@index([userId, createdAt])
 }
