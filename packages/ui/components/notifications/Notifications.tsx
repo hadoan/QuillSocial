@@ -22,10 +22,15 @@ export function Notifications(props: NotificationsProps) {
   const [desc] = useState(props.desc);
   const [ctaText] = useState(props.ctaText);
 
-  // Sync internal show state with props
+  // Sync internal show state with props, but only when going from false to true
+  // to prevent blinking when dismissing
   useEffect(() => {
-    setShow(props.show ?? true);
-  }, [props.show]);
+    if (props.show === true && !show) {
+      setShow(true);
+    } else if (props.show === false) {
+      setShow(false);
+    }
+  }, [props.show, show]);
 
   return (
     <>

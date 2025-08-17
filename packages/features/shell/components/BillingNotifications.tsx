@@ -45,27 +45,18 @@ export const BillingNotifications = ({ pricingData }: any) => {
 
   // Handle dismiss action
   const handleDismiss = () => {
-    console.log("🚫 Dismiss clicked - saving to localStorage");
     // Save today's date when user dismisses the notification
     localStorage.setItem("notificationDismissedDate", getTodayString());
     // Immediately update the state to hide notification
     setNotificationDismissedToday(true);
-    console.log("✅ State updated - notification should be hidden");
   };
 
-  // Debug: Log the current state
-  console.log("🔍 BillingNotifications render:", {
-    pricingData,
-    notificationDismissedToday,
-    notificationBillingDays,
-    notificationBillingDaysExpired,
-    dismissedDate: localStorage.getItem("notificationDismissedDate"),
-    todayString: getTodayString(),
-    shouldShow: pricingData?.isRemind &&
-      !notificationDismissedToday &&
-      ((pricingData?.day < 14 && !notificationBillingDays) ||
-        (pricingData?.day >= 14 && !notificationBillingDaysExpired))
-  });
+  // Calculate if notification should show
+  const shouldShowNotification = pricingData?.isRemind &&
+    !notificationDismissedToday &&
+    ((pricingData?.day < 14 && !notificationBillingDays) ||
+      (pricingData?.day >= 14 && !notificationBillingDaysExpired));
+
   return (
     <>
       <Notifications
@@ -90,12 +81,7 @@ export const BillingNotifications = ({ pricingData }: any) => {
         }}
         ctaText="Subscribe"
         onDismiss={handleDismiss}
-        show={
-          pricingData?.isRemind &&
-          !notificationDismissedToday &&
-          ((pricingData?.day < 14 && !notificationBillingDays) ||
-            (pricingData?.day >= 14 && !notificationBillingDaysExpired))
-        }
+        show={shouldShowNotification}
         dismisText="Dismiss"
       ></Notifications>
     </>
