@@ -5,8 +5,8 @@ import { Badge, Button, Alert } from "@quillsocial/ui";
 export function OpenAIUsageDashboard() {
   const [showHistory, setShowHistory] = useState(false);
 
-  const { data: stats, isLoading: isStatsLoading } = trpc.viewer.openaiUsage.getUsageStats.useQuery();
-  const { data: history, isLoading: isHistoryLoading } = trpc.viewer.openaiUsage.getUsageHistory.useQuery(
+  const { data: stats, isLoading: isStatsLoading } = trpc.openaiUsage.getUsageStats.useQuery();
+  const { data: history, isLoading: isHistoryLoading } = trpc.openaiUsage.getUsageHistory.useQuery(
     { limit: 20, offset: 0 },
     { enabled: showHistory }
   );

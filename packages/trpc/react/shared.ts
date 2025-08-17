@@ -27,4 +27,5 @@ export const ENDPOINTS = [
   "billings",
   "documents",
   "socials",
+  "openaiUsage",
 ] as const;

@@ -18,8 +18,9 @@ import BillingHistory from "@components/billing/history";
 import BillingOverview from "@components/billing/overview";
 import PaymentMethods from "@components/billing/payment_methods";
 import ManageBilling from "@components/billing/manage";
+import { OpenAIUsageDashboard } from "@quillsocial/features/settings/components/OpenAIUsageDashboard";
 
-const validTabs = ["overview", "history", "payment_methods", "manage"] as const;
+const validTabs = ["overview", "history", "payment_methods", "manage", "usage"] as const;
 
 const querySchema = z.object({
   tab: z.enum(validTabs),
@@ -46,6 +47,10 @@ const BillingPage = () => {
     {
       name: "Billing",
       href: "/billing/manage",
+    },
+    {
+      name: "AI Usage",
+      href: "/billing/usage",
     },
   ];
   const { tab } = router.isReady
@@ -74,6 +79,7 @@ const BillingPage = () => {
           {tab === "history" && <BillingHistory></BillingHistory>}
           {tab === "payment_methods" && <PaymentMethods></PaymentMethods>}
           {tab === "manage" && <ManageBilling></ManageBilling>}
+          {tab === "usage" && <OpenAIUsageDashboard></OpenAIUsageDashboard>}
         </div>
       </Shell>
     </div>
