@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Test logging usage (for development only)
     try {
       const { prompt = "Test prompt", result = "Test result", tokens = 100 } = req.body;
-      
+
       const loggedUsage = await logOpenAIUsage({
         userId,
         prompt,
@@ -35,16 +35,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         model: "gpt-4o-mini",
       });
 
-      return res.json({ 
-        success: true, 
+      return res.json({
+        success: true,
         message: "Test usage logged successfully",
-        loggedUsage 
+        loggedUsage
       });
     } catch (error) {
       console.error("Error logging test usage:", error);
-      return res.status(500).json({ 
-        success: false, 
-        message: "Error logging test usage" 
+      return res.status(500).json({
+        success: false,
+        message: "Error logging test usage"
       });
     }
   }

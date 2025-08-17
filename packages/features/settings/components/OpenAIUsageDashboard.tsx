@@ -4,7 +4,7 @@ import { Badge, Button, Alert } from "@quillsocial/ui";
 
 export function OpenAIUsageDashboard() {
   const [showHistory, setShowHistory] = useState(false);
-  
+
   const { data: stats, isLoading: isStatsLoading } = trpc.viewer.openaiUsage.getUsageStats.useQuery();
   const { data: history, isLoading: isHistoryLoading } = trpc.viewer.openaiUsage.getUsageHistory.useQuery(
     { limit: 20, offset: 0 },
@@ -29,7 +29,7 @@ export function OpenAIUsageDashboard() {
     );
   }
 
-  const usagePercentage = stats.isLTD && stats.tokenLimit 
+  const usagePercentage = stats.isLTD && stats.tokenLimit
     ? Math.round((stats.monthlyTokens / stats.tokenLimit) * 100)
     : 0;
 
@@ -41,7 +41,7 @@ export function OpenAIUsageDashboard() {
           <h3 className="text-lg font-semibold text-gray-900">OpenAI Usage Statistics</h3>
           <p className="text-gray-600">Your AI content generation usage for this month</p>
         </div>
-        
+
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Monthly Usage */}
@@ -141,7 +141,7 @@ export function OpenAIUsageDashboard() {
             </Button>
           </div>
         </div>
-        
+
         {showHistory && (
           <div>
             {isHistoryLoading ? (

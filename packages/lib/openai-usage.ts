@@ -130,7 +130,7 @@ export async function canUserMakeOpenAIRequest(
 ): Promise<{ allowed: boolean; reason?: string; currentUsage?: number; limit?: number }> {
   try {
     const billingInfo = await getUserBillingInfo(userId);
-    
+
     // Non-LTD users have unlimited access (for now)
     if (!billingInfo.isLTD) {
       return { allowed: true };
@@ -216,7 +216,7 @@ export async function getUserUsageStats(userId: number) {
           totalTokens: true,
         },
       }),
-      
+
       // Total lifetime usage
       prisma.openAIUsage.aggregate({
         where: { userId },
@@ -224,7 +224,7 @@ export async function getUserUsageStats(userId: number) {
           totalTokens: true,
         },
       }),
-      
+
       // Monthly request count
       prisma.openAIUsage.count({
         where: {
@@ -245,7 +245,7 @@ export async function getUserUsageStats(userId: number) {
       monthlyRequests,
       isLTD: billingInfo.isLTD,
       tokenLimit: billingInfo.tokenLimit,
-      remainingTokens: billingInfo.isLTD 
+      remainingTokens: billingInfo.isLTD
         ? Math.max(0, billingInfo.tokenLimit - (monthlyUsage._sum.totalTokens || 0))
         : null,
     };
