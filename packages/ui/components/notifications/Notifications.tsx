@@ -3,7 +3,7 @@
 import { Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { InboxIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export type NotificationsProps = {
   day?: number;
@@ -13,6 +13,7 @@ export type NotificationsProps = {
   ctaText: string;
   dismisText: string;
   ctaClicked: () => void;
+  onDismiss?: () => void;
 };
 
 export function Notifications(props: NotificationsProps) {
@@ -20,6 +21,11 @@ export function Notifications(props: NotificationsProps) {
   const [title] = useState(props.title);
   const [desc] = useState(props.desc);
   const [ctaText] = useState(props.ctaText);
+
+  // Sync internal show state with props
+  useEffect(() => {
+    setShow(props.show ?? true);
+  }, [props.show]);
 
   return (
     <>
@@ -65,16 +71,21 @@ export function Notifications(props: NotificationsProps) {
                       <button
                         type="button"
                         onClick={() => {
-                          if (props?.day && props?.day >= 14) {
-                            sessionStorage.setItem(
-                              "notificationBillingDaysExpired",
-                              "true"
-                            );
+                          if (props.onDismiss) {
+                            props.onDismiss();
                           } else {
-                            sessionStorage.setItem(
-                              "notificationBillingDays",
-                              "true"
-                            );
+                            // Fallback to old behavior if no onDismiss callback provided
+                            if (props?.day && props?.day >= 14) {
+                              sessionStorage.setItem(
+                                "notificationBillingDaysExpired",
+                                "true"
+                              );
+                            } else {
+                              sessionStorage.setItem(
+                                "notificationBillingDays",
+                                "true"
+                              );
+                            }
                           }
                           setShow(false);
                         }}
@@ -89,16 +100,21 @@ export function Notifications(props: NotificationsProps) {
                       type="button"
                       className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       onClick={() => {
-                        if (props?.day && props?.day >= 14) {
-                          sessionStorage.setItem(
-                            "notificationBillingDaysExpired",
-                            "true"
-                          );
+                        if (props.onDismiss) {
+                          props.onDismiss();
                         } else {
-                          sessionStorage.setItem(
-                            "notificationBillingDays",
-                            "true"
-                          );
+                          // Fallback to old behavior if no onDismiss callback provided
+                          if (props?.day && props?.day >= 14) {
+                            sessionStorage.setItem(
+                              "notificationBillingDaysExpired",
+                              "true"
+                            );
+                          } else {
+                            sessionStorage.setItem(
+                              "notificationBillingDays",
+                              "true"
+                            );
+                          }
                         }
                         setShow(false);
                       }}

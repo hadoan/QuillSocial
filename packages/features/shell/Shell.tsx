@@ -419,7 +419,7 @@ function UserDropdown({ small, currentUser }: UserDropdownProps) {
               <span className="flex flex-grow items-center gap-2">
                 <span className="line-clamp-1 flex-grow text-sm leading-none">
                   <span className="text-emphasis ml-1 hidden font-medium lg:block">
-                    {currentUser?.name || "Nameless User"}
+                    {currentUser?.name || "Api User"}
                   </span>
                 </span>
               </span>
@@ -921,10 +921,10 @@ function SideBar({ bannersHeight, user, currentUser }: SideBarProps) {
         <ul className="w-full pb-3 lg:px-3">
           <header className="items-center justify-between pl-4 pt-4 lg:flex lg:pl-0 ">
             <div data-testid="user-dropdown-trigger">
-              <span className="hidden sm:inline">
+              <span className="hidden md:inline">
                 <UserDropdown currentUser={currentUser} />
               </span>
-              <span className="sm:block md:hidden">
+              <span className="block md:hidden">
                 <UserDropdown small currentUser={currentUser} />
               </span>
             </div>
@@ -943,9 +943,9 @@ export function ShellMain(props: LayoutProps) {
     <>
       <div
         className={classNames(
-          "bg-default flex items-center border-b px-0 pb-0 pt-0 md:mb-6 md:mt-0 md:px-6 md:pb-5 md:pt-5",
-          props.smallHeading ? "lg:mb-7" : "lg:mb-8",
-          props.hideHeadingOnMobile ? "mb-0" : "mb-6"
+          "bg-default flex items-center border-b px-4 pb-4 pt-4 sm:px-6 md:mb-8 md:mt-0 md:px-8 md:pb-6 md:pt-6 lg:px-6",
+          props.smallHeading ? "lg:mb-10" : "lg:mb-12",
+          props.hideHeadingOnMobile ? "mb-0" : "mb-8"
         )}
       >
         {!!props.backPath && (
@@ -982,16 +982,16 @@ export function ShellMain(props: LayoutProps) {
               {props.heading && (
                 <h3
                   className={classNames(
-                    "font-quill text-emphasis inline max-w-28 truncate text-lg font-semibold tracking-wide sm:max-w-72 sm:text-xl md:block md:max-w-80 xl:max-w-full",
+                    "font-quill text-emphasis max-w-28 truncate text-lg font-semibold tracking-wide sm:max-w-72 sm:text-xl md:max-w-80 xl:max-w-full mb-2",
                     props.smallHeading ? "text-base" : "text-xl",
-                    props.hideHeadingOnMobile && "hidden"
+                    props.hideHeadingOnMobile ? "hidden md:block" : "block"
                   )}
                 >
                   {!isLocaleReady ? <SkeletonText invisible /> : props.heading}
                 </h3>
               )}
               {props.subtitle && (
-                <p className="text-default hidden text-sm md:block">
+                <p className="text-default text-sm leading-relaxed mt-1">
                   {!isLocaleReady ? <SkeletonText invisible /> : props.subtitle}
                 </p>
               )}
@@ -1018,7 +1018,7 @@ export function ShellMain(props: LayoutProps) {
         className={classNames(
           props.flexChildrenContainer
             ? "flex flex-1 flex-col"
-            : "mt-0 px-5 pb-4 lg:mt-[-15px]"
+            : "mt-0 px-4 pb-6 sm:px-6 md:px-8 lg:px-6 lg:mt-[-10px]"
         )}
       >
         {props.children}

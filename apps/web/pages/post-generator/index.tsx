@@ -64,7 +64,6 @@ const PostGeneratorPage = () => {
       <Shell
         withoutSeo
         heading={`Generate posts with AI`}
-        hideHeadingOnMobile
         subtitle="Select a template to generate high-quality posts with AI"
       >
         <div className="w-[220px]"></div>

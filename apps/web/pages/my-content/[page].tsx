@@ -147,7 +147,7 @@ const MyContentPage = () => {
   return (
     <>
       <HeadSeo title={t("My-Content")} description={""} />
-      <Shell withoutSeo heading={`${nameMenu}`} hideHeadingOnMobile>
+      <Shell withoutSeo heading={`${nameMenu}`} >
         <div className="w-[300px]">
           {" "}
           <HorizontalTabs tabs={tabs} />{" "}

@@ -414,8 +414,7 @@ const WritePage = () => {
       <Shell
         withoutSeo
         heading={`Write Post`}
-        title="Here are your Posts"
-        hideHeadingOnMobile
+        subtitle="Here are your Posts"
       >
         <div className="">
           <div className="mt-5 grid grid-cols-12 sm:mt-0">

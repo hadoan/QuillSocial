@@ -15,8 +15,22 @@ export const BillingNotifications = ({ pricingData }: any) => {
   >(null);
   const [notificationBillingDaysExpired, setNotificationBillingDaysExpired] =
     useState<string | null>(null);
+  const [notificationDismissedToday, setNotificationDismissedToday] = useState<
+    boolean
+  >(false);
 
   const router = useRouter();
+
+  // Helper function to get today's date as a string
+  const getTodayString = () => {
+    return new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  };
+
+  // Helper function to check if notification was dismissed today
+  const wasNotificationDismissedToday = () => {
+    const dismissedDate = localStorage.getItem("notificationDismissedDate");
+    return dismissedDate === getTodayString();
+  };
 
   useEffect(() => {
     setNotificationBillingDays(
@@ -25,7 +39,33 @@ export const BillingNotifications = ({ pricingData }: any) => {
     setNotificationBillingDaysExpired(
       sessionStorage.getItem("notificationBillingDaysExpired")
     );
+    // Check dismiss status on component mount
+    setNotificationDismissedToday(wasNotificationDismissedToday());
   }, []);
+
+  // Handle dismiss action
+  const handleDismiss = () => {
+    console.log("🚫 Dismiss clicked - saving to localStorage");
+    // Save today's date when user dismisses the notification
+    localStorage.setItem("notificationDismissedDate", getTodayString());
+    // Immediately update the state to hide notification
+    setNotificationDismissedToday(true);
+    console.log("✅ State updated - notification should be hidden");
+  };
+
+  // Debug: Log the current state
+  console.log("🔍 BillingNotifications render:", {
+    pricingData,
+    notificationDismissedToday,
+    notificationBillingDays,
+    notificationBillingDaysExpired,
+    dismissedDate: localStorage.getItem("notificationDismissedDate"),
+    todayString: getTodayString(),
+    shouldShow: pricingData?.isRemind &&
+      !notificationDismissedToday &&
+      ((pricingData?.day < 14 && !notificationBillingDays) ||
+        (pricingData?.day >= 14 && !notificationBillingDaysExpired))
+  });
   return (
     <>
       <Notifications
@@ -49,8 +89,10 @@ export const BillingNotifications = ({ pricingData }: any) => {
           router.push("/billing/overview");
         }}
         ctaText="Subscribe"
+        onDismiss={handleDismiss}
         show={
           pricingData?.isRemind &&
+          !notificationDismissedToday &&
           ((pricingData?.day < 14 && !notificationBillingDays) ||
             (pricingData?.day >= 14 && !notificationBillingDaysExpired))
         }
