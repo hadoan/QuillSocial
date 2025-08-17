@@ -897,7 +897,7 @@ function SideBar({ bannersHeight, user, currentUser }: SideBarProps) {
   const publicPageUrl = "";
 
   return (
-    <div className="w-[200px] flex-shrink-0">
+    <div className="w-[200px] flex-shrink-0 hidden lg:block">
       <aside
         style={{
           maxHeight: `calc(100vh - ${bannersHeight || 0}px)`,
