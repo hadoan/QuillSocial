@@ -9,11 +9,12 @@ type CheckForAIAppsOptions = {
 };
 
 export const checkForAIApps = async ({ ctx }: CheckForAIAppsOptions) => {
-  const chatGptPresent = await prisma.credential.findFirst({
-    where: {
-      type: "chatgpt_ai",
-      userId: ctx.user.id,
-    },
-  });
-  return !!chatGptPresent;
+  // const chatGptPresent = await prisma.credential.findFirst({
+  //   where: {
+  //     type: "chatgpt_ai",
+  //     userId: ctx.user.id,
+  //   },
+  // });
+  // return !!chatGptPresent;
+  return true;
 };

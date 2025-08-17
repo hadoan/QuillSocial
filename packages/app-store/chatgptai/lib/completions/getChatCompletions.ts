@@ -1,6 +1,5 @@
+import { getEnvAppKeys } from "../getAppKeys";
 import OpenAI from "openai";
-
-import { getAppKeys } from "../getAppKeys";
 
 export const getChatCompletions = async (
   userId: number,
@@ -114,7 +113,8 @@ export const getRewriteCompletions = async (
 };
 
 const getOpenAIApi = async (userId: number) => {
-  const appKeys = await getAppKeys(userId);
+  const appKeys = getEnvAppKeys();
+  console.log("OpenAI API keys:", appKeys);
   const openai = new OpenAI({
     organization: appKeys?.organizationId,
     apiKey: appKeys?.apiKey,

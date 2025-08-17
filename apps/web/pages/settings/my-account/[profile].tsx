@@ -320,7 +320,7 @@ const ProfileView = () => {
         ) : slug === "app-integrations" ? (
           <>
             <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-              <div className="bg-default flex flex-col rounded-s p-6 shadow">
+              {/* <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">
                   <img
                     src="/logo/chatgpt-ai-logo.svg"
@@ -343,7 +343,7 @@ const ProfileView = () => {
                     allowedMultipleInstalls={false}
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">

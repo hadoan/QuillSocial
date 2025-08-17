@@ -124,34 +124,43 @@ function PostList() {
   };
 
   const sendProcessedPosts = async (newPost: any, tokens: any) => {
-    const response = await fetch(`/api/posts/saveContent`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: newPost, idea, tokens }),
-    });
-    if (response.ok) {
-      const responseData = await response.json();
-      if (responseData.lastRecords) {
-        const createdPosts: Post[] = responseData.lastRecords.map((x: any) => ({
-          ...x,
-          emailOrUserName:
-            x.credential?.emailOrUserName ||
-            user?.currentSocialProfile?.emailOrUserName ||
-            "-",
-          id: x.id,
-          avatarUrl: x.credential.avatarUrl,
-          name: x.credential.name,
-        }));
-        const updatedAllPosts = [...allPosts];
-        updatedAllPosts.unshift(...createdPosts);
-        setAllPosts(updatedAllPosts);
-        // setProcessedPosts((prevAllPosts) => [...createdPosts, ...prevAllPosts]);
+    try {
+      const response = await fetch(`/api/posts/saveContent`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: newPost, idea, tokens }),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        if (responseData.lastRecords) {
+          const createdPosts: Post[] = responseData.lastRecords.map((x: any) => ({
+            ...x,
+            emailOrUserName:
+              x.credential?.emailOrUserName ||
+              user?.currentSocialProfile?.emailOrUserName ||
+              "-",
+            id: x.id,
+            avatarUrl: x.credential.avatarUrl,
+            name: x.credential.name,
+          }));
+          const updatedAllPosts = [...allPosts];
+          updatedAllPosts.unshift(...createdPosts);
+          setAllPosts(updatedAllPosts);
+          // setProcessedPosts((prevAllPosts) => [...createdPosts, ...prevAllPosts]);
+        } else {
+          console.error("No data returned from the server");
+          showToast("No data returned from the server", "error");
+        }
       } else {
-        console.error("No data returned from the server");
+        const errorText = await response.text();
+        showToast(`Failed to save post: ${errorText}`, "error");
       }
+    } catch (err) {
+      showToast("An error occurred while saving the post.", "error");
+      console.error(err);
     }
   };
 

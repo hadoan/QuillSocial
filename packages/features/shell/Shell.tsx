@@ -761,13 +761,6 @@ function MobileNavigationContainer() {
   const sessionData = useSession();
   const { status, data: sessionUserData } = sessionData;
 
-  console.log("MobileNavigationContainer debug:", {
-    status,
-    shouldShowMobileNav: status === "authenticated",
-    sessionDataExists: !!sessionUserData,
-    fullSessionData: sessionData,
-  });
-
   if (status !== "authenticated") return null;
   return <MobileNavigation />;
 }
@@ -889,13 +882,6 @@ function SideBarContainer({
 }: SideBarContainerProps) {
   const { status } = useSession();
 
-  console.log("SideBarContainer debug:", {
-    status,
-    bannersHeight,
-    user,
-    currentUser,
-  });
-
   if (status !== "loading" && status !== "authenticated") return null;
   return (
     <SideBar
@@ -909,8 +895,6 @@ function SideBarContainer({
 function SideBar({ bannersHeight, user, currentUser }: SideBarProps) {
   const { t } = useLocale();
   const publicPageUrl = "";
-
-  console.log("SideBar debug:", { bannersHeight, user, currentUser });
 
   return (
     <div className="w-[200px] flex-shrink-0">
@@ -1072,13 +1056,6 @@ function MainContainer({
 function TopNavContainer() {
   const sessionData = useSession();
   const { status, data: sessionUserData } = sessionData;
-
-  console.log("TopNavContainer debug:", {
-    status,
-    shouldShowTopNav: status === "authenticated",
-    sessionDataExists: !!sessionUserData,
-    fullSessionData: sessionData,
-  });
 
   if (status !== "authenticated") return null;
   return <TopNav />;
