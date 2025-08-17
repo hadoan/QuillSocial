@@ -35,7 +35,7 @@ export default function XConsumerKeysSetup() {
             <h1 className="text-default">Config Consumer Key</h1>
 
             <div className="mt-1 text-sm">
-              Generate Consumer Key to use with QuillAI at
+              Generate Free Consumer Key to use with QuillAI at
               <a
                 className="text-indigo-400"
                 href="https://developer.twitter.com/en/portal/projects-and-apps"
@@ -95,18 +95,7 @@ export default function XConsumerKeysSetup() {
                     {...form.register("secret")}
                     label="API Key Secret"
                   />
-                  <TextField
-                    required
-                    type="text"
-                    {...form.register("secret")}
-                    label="API Key Secret"
-                  />
-                  <TextField
-                    required
-                    type="text"
-                    {...form.register("secret")}
-                    label="API Key Secret"
-                  />
+
                 </fieldset>
 
                 {errorMessage && (

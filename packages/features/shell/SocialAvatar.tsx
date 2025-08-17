@@ -29,11 +29,17 @@ const SocialAvatar: React.FC<SocialAvatarProps> = ({
       ? size
       : "mdLg";
   const imgClass = mappedSize === "sm" ? "ml-3 h-2 w-3" : "ml-8 h-4 w-4";
+
+  // Special handling for xconsumerkeys-social to use SVG logo as avatar
+  const displayAvatarUrl = appId === "xconsumerkeys-social"
+    ? `${WEBAPP_URL}/logo/xconsumerkeys-social-logo.svg`
+    : avatarUrl;
+
   return (
     <div className="relative flex items-center">
       <Avatar
         size={mappedSize}
-        imageSrc={avatarUrl || ""}
+        imageSrc={displayAvatarUrl || ""}
         alt={name || "Nameless User"}
         className="relative z-10 overflow-hidden"
       />

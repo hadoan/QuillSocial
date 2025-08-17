@@ -1,11 +1,8 @@
+import PageWrapper from "@components/PageWrapper";
+import InstallApp from "@components/apps/InstallApp";
+import TwoFactor from "@components/auth/TwoFactor";
+import { SelectSkeletonLoader } from "@components/common/SkeletonLoader";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import type { BaseSyntheticEvent } from "react";
-import { useRef, useState } from "react";
-import { Controller, useForm, useFormContext } from "react-hook-form";
-import { z } from "zod";
-
 import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
 import Shell from "@quillsocial/features/shell/Shell";
 import { FULL_NAME_LENGTH_MAX_LIMIT } from "@quillsocial/lib/constants";
@@ -45,11 +42,12 @@ import {
   TimezoneSelect,
 } from "@quillsocial/ui";
 import { AlertTriangle } from "@quillsocial/ui/components/icon";
-
-import PageWrapper from "@components/PageWrapper";
-import InstallApp from "@components/apps/InstallApp";
-import TwoFactor from "@components/auth/TwoFactor";
-import { SelectSkeletonLoader } from "@components/common/SkeletonLoader";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import type { BaseSyntheticEvent } from "react";
+import { useRef, useState } from "react";
+import { Controller, useForm, useFormContext } from "react-hook-form";
+import { z } from "zod";
 
 const SkeletonLoader = ({
   title,
@@ -345,15 +343,19 @@ const ProfileView = () => {
                 </div>
               </div> */}
 
-              {/* <div className="bg-default flex flex-col rounded-s p-6 shadow">
+              <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">
-                  <img src="/logo/x-social-logo.svg" className="rounded-lg"></img>
+                  <img
+                    src="/logo/x-social-logo.svg"
+                    className="rounded-lg"
+                  ></img>
                 </div>
                 <div className="mt-4 text-sm font-bold">X</div>
                 <div className="mb-4 flex-1 text-xs font-normal leading-6">
-                  X, formerly called Twitter, is an online social media and social networking service operated
-                  by the American company X Corp., the successor of Twitter, Inc. On X, registered users can
-                  post text, images and videos.
+                  X, formerly called Twitter, is an online social media and
+                  social networking service operated by the American company X
+                  Corp., the successor of Twitter, Inc. On X, registered users
+                  can post text, images and videos.
                 </div>
                 <div>
                   <InstallApp
@@ -363,7 +365,7 @@ const ProfileView = () => {
                     allowedMultipleInstalls={true}
                   />
                 </div>
-              </div> */}
+              </div>
 
               <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">

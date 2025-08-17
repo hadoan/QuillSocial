@@ -40,6 +40,7 @@ export const ModalAccount = ({
   });
   useEffect(() => {
     if (socialAccounts.data) {
+      console.log("socialAccounts.data", socialAccounts.data);
       setListAccount(socialAccounts.data);
     }
   }, [socialAccounts.data]);
@@ -85,36 +86,58 @@ export const ModalAccount = ({
     <>
       {showModal && (
         <AccessDialog open={showModal} onOpenChange={onClose}>
-          <DialogContent className="overflow-y-auto pb-[50px]">
+          <DialogContent className="overflow-y-auto pb-[50px] max-w-md w-full">
             <div className="flex flex-col">
               {listAccount &&
                 listAccount.length !== null &&
-                listAccount.map((account: any, index: number) => (
-                  <div
-                    key={`${account.id}_${account.pageId}`}
-                    id={`${account.id}_${account.pageId}`}
-                    onClick={() =>
-                      handleAccountClick(account.id, account.pageId)
-                    }
-                    className={` ${
-                      account.isUserCurrentProfile
-                        ? "bg-awst hover:bg-awst mt-5 flex min-h-[70px] items-center rounded-lg border px-3 text-white shadow"
-                        : "hover:bg-awst mt-5 flex min-h-[70px] items-center rounded-lg border bg-white px-3 shadow hover:text-white"
-                    }`}
-                  >
-                    <div className="relative flex items-center">
-                      <SocialAvatar
-                        size="mdLg"
-                        appId={account.appId}
-                        avatarUrl={account.avatarUrl}
-                      />
-                      <span className="ml-5 font-bold">{account.name}</span>
-                      {loadingMap[`${account.id}_${account.pageId}`] && (
-                        <span className="ml-2 h-6 w-6 animate-spin rounded-full border-4 border-t-4 border-gray-200 border-t-blue-500"></span>
+                listAccount.map((account: any, index: number) => {
+                  // Handle special case for API Keys
+                  let displayName = account.name;
+                  let displayAvatarUrl = account.avatarUrl;
+                  let isApiKeys = false;
+
+                  if (account.appId === "xconsumerkeys-social") {
+                    displayName = "API Keys";
+                    displayAvatarUrl = `/logo/xconsumerkeys-social-logo.svg`;
+                    isApiKeys = true;
+                  }
+
+                  return (
+                    <div
+                      key={`${account.id}_${account.pageId}`}
+                      id={`${account.id}_${account.pageId}`}
+                      onClick={() =>
+                        handleAccountClick(account.id, account.pageId)
+                      }
+                      className={`group mt-4 flex min-h-[80px] items-center rounded-xl border bg-white px-4 shadow-md transition-all duration-150 cursor-pointer hover:shadow-lg hover:bg-blue-50 active:scale-[0.98] ${
+                        account.isUserCurrentProfile
+                          ? "border-blue-500 ring-2 ring-blue-200"
+                          : "border-gray-200"
+                      } ${isApiKeys ? "bg-gray-50 border-dashed" : ""}`}
+                      style={{ position: "relative" }}
+                    >
+                      <div className="relative flex items-center w-full py-3">
+                        <SocialAvatar
+                          size="mdLg"
+                          appId={account.appId}
+                          avatarUrl={displayAvatarUrl}
+                        />
+                        <span className={`ml-5 font-bold text-lg flex items-center ${isApiKeys ? "text-gray-700" : ""}`}>
+                          {displayName}
+                          {isApiKeys && (
+                            <span className="ml-2 rounded bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600 border border-gray-300">API</span>
+                          )}
+                        </span>
+                        {loadingMap[`${account.id}_${account.pageId}`] && (
+                          <span className="ml-2 h-6 w-6 animate-spin rounded-full border-4 border-t-4 border-gray-200 border-t-blue-500"></span>
+                        )}
+                      </div>
+                      {index < listAccount.length - 1 && (
+                        <div className="absolute bottom-0 left-4 right-4 h-px bg-gray-200" />
                       )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               {/* <div className="hover:bg-awst mt-5 flex min-h-[70px] cursor-pointer items-center justify-center rounded-lg border  bg-white text-center shadow hover:text-white">
                   <span
                     className="my-auto text-center font-bold"
@@ -125,9 +148,9 @@ export const ModalAccount = ({
                     Add New Twitter Account
                   </span>
                 </div> */}
-              <div className="hover:bg-awst mt-5 flex min-h-[70px] cursor-pointer items-center justify-center rounded-lg border  bg-white text-center shadow hover:text-white">
+              <div className="mt-6 flex min-h-[60px] cursor-pointer items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-center shadow-sm transition-all hover:bg-blue-100">
                 <span
-                  className="my-auto text-center font-bold"
+                  className="my-auto text-center font-bold text-lg text-blue-700"
                   onClick={() => {
                     handleAddNewAccount(
                       "linkedin_social",
@@ -136,8 +159,7 @@ export const ModalAccount = ({
                     );
                   }}
                 >
-                  {" "}
-                  Add New LinkedIn Account
+                  + Add New LinkedIn Account
                 </span>
               </div>
             </div>
