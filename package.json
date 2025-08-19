@@ -5,7 +5,6 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "packages/embeds/*",
     "packages/features/*",
     "packages/app-store/*"
   ],

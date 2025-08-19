@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { getConditionToUpgrade } from "@quillsocial/features/payments/getConditionToUpgrade";
-import { BillingType } from "@quillsocial/prisma/client";
+import { BillingType } from "@quillsocial/prisma/enums";
+
 import { trpc } from "@quillsocial/trpc/react";
 import {
   Dialog as AccessDialog,

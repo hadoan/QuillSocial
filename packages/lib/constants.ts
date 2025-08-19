@@ -1,11 +1,11 @@
 export const WEBAPP_URL =
-  process.env.NEXT_PUBLIC_WEBAPP_URL || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_WEBAPP_URL || "https://app.quillsocial.com";
 /** @deprecated use `WEBAPP_URL` */
 export const BASE_URL = WEBAPP_URL;
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "QuillAI";
 export const SUPPORT_MAIL_ADDRESS =
-  process.env.NEXT_PUBLIC_SUPPORT_MAIL_ADDRESS || "help@quillsocial.co";
+  process.env.NEXT_PUBLIC_SUPPORT_MAIL_ADDRESS || "help@quillsocial.com";
 export const COMPANY_NAME =
   process.env.NEXT_PUBLIC_COMPANY_NAME || "QuillAI, Inc.";
 export const SENDER_ID = process.env.NEXT_PUBLIC_SENDER_ID || "QuillAI";

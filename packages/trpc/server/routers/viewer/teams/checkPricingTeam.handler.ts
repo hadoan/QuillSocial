@@ -3,7 +3,8 @@ import { prisma } from "@quillsocial/prisma";
 import { TrpcSessionUser } from "../../../trpc";
 import { getReminderType, getDayTrial } from "../payments/remdinder-type";
 import { getFirstOrCreateOrgOfUserHandler } from "./getFirstOrCreateOrgOfUser.handler";
-import { BillingType } from ".prisma/client";
+import { BillingType } from "@quillsocial/prisma/enums";
+
 
 type GetPricingTeamOptions = {
   ctx: {

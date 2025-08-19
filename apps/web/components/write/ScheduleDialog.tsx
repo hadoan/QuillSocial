@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import { checkUserToUsePlug } from "@quillsocial/features/shell/SocialAvatar";
-import { BillingType } from "@quillsocial/prisma/client";
+import { BillingType } from "@quillsocial/prisma/enums";
 import { trpc } from "@quillsocial/trpc/react";
 import {
   Dialog,

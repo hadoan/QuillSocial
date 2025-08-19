@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from "react";
 
 import dayjs from "@quillsocial/dayjs";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { BillingType } from "@quillsocial/prisma/client";
+import { BillingType } from "@quillsocial/prisma/enums";
 import { trpc } from "@quillsocial/trpc/react";
 import { Post } from "@quillsocial/types/Posts";
 import { Button, TextAreaField } from "@quillsocial/ui";

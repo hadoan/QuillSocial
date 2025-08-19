@@ -1,4 +1,4 @@
-import type { ResetPasswordRequest } from "@prisma/client";
+import type { ResetPasswordRequest } from "@quillsocial/prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 

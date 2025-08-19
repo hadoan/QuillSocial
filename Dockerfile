@@ -7,19 +7,25 @@ WORKDIR /quillsocial
 # Corepack (Yarn) already bundled with Node 18; pin Yarn version
 RUN corepack enable && corepack prepare yarn@3.4.1 --activate
 
-# Copy only manifest files first for better layer caching
+# Copy only package.json files first for better layer caching
 COPY package.json yarn.lock .yarnrc.yml turbo.json ./
 COPY .yarn ./.yarn
-COPY apps/web/package.json apps/web/
-COPY packages ./packages
+
+# Copy workspace packages (needed for local dependencies)
+COPY packages/ packages/
+
+# Copy only package.json files from apps (not source code yet)
+COPY apps/web/package.json apps/web/package.json
+
 ## Copy environment files only for build-time (NOT copied to final image)
 COPY .env.production ./.env.production
-COPY .env.development ./.env.development
 
-# (Optional) ensure prisma package manifest present for generate
-
+# Install dependencies with lockfile-only for faster builds
 ENV YARN_ENABLE_IMMUTABLE_INSTALLS=true
-RUN yarn install --immutable
+RUN yarn install --immutable --inline-builds
+
+# Generate Prisma client in deps stage
+RUN cd packages/prisma && npx prisma generate --generator client
 
 ###########################
 # Stage 2: builder
@@ -38,21 +44,19 @@ COPY --from=deps /quillsocial/yarn.lock ./
 COPY --from=deps /quillsocial/node_modules ./node_modules
 COPY --from=deps /quillsocial/package.json ./
 COPY --from=deps /quillsocial/turbo.json ./
-COPY --from=deps /quillsocial/packages ./packages
-COPY --from=deps /quillsocial/apps/web/package.json ./apps/web/
 
-# Copy the rest of source (pages, components, etc.)
+# Copy package.json files
+COPY --from=deps /quillsocial/apps/web/package.json ./apps/web/package.json
+COPY --from=deps /quillsocial/packages ./packages
+
+# Copy source code
 COPY apps/web ./apps/web
+
 ## Provide env file only for build stage (not copied to final runtime)
 COPY --from=deps /quillsocial/.env.production ./.env.production
 
-# Generate Prisma Client before build (needed for TS types like BillingType)
-RUN yarn workspace @quillsocial/prisma prisma generate
-
-# Build only the web app (will invoke next build). We rely on copied .env.production
-# (NODE_ENV=production set earlier) so next.config.js can read required secrets.
-# No secrets are baked into final runtime image: runner stage does NOT copy .env.* files.
-RUN yarn workspace @quillsocial/web build
+# Build only the web app with turbo for better caching
+RUN yarn turbo run build --filter=@quillsocial/web
 
 
 ###########################
