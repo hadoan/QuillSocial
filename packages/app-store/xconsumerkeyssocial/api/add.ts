@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { apiKey, secret } = req.body;
+    const { apiKey, secret, accessToken, accessSecret } = req.body;
     // Get user
     const user = await prisma.user.findFirstOrThrow({
       where: {
@@ -25,7 +25,7 @@ export default async function handler(
     const data = {
       type: "xconsumerkeys_social",
       key: symmetricEncrypt(
-        JSON.stringify({ apiKey, secret }),
+        JSON.stringify({ apiKey, secret, accessToken, accessSecret }),
         process.env.MY_APP_ENCRYPTION_KEY || ""
       ),
       userId: user.id,

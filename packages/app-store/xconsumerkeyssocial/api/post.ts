@@ -18,15 +18,15 @@ export default async function handler(
     const idQuery = req.query.id;
     if (idQuery && +idQuery > 0) {
       const id = +idQuery;
-      const isSuccess = await post(id);
-      if (isSuccess) {
+      const result = await post(id);
+      if (result.success) {
         res.status(200).json({ success: true });
       } else {
         res
           .status(400)
           .json({
             success: false,
-            error: "Posting failed. Make sure you have an X Social account connected for user authentication, as consumer keys alone cannot post tweets."
+            error: result.error || "Posting failed. Please ensure you have provided all required credentials: Consumer Key, Consumer Secret, Access Token, and Access Token Secret. If you've only added Consumer Keys, please update your X Consumer Keys integration to include Access Tokens."
           });
       }
     } else {

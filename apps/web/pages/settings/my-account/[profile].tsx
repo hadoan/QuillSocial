@@ -362,7 +362,7 @@ const ProfileView = () => {
                     type="xconsumerkeys_social"
                     slug="xconsumerkeys-social"
                     variant="social"
-                    allowedMultipleInstalls={true}
+                    allowedMultipleInstalls={false}
                   />
                 </div>
               </div>
