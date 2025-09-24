@@ -86,46 +86,10 @@ async function createTeamAndAddUsers(
 }
 
 async function main() {
-  await createUser({
-    user: {
-      email: "onboarding@example.com",
-      password: "onboarding",
-      username: "onboarding",
-      name: "onboarding",
-      completedOnboarding: false,
-    },
-  });
 
   await createUser({
     user: {
-      email: "test@example.com",
-      name: "Test Example",
-      password: "test",
-      username: "test",
-    },
-  });
-
-  await createUser({
-    user: {
-      email: "trial@example.com",
-      password: "trial",
-      username: "trial",
-      name: "Trial Example",
-    },
-  });
-
-  await createUser({
-    user: {
-      email: "free@example.com",
-      password: "free",
-      username: "free",
-      name: "Free Example",
-    },
-  });
-
-  await createUser({
-    user: {
-      email: "admin@example.com",
+      email: "admin@quillsocial.com",
       /** To comply with admin password requirements  */
       password: "ADMIN@@admin25!",
       username: "admin",
