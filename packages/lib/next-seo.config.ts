@@ -46,7 +46,7 @@ export const seoConfig: {
 
 /**
  * This function builds a canonical URL from a given host and path omitting the query params. Note: on homepage it omits the trailing slash
- * @param origin The protocol + host, e.g. `https://quillsocial.co` or `https://app.quillsocial.co`
+ * @param origin The protocol + host, e.g. `https://quillsocial.com` or `https://app.quillsocial.com`
  * @param path NextJS' useRouter().asPath
  * @returns
  */

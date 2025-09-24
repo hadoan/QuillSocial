@@ -100,7 +100,7 @@ export const TeamInviteEmail = (
           })}
         </>
       </p>
-      {/* 
+      {/*
       {!props.isAccessMember && (
         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
           <EmailStep
@@ -167,7 +167,7 @@ export const TeamInviteEmail = (
           <>
             {props.language("have_any_questions")}{" "}
             <a
-              href="mailto:hi@quillsocial.co"
+              href="mailto:hi@quillsocial.com"
               style={{ color: "#3E3E3E" }}
               target="_blank"
               rel="noreferrer"

@@ -13,7 +13,7 @@ export const SENDER_NAME =
   process.env.NEXT_PUBLIC_SENDGRID_SENDER_NAME || "QuillAI";
 
 // This is the URL from which all Quill Links and their assets are served.
-// Use website URL to make links shorter(quillsocial.co and not app.quillsocial.co)
+// Use website URL to make links shorter(quillsocial.com and not app.quillsocial.com)
 // As website isn't setup for preview environments, use the webapp url instead
 export const MY_APP_URL = WEBAPP_URL;
 
@@ -30,12 +30,12 @@ export const APPLE_TOUCH_ICON = "/apple-touch-icon.png";
 export const MSTILE_ICON = "/mstile-150x150.png";
 export const ANDROID_CHROME_ICON_192 = "/android-chrome-192x192.png";
 export const ANDROID_CHROME_ICON_256 = "/android-chrome-256x256.png";
-export const ROADMAP = "https://quillsocial.co/roadmap";
-export const DESKTOP_APP_LINK = "https://quillsocial.co/download";
-export const JOIN_SLACK = "https://quillsocial.co/slack";
+export const ROADMAP = "https://quillsocial.com/roadmap";
+export const DESKTOP_APP_LINK = "https://quillsocial.com/download";
+export const JOIN_SLACK = "https://quillsocial.com/slack";
 export const POWERED_BY_URL = `${WEBAPP_URL}/?utm_source=embed&utm_medium=powered-by-button`;
-export const DOCS_URL = "https://quillsocial.co/docs";
-export const DEVELOPER_DOCS = "https://developer.quillsocial.co";
+export const DOCS_URL = "https://quillsocial.com/docs";
+export const DEVELOPER_DOCS = "https://developer.quillsocial.com";
 export const SEO_IMG_DEFAULT = `${WEBAPP_URL}/og-image.png`;
 export const SEO_IMG_OGIMG = `${MY_APP_URL}/_next/image?w=1200&q=100&url=${encodeURIComponent(
   "/api/social/og/image"
@@ -102,6 +102,6 @@ export const TIKTOK_CLIENT_ID = process.env.TIKTOK_CLIENT_ID;
 export const TIKTOK_CLIENT_SECRET = process.env.TIKTOK_CLIENT_SECRET;
 export const TWITTER_APP_ID = "twitterv1-social";
 export const IS_SELF_HOSTED = !(
-  new URL(WEBAPP_URL).hostname.endsWith(".app.quillsocial.co") ||
-  new URL(WEBAPP_URL).hostname.endsWith(".quillsocial.co")
+  new URL(WEBAPP_URL).hostname.endsWith(".app.quillsocial.com") ||
+  new URL(WEBAPP_URL).hostname.endsWith(".quillsocial.com")
 );

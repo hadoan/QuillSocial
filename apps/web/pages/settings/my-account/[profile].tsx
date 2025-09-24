@@ -145,7 +145,7 @@ const ProfileView = () => {
     showToast(t("Your account was deleted"), "success");
 
     setHasDeleteErrors(false); // dismiss any open errors
-    if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.quillsocial.co") {
+    if (process.env.NEXT_PUBLIC_WEBAPP_URL === "https://app.quillsocial.com") {
       signOut({ callbackUrl: "/auth/logout?survey=true" });
     } else {
       signOut({ callbackUrl: "/auth/logout" });

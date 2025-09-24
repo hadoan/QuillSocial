@@ -118,8 +118,8 @@ const MyAppThemeProvider = (props: MyAppThemeProps) => {
  * So, we handle all the cases here namely,
  * - Both Booking Pages, /free/30min and /pro/30min but configured with different themes but being operated together.
  * - Embeds using different namespace. They can be completely themed different on the same page.
- * - Embeds using the same namespace but showing different quillsocial.co links with different themes
- * - Embeds using the same namespace and showing same quillsocial.co links with different themes(Different theme is possible for same quillsocial.co link in case of embed because of theme config available in embed)
+ * - Embeds using the same namespace but showing different quillsocial.com links with different themes
+ * - Embeds using the same namespace and showing same quillsocial.com links with different themes(Different theme is possible for same quillsocial.com link in case of embed because of theme config available in embed)
  * - App has different theme then Booking Pages.
  *
  * All the above cases have one thing in common, which is the origin and thus localStorage is shared and thus `storageKey` is critical to avoid theme flickering.

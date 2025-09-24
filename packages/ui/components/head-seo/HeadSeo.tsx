@@ -90,17 +90,17 @@ export const HeadSeo = (props: HeadSeoProps): JSX.Element => {
 
   // Get the current URL from the window object
   const { url } = getBrowserInfo();
-  // Check if the URL is from quillsocial.co
+  // Check if the URL is from quillsocial.com
   const isCalcom =
     url &&
-    (new URL(url).hostname.endsWith("quillsocial.co") ||
-      new URL(url).hostname.endsWith("app.quillsocial.co"));
+    (new URL(url).hostname.endsWith("quillsocial.com") ||
+      new URL(url).hostname.endsWith("app.quillsocial.com"));
   // Get the router's path
   const path = useRouter().asPath;
-  const selfHostedOrigin = WEBAPP_URL || "https://quillsocial.co";
-  // Set the default URL to either the current URL (if self-hosted) or https://quillsocial.co canonical URL
+  const selfHostedOrigin = WEBAPP_URL || "https://quillsocial.com";
+  // Set the default URL to either the current URL (if self-hosted) or https://quillsocial.com canonical URL
   const defaultUrl = isCalcom
-    ? buildCanonical({ path, origin: "https://quillsocial.co" })
+    ? buildCanonical({ path, origin: "https://quillsocial.com" })
     : buildCanonical({ path, origin: selfHostedOrigin });
 
   const {

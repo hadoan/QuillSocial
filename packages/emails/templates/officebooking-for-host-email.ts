@@ -24,9 +24,9 @@ export default class forHostEmail extends BaseEmail {
       subject: `Guest Arrival:  ${this.forHost.username} at ${this.forHost.location}`,
       html: `Hi ${this.forHost.username}, <br>
       Your guest ${this.forHost.guestname} has just checked in at location ${this.forHost.location}
-      <br><br>Thank you! 
+      <br><br>Thank you!
       <br>
-      Powered by <a  href="https://quillsocial.co" target="_blank">QuillAI</a>
+      Powered by <a  href="https://quillsocial.com" target="_blank">QuillAI</a>
       `,
       text: "",
     };

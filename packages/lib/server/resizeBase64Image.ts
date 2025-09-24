@@ -21,7 +21,7 @@ export async function resizeBase64Image(
   );
 
   const {
-    // 96px is the height of the image on https://quillsocial.co/peer
+    // 96px is the height of the image on https://quillsocial.com/peer
     maxSize = 96 * 4,
   } = opts ?? {};
   const image = await jimp.read(buffer);

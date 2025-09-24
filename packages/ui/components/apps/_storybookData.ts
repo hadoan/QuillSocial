@@ -13,8 +13,8 @@ export const _SBApps: App[] = [
     logo: "/api/app-store/googlecalendar/icon.svg",
     publisher: "Ha Doan",
     slug: "google-calendar",
-    url: "https://quillsocial.co/",
-    email: "help@quillsocial.co",
+    url: "https://quillsocial.com/",
+    email: "help@quillsocial.com",
     dirName: "googlecalendar",
   },
   {
@@ -29,7 +29,7 @@ export const _SBApps: App[] = [
     category: "video",
     slug: "zoom",
     title: "Zoom Video",
-    email: "help@quillsocial.co",
+    email: "help@quillsocial.com",
     appData: {
       location: {
         default: false,

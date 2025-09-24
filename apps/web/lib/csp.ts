@@ -13,7 +13,7 @@ function getCspPolicy(nonce: string) {
   // Maybe see how @next-safe/middleware does it if it's supported.
   const useNonStrictPolicy = CSP_POLICY === "non-strict";
 
-  // We add WEBAPP_URL to img-src because of booking pages, which end up loading images from app.quillsocial.co on quillsocial.co
+  // We add WEBAPP_URL to img-src because of booking pages, which end up loading images from app.quillsocial.com on quillsocial.com
   // FIXME: Write a layer to extract out EventType Analytics tracking endpoints and add them to img-src or connect-src as needed. e.g. fathom, Google Analytics and others
   return `
 	  default-src 'self' ${IS_PRODUCTION ? "" : "data:"};
@@ -26,14 +26,14 @@ function getCspPolicy(nonce: string) {
     };
     object-src 'none';
     base-uri 'none';
-	  child-src app.quillsocial.co;
+	  child-src app.quillsocial.com;
 	  style-src 'self' ${
       IS_PRODUCTION
         ? useNonStrictPolicy
           ? "'unsafe-inline'"
           : ""
         : "'unsafe-inline'"
-    } app.quillsocial.co;
+    } app.quillsocial.com;
 	  font-src 'self';
 	  img-src 'self' ${WEBAPP_URL} https://www.gravatar.com https://img.youtube.com https://eu.ui-avatars.com/api/ data:;
     connect-src 'self'

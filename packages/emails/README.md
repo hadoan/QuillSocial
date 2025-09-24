@@ -13,7 +13,7 @@ renderEmail("TeamInviteEmail", */{
   from: "teampro@example.com",
   to: "pro@example.com",
   teamName: "Team Pro",
-  joinLink: "https://quillsocial.co",
+  joinLink: "https://quillsocial.com",
 });
 ```
 

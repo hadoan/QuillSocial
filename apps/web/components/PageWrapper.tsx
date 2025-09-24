@@ -68,9 +68,9 @@ function PageWrapper(props: AppProps) {
         />
       </Head>
       <DefaultSeo
-        // Set canonical to https://quillsocial.co or self-hosted URL
+        // Set canonical to https://quillsocial.com or self-hosted URL
         canonical={
-          buildCanonical({ path, origin: "https://quillsocial.co" }) // quillsocial.co & .dev
+          buildCanonical({ path, origin: "https://quillsocial.com" }) // quillsocial.com & .dev
         }
         {...seoConfig.defaultNextSeo}
       />

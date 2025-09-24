@@ -11,7 +11,7 @@ export function getRequestedSlugError(error: unknown, requestedSlug: string) {
     error.code === "P2002"
   ) {
     statusCode = 400;
-    message = `It seems like the requestedSlug: '${requestedSlug}' is already taken. Please contact support at help@quillsocial.co so we can resolve this issue.`;
+    message = `It seems like the requestedSlug: '${requestedSlug}' is already taken. Please contact support at help@quillsocial.com so we can resolve this issue.`;
   } else if (error instanceof Error) {
     message = error.message;
   }

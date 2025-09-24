@@ -36,7 +36,7 @@ export const testTriggerHandler = async ({
     ],
     organizer: {
       name: "Quill",
-      email: "no-reply@quillsocial.co",
+      email: "no-reply@quillsocial.com",
       timeZone: "Europe/London",
       language,
     },

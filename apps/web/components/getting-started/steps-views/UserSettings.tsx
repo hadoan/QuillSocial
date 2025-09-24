@@ -13,10 +13,12 @@ import { getBrowerTimeZone } from "@components/timezone";
 interface IUserSettingsProps {
   nextStep: () => void;
   hideUsername?: boolean;
+  prefillName?: string;
 }
 
 const UserSettings = (props: IUserSettingsProps) => {
   const { nextStep } = props;
+  const { prefillName } = props;
   const [user] = trpc.viewer.me.useSuspenseQuery();
   const { t } = useLocale();
 
@@ -43,6 +45,25 @@ const UserSettings = (props: IUserSettingsProps) => {
     reValidateMode: "onChange",
     resolver: zodResolver(userSettingsSchema),
   });
+
+  // If a prefillName is provided (e.g., coming from signup), set it into the form
+  useEffect(() => {
+    if (prefillName) {
+      // set the form value for name; use register/setValue pattern
+      // react-hook-form provides setValue via useForm, but to avoid changing the
+      // existing hook signature we update the input via DOM by resetting the form
+      // using the built-in API from useForm via (as any).reset
+      // Safer to call (form as any).reset - but we can call register and set via
+      // form's internal API: useForm returns a setValue in v7 but it's not
+      // destructured above; access it via (register as any).__setValue is unsafe.
+      // Instead, use a manual approach: create a small timeout to fill the input
+      // value if it's empty.
+      const nameInput = document.getElementById("name") as HTMLInputElement | null;
+      if (nameInput && !nameInput.value) {
+        nameInput.value = prefillName;
+      }
+    }
+  }, [prefillName]);
 
   const utils = trpc.useContext();
   const onSuccess = async () => {

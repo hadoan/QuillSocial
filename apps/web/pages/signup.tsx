@@ -202,7 +202,7 @@ export default function Signup({ prepopulateFormValues, token }: SignupProps) {
                   color="secondary"
                   className="w-full justify-center"
                   onClick={() =>
-                    signIn("quillsocial.co", {
+                    signIn("quillsocial.com", {
                       callbackUrl: searchParams?.get("callbackUrl")
                         ? `${WEBAPP_URL}/${searchParams.get("callbackUrl")}`
                         : `${WEBAPP_URL}/write/0`,

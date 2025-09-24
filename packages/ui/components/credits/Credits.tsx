@@ -18,7 +18,7 @@ export default function Credits() {
     <small className="text-default mx-3 mb-2 mt-1 hidden text-[0.5rem] opacity-50 lg:block">
       &copy; {new Date().getFullYear()}{" "}
       <Link
-        href="https://go.quillsocial.co/credits"
+        href="https://go.quillsocial.com/credits"
         target="_blank"
         className="hover:underline"
       >
@@ -26,7 +26,7 @@ export default function Credits() {
       </Link>{" "}
       {hasMounted && (
         <Link
-          href="https://go.quillsocial.co/releases"
+          href="https://go.quillsocial.com/releases"
           target="_blank"
           className="hover:underline"
         >

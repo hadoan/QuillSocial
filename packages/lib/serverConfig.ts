@@ -21,9 +21,12 @@ function detectTransport():
       },
       secure: port === 465,
       tls: {
-        rejectUnauthorized: isENVDev ? false : true,
+        rejectUnauthorized: true,
       },
     };
+    console.log(
+      `Using SMTP email transport (host: ${transport.host}, port: ${transport.port}, secure: ${transport.secure})`
+    );
 
     return transport;
   }

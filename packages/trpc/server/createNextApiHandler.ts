@@ -63,7 +63,7 @@ export function createNextApiHandler(router: AnyRouter, isPublic = false) {
         const cacheRules = {
           session: `no-cache`,
           i18n: `no-cache`,
-          // Revalidation time here should be 1 second, per https://github.com/quillsocial/quillsocial.co/pull/6823#issuecomment-1423215321
+          // Revalidation time here should be 1 second, per https://github.com/quillsocial/quillsocial.com/pull/6823#issuecomment-1423215321
           "slots.getSchedule": `no-cache`, // FIXME
           cityTimezones: `max-age=${ONE_DAY_IN_SECONDS}, stale-while-revalidate`,
         } as const;

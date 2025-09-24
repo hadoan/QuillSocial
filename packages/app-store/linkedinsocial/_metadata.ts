@@ -14,8 +14,8 @@ export const metadata = {
   logo: "icon.svg",
   publisher: "Ha Doan",
   slug: "linkedin-social",
-  url: "https://quillsocial.co/",
-  email: "help@quillsocial.co",
+  url: "https://quillsocial.com/",
+  email: "help@quillsocial.com",
   dirName: "linkedinsocial",
 } as AppMeta;
 

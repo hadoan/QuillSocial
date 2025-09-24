@@ -106,7 +106,7 @@ export const OrgAutoInviteEmail = (
           <>
             {props.language("have_any_questions")}{" "}
             <a
-              href="mailto:support@quillsocial.co"
+              href="mailto:support@quillsocial.com"
               style={{ color: "#3E3E3E" }}
               target="_blank"
               rel="noreferrer"

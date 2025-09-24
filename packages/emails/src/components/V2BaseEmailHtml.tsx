@@ -230,7 +230,7 @@ export const V2BaseEmailHtml = (props: {
           Powered by{" "}
           <a
             className="text-awst"
-            href="https://quillsocial.co"
+            href="https://quillsocial.com"
             target="_blank"
           >
             QuillAI

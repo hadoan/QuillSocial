@@ -238,10 +238,10 @@ export const BaseEmailHtml = (props: {
           Powered by{" "}
           <a
             className="text-awst"
-            href="https://quillsocial.co"
+            href="https://quillsocial.com"
             target="_blank"
           >
-            QuillAI
+            QuillSocial.com
           </a>
         </div>
       </body>

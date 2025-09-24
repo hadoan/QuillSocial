@@ -23,10 +23,10 @@ export default class ForguestEmail extends BaseEmail {
       from: `${APP_NAME} <${this.getMailerOptions().from}>`,
       to: `${this.forguest.email}`,
       subject: `Thanks ${this.forguest.username} for checking in at ${this.forguest.location}!`,
-      html: `Hi ${this.forguest.username}, <br> 
-      We have notified your host ${this.forguest.hostname} 
-      for your check-in. Please standby. <br><br>Thank you! 
-      <br>Powered by <a  href="https://quillsocial.co" target="_blank">QuillAI</a>
+      html: `Hi ${this.forguest.username}, <br>
+      We have notified your host ${this.forguest.hostname}
+      for your check-in. Please standby. <br><br>Thank you!
+      <br>Powered by <a  href="https://quillsocial.com" target="_blank">QuillAI</a>
       `,
       text: "",
     };
