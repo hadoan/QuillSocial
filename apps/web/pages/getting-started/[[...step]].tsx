@@ -123,7 +123,7 @@ const OnboardingPage = () => {
                   <UserSettings
                     nextStep={() => goToIndex(1)}
                     hideUsername={from === "signup"}
-                    prefillName={from === "signup" ? user?.name : undefined}
+                    prefillName={from === "signup" ? (user?.name ?? undefined) : undefined}
                   />
                 )}
                 {/* {currentStep === "connected-apps" && <ConnectedCalendars nextStep={() => goToIndex(3)} />}*/}
