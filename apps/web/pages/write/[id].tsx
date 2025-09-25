@@ -107,6 +107,7 @@ const WritePage = () => {
   const { data: user } = useMeQuery();
   const [fileInfo, setFileInfo] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPublishLoading, setIsPublishLoading] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
 
   const { isLoading: ischeckForAIAppsLoading, data: isAIPresent } =
@@ -348,17 +349,28 @@ const WritePage = () => {
   };
 
   const handlePostNow = async (pluginData?: PluginType) => {
-    const result = await saveDraft();
-    if (result) {
-      if (user?.id)
+    try {
+      setIsPublishLoading(true);
+      setIsModalPostNow(false); // Close the dialog first
+
+      const result = await saveDraft();
+      if (!result) {
+        showToast("Failed to save draft before publishing", "error");
+        return;
+      }
+
+      if (user?.id) {
         TrackEventJuneSo({
           id: user?.id.toString(),
           event: EVENTS.PUBLIC_POST,
         });
-      let urlSocial = user?.currentSocialProfile.appId.replace(/-/g, "");
+      }
+
+      let urlSocial = user?.currentSocialProfile?.appId?.replace(/-/g, "");
       if (urlSocial === "xsocial") {
         urlSocial = "twitterv1social";
       }
+
       const response = await fetch(
         `/api/integrations/${urlSocial}/post?id=${result.id}`,
         {
@@ -368,16 +380,31 @@ const WritePage = () => {
           },
         }
       );
+
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const errorMessage = await response.json();
-        showToast(`${errorMessage.message}`, "error");
+        // Handle different error response formats from different social platforms
+        const errorMessage = responseData?.message || responseData?.error || "Failed to publish post";
+        showToast(`Publishing failed: ${errorMessage}`, "error");
       } else {
-        if (pluginData) {
-          savePluginData(result.id, pluginData);
+        // Check for success response format (some APIs return success: false even with 200 status)
+        if (responseData?.success === false) {
+          const errorMessage = responseData?.error || responseData?.message || "Failed to publish post";
+          showToast(`Publishing failed: ${errorMessage}`, "error");
+        } else {
+          if (pluginData) {
+            await savePluginData(result.id, pluginData);
+          }
+          showToast("Post has been published successfully!", "success");
+          router.push("/my-content/posted");
         }
-        showToast("Post has been publish", "success");
-        router.push("/my-content/posted");
       }
+    } catch (error) {
+      console.error("Error publishing post:", error);
+      showToast("An unexpected error occurred while publishing", "error");
+    } finally {
+      setIsPublishLoading(false);
     }
   };
 
@@ -391,16 +418,24 @@ const WritePage = () => {
   };
 
   async function savePluginData(id: string, pluginData: PluginType) {
-    const response = await fetch(`/api/posts/savePlugin`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, plugin: pluginData }),
-    });
-    if (!response.ok) {
-      console.error("Error saving plugin data:", response.statusText);
+    try {
+      const response = await fetch(`/api/posts/savePlugin`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, plugin: pluginData }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error saving plugin data:", errorData?.message || response.statusText);
+        showToast("Failed to save plugin data", "error");
+      }
+    } catch (error) {
+      console.error("Error saving plugin data:", error);
+      showToast("Failed to save plugin data", "error");
     }
   }
   const currentUser = useCurrentUserAccount();
@@ -410,6 +445,11 @@ const WritePage = () => {
   const [showNoAccountDialog, setShowNoAccountDialog] = useState(false);
 
   const handleCheckPublishPost = () => {
+    // Don't allow publishing if already in progress
+    if (isPublishLoading) {
+      return;
+    }
+
     // Check if there's a Twitter/X credential selected
     const currentSocialAccount = socialAccountsQuery.data?.find(
       (account) => account.isUserCurrentProfile
@@ -443,6 +483,22 @@ const WritePage = () => {
   return (
     <>
       {isLoading && <LoadingDialog open={isLoading}></LoadingDialog>}
+
+      {/* Publish Loading Dialog */}
+      <Dialog open={isPublishLoading}>
+        <DialogContent className="w-full max-w-md">
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+            <div className="text-center">
+              <h3 className="mb-2 text-lg font-semibold">Publishing Post</h3>
+              <p className="text-sm text-gray-600">
+                Please wait while we publish your post to social media...
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <HeadSeo title={t("Posts")} description={""} />
       <Shell withoutSeo heading={`Write Post`} subtitle="Here are your Posts">
         <div className="">
@@ -674,9 +730,10 @@ const WritePage = () => {
                   </Button>
                   <Button
                     onClick={() => handleCheckPublishPost()}
-                    className="rounded-2xl text-[12px] hover:text-white sm:text-sm"
+                    disabled={isPublishLoading}
+                    className="rounded-2xl text-[12px] hover:text-white sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Publish
+                    {isPublishLoading ? "Publishing..." : "Publish"}
                   </Button>
                 </div>
               </div>
@@ -841,7 +898,7 @@ const WritePage = () => {
                     characterCount={twitterCharacterCount}
                     onProceed={() => {
                       setShowTwitterDialog(false);
-                      setIsModalPostNow(true);
+                      handlePostNow(); // Call handlePostNow directly instead of opening PostNowDialog
                     }}
                   />
                 </div>

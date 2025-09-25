@@ -27,12 +27,21 @@ export const CustomInstructionDialog: React.FC<
   const [titleModal, setTitleModal] = useState("");
   const [customInstruction, setCustomInstruction] = useState("");
   const [post, setPost] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSettitleModal = async (title: string) => {
-    const post = await writeCustomInstruction(customInstruction);
-    setPost(post);
-    setTitleModal(title);
-    setModalWriteAi(true);
-    onClose();
+    try {
+      setIsLoading(true);
+      const post = await writeCustomInstruction(customInstruction);
+      setPost(post);
+      setTitleModal(title);
+      setModalWriteAi(true);
+      onClose();
+    } catch (error) {
+      console.error("Error generating content:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleEditorChange = (e: any) => {
@@ -61,6 +70,7 @@ export const CustomInstructionDialog: React.FC<
                 rows={6}
                 value={customInstruction}
                 onChange={handleEditorChange}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -69,15 +79,32 @@ export const CustomInstructionDialog: React.FC<
               <div className="ml-auto space-x-2">
                 <button
                   onClick={() => handleSettitleModal("Improve Structure")}
-                  className="bg-awst rounded-xl border px-4 py-2 text-sm text-white hover:bg-opacity-50"
+                  disabled={isLoading || !customInstruction.trim()}
+                  className="bg-awst rounded-xl border px-4 py-2 text-sm text-white hover:bg-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Go Ahead
+                  {isLoading ? "Processing..." : "Go Ahead"}
                 </button>
               </div>
             </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Loading Dialog */}
+      <Dialog open={isLoading}>
+        <DialogContent className="w-full max-w-md">
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+            <div className="text-center">
+              <h3 className="mb-2 text-lg font-semibold">Generating Content</h3>
+              <p className="text-sm text-gray-600">
+                Please wait while we process your custom instruction...
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {modalWriteAi && (
         <WriteAiDialog
           content={post}

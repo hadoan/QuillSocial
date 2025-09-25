@@ -336,8 +336,13 @@ async function postLinkedInPost(token: string, postData: any) {
       version: versionNumber
     });
 
-    console.log(response.headers);
-    return response.status === 201 ? response.headers["x-restli-id"] : false;
+    if (response.status === 201) {
+      // LinkedIn can return either x-restli-id or x-linkedin-id depending on the API version
+      const shareId = response.headers["x-restli-id"] || response.headers["x-linkedin-id"];
+      console.log("LinkedIn post successful, share ID:", shareId);
+      return shareId || true; // Return the share ID if available, otherwise just true for success
+    }
+    return false;
   } catch (error: any) {
     console.error("Error posting to LinkedIn:", error.response ? error.response.data : error.message);
     return false;
