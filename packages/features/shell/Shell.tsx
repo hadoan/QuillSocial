@@ -892,7 +892,7 @@ function SideBarContainer({
   if (!isAuthenticated) {
     return null;
   }
-  
+
   return (
     <SideBar
       bannersHeight={bannersHeight}
