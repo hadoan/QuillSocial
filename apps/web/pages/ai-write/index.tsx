@@ -41,9 +41,16 @@ const AIWritePage = () => {
   const debouncedApiCall = useMemo(
     () =>
       debounce(async () => {
-        const { data } = await checkSocialTokenValid();
-        if (!data.valid) {
-          setShowConnectSocialBanner(true);
+        try {
+          const { data } = await checkSocialTokenValid();
+          if (!data.valid) {
+            setShowConnectSocialBanner(true);
+          }
+        } catch (err) {
+          // Log the error and don't throw so client module loading isn't aborted
+          // eslint-disable-next-line no-console
+          console.error("AIWrite checkSocialTokenValid error:", err);
+          setShowConnectSocialBanner(false);
         }
       }, 150),
     []

@@ -1,18 +1,23 @@
-import axios from "axios";
-import type { NextApiRequest, NextApiResponse } from "next";
-
+import getInstalledAppPath from "../../_utils/getInstalledAppPath";
+import { PageInfo } from "../../types";
+import { LinkedinManager } from "../lib";
+import { getUserProfile } from "../lib/linkedinManager";
 import { resetCachedSocialProfile } from "@quillsocial/features/auth/lib/socialProfiles";
 import {
   LINKEDIN_CLIENT_ID,
   LINKEDIN_CLIENT_SECRET,
   WEBAPP_URL,
 } from "@quillsocial/lib/constants";
+import logger from "@quillsocial/lib/logger";
 import prisma from "@quillsocial/prisma";
+import axios from "axios";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import getInstalledAppPath from "../../_utils/getInstalledAppPath";
-import { PageInfo } from "../../types";
-import { LinkedinManager } from "../lib";
-import { getUserProfile } from "../lib/linkedinManager";
+function maskSecret(value?: string | null, head = 6, tail = 4) {
+  if (!value || typeof value !== "string") return value;
+  if (value.length <= head + tail + 3) return value;
+  return `${value.slice(0, head)}...${value.slice(-tail)}`;
+}
 
 const app_id = LINKEDIN_CLIENT_ID;
 const app_secret = LINKEDIN_CLIENT_SECRET;
@@ -36,6 +41,8 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   const { code } = req.query;
+  const log = logger.getChildLogger({ prefix: ["[linkedinsocial/callback]"] });
+  log.info("Webapp URL", { url: WEBAPP_URL });
   const redirectUri = WEBAPP_URL + "/api/integrations/linkedinsocial/callback";
 
   if (code && typeof code !== "string") {
@@ -49,8 +56,31 @@ export default async function handler(
 
   if (typeof code === "string") {
     try {
-      const token = await getAccessToken(code, app_id!, app_secret!, redirectUri);
+      // Entry log
+
+      log.info("LinkedIn callback invoked", {
+        path: req.url,
+        method: req.method,
+        query: req.query,
+        userId: req.session?.user?.id,
+        ua: req.headers["user-agent"]?.toString?.().slice?.(0, 200),
+      });
+      const token = await getAccessToken(
+        code,
+        app_id!,
+        app_secret!,
+        redirectUri
+      );
+      log.info("LinkedIn access token received (masked)", {
+        access_token: maskSecret((token as any)?.access_token),
+        expires_in: (token as any)?.expires_in,
+      });
       const user = await getUserProfile(token.access_token);
+      log.info("LinkedIn user profile", {
+        sub: user.sub,
+        name: user.name,
+        email: user.email,
+      });
       let pages: PageInfo[] = [
         {
           id: `urn:li:person:${user.sub}`,
@@ -62,6 +92,9 @@ export default async function handler(
       const companyPages = await LinkedinManager.getLinkedInPages(
         token.access_token
       );
+      log.info("LinkedIn company pages fetched", {
+        companyPagesCount: companyPages?.length ?? 0,
+      });
       if (companyPages) {
         pages.push(...companyPages);
       }
@@ -78,8 +111,14 @@ export default async function handler(
       });
       const key = token as any; // Cast to match Prisma JsonValue type
       const existed = existedCredentials?.find(
-        (x) => x.appId === "linkedin-social" && x.emailOrUserName === user?.email
+        (x) =>
+          x.appId === "linkedin-social" && x.emailOrUserName === user?.email
       );
+      log.info("Existed credentials fetched", {
+        total: existedCredentials?.length ?? 0,
+        foundExisting: !!existed,
+        existingId: existed?.id,
+      });
       const data = {
         type: "linkedin_social",
         key,
@@ -94,7 +133,7 @@ export default async function handler(
       const id = existed?.id ?? 0;
 
       // Use transaction for database operations
-      await prisma.$transaction(async (tx) => {
+      const upsertedRecord = await prisma.$transaction(async (tx) => {
         await tx.credential.updateMany({
           where: {
             userId: req.session!.user!.id,
@@ -105,7 +144,7 @@ export default async function handler(
           },
         });
 
-        const upsertedRecord = await tx.credential.upsert({
+        const upsert = await tx.credential.upsert({
           where: {
             id,
           },
@@ -118,23 +157,31 @@ export default async function handler(
             tx.pageInfo.upsert({
               where: {
                 credentialId_id: {
-                  credentialId: upsertedRecord.id,
+                  credentialId: upsert.id,
                   id: p.id,
                 },
               },
               create: {
                 ...p,
-                credentialId: upsertedRecord.id,
+                credentialId: upsert.id,
                 info: p.info,
               },
               update: {
                 ...p,
-                credentialId: upsertedRecord.id,
+                credentialId: upsert.id,
                 info: p.info,
               },
             })
           )
         );
+
+        return upsert;
+      });
+
+      log.info("Upserted credential", {
+        id: upsertedRecord.id,
+        appId: upsertedRecord.appId,
+        emailOrUserName: upsertedRecord.emailOrUserName,
       });
 
       await resetCachedSocialProfile(req.session.user.id);
@@ -143,7 +190,18 @@ export default async function handler(
         getInstalledAppPath({ variant: "social", slug: "linkedin-social" })
       );
     } catch (error) {
-      console.error("LinkedIn OAuth callback error:", error);
+      const log = logger.getChildLogger({
+        prefix: ["[linkedinsocial/callback]"],
+      });
+      // Log request details and stack for easier troubleshooting
+      log.error("LinkedIn OAuth callback error", {
+        message: (error as any)?.message ?? String(error),
+        stack: (error as any)?.stack,
+        query: req.query,
+        userId: req.session?.user?.id,
+        ua: req.headers["user-agent"]?.toString?.().slice?.(0, 200),
+      });
+      // Avoid returning sensitive details to the client, but include an id or message
       res.status(500).json({ message: "Internal server error" });
     }
   }
@@ -162,15 +220,36 @@ async function getAccessToken(
   params.append("client_secret", app_secret);
   params.append("redirect_uri", redirectUri);
 
-  const response = await axios.post<LinkedInTokenResponse>(
+  const response = await safePostAccessToken(
     "https://www.linkedin.com/oauth/v2/accessToken",
-    params,
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }
+    params
   );
 
-  return response.data;
+  return response;
+}
+
+async function safePostAccessToken(
+  url: string,
+  params: URLSearchParams
+): Promise<LinkedInTokenResponse> {
+  try {
+    const resp = await axios.post<LinkedInTokenResponse>(url, params, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    // Mask and log minimal info
+    const log = logger.getChildLogger({
+      prefix: ["[linkedinsocial/callback]"],
+    });
+    log.info("LinkedIn accessToken response status", { status: resp.status });
+    return resp.data;
+  } catch (err) {
+    const log = logger.getChildLogger({
+      prefix: ["[linkedinsocial/callback]"],
+    });
+    log.error("Error fetching LinkedIn access token", {
+      message: (err as any)?.message ?? String(err),
+      stack: (err as any)?.stack,
+    });
+    throw err;
+  }
 }

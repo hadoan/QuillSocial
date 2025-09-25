@@ -5,7 +5,6 @@ import { z } from "zod";
 import dayjs from "@quillsocial/dayjs";
 import { sendPasswordResetEmail } from "@quillsocial/emails";
 import { PASSWORD_RESET_EXPIRY_HOURS } from "@quillsocial/emails/templates/forgot-password-email";
-import { checkRateLimitAndThrowError } from "@quillsocial/lib/checkRateLimitAndThrowError";
 import { defaultHandler } from "@quillsocial/lib/server";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import prisma from "@quillsocial/prisma";
@@ -33,10 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // 10 requests per minute
 
-  await checkRateLimitAndThrowError({
-    rateLimitingType: "core",
-    identifier: ip,
-  });
+
 
   try {
     const maybeUser = await prisma.user.findUnique({

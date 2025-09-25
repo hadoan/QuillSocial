@@ -1,4 +1,5 @@
 import PageWrapper from "@components/PageWrapper";
+import OpenAIUsageCard from "@quillsocial/features/settings/components/OpenAIUsageCard";
 import InstallApp from "@components/apps/InstallApp";
 import TwoFactor from "@components/auth/TwoFactor";
 import { SelectSkeletonLoader } from "@components/common/SkeletonLoader";
@@ -283,6 +284,9 @@ const ProfileView = () => {
           <>
             <div className="grid grid-cols-12">
               <div className="col-span-10 ml-[50px] sm:col-span-6 sm:ml-1">
+                <div>
+                  <OpenAIUsageCard />
+                </div>
                 <ProfileForm
                   key={JSON.stringify(defaultValues)}
                   defaultValues={defaultValues}

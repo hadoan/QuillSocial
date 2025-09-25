@@ -12,7 +12,6 @@ import {
   TrackEventJuneSo,
   EVENTS,
 } from "@quillsocial/features/june.so/juneso";
-import { checkRateLimitAndThrowError } from "@quillsocial/lib/checkRateLimitAndThrowError";
 import {
   IS_TEAM_BILLING_ENABLED,
   WEBAPP_URL,
@@ -160,9 +159,6 @@ const providers: Provider[] = [
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
-      // await checkRateLimitAndThrowError({
-      //   identifier: user.email,
-      // });
 
       if (
         user.identityProvider !== IdentityProvider.DB &&

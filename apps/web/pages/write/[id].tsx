@@ -36,6 +36,8 @@ import {
   LoadingDialog,
   TextArea,
   showToast,
+  Dialog,
+  DialogContent,
 } from "@quillsocial/ui";
 import { Tablet, Laptop } from "@quillsocial/ui/components/icon";
 
@@ -398,6 +400,8 @@ const WritePage = () => {
   }
   const currentUser = useCurrentUserAccount();
   const isUsePlugDialog = checkUserToUsePlug();
+  const socialAccountsQuery = trpc.viewer.socials.getSocialNetWorking.useQuery();
+  const [showNoAccountDialog, setShowNoAccountDialog] = useState(false);
 
   const handleCheckPublishPost = () => {
     if (isUsePlugDialog) {
@@ -406,6 +410,15 @@ const WritePage = () => {
       handlePostNow();
     }
   };
+
+  useEffect(() => {
+    if (socialAccountsQuery.isFetched) {
+      const data = socialAccountsQuery.data;
+      if (Array.isArray(data) && data.length === 0) {
+        setShowNoAccountDialog(true);
+      }
+    }
+  }, [socialAccountsQuery.isFetched, socialAccountsQuery.data]);
 
   return (
     <>
@@ -417,6 +430,26 @@ const WritePage = () => {
         subtitle="Here are your Posts"
       >
         <div className="">
+          <Dialog open={showNoAccountDialog} onOpenChange={setShowNoAccountDialog}>
+            <DialogContent className="max-w-md w-full">
+              <div className="py-6">
+                <h3 className="mb-3 text-lg font-bold">Link a social account</h3>
+                <p className="mb-4 text-sm text-gray-600">
+                  You must link at least one social account before writing content.
+                </p>
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => {
+                      setShowNoAccountDialog(false);
+                      router.push("/settings/my-account/app-integrations");
+                    }}
+                  >
+                    OK
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
           <div className="mt-5 grid grid-cols-12 sm:mt-0">
             <div className="col-span-12 h-auto bg-white lg:col-span-7">
               <div className="w-full  shadow-sm">

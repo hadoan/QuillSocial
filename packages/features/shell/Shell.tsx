@@ -185,7 +185,7 @@ const Layout = (props: LayoutProps) => {
   const currentUser =
     !accountsLoading &&
     accounts &&
-    accounts.find((account) => account.isUserCurrentProfile);
+    (accounts.find((account) => account.isUserCurrentProfile) || accounts[0]); // Fallback to first account
 
   const { isLoading: isCheckPricingLoading, data: pricingData } =
     trpc.viewer.teams.checkPricingTeam.useQuery();
@@ -882,7 +882,17 @@ function SideBarContainer({
 }: SideBarContainerProps) {
   const { status } = useSession();
 
-  if (status !== "loading" && status !== "authenticated") return null;
+  // Check both session status and user data - if user data exists, treat as authenticated
+  const isAuthenticated = status === "authenticated" || (user && user.id);
+
+  if (status === "loading") {
+    return null; // Still loading
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+  
   return (
     <SideBar
       bannersHeight={bannersHeight}

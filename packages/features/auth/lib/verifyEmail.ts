@@ -1,7 +1,6 @@
 import { randomBytes } from "crypto";
 
 import { sendEmailVerificationLink } from "@quillsocial/emails/email-manager";
-import { checkRateLimitAndThrowError } from "@quillsocial/lib/checkRateLimitAndThrowError";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import logger from "@quillsocial/lib/logger";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
@@ -23,10 +22,7 @@ export const sendEmailVerification = async ({
   const token = randomBytes(32).toString("hex");
   const translation = await getTranslation(language ?? "en", "common");
 
-  await checkRateLimitAndThrowError({
-    rateLimitingType: "core",
-    identifier: email,
-  });
+
 
   await prisma.verificationToken.create({
     data: {

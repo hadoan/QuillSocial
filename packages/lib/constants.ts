@@ -20,10 +20,9 @@ export const MY_APP_URL = WEBAPP_URL;
 export const IS_PRODUCTION = process.env.NODE_ENV === "production";
 export const TRIAL_LIMIT_DAYS = 14;
 /** @deprecated use `WEBAPP_URL` */
-export const NEXT_PUBLIC_BASE_URL =
-  process.env.NEXT_PUBLIC_WEBAPP_URL || `https://${process.env.VERCEL_URL}`;
-export const LOGO = "/quillsocial-logo-white-word.svg";
-export const LOGO_ICON = "/quill-com-icon-white.svg";
+export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_WEBAPP_URL;
+export const LOGO = "/img/logo.png";
+export const LOGO_ICON = "/img/logo.png";
 export const FAVICON_16 = "/favicon-16x16.png";
 export const FAVICON_32 = "/favicon-32x32.png";
 export const APPLE_TOUCH_ICON = "/apple-touch-icon.png";
@@ -67,7 +66,9 @@ const parseStringArrayEnv = (name: string): string[] => {
       const arr = JSON.parse(trimmed);
       return Array.isArray(arr) ? arr.map(String) : [];
     } catch (e) {
-      console.warn(`Invalid JSON array provided for ${name}, falling back to delimiter parsing.`);
+      console.warn(
+        `Invalid JSON array provided for ${name}, falling back to delimiter parsing.`
+      );
     }
   }
   // Split on commas / semicolons
