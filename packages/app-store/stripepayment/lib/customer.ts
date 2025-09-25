@@ -1,8 +1,7 @@
+import stripe from "./server";
+import { Prisma } from "@prisma/client";
 import { HttpError as HttpCode } from "@quillsocial/lib/http-error";
 import prisma from "@quillsocial/prisma";
-import { Prisma } from "@prisma/client";
-
-import stripe from "./server";
 
 export async function getStripeCustomerIdFromUserId(userId: number) {
   // Get user

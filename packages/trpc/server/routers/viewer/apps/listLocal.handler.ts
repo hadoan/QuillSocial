@@ -1,10 +1,9 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TListLocalInputSchema } from "./listLocal.schema";
+import type { Prisma, PrismaClient } from "@prisma/client";
 import { appKeysSchemas } from "@quillsocial/app-store/apps.keys-schemas.generated";
 import { getLocalAppMetadata } from "@quillsocial/app-store/utils";
 import { AppCategories } from "@quillsocial/prisma/enums";
-import type { Prisma, PrismaClient } from "@prisma/client";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TListLocalInputSchema } from "./listLocal.schema";
 
 type ListLocalOptions = {
   ctx: {

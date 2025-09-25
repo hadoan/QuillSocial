@@ -1,7 +1,6 @@
+import type { TrpcSessionUser } from "../../../trpc";
 import { sendEmailVerification } from "@quillsocial/features/auth/lib/verifyEmail";
 import logger from "@quillsocial/lib/logger";
-
-import type { TrpcSessionUser } from "../../../trpc";
 
 type ResendEmailOptions = {
   ctx: {

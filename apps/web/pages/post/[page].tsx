@@ -1,20 +1,20 @@
+import PageWrapper from "@components/PageWrapper";
+import useMeQuery from "@lib/hooks/useMeQuery";
+import dayjs from "@quillsocial/dayjs";
 import Shell from "@quillsocial/features/shell/Shell";
+import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button, HeadSeo } from "@quillsocial/ui";
-import { debounce } from "lodash";
-import { useEffect, useMemo, useState } from "react";
 import { HorizontalTabs } from "@quillsocial/ui";
 import type {
   VerticalTabItemProps,
   HorizontalTabItemProps,
 } from "@quillsocial/ui";
-import { useRouter } from "next/router";
-import PageWrapper from "@components/PageWrapper";
-import { Pencil, Trash } from "lucide-react";
-import dayjs from "@quillsocial/dayjs";
 import { Dialog, DialogContent } from "@quillsocial/ui";
-import useMeQuery from "@lib/hooks/useMeQuery";
-import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
+import { debounce } from "lodash";
+import { Pencil, Trash } from "lucide-react";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 
 const tabs: (VerticalTabItemProps | HorizontalTabItemProps)[] = [
   {

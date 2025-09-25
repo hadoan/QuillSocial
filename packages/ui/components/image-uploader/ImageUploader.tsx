@@ -1,11 +1,3 @@
-import * as SliderPrimitive from "@radix-ui/react-slider";
-import NextImage from "next/image";
-import type { FormEvent } from "react";
-import { useCallback, useEffect, useState } from "react";
-import Cropper from "react-easy-crop";
-
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-
 import {
   Button,
   Dialog,
@@ -14,6 +6,12 @@ import {
   DialogTrigger,
 } from "../..";
 import { showToast } from "../toast";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+import NextImage from "next/image";
+import type { FormEvent } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Cropper from "react-easy-crop";
 
 type ReadAsMethod =
   | "readAsText"

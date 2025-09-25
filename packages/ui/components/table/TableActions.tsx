@@ -1,9 +1,6 @@
-import type { LucideIcon as IconType } from "lucide-react";
-import type { FC } from "react";
-import React from "react";
-
 import type { ButtonBaseProps } from "../button";
 import { Button } from "../button";
+import { ButtonGroup } from "../buttonGroup";
 import {
   Dropdown,
   DropdownMenuContent,
@@ -13,7 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "../form/dropdown";
 import { ChevronDown, MoreHorizontal } from "../icon";
-import { ButtonGroup } from "../buttonGroup";
+import type { LucideIcon as IconType } from "lucide-react";
+import type { FC } from "react";
+import React from "react";
 
 export type ActionType = {
   id: string;

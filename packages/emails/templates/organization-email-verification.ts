@@ -1,8 +1,7 @@
-import { APP_NAME } from "@quillsocial/lib/constants";
-import type { TFunction } from "next-i18next";
-
 import renderEmail from "../src/renderEmail";
 import BaseEmail from "./_base-email";
+import { APP_NAME } from "@quillsocial/lib/constants";
+import type { TFunction } from "next-i18next";
 
 export type OrganizationEmailVerify = {
   language: TFunction;

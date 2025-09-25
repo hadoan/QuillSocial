@@ -1,10 +1,8 @@
-import { prisma } from "@quillsocial/prisma";
-import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
-import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TAdminVerifyInput } from "./adminVerify.schema";
+import { prisma } from "@quillsocial/prisma";
+import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
+import { TRPCError } from "@trpc/server";
 
 type AdminVerifyOptions = {
   ctx: {

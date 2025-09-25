@@ -1,3 +1,4 @@
+import stripe from "../../server/stripe";
 import { getRequestedSlugError } from "@quillsocial/app-store/stripepayment/lib/team-billing";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
@@ -13,8 +14,6 @@ import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type Stripe from "stripe";
 import { z } from "zod";
-
-import stripe from "../../server/stripe";
 
 const querySchema = z.object({
   user: z.string().transform((val) => parseInt(val)),

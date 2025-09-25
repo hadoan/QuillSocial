@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { WriteAiDialog } from "@components/write/WriteAiDialog";
 import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 import {
   Dialog,
@@ -9,8 +8,7 @@ import {
   TextArea,
 } from "@quillsocial/ui";
 import { Button } from "@quillsocial/ui";
-
-import { WriteAiDialog } from "@components/write/WriteAiDialog";
+import { useState } from "react";
 
 interface CustomInstructionDialogProps {
   open: boolean;

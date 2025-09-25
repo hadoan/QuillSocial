@@ -1,7 +1,6 @@
+import type { TIntegrationsInputSchema } from "./integrations.schema";
 import getEnabledApps from "@quillsocial/lib/apps/getEnabledApps";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TIntegrationsInputSchema } from "./integrations.schema";
 
 type IntegrationsOptions = {
   ctx: {

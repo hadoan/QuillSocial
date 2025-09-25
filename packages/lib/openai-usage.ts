@@ -35,7 +35,9 @@ export async function logOpenAIUsage(data: OpenAIUsageData) {
 /**
  * Get total token usage for a user in the current month
  */
-export async function getUserMonthlyTokenUsage(userId: number): Promise<number> {
+export async function getUserMonthlyTokenUsage(
+  userId: number
+): Promise<number> {
   const now = new Date();
   const monthStart = startOfMonth(now);
   const monthEnd = endOfMonth(now);
@@ -127,7 +129,12 @@ export async function getUserBillingInfo(userId: number) {
 export async function canUserMakeOpenAIRequest(
   userId: number,
   estimatedTokens: number = 1000
-): Promise<{ allowed: boolean; reason?: string; currentUsage?: number; limit?: number }> {
+): Promise<{
+  allowed: boolean;
+  reason?: string;
+  currentUsage?: number;
+  limit?: number;
+}> {
   try {
     const billingInfo = await getUserBillingInfo(userId);
 
@@ -246,7 +253,10 @@ export async function getUserUsageStats(userId: number) {
       isLTD: billingInfo.isLTD,
       tokenLimit: billingInfo.tokenLimit,
       remainingTokens: billingInfo.isLTD
-        ? Math.max(0, billingInfo.tokenLimit - (monthlyUsage._sum.totalTokens || 0))
+        ? Math.max(
+            0,
+            billingInfo.tokenLimit - (monthlyUsage._sum.totalTokens || 0)
+          )
         : null,
     };
   } catch (error) {

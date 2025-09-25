@@ -1,10 +1,10 @@
+import { CACHE } from ".";
+import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
+import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import prisma from "@quillsocial/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
-import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { TOAuth2Scope, TwitterApi } from "twitter-api-v2";
-import { CACHE } from ".";
 
 let appKey = "";
 let appSecret = "";

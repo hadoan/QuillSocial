@@ -1,7 +1,6 @@
-import { prisma } from "@quillsocial/prisma";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TGetMembersInputSchema } from "./getMembers.schema";
+import { prisma } from "@quillsocial/prisma";
 
 type CreateOptions = {
   ctx: {

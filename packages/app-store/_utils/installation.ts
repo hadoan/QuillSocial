@@ -1,5 +1,4 @@
 import type { Prisma } from "@prisma/client";
-
 import { HttpError } from "@quillsocial/lib/http-error";
 import prisma from "@quillsocial/prisma";
 import type { UserProfile } from "@quillsocial/types/UserProfile";

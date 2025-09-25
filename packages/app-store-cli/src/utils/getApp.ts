@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
-
 import { APP_STORE_PATH, TEMPLATES_PATH } from "../constants";
 import { getAppName } from "./getAppName";
+import fs from "fs";
+import path from "path";
 
 export const getApp = (slug: string, isTemplate: boolean) => {
   const base = isTemplate ? TEMPLATES_PATH : APP_STORE_PATH;

@@ -1,6 +1,5 @@
-import { prisma } from "@quillsocial/prisma";
-
 import type { TUpdateInputSchema } from "./update.schema";
+import { prisma } from "@quillsocial/prisma";
 
 type UpdateOptions = {
   ctx: Record<string, unknown>;

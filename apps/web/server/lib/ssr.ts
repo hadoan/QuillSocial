@@ -1,13 +1,12 @@
 import { getLocaleFromHeaders } from "@quillsocial/lib/i18n";
 import { createContext } from "@quillsocial/trpc/server/createContext";
 import { appRouter } from "@quillsocial/trpc/server/routers/_app";
-import type { GetServerSidePropsContext } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import superjson from "superjson";
-
 // import { createProxySSGHelpers } from "@trpc/react-query";
 // import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { createServerSideHelpers } from "@trpc/react-query/server";
+import type { GetServerSidePropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import superjson from "superjson";
 
 /**
  * Initialize server-side rendering tRPC helpers.

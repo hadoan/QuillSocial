@@ -1,18 +1,15 @@
 // import LicenseRequired from "@quillsocial/features/ee/common/components/LicenseRequired";
+import I18nLanguageHandler from "@components/I18nLanguageHandler";
+import type { AppProps } from "@lib/app-providers";
+import AppProviders from "@lib/app-providers";
+import { seoConfig } from "@lib/config/next-seo.config";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import { buildCanonical } from "@quillsocial/lib/next-seo.config";
 import { DefaultSeo } from "next-seo";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 import Script from "next/script";
-
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
-import { buildCanonical } from "@quillsocial/lib/next-seo.config";
-
-import type { AppProps } from "@lib/app-providers";
-import AppProviders from "@lib/app-providers";
-import { seoConfig } from "@lib/config/next-seo.config";
-
-import I18nLanguageHandler from "@components/I18nLanguageHandler";
 
 export interface CalPageWrapper {
   (props?: AppProps): JSX.Element;

@@ -2,16 +2,14 @@
  * Typescript class based component for custom-error
  * @link https://nextjs.org/docs/advanced-features/custom-error-page
  */
+import { ErrorPage } from "@components/error/error-page";
+import { getErrorFromUnknown } from "@quillsocial/lib/errors";
+import { HttpError } from "@quillsocial/lib/http-error";
+import logger from "@quillsocial/lib/logger";
 import type { NextPage, NextPageContext } from "next";
 import type { ErrorProps } from "next/error";
 import NextError from "next/error";
 import React from "react";
-
-import { getErrorFromUnknown } from "@quillsocial/lib/errors";
-import { HttpError } from "@quillsocial/lib/http-error";
-import logger from "@quillsocial/lib/logger";
-
-import { ErrorPage } from "@components/error/error-page";
 
 // Adds HttpException to the list of possible error types.
 type AugmentedError = (NonNullable<NextPageContext["err"]> & HttpError) | null;

@@ -1,5 +1,3 @@
-import React from "react";
-
 import InputArticlePost from "./inputArticlePost";
 import InputBookLearnings from "./inputBookLearnings";
 import InputFavouriteTool from "./inputFavouriteTool";
@@ -8,6 +6,7 @@ import InputRecentLearning from "./inputRecentLearning";
 import InputShareStruggle from "./inputShareStruggle";
 import InputShareTips from "./inputShareTips";
 import InputStartScratch from "./inputStartScratch";
+import React from "react";
 
 export interface InputData {
   countInput: number;

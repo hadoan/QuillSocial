@@ -14,9 +14,8 @@ import type {
   QueryObserverSuccessResult,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { ReactNode } from "react";
-
 import type { UseTRPCQueryOptions } from "@trpc/react-query/shared";
+import type { ReactNode } from "react";
 
 type ErrorLike = {
   message: string;

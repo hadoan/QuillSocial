@@ -1,13 +1,11 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TChangePasswordInputSchema } from "./changePassword.schema";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import { validPassword } from "@quillsocial/features/auth/lib/validPassword";
 import { verifyPassword } from "@quillsocial/features/auth/lib/verifyPassword";
 import { prisma } from "@quillsocial/prisma";
 import { IdentityProvider } from "@quillsocial/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TChangePasswordInputSchema } from "./changePassword.schema";
 
 type ChangePasswordOptions = {
   ctx: {

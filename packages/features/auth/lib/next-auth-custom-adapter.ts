@@ -1,3 +1,4 @@
+import { identityProviderNameMap } from "./identityProviderNameMap";
 import type {
   Account,
   IdentityProvider,
@@ -7,8 +8,6 @@ import type {
   VerificationToken,
 } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-
-import { identityProviderNameMap } from "./identityProviderNameMap";
 
 /** @return { import("next-auth/adapters").Adapter } */
 export default function MyAppAuthAdapter(prismaClient: PrismaClient) {

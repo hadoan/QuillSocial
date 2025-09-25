@@ -1,6 +1,5 @@
-import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import type { TAppCredentialsByTypeInputSchema } from "./appCredentialsByType.schema";
+import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
 
 type AppCredentialsByTypeOptions = {
   ctx: {

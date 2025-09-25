@@ -86,7 +86,6 @@ async function createTeamAndAddUsers(
 }
 
 async function main() {
-
   await createUser({
     user: {
       email: "admin@quillsocial.com",

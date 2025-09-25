@@ -1,14 +1,14 @@
+import { getBrowerTimeZone } from "@components/timezone";
+import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "@quillsocial/dayjs";
 import { FULL_NAME_LENGTH_MAX_LIMIT } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import { Button, TimezoneSelect } from "@quillsocial/ui";
 import { ArrowRight } from "@quillsocial/ui/components/icon";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { getBrowerTimeZone } from "@components/timezone";
 
 interface IUserSettingsProps {
   nextStep: () => void;
@@ -58,7 +58,9 @@ const UserSettings = (props: IUserSettingsProps) => {
       // destructured above; access it via (register as any).__setValue is unsafe.
       // Instead, use a manual approach: create a small timeout to fill the input
       // value if it's empty.
-      const nameInput = document.getElementById("name") as HTMLInputElement | null;
+      const nameInput = document.getElementById(
+        "name"
+      ) as HTMLInputElement | null;
       if (nameInput && !nameInput.value) {
         nameInput.value = prefillName;
       }

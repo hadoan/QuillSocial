@@ -4,6 +4,9 @@
 // import DynamicIntercomProvider from "@quillsocial/features/ee/support/lib/intercom/providerDynamic";
 // import { FeatureProvider } from "@quillsocial/features/flags/context/provider";
 // import { useFlags } from "@quillsocial/features/flags/hooks";
+import { useViewerI18n } from "@components/I18nLanguageHandler";
+import usePublicPage from "@lib/hooks/usePublicPage";
+import type { WithNonceProps } from "@lib/withNonce";
 import { trpc } from "@quillsocial/trpc/react";
 import { MetaProvider } from "@quillsocial/ui";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
@@ -19,11 +22,6 @@ import type {
 import type { NextRouter } from "next/router";
 import { useRouter } from "next/router";
 import type { ComponentProps, PropsWithChildren, ReactNode } from "react";
-
-import usePublicPage from "@lib/hooks/usePublicPage";
-import type { WithNonceProps } from "@lib/withNonce";
-
-import { useViewerI18n } from "@components/I18nLanguageHandler";
 
 const I18nextAdapter = appWithTranslation<
   NextJsAppProps<SSRConfig> & { children: React.ReactNode }

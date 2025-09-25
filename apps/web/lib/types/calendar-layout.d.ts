@@ -1,3 +1,6 @@
+import type { Demo } from "./calendars";
+import { NextPage } from "next";
+import { Toast } from "primereact/toast";
 import React, {
   ReactElement,
   Dispatch,
@@ -5,9 +8,6 @@ import React, {
   HTMLAttributeAnchorTarget,
   ReactNode,
 } from "react";
-import { NextPage } from "next";
-import type { Demo } from "./calendars";
-import { Toast } from "primereact/toast";
 
 /* Next & Layout Types */
 type Page<P = {}> = NextPage<P> & {

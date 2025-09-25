@@ -1,11 +1,9 @@
-import { trpc } from "@quillsocial/trpc/react";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
-import type { AppProps } from "@lib/app-providers";
-
 import "../styles/globals.css";
 import GA from "@lib/analytics/ga";
+import type { AppProps } from "@lib/app-providers";
+import { trpc } from "@quillsocial/trpc/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 function MyApp(props: AppProps) {
   const { Component, pageProps } = props;

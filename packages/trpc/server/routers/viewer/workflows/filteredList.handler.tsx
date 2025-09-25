@@ -1,10 +1,9 @@
+import type { TFilteredListInputSchema } from "./filteredList.schema";
 import type { WorkflowType } from "@quillsocial/ee/workflows/components/WorkflowListPage";
 import { hasFilter } from "@quillsocial/features/filters/lib/hasFilter";
 import type { Prisma, PrismaClient } from "@quillsocial/prisma/client";
 import { MembershipRole } from "@quillsocial/prisma/client";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TFilteredListInputSchema } from "./filteredList.schema";
 
 type FilteredListOptions = {
   ctx: {

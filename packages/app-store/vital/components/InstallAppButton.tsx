@@ -1,6 +1,5 @@
-import { useState } from "react";
-
 import type { InstallAppButtonProps } from "../../types";
+import { useState } from "react";
 
 export default function InstallAppButton(props: InstallAppButtonProps) {
   const getLinkToken = async () => {

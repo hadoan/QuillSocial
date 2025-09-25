@@ -1,8 +1,7 @@
+import type { TListInputSchema } from "./list.schema";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-import type { Prisma } from "@prisma/client";
-
-import type { TListInputSchema } from "./list.schema";
 
 type ListOptions = {
   ctx: {

@@ -1,9 +1,5 @@
+import PageWrapper from "@components/PageWrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
@@ -17,8 +13,10 @@ import {
   SkeletonContainer,
   SkeletonText,
 } from "@quillsocial/ui";
-
-import PageWrapper from "@components/PageWrapper";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const SkeletonLoader = ({
   title,

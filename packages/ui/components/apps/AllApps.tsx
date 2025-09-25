@@ -1,3 +1,6 @@
+import { EmptyScreen } from "../empty-screen";
+import { ChevronLeft, ChevronRight, Search } from "../icon";
+import { AppCard } from "./AppCard";
 import { classNames } from "@quillsocial/lib";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { AppFrontendPayload as App } from "@quillsocial/types/App";
@@ -6,10 +9,6 @@ import type { CredentialFrontendPayload as Credential } from "@quillsocial/types
 import { useRouter } from "next/router";
 import type { UIEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-
-import { EmptyScreen } from "../empty-screen";
-import { ChevronLeft, ChevronRight, Search } from "../icon";
-import { AppCard } from "./AppCard";
 
 export function useShouldShowArrows() {
   const ref = useRef<HTMLUListElement>(null);

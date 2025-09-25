@@ -1,10 +1,9 @@
+import type { TCreateInviteInputSchema } from "./createInvite.schema";
 import { isTeamAdmin } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { TRPCError } from "@quillsocial/trpc/server";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
 import { randomBytes } from "crypto";
-
-import type { TCreateInviteInputSchema } from "./createInvite.schema";
 
 type CreateInviteOptions = {
   ctx: {

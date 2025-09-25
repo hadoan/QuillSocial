@@ -1,8 +1,7 @@
+import { APP_NAME } from "@quillsocial/lib/constants";
 import Head from "next/head";
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-
-import { APP_NAME } from "@quillsocial/lib/constants";
 
 type MetaType = {
   title: string;

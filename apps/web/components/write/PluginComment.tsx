@@ -1,8 +1,9 @@
-import { Smile } from "lucide-react";
 import { EmojiDialog } from "./EmojiDialog";
-import { TextArea, Input, Select } from "@quillsocial/ui";
-import { useState } from "react";
 import { TimeType } from "@quillsocial/prisma/enums";
+import { TextArea, Input, Select } from "@quillsocial/ui";
+import { Smile } from "lucide-react";
+import { useState } from "react";
+
 interface PluginProps {
   isModalEmoji: boolean;
   setIsModalEmoji: React.Dispatch<React.SetStateAction<boolean>>;

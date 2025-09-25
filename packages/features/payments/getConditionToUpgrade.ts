@@ -1,5 +1,5 @@
-import { BillingType } from "@quillsocial/prisma/enums";
 import dayjs from "@quillsocial/dayjs";
+import { BillingType } from "@quillsocial/prisma/enums";
 
 export const getConditionToUpgrade = (
   data:

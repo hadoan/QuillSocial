@@ -1,3 +1,5 @@
+import type { ButtonProps } from "../../components/button";
+import { Button } from "../../components/button";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { SVGComponent } from "@quillsocial/types/SVGComponent";
@@ -5,9 +7,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useRouter } from "next/router";
 import type { ReactNode } from "react";
 import React, { useState } from "react";
-
-import type { ButtonProps } from "../../components/button";
-import { Button } from "../../components/button";
 
 export type DialogProps = React.ComponentProps<
   (typeof DialogPrimitive)["Root"]

@@ -1,9 +1,7 @@
-import { useTranslation } from "react-i18next";
-
-import { ChatQuestion } from "@lib/types/chatDocProps";
-
 import { useBrainContext } from "./useBrainContext";
 import { useHandleStream } from "./useHanldeStream";
+import { ChatQuestion } from "@lib/types/chatDocProps";
+import { useTranslation } from "react-i18next";
 
 interface UseChatService {
   addStreamQuestion: (

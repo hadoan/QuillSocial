@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { TwitterV1Manager } from "../lib";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 //http://localhost:3000/api/integrations/xsocial/post?id={postId}
 export default async function handler(

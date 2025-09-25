@@ -1,18 +1,15 @@
-import type { Session } from "next-auth";
-
+import type { TRPCContextInner } from "../createContext";
+import { middleware } from "../trpc";
+import { MembershipRole } from ".prisma/client";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { defaultAvatarSrc } from "@quillsocial/lib/defaultAvatarImage";
 import {
   teamMetadataSchema,
   userMetadata,
 } from "@quillsocial/prisma/zod-utils";
-
 import type { Maybe } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
-
-import type { TRPCContextInner } from "../createContext";
-import { middleware } from "../trpc";
-import { MembershipRole } from ".prisma/client";
+import type { Session } from "next-auth";
 
 export async function getUserFromSession(
   ctx: TRPCContextInner,

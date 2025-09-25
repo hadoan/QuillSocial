@@ -1,6 +1,5 @@
-import { Analytics } from "@june-so/analytics-node";
-
 import { API_KEY_JUNE_SO } from "../config/clientEnv.config";
+import { Analytics } from "@june-so/analytics-node";
 
 const analytics = new Analytics(API_KEY_JUNE_SO);
 

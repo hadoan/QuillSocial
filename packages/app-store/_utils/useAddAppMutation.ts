@@ -1,12 +1,10 @@
-import type { UseMutationOptions } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
-
+import getInstalledAppPath from "./getInstalledAppPath";
 import type { IntegrationOAuthCallbackState } from "@quillsocial/app-store/types";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import type { App } from "@quillsocial/types/App";
-
-import getInstalledAppPath from "./getInstalledAppPath";
+import type { UseMutationOptions } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 
 function gotoUrl(url: string, newTab?: boolean) {
   if (newTab) {

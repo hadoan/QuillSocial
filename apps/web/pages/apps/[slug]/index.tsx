@@ -1,4 +1,10 @@
+import PageWrapper from "@components/PageWrapper";
+import App from "@components/apps/App";
+import type { inferSSRProps } from "@lib/types/inferSSRProps";
 import { Prisma } from "@prisma/client";
+import { getAppWithMetadata } from "@quillsocial/app-store/_appRegistry";
+import { getAppAssetFullPath } from "@quillsocial/app-store/getAppAssetFullPath";
+import prisma from "@quillsocial/prisma";
 import fs from "fs";
 import matter from "gray-matter";
 import MarkdownIt from "markdown-it";
@@ -6,15 +12,6 @@ import type { GetStaticPaths, GetStaticPropsContext } from "next";
 import Link from "next/link";
 import path from "path";
 import { z } from "zod";
-
-import { getAppWithMetadata } from "@quillsocial/app-store/_appRegistry";
-import { getAppAssetFullPath } from "@quillsocial/app-store/getAppAssetFullPath";
-import prisma from "@quillsocial/prisma";
-
-import type { inferSSRProps } from "@lib/types/inferSSRProps";
-
-import PageWrapper from "@components/PageWrapper";
-import App from "@components/apps/App";
 
 const md = new MarkdownIt("default", { html: true, breaks: true });
 

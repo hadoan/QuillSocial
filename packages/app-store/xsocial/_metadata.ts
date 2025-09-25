@@ -1,7 +1,6 @@
+import _package from "./package.json";
 import { validJson } from "@quillsocial/lib/jsonUtils";
 import type { AppMeta } from "@quillsocial/types/App";
-
-import _package from "./package.json";
 
 export const metadata = {
   name: "X",

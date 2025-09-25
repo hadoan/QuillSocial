@@ -1,3 +1,4 @@
+import { Select } from "../select";
 import { classNames } from "@quillsocial/lib";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { Dispatch, SetStateAction } from "react";
@@ -5,8 +6,6 @@ import React from "react";
 import type { GroupBase, OptionProps } from "react-select";
 import { components } from "react-select";
 import type { Props } from "react-select";
-
-import { Select } from "../select";
 
 export type Option = {
   value: string;

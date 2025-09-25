@@ -1,12 +1,10 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TSetPasswordSchema } from "./setPassword.schema";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import { verifyPassword } from "@quillsocial/features/auth/lib/verifyPassword";
 import { prisma } from "@quillsocial/prisma";
-import { createHash } from "crypto";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TSetPasswordSchema } from "./setPassword.schema";
+import { createHash } from "crypto";
 
 type UpdateOptions = {
   ctx: {

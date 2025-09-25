@@ -1,12 +1,13 @@
+import { publicDomain } from "../../../../apps/web/pages/api/auth/pulic-email";
+import { CustomScopesXProvider } from "./CustomScopesXProvider";
+import { ErrorCode } from "./ErrorCode";
+import { LinkedinProvider } from "./LinkedinProvider";
+import { isPasswordValid } from "./isPasswordValid";
+import MyAppAuthAdapter from "./next-auth-custom-adapter";
+import { updateUserCredential } from "./updateUserCredential";
+import { verifyPassword } from "./verifyPassword";
 import type { UserPermissionRole, Membership, Team } from "@prisma/client";
-import type { AuthOptions, Session } from "next-auth";
-import { encode } from "next-auth/jwt";
-import type { Provider } from "next-auth/providers";
-import CredentialsProvider from "next-auth/providers/credentials";
-import EmailProvider from "next-auth/providers/email";
-import GoogleProvider from "next-auth/providers/google";
-import TwitterProvider from "next-auth/providers/twitter";
-import LinkedInProvider from "next-auth/providers/linkedin";
+import getAppKeysFromSlug from "@quillsocial/app-store/_utils/getAppKeysFromSlug";
 import {
   sendToJuneSo,
   TrackEventJuneSo,
@@ -19,6 +20,7 @@ import {
 import { symmetricDecrypt } from "@quillsocial/lib/crypto";
 import { defaultCookies } from "@quillsocial/lib/default-cookies";
 import { isENVDev } from "@quillsocial/lib/env";
+import logger from "@quillsocial/lib/logger";
 import { randomString } from "@quillsocial/lib/random";
 import slugify from "@quillsocial/lib/slugify";
 import prisma from "@quillsocial/prisma";
@@ -27,17 +29,14 @@ import {
   teamMetadataSchema,
   userMetadata,
 } from "@quillsocial/prisma/zod-utils";
-
-import { publicDomain } from "../../../../apps/web/pages/api/auth/pulic-email";
-import { ErrorCode } from "./ErrorCode";
-import { isPasswordValid } from "./isPasswordValid";
-import MyAppAuthAdapter from "./next-auth-custom-adapter";
-import { updateUserCredential } from "./updateUserCredential";
-import { verifyPassword } from "./verifyPassword";
-import { LinkedinProvider } from "./LinkedinProvider";
-import { CustomScopesXProvider } from "./CustomScopesXProvider";
-import getAppKeysFromSlug from "@quillsocial/app-store/_utils/getAppKeysFromSlug";
-import logger from "@quillsocial/lib/logger";
+import type { AuthOptions, Session } from "next-auth";
+import { encode } from "next-auth/jwt";
+import type { Provider } from "next-auth/providers";
+import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
+import LinkedInProvider from "next-auth/providers/linkedin";
+import TwitterProvider from "next-auth/providers/twitter";
 
 const GOOGLE_API_CREDENTIALS = process.env.GOOGLE_API_CREDENTIALS || "{}";
 const safeParseGoogleCreds = (raw: string): any => {
@@ -159,7 +158,6 @@ const providers: Provider[] = [
         throw new Error(ErrorCode.IncorrectUsernamePassword);
       }
 
-
       if (
         user.identityProvider !== IdentityProvider.DB &&
         !credentials.totpCode
@@ -262,7 +260,10 @@ const providers: Provider[] = [
         organizationId: user.organizationId,
       };
 
-      authLog.debug("Role validation", { originalRole: user.role, finalRole: result.role });
+      authLog.debug("Role validation", {
+        originalRole: user.role,
+        finalRole: result.role,
+      });
       authLog.debug("Login success", {
         id: result.id,
         role: result.role,
@@ -517,7 +518,9 @@ export const AUTH_OPTIONS: AuthOptions = {
 
         // @ts-ignore-error TODO validate email_verified key on profile
         user.email_verified =
-          user.email_verified || !!user.emailVerified || (profile as any)?.email_verified;
+          user.email_verified ||
+          !!user.emailVerified ||
+          (profile as any)?.email_verified;
 
         if (account?.provider !== "twitter" && !user.email_verified) {
           return "/auth/error?error=unverified-email";

@@ -1,6 +1,5 @@
-import type { GetServerSideProps, GetServerSidePropsContext } from "next";
-
 import { csp } from "@lib/csp";
+import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 export type WithNonceProps = {
   nonce?: string;

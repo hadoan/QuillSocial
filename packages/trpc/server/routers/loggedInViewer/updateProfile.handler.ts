@@ -1,6 +1,5 @@
+import type { TUpdateProfileInputSchema } from "./updateProfile.schema";
 import type { Prisma } from "@prisma/client";
-import type { NextApiResponse, GetServerSidePropsContext } from "next";
-
 import { getTranslation } from "@quillsocial/lib/server";
 import { checkUsername } from "@quillsocial/lib/server/checkUsername";
 import { resizeBase64Image } from "@quillsocial/lib/server/resizeBase64Image";
@@ -8,10 +7,8 @@ import slugify from "@quillsocial/lib/slugify";
 import { prisma } from "@quillsocial/prisma";
 import { userMetadata } from "@quillsocial/prisma/zod-utils";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TUpdateProfileInputSchema } from "./updateProfile.schema";
+import type { NextApiResponse, GetServerSidePropsContext } from "next";
 
 type UpdateProfileOptions = {
   ctx: {

@@ -1,10 +1,14 @@
-export const GOOGLE_API_CREDENTIALS = process.env.GOOGLE_API_CREDENTIALS || "{}";
+export const GOOGLE_API_CREDENTIALS =
+  process.env.GOOGLE_API_CREDENTIALS || "{}";
 
 const safeParse = (raw: string): any => {
   try {
     return JSON.parse(raw);
   } catch (e) {
-    console.warn("Invalid GOOGLE_API_CREDENTIALS JSON; Google OAuth disabled. Error:", (e as Error).message);
+    console.warn(
+      "Invalid GOOGLE_API_CREDENTIALS JSON; Google OAuth disabled. Error:",
+      (e as Error).message
+    );
     return {};
   }
 };

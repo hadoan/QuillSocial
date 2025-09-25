@@ -1,5 +1,6 @@
 import getInstalledAppPath from "@quillsocial/app-store/_utils/getInstalledAppPath";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
+import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
 import { deriveAppDictKeyFromType } from "@quillsocial/lib/deriveAppDictKeyFromType";
 import { HttpError } from "@quillsocial/lib/http-error";
 import prisma from "@quillsocial/prisma";
@@ -9,7 +10,7 @@ import type {
 } from "@quillsocial/types/AppHandler";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { Session } from "next-auth";
-import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
+
 const defaultIntegrationAddHandler = async ({
   slug,
   supportsMultipleInstalls,

@@ -1,7 +1,4 @@
-import { useSession } from "next-auth/react";
-import type { ReactNode, InputHTMLAttributes } from "react";
-import { forwardRef } from "react";
-
+import { filterQuerySchema } from "../lib/getTeamsFiltersFromQuery";
 import { classNames } from "@quillsocial/lib";
 import { getPlaceholderAvatar } from "@quillsocial/lib/defaultAvatarImage";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
@@ -17,8 +14,9 @@ import {
   VerticalDivider,
 } from "@quillsocial/ui";
 import { Layers, User } from "@quillsocial/ui/components/icon";
-
-import { filterQuerySchema } from "../lib/getTeamsFiltersFromQuery";
+import { useSession } from "next-auth/react";
+import type { ReactNode, InputHTMLAttributes } from "react";
+import { forwardRef } from "react";
 
 function useFilterQuery() {
   // passthrough allows additional params to not be removed

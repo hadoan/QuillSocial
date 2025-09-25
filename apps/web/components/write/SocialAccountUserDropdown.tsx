@@ -1,3 +1,11 @@
+import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
+import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import { trpc } from "@quillsocial/trpc/react";
+import useAvatarQuery from "@quillsocial/trpc/react/hooks/useAvatarQuery";
+import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
+import { Avatar, HeadSeo, showToast } from "@quillsocial/ui";
+import { Dropdown, DropdownItem } from "@quillsocial/ui";
 import {
   DropdownMenuTrigger,
   DropdownMenuPortal,
@@ -5,16 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@radix-ui/react-dropdown-menu";
-import { useEffect, useState } from "react";
-import { trpc } from "@quillsocial/trpc/react";
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
-import useAvatarQuery from "@quillsocial/trpc/react/hooks/useAvatarQuery";
-import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
-import { Avatar, HeadSeo, showToast } from "@quillsocial/ui";
-import { Dropdown, DropdownItem } from "@quillsocial/ui";
 import { useRouter } from "next/router";
-import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
-import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
+import { useEffect, useState } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface LoadingMap {

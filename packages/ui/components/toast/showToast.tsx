@@ -1,7 +1,6 @@
+import { Check, Info } from "../icon";
 import classNames from "classnames";
 import toast from "react-hot-toast";
-
-import { Check, Info } from "../icon";
 
 type IToast = {
   message: string;

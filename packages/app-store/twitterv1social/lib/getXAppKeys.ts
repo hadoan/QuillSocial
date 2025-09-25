@@ -1,6 +1,5 @@
-import { z } from "zod";
-
 import getParsedAppKeysFromSlug from "../../_utils/getParsedAppKeysFromSlug";
+import { z } from "zod";
 
 const xAppKeysSchema = z.object({
   appKey: z.string(),

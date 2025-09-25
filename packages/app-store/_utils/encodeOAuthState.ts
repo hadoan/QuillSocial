@@ -1,6 +1,5 @@
-import type { NextApiRequest } from "next";
-
 import type { IntegrationOAuthCallbackState } from "../types";
+import type { NextApiRequest } from "next";
 
 export function encodeOAuthState(req: NextApiRequest) {
   if (typeof req.query.state !== "string") {

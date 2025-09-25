@@ -1,6 +1,6 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
-import type { Prisma } from "@prisma/client";
 
 export type UserAdminTeams = (Prisma.TeamGetPayload<{
   select: {

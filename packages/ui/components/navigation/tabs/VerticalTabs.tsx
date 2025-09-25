@@ -1,7 +1,6 @@
-import { classNames } from "@quillsocial/lib";
-
 import type { VerticalTabItemProps } from "./VerticalTabItem";
 import VerticalTabItem from "./VerticalTabItem";
+import { classNames } from "@quillsocial/lib";
 
 export { VerticalTabItem };
 

@@ -1,8 +1,7 @@
-import React from "react";
-
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { trpc } from "@quillsocial/trpc/react";
 import { Avatar } from "@quillsocial/ui";
+import React from "react";
 
 interface SocialAvatarProps {
   avatarUrl: string;
@@ -31,9 +30,10 @@ const SocialAvatar: React.FC<SocialAvatarProps> = ({
   const imgClass = mappedSize === "sm" ? "ml-3 h-2 w-3" : "ml-8 h-4 w-4";
 
   // Special handling for xconsumerkeys-social to use SVG logo as avatar
-  const displayAvatarUrl = appId === "xconsumerkeys-social"
-    ? `${WEBAPP_URL}/logo/xconsumerkeys-social-logo.svg`
-    : avatarUrl;
+  const displayAvatarUrl =
+    appId === "xconsumerkeys-social"
+      ? `${WEBAPP_URL}/logo/xconsumerkeys-social-logo.svg`
+      : avatarUrl;
 
   return (
     <div className="relative flex items-center">

@@ -1,14 +1,12 @@
-import dayjs from "@quillsocial/dayjs";
-import { TimeFormat } from "@quillsocial/lib/timeFormat";
-import type { TFunction } from "next-i18next";
-
 import {
   BaseEmailHtml,
-  Info,
-  // WhoInfo,
+  Info, // WhoInfo,
   // AppsStatus,
   UserFieldsResponses,
 } from "../components";
+import dayjs from "@quillsocial/dayjs";
+import { TimeFormat } from "@quillsocial/lib/timeFormat";
+import type { TFunction } from "next-i18next";
 
 export const BaseScheduledEmail = (
   props: {

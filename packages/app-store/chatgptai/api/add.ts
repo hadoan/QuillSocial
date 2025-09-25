@@ -1,10 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
+import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { symmetricEncrypt } from "@quillsocial/lib/crypto";
 import logger from "@quillsocial/lib/logger";
 import prisma from "@quillsocial/prisma";
-
-import getInstalledAppPath from "../../_utils/getInstalledAppPath";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -45,11 +43,9 @@ export default async function handler(
         .json({ message: "Could not add this chatgpt account" });
     }
 
-    return res
-      .status(200)
-      .json({
-        url: getInstalledAppPath({ variant: "ai", slug: "chatgpt-ai" }),
-      });
+    return res.status(200).json({
+      url: getInstalledAppPath({ variant: "ai", slug: "chatgpt-ai" }),
+    });
   }
 
   if (req.method === "GET") {

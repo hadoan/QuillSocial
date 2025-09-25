@@ -1,16 +1,14 @@
+import { APP_STORE_PATH } from "./constants";
+import { getAppName } from "./utils/getAppName";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import prettierConfig from "@quillsocial/config/prettier-preset";
+import { AppMeta } from "@quillsocial/types/App";
 import chokidar from "chokidar";
 import fs from "fs";
 import { debounce } from "lodash";
 import path from "path";
 import prettier from "prettier";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import prettierConfig from "@quillsocial/config/prettier-preset";
-import { AppMeta } from "@quillsocial/types/App";
-
-import { APP_STORE_PATH } from "./constants";
-import { getAppName } from "./utils/getAppName";
 
 let isInWatchMode = false;
 if (process.argv[2] === "--watch") {

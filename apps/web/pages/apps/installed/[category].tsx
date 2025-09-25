@@ -1,7 +1,8 @@
-import { useRouter } from "next/router";
-import { useCallback, useReducer, useState } from "react";
-import z from "zod";
-
+import AppListCard from "@components/AppListCard";
+import PageWrapper from "@components/PageWrapper";
+import { PageSwitch } from "@components/apps/PageSwitch";
+import InstalledAppsLayout from "@components/apps/layouts/InstalledAppsLayout";
+import { QueryCell } from "@lib/QueryCell";
 import { AppSettings } from "@quillsocial/app-store/_components/AppSettings";
 import { InstallAppButton } from "@quillsocial/app-store/components";
 import DisconnectIntegrationModal from "@quillsocial/features/apps/components/DisconnectIntegrationModal";
@@ -39,13 +40,9 @@ import {
   Trash,
   Video,
 } from "@quillsocial/ui/components/icon";
-
-import { QueryCell } from "@lib/QueryCell";
-
-import AppListCard from "@components/AppListCard";
-import PageWrapper from "@components/PageWrapper";
-import { PageSwitch } from "@components/apps/PageSwitch";
-import InstalledAppsLayout from "@components/apps/layouts/InstalledAppsLayout";
+import { useRouter } from "next/router";
+import { useCallback, useReducer, useState } from "react";
+import z from "zod";
 
 function ConnectOrDisconnectIntegrationMenuItem(props: {
   credentialIds: number[];

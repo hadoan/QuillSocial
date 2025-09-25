@@ -1,9 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
 import prisma from "@quillsocial/prisma";
 import { Post } from "@quillsocial/types/Posts";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 interface RequestBody {
   idea: string;

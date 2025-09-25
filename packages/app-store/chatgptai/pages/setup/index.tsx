@@ -1,11 +1,10 @@
+import { APP_NAME } from "@quillsocial/lib/constants";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { Alert, Button, Form, TextField } from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster } from "react-hot-toast";
-
-import { APP_NAME } from "@quillsocial/lib/constants";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { Alert, Button, Form, TextField } from "@quillsocial/ui";
 
 export default function chatgptSetup() {
   const { t } = useLocale();

@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { LinkedinManager } from "../lib";
+import type { NextApiRequest, NextApiResponse } from "next";
+
 //http://localhost:3000/api/integrations/xsocial/post?id={postId}
 export default async function handler(
   req: NextApiRequest,
@@ -19,12 +20,10 @@ export default async function handler(
       if (result) {
         res.status(200).json({ success: true });
       } else {
-        res
-          .status(400)
-          .json({
-            success: false,
-            error: "Error occurred when post to linkedin.",
-          });
+        res.status(400).json({
+          success: false,
+          error: "Error occurred when post to linkedin.",
+        });
       }
     } else {
       res.status(400).json({ success: false, error: "Invalid Id value" });

@@ -1,6 +1,5 @@
-import type { ComponentProps } from "react";
-
 import BaseTable from "./BaseTable";
+import type { ComponentProps } from "react";
 
 const Row = ({
   children,

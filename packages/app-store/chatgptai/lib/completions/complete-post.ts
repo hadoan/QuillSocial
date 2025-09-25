@@ -1,6 +1,5 @@
-import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
-
 import { getRewriteCompletions } from "./getChatCompletions";
+import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 
 const getMessageTexts = (instruction: string, idea: string): any[] => {
   return [

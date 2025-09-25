@@ -1,7 +1,4 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState, type FC } from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-
+import { QueryCell } from "@lib/QueryCell";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { HttpError } from "@quillsocial/lib/http-error";
@@ -16,8 +13,9 @@ import {
   FileText,
   AlertCircle,
 } from "@quillsocial/ui/components/icon";
-
-import { QueryCell } from "@lib/QueryCell";
+import { useRouter } from "next/router";
+import React, { useEffect, useState, type FC } from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const BillingOverview: FC = () => {
   const router = useRouter();

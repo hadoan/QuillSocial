@@ -1,8 +1,7 @@
+import type { TrpcSessionUser } from "../../../trpc";
 import { isOrganisationAdmin } from "@quillsocial/lib/server/queries/organisations";
 import { prisma } from "@quillsocial/prisma";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
-import type { TrpcSessionUser } from "../../../trpc";
 
 type ListOptions = {
   ctx: {

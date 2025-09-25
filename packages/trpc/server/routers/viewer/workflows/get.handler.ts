@@ -1,10 +1,8 @@
-import { prisma } from "@quillsocial/prisma";
-import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import { TRPCError } from "@trpc/server";
-
 import type { TGetInputSchema } from "./get.schema";
 import { isAuthorized } from "./util";
+import { prisma } from "@quillsocial/prisma";
+import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
+import { TRPCError } from "@trpc/server";
 
 type GetOptions = {
   ctx: {

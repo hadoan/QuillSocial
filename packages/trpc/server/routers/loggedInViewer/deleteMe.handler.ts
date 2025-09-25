@@ -1,4 +1,5 @@
 // import { deleteStripeCustomer } from "@quillsocial/app-store/stripepayment/lib/customer";
+import type { TDeleteMeInputSchema } from "./deleteMe.schema";
 import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
 import { verifyPassword } from "@quillsocial/features/auth/lib/verifyPassword";
 import { symmetricDecrypt } from "@quillsocial/lib/crypto";
@@ -6,8 +7,6 @@ import { prisma } from "@quillsocial/prisma";
 import { IdentityProvider } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
 import { authenticator } from "otplib";
-
-import type { TDeleteMeInputSchema } from "./deleteMe.schema";
 
 type DeleteMeOptions = {
   ctx: {

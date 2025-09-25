@@ -1,6 +1,5 @@
-import type { GetServerSidePropsContext } from "next";
-
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
+import type { GetServerSidePropsContext } from "next";
 
 function RedirectPage() {
   return;

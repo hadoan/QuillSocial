@@ -1,6 +1,6 @@
+import { BrainContext } from "./brain-provider";
 import { BrainContextType } from "@lib/types/brains";
 import { useContext } from "react";
-import { BrainContext } from "./brain-provider";
 
 export const useBrainContext = (): BrainContextType => {
   const context = useContext(BrainContext);

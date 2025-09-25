@@ -1,8 +1,7 @@
-import type { ParsedUrlQuery } from "querystring";
-import { z } from "zod";
-
 import { queryNumberArray } from "@quillsocial/lib/hooks/useTypedQuery";
 import type { RouterOutputs } from "@quillsocial/trpc/react";
+import type { ParsedUrlQuery } from "querystring";
+import { z } from "zod";
 
 // Use filterQuerySchema when parsing filters out of query, so that additional query params(e.g. slug, appPages) aren't passed in filters
 export const filterQuerySchema = z.object({

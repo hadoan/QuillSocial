@@ -1,3 +1,4 @@
+import type { ButtonColor } from "../../button/Button";
 import { classNames } from "@quillsocial/lib";
 import type { SVGComponent } from "@quillsocial/types/SVGComponent";
 import { CheckCircle } from "@quillsocial/ui/components/icon";
@@ -5,8 +6,6 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
 import type { ComponentProps } from "react";
 import { forwardRef } from "react";
-
-import type { ButtonColor } from "../../button/Button";
 
 export const Dropdown = DropdownMenuPrimitive.Root;
 

@@ -1,3 +1,5 @@
+import { InstallAppButtonMap } from "./apps.browser.generated";
+import type { InstallAppButtonProps } from "./types";
 import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
 import classNames from "@quillsocial/lib/classNames";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
@@ -16,9 +18,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-
-import { InstallAppButtonMap } from "./apps.browser.generated";
-import type { InstallAppButtonProps } from "./types";
 
 export const InstallAppButtonWithoutPlanCheck = (
   props: {

@@ -1,7 +1,6 @@
-import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import type { TListMembersInputSchema } from "./listMembers.schema";
 import type { PrismaClient } from ".prisma/client";
+import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
 
 type ListMembersOptions = {
   ctx: {

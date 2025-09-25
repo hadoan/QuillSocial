@@ -1,7 +1,6 @@
-import type { AppMeta } from "@quillsocial/types/App";
-
 import { appStoreMetadata as rawAppStoreMetadata } from "./apps.metadata.generated";
 import { getAppAssetFullPath } from "./getAppAssetFullPath";
+import type { AppMeta } from "@quillsocial/types/App";
 
 type RawAppStoreMetaData = typeof rawAppStoreMetadata;
 type AppStoreMetaData = {

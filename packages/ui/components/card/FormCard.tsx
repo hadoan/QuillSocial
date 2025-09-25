@@ -1,10 +1,9 @@
-import { classNames } from "@quillsocial/lib";
-import Link from "next/link";
-
 import type { BadgeProps } from "../..";
 import { Badge } from "../..";
 import { Divider } from "../divider";
 import { ArrowDown, ArrowUp, Trash2 } from "../icon";
+import { classNames } from "@quillsocial/lib";
+import Link from "next/link";
 
 type Action = { check: () => boolean; fn: () => void };
 export default function FormCard({

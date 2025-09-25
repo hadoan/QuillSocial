@@ -1,7 +1,6 @@
-import { prisma } from "@quillsocial/prisma";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { CheckGlobalKeysSchemaType } from "./checkGlobalKeys.schema";
+import { prisma } from "@quillsocial/prisma";
 
 type checkForGlobalKeys = {
   ctx: {

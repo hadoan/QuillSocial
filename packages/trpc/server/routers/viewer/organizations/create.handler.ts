@@ -1,6 +1,5 @@
-import { createHash } from "crypto";
-import { totp } from "otplib";
-
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TCreateInputSchema } from "./create.schema";
 import { sendOrganizationEmailVerification } from "@quillsocial/emails";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import {
@@ -11,11 +10,9 @@ import {
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TCreateInputSchema } from "./create.schema";
+import { createHash } from "crypto";
+import { totp } from "otplib";
 
 type CreateOptions = {
   ctx: {

@@ -1,9 +1,8 @@
+import type { TDeleteInviteInputSchema } from "./deleteInvite.schema";
 import { isTeamAdmin } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { TRPCError } from "@quillsocial/trpc/server";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TDeleteInviteInputSchema } from "./deleteInvite.schema";
 
 type DeleteInviteOptions = {
   ctx: {

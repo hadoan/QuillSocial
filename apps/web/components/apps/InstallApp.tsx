@@ -1,7 +1,4 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-
+import ManageAppLink from "./ManageAppLink";
 import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
 import { InstallAppButton } from "@quillsocial/app-store/components";
 import DisconnectIntegration from "@quillsocial/features/apps/components/DisconnectIntegration";
@@ -20,8 +17,9 @@ import {
   TextField,
 } from "@quillsocial/ui";
 import { Check, Plus } from "@quillsocial/ui/components/icon";
-
-import ManageAppLink from "./ManageAppLink";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 export interface MediumKeysForm {
   integrationToken: string;

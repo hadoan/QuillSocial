@@ -1,10 +1,8 @@
-import router from "next/router";
-import { useEffect } from "react";
-
+import useMeQuery from "./useMeQuery";
 import ReminderDaysBilling from "@quillsocial/features/payments/ConstRemindDays";
 import { trpc } from "@quillsocial/trpc";
-
-import useMeQuery from "./useMeQuery";
+import router from "next/router";
+import { useEffect } from "react";
 
 export const redirectIfTrialOver = (
   mobileNavigationBottomItems: any[],

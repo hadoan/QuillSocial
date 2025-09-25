@@ -1,9 +1,8 @@
+import { ChevronDown } from "../icon";
 import { classNames } from "@quillsocial/lib";
 import { Tooltip } from "@quillsocial/ui";
 import * as Popover from "@radix-ui/react-popover";
 import React from "react";
-
-import { ChevronDown } from "../icon";
 
 export const AnimatedPopover = ({
   text,

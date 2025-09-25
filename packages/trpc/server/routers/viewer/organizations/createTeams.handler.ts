@@ -1,12 +1,10 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TCreateTeamsSchema } from "./createTeams.schema";
 import slugify from "@quillsocial/lib/slugify";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TCreateTeamsSchema } from "./createTeams.schema";
 
 type CreateTeamsOptions = {
   ctx: {

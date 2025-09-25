@@ -1,17 +1,13 @@
-import type { GetServerSidePropsContext } from "next";
-import { useRouter } from "next/router";
-
+import PageWrapper from "@components/PageWrapper";
+import type { AppProps } from "@lib/app-providers";
 // import RoutingFormsRoutingConfig from "@quillsocial/app-store/routing-forms/pages/app-routing.config";
 import TypeformRoutingConfig from "@quillsocial/app-store/typeform/pages/app-routing.config";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import prisma from "@quillsocial/prisma";
 import type { AppGetServerSideProps } from "@quillsocial/types/AppGetServerSideProps";
-
-import type { AppProps } from "@lib/app-providers";
-
-import PageWrapper from "@components/PageWrapper";
-
 import { ssrInit } from "@server/lib/ssr";
+import type { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
 
 type AppPageType = {
   getServerSideProps: AppGetServerSideProps;

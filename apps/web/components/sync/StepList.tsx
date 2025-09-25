@@ -1,5 +1,6 @@
+import Accordion from "./accordion";
+import EditUnchanged from "./edit";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import React from "react";
 import {
   Alert,
   Avatar,
@@ -10,10 +11,6 @@ import {
   Select,
   TextAreaField,
 } from "@quillsocial/ui";
-import { FaGoogle } from "react-icons/fa";
-import Accordion from "./accordion";
-
-import EditUnchanged from "./edit";
 import {
   Calendar,
   ArrowRight,
@@ -23,8 +20,11 @@ import {
   CheckCircle,
   MoreHorizontal,
 } from "@quillsocial/ui/components/icon";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import React from "react";
+import { useState, useEffect } from "react";
+import { FaGoogle } from "react-icons/fa";
+
 function StepList(props: any) {
   const { steps } = props;
   const data1 = [

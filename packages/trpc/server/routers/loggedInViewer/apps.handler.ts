@@ -1,7 +1,6 @@
+import type { TAppsInputSchema } from "./apps.schema";
 import getEnabledApps from "@quillsocial/lib/apps/getEnabledApps";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TAppsInputSchema } from "./apps.schema";
 
 type AppsOptions = {
   ctx: {

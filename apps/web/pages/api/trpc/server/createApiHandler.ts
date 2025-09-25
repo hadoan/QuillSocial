@@ -1,9 +1,7 @@
-import { z } from "zod";
-
+import { createContext } from "./createContext";
 import type { AnyRouter } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
-
-import { createContext } from "./createContext";
+import { z } from "zod";
 
 export function createApiHandler(router: AnyRouter, isPublic = false) {
   return trpcNext.createNextApiHandler({

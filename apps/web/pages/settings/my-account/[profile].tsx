@@ -1,10 +1,10 @@
 import PageWrapper from "@components/PageWrapper";
-import OpenAIUsageCard from "@quillsocial/features/settings/components/OpenAIUsageCard";
 import InstallApp from "@components/apps/InstallApp";
 import TwoFactor from "@components/auth/TwoFactor";
 import { SelectSkeletonLoader } from "@components/common/SkeletonLoader";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
+import OpenAIUsageCard from "@quillsocial/features/settings/components/OpenAIUsageCard";
 import Shell from "@quillsocial/features/shell/Shell";
 import { FULL_NAME_LENGTH_MAX_LIMIT } from "@quillsocial/lib/constants";
 import { APP_NAME } from "@quillsocial/lib/constants";
@@ -284,9 +284,9 @@ const ProfileView = () => {
           <>
             <div className="grid grid-cols-12">
               <div className="col-span-10 ml-[50px] sm:col-span-6 sm:ml-1">
-                <div>
+                {/* <div>
                   <OpenAIUsageCard />
-                </div>
+                </div> */}
                 <ProfileForm
                   key={JSON.stringify(defaultValues)}
                   defaultValues={defaultValues}

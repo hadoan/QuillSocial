@@ -8,4 +8,3 @@ export const VideoPlayer = ({ url }: { url: string }) => {
     </div>
   );
 };
-

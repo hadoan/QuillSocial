@@ -1,13 +1,11 @@
+import authedProcedure from "../../procedures/authedProcedure";
+import { router } from "../../trpc";
 import appStore from "@quillsocial/app-store";
 import dayjs from "@quillsocial/dayjs";
 import { sendNoShowFeeChargedEmail } from "@quillsocial/emails";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
-import { z } from "zod";
-
 import { TRPCError } from "@trpc/server";
-
-import authedProcedure from "../../procedures/authedProcedure";
-import { router } from "../../trpc";
+import { z } from "zod";
 
 export const paymentsRouter = router({
   chargeCard: authedProcedure

@@ -1,6 +1,5 @@
-import type Zod from "zod";
-
 import getAppKeysFromSlug from "./getAppKeysFromSlug";
+import type Zod from "zod";
 
 export async function getParsedAppKeysFromSlug(
   slug: string,

@@ -1,8 +1,7 @@
+import type { TTestTriggerInputSchema } from "./testTrigger.schema";
 import sendPayload from "@quillsocial/features/webhooks/lib/sendPayload";
 import { getErrorFromUnknown } from "@quillsocial/lib/errors";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
-
-import type { TTestTriggerInputSchema } from "./testTrigger.schema";
 
 type TestTriggerOptions = {
   ctx: Record<string, unknown>;

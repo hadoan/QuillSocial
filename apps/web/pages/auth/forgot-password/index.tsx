@@ -1,3 +1,5 @@
+import PageWrapper from "@components/PageWrapper";
+import AuthContainer from "@components/ui/AuthContainer";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button, EmailField } from "@quillsocial/ui";
@@ -6,11 +8,9 @@ import type { GetServerSidePropsContext } from "next";
 import { getCsrfToken } from "next-auth/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import type { CSSProperties, SyntheticEvent } from "react";
 import React from "react";
-import { useRouter } from "next/router";
-import PageWrapper from "@components/PageWrapper";
-import AuthContainer from "@components/ui/AuthContainer";
 
 export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
   const { t } = useLocale();

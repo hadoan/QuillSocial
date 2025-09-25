@@ -1,3 +1,5 @@
+import type { TCreateInputSchema } from "./create.schema";
+import type { Workflow } from "@prisma/client";
 import emailReminderTemplate from "@quillsocial/ee/workflows/lib/reminders/templates/emailReminderTemplate";
 import { SENDER_NAME } from "@quillsocial/lib/constants";
 import { prisma } from "@quillsocial/prisma";
@@ -10,11 +12,7 @@ import {
   WorkflowTriggerEvents,
 } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-import type { Workflow } from "@prisma/client";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TCreateInputSchema } from "./create.schema";
 
 type CreateOptions = {
   ctx: {

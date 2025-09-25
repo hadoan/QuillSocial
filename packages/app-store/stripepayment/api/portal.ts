@@ -1,9 +1,8 @@
+import { getStripeCustomerIdFromUserId } from "../lib/customer";
+import stripe from "../lib/server";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { getSafeRedirectUrl } from "@quillsocial/lib/getSafeRedirectUrl";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-import { getStripeCustomerIdFromUserId } from "../lib/customer";
-import stripe from "../lib/server";
 
 export default async function handler(
   req: NextApiRequest,

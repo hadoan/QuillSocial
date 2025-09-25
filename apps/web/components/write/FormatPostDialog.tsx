@@ -1,8 +1,3 @@
-import { Dialog, DialogContent } from "@radix-ui/react-dialog";
-import { useState } from "react";
-
-import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
-
 import ModalEditOrNewCustom from "@components/post-generator/ModalEditOrNew";
 import ModalSelectFormat from "@components/post-generator/ModalSelectFormat";
 import {
@@ -10,6 +5,9 @@ import {
   fetchFormatRecomand,
 } from "@components/post-generator/selectFormat";
 import { WriteAiDialog } from "@components/write/WriteAiDialog";
+import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
+import { Dialog, DialogContent } from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 interface FormatPostDialog {
   open: boolean;

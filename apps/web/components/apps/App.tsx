@@ -1,3 +1,4 @@
+import InstallApp from "./InstallApp";
 import { AppDependencyComponent } from "@quillsocial/app-store/components";
 import Shell from "@quillsocial/features/shell/Shell";
 import classNames from "@quillsocial/lib/classNames";
@@ -21,7 +22,6 @@ import {
 import Link from "next/link";
 import type { IframeHTMLAttributes } from "react";
 import React from "react";
-import InstallApp from "./InstallApp";
 
 const Component = ({
   name,

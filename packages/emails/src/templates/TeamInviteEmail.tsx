@@ -1,11 +1,10 @@
+import { V2BaseEmailHtml, CallToAction } from "../components";
 import {
   APP_NAME,
   WEBAPP_URL,
   IS_PRODUCTION,
 } from "@quillsocial/lib/constants";
 import type { TFunction } from "next-i18next";
-
-import { V2BaseEmailHtml, CallToAction } from "../components";
 
 type TeamInvite = {
   language: TFunction;

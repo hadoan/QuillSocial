@@ -1,9 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable";
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 import { uploadGCP } from "../lib/uploadGCP";
-import prisma from "@quillsocial/prisma";
 import { getUserFromToken } from "@quillsocial/lib/teams/getUserFromToken";
+import prisma from "@quillsocial/prisma";
+import formidable from "formidable";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

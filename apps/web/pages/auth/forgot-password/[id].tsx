@@ -1,3 +1,5 @@
+import PageWrapper from "@components/PageWrapper";
+import AuthContainer from "@components/ui/AuthContainer";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import prisma from "@quillsocial/prisma";
 import { Button, PasswordField, Form } from "@quillsocial/ui";
@@ -7,9 +9,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useForm } from "react-hook-form";
-
-import PageWrapper from "@components/PageWrapper";
-import AuthContainer from "@components/ui/AuthContainer";
 
 type Props = {
   requestId: string;

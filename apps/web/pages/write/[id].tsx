@@ -385,12 +385,18 @@ const WritePage = () => {
 
       if (!response.ok) {
         // Handle different error response formats from different social platforms
-        const errorMessage = responseData?.message || responseData?.error || "Failed to publish post";
+        const errorMessage =
+          responseData?.message ||
+          responseData?.error ||
+          "Failed to publish post";
         showToast(`Publishing failed: ${errorMessage}`, "error");
       } else {
         // Check for success response format (some APIs return success: false even with 200 status)
         if (responseData?.success === false) {
-          const errorMessage = responseData?.error || responseData?.message || "Failed to publish post";
+          const errorMessage =
+            responseData?.error ||
+            responseData?.message ||
+            "Failed to publish post";
           showToast(`Publishing failed: ${errorMessage}`, "error");
         } else {
           if (pluginData) {
@@ -430,7 +436,10 @@ const WritePage = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error saving plugin data:", errorData?.message || response.statusText);
+        console.error(
+          "Error saving plugin data:",
+          errorData?.message || response.statusText
+        );
         showToast("Failed to save plugin data", "error");
       }
     } catch (error) {

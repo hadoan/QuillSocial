@@ -1,7 +1,6 @@
+import type { TEditInputSchema } from "./edit.schema";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TEditInputSchema } from "./edit.schema";
 
 type EditOptions = {
   ctx: {

@@ -1,9 +1,8 @@
+import type { TrpcSessionUser } from "../../../trpc";
 import getAppKeysFromSlug from "@quillsocial/app-store/_utils/getAppKeysFromSlug";
 import { prisma } from "@quillsocial/prisma";
 import { google } from "googleapis";
 import { z } from "zod";
-
-import type { TrpcSessionUser } from "../../../trpc";
 
 type CheckForGCalOptions = {
   ctx: {

@@ -1,10 +1,9 @@
+import { Tooltip } from "../../tooltip";
 import cx from "@quillsocial/lib/classNames";
 import { useId } from "@radix-ui/react-id";
 import * as Label from "@radix-ui/react-label";
 import * as PrimitiveSwitch from "@radix-ui/react-switch";
 import React from "react";
-
-import { Tooltip } from "../../tooltip";
 
 const Wrapper = ({
   children,

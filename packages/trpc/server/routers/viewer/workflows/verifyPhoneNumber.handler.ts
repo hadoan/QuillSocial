@@ -1,7 +1,6 @@
+import type { TVerifyPhoneNumberInputSchema } from "./verifyPhoneNumber.schema";
 import { verifyPhoneNumber } from "@quillsocial/features/ee/workflows/lib/reminders/verifyPhoneNumber";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TVerifyPhoneNumberInputSchema } from "./verifyPhoneNumber.schema";
 
 type VerifyPhoneNumberOptions = {
   ctx: {

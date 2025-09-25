@@ -1,7 +1,6 @@
+import type { TDeleteInputSchema } from "./delete.schema";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TDeleteInputSchema } from "./delete.schema";
 
 type DeleteOptions = {
   ctx: {

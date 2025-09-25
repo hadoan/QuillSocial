@@ -1,10 +1,9 @@
+import { Button } from "../../components/button";
 import { classNames } from "@quillsocial/lib";
 import type { SVGComponent } from "@quillsocial/types/SVGComponent";
 import type { LucideIcon as IconType } from "lucide-react";
 import type { ReactNode } from "react";
 import React from "react";
-
-import { Button } from "../../components/button";
 
 export function EmptyScreen({
   Icon,

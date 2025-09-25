@@ -1,8 +1,7 @@
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import type { AppFrontendPayload as App } from "@quillsocial/types/App";
-
 import { AppCard } from "./AppCard";
 import { Slider } from "./Slider";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import type { AppFrontendPayload as App } from "@quillsocial/types/App";
 
 export const PopularAppsSlider = <T extends App>({ items }: { items: T[] }) => {
   const { t } = useLocale();

@@ -1,3 +1,11 @@
+import { CustomInstructionDialog } from "./CustomInstructionDialog";
+import { FormatPostDialog } from "./FormatPostDialog";
+import { WriteAiDialog } from "./WriteAiDialog";
+import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
+import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
+import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
+import { Dropdown, DropdownItem, showToast } from "@quillsocial/ui";
+import { Dialog, DialogContent } from "@quillsocial/ui";
 import {
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -15,16 +23,6 @@ import {
   Brain,
 } from "lucide-react";
 import { useState } from "react";
-
-import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
-import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
-import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
-import { Dropdown, DropdownItem, showToast } from "@quillsocial/ui";
-import { Dialog, DialogContent } from "@quillsocial/ui";
-
-import { CustomInstructionDialog } from "./CustomInstructionDialog";
-import { FormatPostDialog } from "./FormatPostDialog";
-import { WriteAiDialog } from "./WriteAiDialog";
 
 export const DropdownReWriteAI = (props: {
   content: string;

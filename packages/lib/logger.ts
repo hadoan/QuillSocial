@@ -1,6 +1,5 @@
-import { Logger } from "tslog";
-
 import { IS_PRODUCTION } from "./constants";
+import { Logger } from "tslog";
 
 const logger = new Logger({
   minLevel: !!process.env.NEXT_PUBLIC_DEBUG ? "debug" : "warn",

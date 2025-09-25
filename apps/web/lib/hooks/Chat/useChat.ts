@@ -1,15 +1,13 @@
 /* eslint-disable max-lines */
+import { useBrainContext } from "./useBrainContext";
+import { useChatContext } from "./useChatContext";
+import { useQuestion } from "./useQuestion";
+import { CHATS_DATA_KEY, createChat } from "@lib/chat/chat";
+import { ChatConfig, ChatQuestion } from "@lib/types/chatDocProps";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import { CHATS_DATA_KEY, createChat } from "@lib/chat/chat";
-import { ChatConfig, ChatQuestion } from "@lib/types/chatDocProps";
-
-import { useBrainContext } from "./useBrainContext";
-import { useChatContext } from "./useChatContext";
-import { useQuestion } from "./useQuestion";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChat = () => {

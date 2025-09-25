@@ -1,6 +1,5 @@
-import React from "react";
-
 import { HttpError } from "@quillsocial/lib/http-error";
+import React from "react";
 
 type Props = {
   statusCode?: number | null;

@@ -1,7 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { getServerErrorFromUnknown } from "./getServerErrorFromUnknown";
 import { performance } from "./perfObserver";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Handle<T> = (req: NextApiRequest, res: NextApiResponse) => Promise<T>;
 

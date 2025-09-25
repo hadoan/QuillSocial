@@ -1,6 +1,6 @@
-import prisma from "@quillsocial/prisma";
-import { xCredentialSchema } from "./xCredentialSchema";
 import { getXAppKeys } from "./getXAppKeys";
+import { xCredentialSchema } from "./xCredentialSchema";
+import prisma from "@quillsocial/prisma";
 import { TwitterApi } from "twitter-api-v2";
 
 // const client = new Client(process.env.BEARER_TOKEN);

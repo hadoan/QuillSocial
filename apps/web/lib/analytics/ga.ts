@@ -1,6 +1,8 @@
 // prefer public env var so it can be configured per-deploy
 export const GA_MEASUREMENT_ID =
-  typeof process !== "undefined" && typeof process.env !== "undefined" && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  typeof process !== "undefined" &&
+  typeof process.env !== "undefined" &&
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
     ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
     : "G-XXXXXX";
 

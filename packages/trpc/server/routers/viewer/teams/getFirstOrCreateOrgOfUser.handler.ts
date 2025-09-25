@@ -1,10 +1,8 @@
-import { addSeconds } from "date-fns";
-
+import { TrpcSessionUser } from "../../../trpc";
 import { getTeamWithMembers } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
-
-import { TrpcSessionUser } from "../../../trpc";
+import { addSeconds } from "date-fns";
 
 type getFirstOrCreateOrgOfUserOptions = {
   ctx: {

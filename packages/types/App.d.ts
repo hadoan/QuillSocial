@@ -1,5 +1,5 @@
-import type { Tag } from "@quillsocial/app-store/types";
 import type { Prisma } from "@prisma/client";
+import type { Tag } from "@quillsocial/app-store/types";
 
 type CommonProperties = {
   default?: false;

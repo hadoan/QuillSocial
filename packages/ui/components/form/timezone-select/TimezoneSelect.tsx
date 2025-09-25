@@ -1,3 +1,4 @@
+import { getReactSelectProps } from "../select";
 import { classNames } from "@quillsocial/lib";
 import {
   filterByCities,
@@ -12,8 +13,6 @@ import type {
   Props as SelectProps,
 } from "react-timezone-select";
 import BaseSelect, { allTimezones } from "react-timezone-select";
-
-import { getReactSelectProps } from "../select";
 
 export interface ICity {
   city: string;

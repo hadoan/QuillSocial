@@ -1,9 +1,7 @@
+import type prisma from "@quillsocial/prisma";
+import type { ssrInit } from "@server/lib/ssr";
 import type { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import type { CalendsoSessionUser } from "next-auth";
-
-import type prisma from "@quillsocial/prisma";
-
-import type { ssrInit } from "@server/lib/ssr";
 
 export type AppUser = CalendsoSessionUser | undefined;
 export type AppPrisma = typeof prisma;

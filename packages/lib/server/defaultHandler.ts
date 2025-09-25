@@ -13,13 +13,11 @@ export const defaultHandler =
       ?.default;
     // auto catch unsupported methods.
     if (!handler) {
-      return res
-        .status(405)
-        .json({
-          message: `Method Not Allowed (Allow: ${Object.keys(handlers).join(
-            ","
-          )})`,
-        });
+      return res.status(405).json({
+        message: `Method Not Allowed (Allow: ${Object.keys(handlers).join(
+          ","
+        )})`,
+      });
     }
 
     try {

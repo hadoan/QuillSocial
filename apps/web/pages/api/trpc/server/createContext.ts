@@ -1,6 +1,7 @@
 import { getLocaleFromHeaders } from "@quillsocial/lib/i18n";
 import prisma from "@quillsocial/prisma";
 import type { User as PrismaUser } from "@quillsocial/prisma/client";
+import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -8,8 +9,6 @@ import type {
 } from "next";
 import type { Session } from "next-auth";
 import type { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 type CreateContextOptions =
   | CreateNextContextOptions

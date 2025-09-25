@@ -1,32 +1,31 @@
-import FullCalendar from "@fullcalendar/react";
+import type { Demo } from "../../lib/types/calendar-types";
+import PageWrapper from "@components/PageWrapper";
+import { DateSelectArg, EventClickArg, DateInput } from "@fullcalendar/core";
 // fullcalendar plugins imports
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import useMeQuery from "@lib/hooks/useMeQuery";
+import dayjs from "@quillsocial/dayjs";
+import Shell from "@quillsocial/features/shell/Shell";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { PostStatus } from "@quillsocial/prisma/enums";
+import { Dialog as DialogLoading, DialogContent } from "@quillsocial/ui";
+import { HeadSeo } from "@quillsocial/ui";
+import { debounce } from "lodash";
+import "primeicons/primeicons.css";
 import { Button } from "primereact/button";
 import { Calendar as PRCalendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
-import { Dialog as DialogLoading, DialogContent } from "@quillsocial/ui";
-
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primeicons/primeicons.css";
-import "primereact/resources/primereact.css";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
+import "primereact/resources/primereact.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import React, { useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
-import { DateSelectArg, EventClickArg, DateInput } from "@fullcalendar/core";
-import type { Demo } from "../../lib/types/calendar-types";
-import Shell from "@quillsocial/features/shell/Shell";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import PageWrapper from "@components/PageWrapper";
-import useMeQuery from "@lib/hooks/useMeQuery";
-import dayjs from "@quillsocial/dayjs";
-import { HeadSeo } from "@quillsocial/ui";
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { array } from "zod";
-import { PostStatus } from "@quillsocial/prisma/enums";
 
 const CalendarPage = () => {
   const { t } = useLocale();

@@ -1,6 +1,7 @@
-import { prisma } from "@quillsocial/prisma";
 import { TrpcSessionUser } from "../../../trpc";
+import { prisma } from "@quillsocial/prisma";
 import { PostStatus } from "@quillsocial/prisma/client";
+
 type GetSocialConditionsOptions = {
   ctx: {
     user: NonNullable<TrpcSessionUser>;

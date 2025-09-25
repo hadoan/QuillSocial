@@ -1,10 +1,9 @@
-import { randomBytes } from "crypto";
-
 import { sendEmailVerificationLink } from "@quillsocial/emails/email-manager";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import logger from "@quillsocial/lib/logger";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import { prisma } from "@quillsocial/prisma";
+import { randomBytes } from "crypto";
 
 const log = logger.getChildLogger({ prefix: [`[[Auth] `] });
 
@@ -21,8 +20,6 @@ export const sendEmailVerification = async ({
 }: VerifyEmailType) => {
   const token = randomBytes(32).toString("hex");
   const translation = await getTranslation(language ?? "en", "common");
-
-
 
   await prisma.verificationToken.create({
     data: {

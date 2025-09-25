@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 import authedProcedure from "../../procedures/authedProcedure";
 import { router } from "../../trpc";
 import {
@@ -7,6 +5,7 @@ import {
   getUserOpenAIUsageHistory,
   canUserMakeOpenAIRequest,
 } from "@quillsocial/lib/openai-usage";
+import { z } from "zod";
 
 export const openaiUsageRouter = router({
   /**

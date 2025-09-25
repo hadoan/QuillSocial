@@ -1,12 +1,4 @@
 /* eslint-disable max-lines */
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-
-import {
-  CreateBrainInput,
-  MinimalBrainForUser,
-  Prompt,
-} from "@lib/types/brains";
 import {
   createBrain,
   deleteBrain,
@@ -14,6 +6,13 @@ import {
   getDefaultBrain,
 } from "@lib/chat/brain";
 import { getPublicPrompts } from "@lib/chat/prompt";
+import {
+  CreateBrainInput,
+  MinimalBrainForUser,
+  Prompt,
+} from "@lib/types/brains";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useBrainProvider = () => {

@@ -1,6 +1,3 @@
-import type BaseEmail from "@quillsocial/emails/templates/_base-email";
-import { cloneDeep } from "lodash";
-import type { TFunction } from "next-i18next";
 import type { EmailVerifyLink } from "./templates/account-verify-email";
 import AccountVerifyEmail from "./templates/account-verify-email";
 import DisabledAppEmail from "./templates/disabled-app-email";
@@ -8,18 +5,20 @@ import type { Feedback } from "./templates/feedback-email";
 import FeedbackEmail from "./templates/feedback-email";
 import type { PasswordReset } from "./templates/forgot-password-email";
 import ForgotPasswordEmail from "./templates/forgot-password-email";
+import ForguestEmail from "./templates/officebooking-for-guest-email";
+import type { Forguest } from "./templates/officebooking-for-guest-email";
+import forHostEmail from "./templates/officebooking-for-host-email";
+import type { forHost } from "./templates/officebooking-for-host-email";
 import type { OrgAutoInvite } from "./templates/org-auto-join-invite";
 import OrgAutoJoinEmail from "./templates/org-auto-join-invite";
 import type { OrganizationEmailVerify } from "./templates/organization-email-verification";
 import OrganizationEmailVerification from "./templates/organization-email-verification";
-
 import SlugReplacementEmail from "./templates/slug-replacement-email";
 import type { TeamInvite } from "./templates/team-invite-email";
 import TeamInviteEmail from "./templates/team-invite-email";
-import forHostEmail from "./templates/officebooking-for-host-email";
-import type { forHost } from "./templates/officebooking-for-host-email";
-import ForguestEmail from "./templates/officebooking-for-guest-email";
-import type { Forguest } from "./templates/officebooking-for-guest-email";
+import type BaseEmail from "@quillsocial/emails/templates/_base-email";
+import { cloneDeep } from "lodash";
+import type { TFunction } from "next-i18next";
 
 const sendEmail = (prepare: () => BaseEmail) => {
   return new Promise((resolve, reject) => {

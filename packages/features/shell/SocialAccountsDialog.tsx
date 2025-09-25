@@ -1,10 +1,10 @@
-import { Dialog as AccessDialog, DialogContent } from "@quillsocial/ui";
-import React, { Fragment, useEffect, useState, useRef } from "react";
-import { trpc } from "@quillsocial/trpc/react";
-import { useRouter } from "next/router";
-import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
 import SocialAvatar from "./SocialAvatar";
+import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
+import { trpc } from "@quillsocial/trpc/react";
+import { Dialog as AccessDialog, DialogContent } from "@quillsocial/ui";
 import { showToast, useAppDefaultTheme, ErrorBoundary } from "@quillsocial/ui";
+import { useRouter } from "next/router";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 
 interface LoadingMap {
   [key: string]: boolean;
@@ -122,10 +122,16 @@ export const ModalAccount = ({
                           appId={account.appId}
                           avatarUrl={displayAvatarUrl}
                         />
-                        <span className={`ml-5 font-bold text-lg flex items-center ${isApiKeys ? "text-gray-700" : ""}`}>
+                        <span
+                          className={`ml-5 font-bold text-lg flex items-center ${
+                            isApiKeys ? "text-gray-700" : ""
+                          }`}
+                        >
                           {displayName}
                           {isApiKeys && (
-                            <span className="ml-2 rounded bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600 border border-gray-300">API</span>
+                            <span className="ml-2 rounded bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600 border border-gray-300">
+                              API
+                            </span>
                           )}
                         </span>
                         {loadingMap[`${account.id}_${account.pageId}`] && (

@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
-
 import { APP_STORE_PATH, TEMPLATES_PATH } from "./constants";
 import execSync from "./utils/execSync";
+import fs from "fs";
+import path from "path";
 
 const slugify = (str: string) => {
   // A valid dir name

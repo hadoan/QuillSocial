@@ -1,8 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
-import prisma from "@quillsocial/prisma";
-import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
 import { TwitterV1Manager } from "@quillsocial/app-store/twitterv1social/lib";
+import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
+import prisma from "@quillsocial/prisma";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,

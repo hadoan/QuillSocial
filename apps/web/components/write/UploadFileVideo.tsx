@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -9,6 +7,7 @@ import {
 import { Button } from "@quillsocial/ui";
 import { uploadVideoGcp } from "@quillsocial/ui";
 import { Upload } from "@quillsocial/ui/components/icon";
+import { useEffect, useState } from "react";
 
 interface UploadVideiDialogProps {
   open: boolean;

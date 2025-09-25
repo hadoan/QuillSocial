@@ -1,7 +1,6 @@
-import { trpc } from "@quillsocial/trpc/react";
-
 import { IS_SELF_HOSTED } from "../constants";
 import hasKeyInMetadata from "../hasKeyInMetadata";
+import { trpc } from "@quillsocial/trpc/react";
 
 export function useHasPaidPlan() {
   if (IS_SELF_HOSTED) return { isLoading: false, hasPaidPlan: true };

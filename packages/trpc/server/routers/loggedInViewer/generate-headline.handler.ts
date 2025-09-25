@@ -1,11 +1,9 @@
-import type { NextApiResponse, GetServerSidePropsContext } from "next";
-import type { Session } from "next-auth";
-
-import { generateHeadline } from "@quillsocial/app-store/chatgptai/lib/completions/generate-headline";
-import { prisma } from "@quillsocial/prisma";
-
 import { TrpcSessionUser } from "../../trpc";
 import type { TGenerateHeadlineInputSchema } from "./generate-headline.schema";
+import { generateHeadline } from "@quillsocial/app-store/chatgptai/lib/completions/generate-headline";
+import { prisma } from "@quillsocial/prisma";
+import type { NextApiResponse, GetServerSidePropsContext } from "next";
+import type { Session } from "next-auth";
 
 type UpdateHeadlineGeneratorOptions = {
   ctx: {

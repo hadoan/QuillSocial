@@ -1,14 +1,11 @@
-import { debounce } from "lodash";
-import { useEffect, useMemo, useState } from "react";
-
+import PageWrapper from "@components/PageWrapper";
+import PostList from "@components/ai-write/post-list";
+import { checkSocialTokenValid } from "@lib/checkSocialTokenValid";
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Alert, Button, HeadSeo } from "@quillsocial/ui";
-
-import { checkSocialTokenValid } from "@lib/checkSocialTokenValid";
-
-import PageWrapper from "@components/PageWrapper";
-import PostList from "@components/ai-write/post-list";
+import { debounce } from "lodash";
+import { useEffect, useMemo, useState } from "react";
 
 const ReconnectSocialBanner = ({
   closeAction,

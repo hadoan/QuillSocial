@@ -1,4 +1,20 @@
+import PageWrapper from "@components/PageWrapper";
+import TwoFactor from "@components/auth/TwoFactor";
+import AuthContainer from "@components/ui/AuthContainer";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { inferSSRProps } from "@lib/types/inferSSRProps";
+import type { WithNonceProps } from "@lib/withNonce";
+import withNonce from "@lib/withNonce";
+import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
+import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
+// import { isSAMLLoginEnabled, samlProductID, samlTenantID } from "@quillsocial/features/ee/sso/lib/saml";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import { getSafeRedirectUrl } from "@quillsocial/lib/getSafeRedirectUrl";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import prisma from "@quillsocial/prisma";
+import { Alert, Button, EmailField, PasswordField } from "@quillsocial/ui";
+import { ArrowLeft } from "@quillsocial/ui/components/icon";
+import { ssrInit } from "@server/lib/ssr";
 import classNames from "classnames";
 import { jwtVerify } from "jose";
 import type { GetServerSidePropsContext } from "next";
@@ -10,26 +26,6 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 import { z } from "zod";
-
-import { ErrorCode } from "@quillsocial/features/auth/lib/ErrorCode";
-import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
-// import { isSAMLLoginEnabled, samlProductID, samlTenantID } from "@quillsocial/features/ee/sso/lib/saml";
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
-import { getSafeRedirectUrl } from "@quillsocial/lib/getSafeRedirectUrl";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import prisma from "@quillsocial/prisma";
-import { Alert, Button, EmailField, PasswordField } from "@quillsocial/ui";
-import { ArrowLeft } from "@quillsocial/ui/components/icon";
-
-import type { inferSSRProps } from "@lib/types/inferSSRProps";
-import type { WithNonceProps } from "@lib/withNonce";
-import withNonce from "@lib/withNonce";
-
-import PageWrapper from "@components/PageWrapper";
-import TwoFactor from "@components/auth/TwoFactor";
-import AuthContainer from "@components/ui/AuthContainer";
-
-import { ssrInit } from "@server/lib/ssr";
 
 interface LoginValues {
   email: string;
@@ -301,7 +297,7 @@ const _getServerSideProps = async function getServerSideProps(
     });
   };
 
-  let totpEmail : string | null = null;
+  let totpEmail: string | null = null;
   if (context.query.totp) {
     try {
       const decryptedJwt = await verifyJwt(context.query.totp as string);

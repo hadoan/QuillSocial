@@ -7,4 +7,6 @@ export const xconsumerkeysCredentialSchema = z.object({
   accessSecret: z.string().optional(), // Optional for backward compatibility, but required for posting
 });
 
-export type XConsumerKeysCredential = z.infer<typeof xconsumerkeysCredentialSchema>;
+export type XConsumerKeysCredential = z.infer<
+  typeof xconsumerkeysCredentialSchema
+>;

@@ -1,12 +1,11 @@
+import EmailCommonDivider from "./EmailCommonDivider";
+import Row from "./Row";
 import {
   BASE_URL,
   WEBAPP_URL,
   IS_PRODUCTION,
 } from "@quillsocial/lib/constants";
 import type { CSSProperties } from "react";
-
-import EmailCommonDivider from "./EmailCommonDivider";
-import Row from "./Row";
 
 export type BodyHeadType =
   | "checkCircle"

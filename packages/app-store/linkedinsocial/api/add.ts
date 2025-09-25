@@ -1,10 +1,10 @@
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
 import {
   LINKEDIN_CLIENT_ID,
   LINKEDIN_SCOPES,
   WEBAPP_URL,
 } from "@quillsocial/lib/constants";
+import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const app_id = LINKEDIN_CLIENT_ID;
 const redirectUri = WEBAPP_URL + "/api/integrations/linkedinsocial/callback";

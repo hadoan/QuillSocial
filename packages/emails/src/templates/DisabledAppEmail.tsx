@@ -1,7 +1,6 @@
+import { BaseEmailHtml, CallToAction } from "../components";
 import { MY_APP_URL } from "@quillsocial/lib/constants";
 import { TFunction } from "next-i18next";
-
-import { BaseEmailHtml, CallToAction } from "../components";
 
 export const DisabledAppEmail = (
   props: {

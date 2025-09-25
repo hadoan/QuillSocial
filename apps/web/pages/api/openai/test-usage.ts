@@ -1,7 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
-import { getUserUsageStats, logOpenAIUsage } from "@quillsocial/lib/openai-usage";
+import {
+  getUserUsageStats,
+  logOpenAIUsage,
+} from "@quillsocial/lib/openai-usage";
 import { defaultResponder } from "@quillsocial/lib/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession({ req, res });
@@ -21,7 +24,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     // Test logging usage (for development only)
     try {
-      const { prompt = "Test prompt", result = "Test result", tokens = 100 } = req.body;
+      const {
+        prompt = "Test prompt",
+        result = "Test result",
+        tokens = 100,
+      } = req.body;
 
       const loggedUsage = await logOpenAIUsage({
         userId,
@@ -38,13 +45,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.json({
         success: true,
         message: "Test usage logged successfully",
-        loggedUsage
+        loggedUsage,
       });
     } catch (error) {
       console.error("Error logging test usage:", error);
       return res.status(500).json({
         success: false,
-        message: "Error logging test usage"
+        message: "Error logging test usage",
       });
     }
   }

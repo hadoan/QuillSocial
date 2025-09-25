@@ -1,6 +1,5 @@
-import { z } from "zod";
-
 import getParsedAppKeysFromSlug from "../../_utils/getParsedAppKeysFromSlug";
+import { z } from "zod";
 
 const linkedinAppKeysSchema = z.object({
   client_id: z.string(),

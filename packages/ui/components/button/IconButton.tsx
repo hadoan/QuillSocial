@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import { classNames } from "@quillsocial/lib";
+import Link from "next/link";
+import React from "react";
 
 export function IconButton(props: any) {
   const isLink = typeof props.href !== "undefined";

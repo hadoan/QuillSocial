@@ -1,3 +1,6 @@
+import type { TInviteMemberInputSchema } from "./inviteMember.schema";
+import { isEmail } from "./util";
+import { Prisma } from "@prisma/client";
 import {
   sendOrganizationAutoJoinEmail,
   sendTeamInviteEmail,
@@ -11,14 +14,9 @@ import type { Team, User } from "@quillsocial/prisma/client";
 import type { MembershipRole } from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-import { Prisma } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { randomBytes } from "crypto";
 import type { TFunction } from "next-i18next";
-
-import { TRPCError } from "@trpc/server";
-
-import type { TInviteMemberInputSchema } from "./inviteMember.schema";
-import { isEmail } from "./util";
 
 type InviteMemberOptions = {
   ctx: {

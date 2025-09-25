@@ -1,6 +1,5 @@
-import { PerformanceObserver } from "perf_hooks";
-
 import logger from "../logger";
+import { PerformanceObserver } from "perf_hooks";
 
 declare global {
   // eslint-disable-next-line no-var

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
+import App from "./App";
+import { SupportedCommands } from "./types";
 import { render } from "ink";
 import meow from "meow";
 import React from "react";
-
-import App from "./App";
-import { SupportedCommands } from "./types";
 
 const cli = meow(
   `

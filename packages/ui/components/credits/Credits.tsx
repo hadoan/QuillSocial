@@ -1,9 +1,8 @@
+// Relative to prevent triggering a recompile
+import pkg from "../../../../apps/web/package.json";
 import { COMPANY_NAME, IS_SELF_HOSTED } from "@quillsocial/lib/constants";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-// Relative to prevent triggering a recompile
-import pkg from "../../../../apps/web/package.json";
 
 export const CalComVersion = `v.${pkg.version}-${!IS_SELF_HOSTED ? "h" : "sh"}`;
 

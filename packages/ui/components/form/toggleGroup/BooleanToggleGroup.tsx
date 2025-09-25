@@ -1,3 +1,4 @@
+import { Label } from "../../../components/form/inputs/Label";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { useId } from "@radix-ui/react-id";
@@ -6,8 +7,6 @@ import {
   Item as ToggleGroupItemPrimitive,
 } from "@radix-ui/react-toggle-group";
 import { useState } from "react";
-
-import { Label } from "../../../components/form/inputs/Label";
 
 const boolean = (yesNo: "yes" | "no") =>
   yesNo === "yes" ? true : yesNo === "no" ? false : undefined;

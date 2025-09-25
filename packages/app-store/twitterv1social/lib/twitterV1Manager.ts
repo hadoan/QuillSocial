@@ -1,9 +1,10 @@
-import prisma from "@quillsocial/prisma";
-
 import { getFileExtensionFromImageDataUrl } from "../../_utils/dataURLToStream";
 import { getClient } from "./getClient";
+import prisma from "@quillsocial/prisma";
 
-export const post = async (postId: number): Promise<{ success: boolean; error?: string }> => {
+export const post = async (
+  postId: number
+): Promise<{ success: boolean; error?: string }> => {
   try {
     const twitterPost = await prisma.post.findUnique({ where: { id: postId } });
     console.log(twitterPost);
@@ -46,7 +47,10 @@ export const post = async (postId: number): Promise<{ success: boolean; error?: 
         data: { status: "ERROR" },
       });
       console.error(response);
-      return { success: false, error: "Failed to post tweet - no response from Twitter" };
+      return {
+        success: false,
+        error: "Failed to post tweet - no response from Twitter",
+      };
     } else {
       await prisma.post.update({
         where: { id: twitterPost.id },
@@ -64,7 +68,12 @@ export const post = async (postId: number): Promise<{ success: boolean; error?: 
       data: { status: "ERROR" },
     });
     console.error("Twitter Post", error);
-    return { success: false, error: `Failed to post tweet: ${error instanceof Error ? error.message : 'Unknown error'}` };
+    return {
+      success: false,
+      error: `Failed to post tweet: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+    };
   }
 };
 
@@ -76,7 +85,8 @@ export const commentPost = async (
 ): Promise<{ success: boolean; error?: string }> => {
   try {
     console.log("commentPost", credentialId, plugId, postResult);
-    if (!credentialId) return { success: false, error: "No credential ID provided" };
+    if (!credentialId)
+      return { success: false, error: "No credential ID provided" };
     const { clientV1 } = await getClient(credentialId);
     if (!clientV1) {
       await prisma.plug.update({
@@ -97,7 +107,10 @@ export const commentPost = async (
         data: { status: "ERROR" },
       });
       console.error(response);
-      return { success: false, error: "Failed to post comment - no response from Twitter" };
+      return {
+        success: false,
+        error: "Failed to post comment - no response from Twitter",
+      };
     } else {
       await prisma.plug.update({
         where: { id: plugId },
@@ -115,6 +128,11 @@ export const commentPost = async (
       data: { status: "ERROR" },
     });
     console.error(error);
-    return { success: false, error: `Failed to post comment: ${error instanceof Error ? error.message : 'Unknown error'}` };
+    return {
+      success: false,
+      error: `Failed to post comment: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+    };
   }
 };

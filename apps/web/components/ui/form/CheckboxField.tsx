@@ -1,8 +1,7 @@
+import InfoBadge from "@components/ui/InfoBadge";
 import classNames from "@quillsocial/lib/classNames";
 import type { InputHTMLAttributes } from "react";
 import React, { forwardRef } from "react";
-
-import InfoBadge from "@components/ui/InfoBadge";
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   label?: React.ReactNode;

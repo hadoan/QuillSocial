@@ -1,19 +1,22 @@
-import Shell from "@quillsocial/features/shell/Shell";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { Button, HeadSeo, showToast } from "@quillsocial/ui";
-import { Mail } from "@quillsocial/ui/components/icon";
-import { debounce } from "lodash";
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
-import { useEffect, useMemo, useState } from "react";
-import { HorizontalTabs } from "@quillsocial/ui";
+import PageWrapper from "@components/PageWrapper";
+import { DeletePostDialog } from "@components/write/DeletePostDialog";
 import { ChatProvider } from "@lib/hooks/Chat/ChatProvider";
 import { BrainProvider } from "@lib/hooks/Chat/brain-provider";
+import useMeQuery from "@lib/hooks/useMeQuery";
+import dayjs from "@quillsocial/dayjs";
+import Shell from "@quillsocial/features/shell/Shell";
+import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { Button, HeadSeo, showToast } from "@quillsocial/ui";
+import { HorizontalTabs } from "@quillsocial/ui";
 import type {
   VerticalTabItemProps,
   HorizontalTabItemProps,
 } from "@quillsocial/ui";
-import { useRouter } from "next/router";
-import PageWrapper from "@components/PageWrapper";
+import { Dialog, DialogContent } from "@quillsocial/ui";
+import { Mail } from "@quillsocial/ui/components/icon";
+import { debounce } from "lodash";
 import {
   Heart,
   MessageCircle,
@@ -22,11 +25,8 @@ import {
   Search,
   UsersIcon,
 } from "lucide-react";
-import dayjs from "@quillsocial/dayjs";
-import { Dialog, DialogContent } from "@quillsocial/ui";
-import useMeQuery from "@lib/hooks/useMeQuery";
-import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
-import { DeletePostDialog } from "@components/write/DeletePostDialog";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const tabs: (VerticalTabItemProps | HorizontalTabItemProps)[] = [
@@ -147,7 +147,7 @@ const MyContentPage = () => {
   return (
     <>
       <HeadSeo title={t("My-Content")} description={""} />
-      <Shell withoutSeo heading={`${nameMenu}`} >
+      <Shell withoutSeo heading={`${nameMenu}`}>
         <div className="w-[300px]">
           {" "}
           <HorizontalTabs tabs={tabs} />{" "}

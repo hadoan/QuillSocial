@@ -1,6 +1,5 @@
-import prisma from "@quillsocial/prisma";
-
 import { getClient } from "./getClient";
+import prisma from "@quillsocial/prisma";
 
 export const post = async (postId: number) => {
   try {

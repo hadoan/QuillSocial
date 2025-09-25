@@ -1,10 +1,9 @@
+import { AlertCircle, Check } from "../icon";
+import { DialogClose, DialogCloseConfirm, DialogContent } from "./Dialog";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import type { PropsWithChildren, ReactElement } from "react";
 import React from "react";
-
-import { AlertCircle, Check } from "../icon";
-import { DialogClose, DialogCloseConfirm, DialogContent } from "./Dialog";
 
 type ConfirmBtnType =
   | { confirmBtn?: never; confirmBtnText?: string }

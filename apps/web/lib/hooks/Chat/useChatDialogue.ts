@@ -1,6 +1,6 @@
+import { useChat } from "./useChat";
 import _debounce from "lodash/debounce";
 import { useCallback, useEffect, useRef } from "react";
-import { useChat } from "./useChat";
 
 //TODO: link this to chat input to get the right height
 const chatInputHeightEstimation = 100;

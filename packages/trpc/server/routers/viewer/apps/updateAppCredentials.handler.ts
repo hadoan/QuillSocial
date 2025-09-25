@@ -1,10 +1,8 @@
-import { prisma } from "@quillsocial/prisma";
-import type { Prisma } from "@quillsocial/prisma/client";
-
-import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TUpdateAppCredentialsInputSchema } from "./updateAppCredentials.schema";
+import { prisma } from "@quillsocial/prisma";
+import type { Prisma } from "@quillsocial/prisma/client";
+import { TRPCError } from "@trpc/server";
 
 type UpdateAppCredentialsOptions = {
   ctx: {

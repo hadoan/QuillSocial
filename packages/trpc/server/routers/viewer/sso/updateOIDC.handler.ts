@@ -1,3 +1,5 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TUpdateOIDCInputSchema } from "./updateOIDC.schema";
 import jackson from "@quillsocial/features/ee/sso/lib/jackson";
 import {
   canAccess,
@@ -5,11 +7,7 @@ import {
   samlTenantID,
   tenantPrefix,
 } from "@quillsocial/features/ee/sso/lib/saml";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TUpdateOIDCInputSchema } from "./updateOIDC.schema";
 
 type UpdateOIDCOptions = {
   ctx: {

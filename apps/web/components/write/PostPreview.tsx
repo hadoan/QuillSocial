@@ -1,3 +1,7 @@
+import { DeleteImageDialog } from "./DeleteImagePost";
+import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
+import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
+import { VideoPlayer } from "@quillsocial/ui";
 import {
   Globe,
   MessagesSquare,
@@ -7,14 +11,6 @@ import {
 } from "lucide-react";
 import NextImage from "next/image";
 import { useEffect, useState } from "react";
-
-import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
-import { useCurrentUserAccount } from "@quillsocial/features/shell/SocialAvatar";
-import {
-  VideoPlayer,
-} from "@quillsocial/ui";
-
-import { DeleteImageDialog } from "./DeleteImagePost";
 
 type PostPreviewProps = {
   name: string;

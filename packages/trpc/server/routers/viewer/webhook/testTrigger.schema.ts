@@ -1,6 +1,5 @@
-import { z } from "zod";
-
 import { webhookIdAndEventTypeIdSchema } from "./types";
+import { z } from "zod";
 
 export const ZTestTriggerInputSchema = webhookIdAndEventTypeIdSchema.extend({
   url: z.string().url(),

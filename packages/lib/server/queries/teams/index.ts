@@ -1,9 +1,7 @@
+import { WEBAPP_URL } from "../../../constants";
 import { Prisma } from "@prisma/client";
-
 import prisma from "@quillsocial/prisma";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
-import { WEBAPP_URL } from "../../../constants";
 
 export type TeamWithMembers = Awaited<ReturnType<typeof getTeamWithMembers>>;
 

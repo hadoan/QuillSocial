@@ -1,7 +1,6 @@
+import { Button, showToast } from "@quillsocial/ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React from "react";
-
-import { Button, showToast } from "@quillsocial/ui";
 
 // Cast Button to fix TypeScript JSX issue
 const SafeButton = Button as any;

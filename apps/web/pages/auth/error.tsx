@@ -1,6 +1,6 @@
+import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
 // Simple auth error page. Displays an error message passed via query string and links back to login.

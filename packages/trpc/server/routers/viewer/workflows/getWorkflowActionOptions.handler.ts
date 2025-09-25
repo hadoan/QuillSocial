@@ -1,10 +1,9 @@
+import { hasTeamPlanHandler } from "../teams/hasTeamPlan.handler";
 import { getWorkflowActionOptions } from "@quillsocial/features/ee/workflows/lib/getOptions";
 import { IS_SELF_HOSTED } from "@quillsocial/lib/constants";
 import hasKeyInMetadata from "@quillsocial/lib/hasKeyInMetadata";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import { hasTeamPlanHandler } from "../teams/hasTeamPlan.handler";
 
 type GetWorkflowActionOptionsOptions = {
   ctx: {

@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { post } from "../lib/twitterManager";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 //http://localhost:3000/api/integrations/xconsumerkeyssocial/post?id={postId}
 export default async function handler(
@@ -22,12 +21,12 @@ export default async function handler(
       if (result.success) {
         res.status(200).json({ success: true });
       } else {
-        res
-          .status(400)
-          .json({
-            success: false,
-            error: result.error || "Posting failed. Please ensure you have provided all required credentials: Consumer Key, Consumer Secret, Access Token, and Access Token Secret. If you've only added Consumer Keys, please update your X Consumer Keys integration to include Access Tokens."
-          });
+        res.status(400).json({
+          success: false,
+          error:
+            result.error ||
+            "Posting failed. Please ensure you have provided all required credentials: Consumer Key, Consumer Secret, Access Token, and Access Token Secret. If you've only added Consumer Keys, please update your X Consumer Keys integration to include Access Tokens.",
+        });
       }
     } else {
       res.status(400).json({ success: false, error: "Invalid Id value" });

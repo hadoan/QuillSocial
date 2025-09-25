@@ -1,9 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 // import { completePostStatus } from "@quillsocial/azureopenai/completions/complete-post";
 import { completePostStatus } from "@quillsocial/app-store/chatgptai/lib/completions/complete-post";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(
   req: NextApiRequest & { userId?: number },

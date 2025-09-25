@@ -1,7 +1,6 @@
-import type { TFunction } from "next-i18next";
-
 import { renderEmail } from "..";
 import BaseEmail from "./_base-email";
+import type { TFunction } from "next-i18next";
 
 export default class SlugReplacementEmail extends BaseEmail {
   email: string;

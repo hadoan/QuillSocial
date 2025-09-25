@@ -1,6 +1,7 @@
 import authedProcedure from "../../../procedures/authedProcedure";
 import { router } from "../../../trpc";
 import { ZCurrentUserProfileInputSchema } from "./setCurrentUserProfile.schema";
+
 type SocialsRouterHandlerCache = {
   getSocialNetWorking?: typeof import("./getSocialNetWorking.handler").getSocialHanlder;
   setCurrentUserProfile?: typeof import("./setCurrentUserProfile.handler").setCurrentUserProfileHandler;

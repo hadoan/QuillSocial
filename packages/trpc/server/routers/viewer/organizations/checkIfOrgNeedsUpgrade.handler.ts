@@ -1,9 +1,8 @@
+import type { TrpcSessionUser } from "../../../trpc";
 import { IS_TEAM_BILLING_ENABLED } from "@quillsocial/lib/constants";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
-import type { TrpcSessionUser } from "../../../trpc";
 
 type GetUpgradeableOptions = {
   ctx: {

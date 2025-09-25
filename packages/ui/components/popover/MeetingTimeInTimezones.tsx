@@ -1,3 +1,4 @@
+import { Globe } from "../icon";
 import {
   formatTime,
   isNextDayInTimezone,
@@ -5,8 +6,6 @@ import {
   sortByTimezone,
 } from "@quillsocial/lib/date-fns";
 import * as Popover from "@radix-ui/react-popover";
-
-import { Globe } from "../icon";
 
 type Attendee = {
   id: number;

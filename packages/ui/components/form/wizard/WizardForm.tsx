@@ -1,10 +1,9 @@
+import { Button, Steps } from "../../..";
 import classNames from "@quillsocial/lib/classNames";
 import { noop } from "lodash";
 import { useRouter } from "next/router";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
-
-import { Button, Steps } from "../../..";
 
 type DefaultStep = {
   title: string;

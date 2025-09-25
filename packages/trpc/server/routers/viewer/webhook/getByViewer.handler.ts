@@ -4,7 +4,6 @@ import type { Webhook } from "@quillsocial/prisma/client";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
 
 type GetByViewerOptions = {

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { ReWriteAI } from "@quillsocial/types/ReWriteAI";
 import {
   Dialog,
@@ -8,6 +6,7 @@ import {
   TextArea,
   showToast,
 } from "@quillsocial/ui";
+import { useState } from "react";
 
 interface WriteAiDialogProps {
   open: boolean;

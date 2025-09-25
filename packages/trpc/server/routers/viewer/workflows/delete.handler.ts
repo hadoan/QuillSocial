@@ -1,13 +1,11 @@
+import type { TDeleteInputSchema } from "./delete.schema";
+import { isAuthorized, removeSmsReminderFieldForBooking } from "./util";
 import { deleteScheduledEmailReminder } from "@quillsocial/features/ee/workflows/lib/reminders/emailReminderManager";
 import { deleteScheduledSMSReminder } from "@quillsocial/features/ee/workflows/lib/reminders/smsReminderManager";
 import { prisma } from "@quillsocial/prisma";
 import { WorkflowMethods } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TDeleteInputSchema } from "./delete.schema";
-import { isAuthorized, removeSmsReminderFieldForBooking } from "./util";
 
 type DeleteOptions = {
   ctx: {

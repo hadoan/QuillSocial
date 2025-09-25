@@ -1,5 +1,4 @@
 import { Dialog, DialogContent, DialogFooter, Input } from "@quillsocial/ui";
-import { useState } from "react";
 import { Button } from "@quillsocial/ui";
 import {
   Smartphone,
@@ -9,6 +8,8 @@ import {
   Image,
   Upload,
 } from "@quillsocial/ui/components/icon";
+import { useState } from "react";
+
 interface UploadFileDialogProps {
   open: boolean;
   onClose: () => void;

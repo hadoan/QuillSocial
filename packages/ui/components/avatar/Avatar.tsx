@@ -1,11 +1,9 @@
+import { Check } from "../icon";
 import classNames from "@quillsocial/lib/classNames";
 import { defaultAvatarSrc } from "@quillsocial/lib/defaultAvatarImage";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import Link from "next/link";
-
 import type { Maybe } from "@trpc/server";
-
-import { Check } from "../icon";
+import Link from "next/link";
 
 export type AvatarProps = {
   className?: string;

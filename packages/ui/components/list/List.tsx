@@ -1,9 +1,8 @@
+import { Badge } from "../badge";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import Link from "next/link";
 import { createElement } from "react";
-
-import { Badge } from "../badge";
 
 export type ListProps = {
   roundContainer?: boolean;

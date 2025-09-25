@@ -1,7 +1,6 @@
-import { TFunction } from "next-i18next";
-
 import { renderEmail } from "..";
 import BaseEmail from "./_base-email";
+import { TFunction } from "next-i18next";
 
 export default class DisabledAppEmail extends BaseEmail {
   email: string;

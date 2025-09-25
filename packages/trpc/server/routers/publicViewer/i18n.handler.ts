@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import type { WithLocale } from "../../createContext";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type I18nOptions = {
   ctx: WithLocale & {

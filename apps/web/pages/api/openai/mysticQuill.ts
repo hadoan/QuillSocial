@@ -1,7 +1,4 @@
-import * as cheerio from "cheerio";
-import type { NextApiRequest, NextApiResponse } from "next";
-import fetch from "node-fetch";
-
+import { getIdFromCode } from "@components/post-generator/constTemplateWrapper";
 import { generateBookLearning } from "@quillsocial/app-store/chatgptai/lib/completions/generators/generate-book-learning";
 import { generateFavouriteTool } from "@quillsocial/app-store/chatgptai/lib/completions/generators/generate-favourite-tool";
 import { generateFormatContent } from "@quillsocial/app-store/chatgptai/lib/completions/generators/generate-format-content";
@@ -12,8 +9,9 @@ import { generateStruggle } from "@quillsocial/app-store/chatgptai/lib/completio
 import { generateValuableTips } from "@quillsocial/app-store/chatgptai/lib/completions/generators/generate-valuable-tips";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
-
-import { getIdFromCode } from "@components/post-generator/constTemplateWrapper";
+import * as cheerio from "cheerio";
+import type { NextApiRequest, NextApiResponse } from "next";
+import fetch from "node-fetch";
 
 interface RequestInput {
   code: string;

@@ -1,3 +1,5 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TDeleteInputSchema } from "./delete.schema";
 import {
   IS_PRODUCTION,
   IS_TEAM_BILLING_ENABLED,
@@ -5,11 +7,7 @@ import {
 import { isTeamOwner } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TDeleteInputSchema } from "./delete.schema";
 
 type DeleteOptions = {
   ctx: {

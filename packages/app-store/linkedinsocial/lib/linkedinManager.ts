@@ -1,11 +1,9 @@
-import axios from "axios";
-
-import prisma from "@quillsocial/prisma";
-
 import { dataURLToStream } from "../../_utils/dataURLToStream";
 import { PageInfo } from "../../types";
 import { getClient } from "./getClient";
 import { PageInfoData } from "./type";
+import prisma from "@quillsocial/prisma";
+import axios from "axios";
 
 const versionNumber = "202402";
 
@@ -17,14 +15,14 @@ function transformToV2ShareFormat(payload: any): any {
   const v2Payload: any = {
     owner: payload.author, // Map author to owner
     text: {
-      text: payload.commentary || ""
-    }
+      text: payload.commentary || "",
+    },
   };
 
   // Add distribution based on v2/shares format
   if (payload.distribution) {
     v2Payload.distribution = {
-      linkedInDistributionTarget: {}
+      linkedInDistributionTarget: {},
     };
 
     // Map feedDistribution if present
@@ -35,18 +33,20 @@ function transformToV2ShareFormat(payload: any): any {
   } else {
     // Default distribution for v2/shares
     v2Payload.distribution = {
-      linkedInDistributionTarget: {}
+      linkedInDistributionTarget: {},
     };
   }
 
   // Add content based on v2/shares format for images
   if (payload.content && payload.content.media) {
     v2Payload.content = {
-      contentEntities: [{
-        entity: payload.content.media.id, // Use the image URN directly
-        entityLocation: "" // Empty for images
-      }],
-      title: payload.content.media.title || ""
+      contentEntities: [
+        {
+          entity: payload.content.media.id, // Use the image URN directly
+          entityLocation: "", // Empty for images
+        },
+      ],
+      title: payload.content.media.title || "",
     };
   }
 
@@ -179,7 +179,8 @@ export const post = async (postId: number) => {
 
 export async function getLinkedInPages(accessToken: string) {
   // Try new REST API endpoint first
-  let url = "https://api.linkedin.com/rest/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
+  let url =
+    "https://api.linkedin.com/rest/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
   let headers: any = {
     Authorization: `Bearer ${accessToken}`,
     "X-Restli-Protocol-Version": "2.0.0",
@@ -192,7 +193,8 @@ export async function getLinkedInPages(accessToken: string) {
   } catch (err: any) {
     if (err.response && err.response.status === 426) {
       // Fallback to v2 endpoint if 426 Upgrade Required
-      url = "https://api.linkedin.com/v2/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
+      url =
+        "https://api.linkedin.com/v2/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED";
       headers = {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
@@ -209,7 +211,9 @@ export async function getLinkedInPages(accessToken: string) {
   );
   if (pages) {
     // Use the same API version as the organizationAcls call
-    const orgApiBase = url.includes("/v2/") ? "https://api.linkedin.com/v2/organizations" : "https://api.linkedin.com/rest/organizations";
+    const orgApiBase = url.includes("/v2/")
+      ? "https://api.linkedin.com/v2/organizations"
+      : "https://api.linkedin.com/rest/organizations";
     const pageDetailUrl = `${orgApiBase}?ids=List(${pages.join(",")})`;
     const pageDetailsResponse = await axios.get(pageDetailUrl, {
       headers,
@@ -333,18 +337,22 @@ async function postLinkedInPost(token: string, postData: any) {
       method: "post",
       data: postData,
       token,
-      version: versionNumber
+      version: versionNumber,
     });
 
     if (response.status === 201) {
       // LinkedIn can return either x-restli-id or x-linkedin-id depending on the API version
-      const shareId = response.headers["x-restli-id"] || response.headers["x-linkedin-id"];
+      const shareId =
+        response.headers["x-restli-id"] || response.headers["x-linkedin-id"];
       console.log("LinkedIn post successful, share ID:", shareId);
       return shareId || true; // Return the share ID if available, otherwise just true for success
     }
     return false;
   } catch (error: any) {
-    console.error("Error posting to LinkedIn:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error posting to LinkedIn:",
+      error.response ? error.response.data : error.message
+    );
     return false;
   }
 }

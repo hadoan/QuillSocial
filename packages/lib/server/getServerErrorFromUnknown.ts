@@ -1,3 +1,4 @@
+import { HttpError } from "../http-error";
 import {
   PrismaClientKnownRequestError,
   NotFoundError,
@@ -5,8 +6,6 @@ import {
 import Stripe from "stripe";
 import type { ZodIssue } from "zod";
 import { ZodError } from "zod";
-
-import { HttpError } from "../http-error";
 
 function hasName(cause: unknown): cause is { name: string } {
   return !!cause && typeof cause === "object" && "name" in cause;

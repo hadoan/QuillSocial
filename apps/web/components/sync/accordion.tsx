@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
 import { classNames } from "./classNames";
 import {
   ChevronDown,
@@ -7,6 +5,9 @@ import {
   ChevronRight,
   ChevronUp,
 } from "@quillsocial/ui/components/icon";
+import PropTypes from "prop-types";
+import React, { useCallback, useState } from "react";
+
 const Accordion = ({
   data,
   height,

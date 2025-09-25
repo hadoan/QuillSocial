@@ -1,7 +1,6 @@
-import type { AppDeclarativeHandler } from "@quillsocial/types/AppHandler";
-
 import { createDefaultInstallation } from "../../_utils/installation";
 import appConfig from "../config.json";
+import type { AppDeclarativeHandler } from "@quillsocial/types/AppHandler";
 
 const handler: AppDeclarativeHandler = {
   appType: appConfig.type,

@@ -1,8 +1,8 @@
 "use client";
 
+import { useBrainProvider } from "./useBrainProvider";
 import { BrainContextType } from "@lib/types/brains";
 import { createContext } from "react";
-import { useBrainProvider } from "./useBrainProvider";
 
 export const BrainContext = createContext<BrainContextType | undefined>(
   undefined

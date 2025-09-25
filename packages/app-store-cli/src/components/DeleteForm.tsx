@@ -1,11 +1,10 @@
-import { Text } from "ink";
-import TextInput from "ink-text-input";
-import React, { useEffect, useState } from "react";
-
 import { ImportantText } from "../components/ImportantText";
 import { Message } from "../components/Message";
 import { BaseAppFork, generateAppFiles } from "../core";
 import { getApp } from "../utils/getApp";
+import { Text } from "ink";
+import TextInput from "ink-text-input";
+import React, { useEffect, useState } from "react";
 
 export default function DeleteForm({
   slug,

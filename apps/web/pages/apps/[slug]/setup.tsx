@@ -1,12 +1,10 @@
-import type { GetStaticPaths, InferGetStaticPropsType } from "next";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-
+import PageWrapper from "@components/PageWrapper";
 import { AppSetupPage } from "@quillsocial/app-store/_pages/setup";
 import { getStaticProps } from "@quillsocial/app-store/_pages/setup/_getStaticProps";
 import { HeadSeo } from "@quillsocial/ui";
-
-import PageWrapper from "@components/PageWrapper";
+import type { GetStaticPaths, InferGetStaticPropsType } from "next";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function SetupInformation(
   props: InferGetStaticPropsType<typeof getStaticProps>

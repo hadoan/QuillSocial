@@ -1,9 +1,8 @@
+import { UpgradeTeamsBadge } from "../../badge";
+import { Check } from "../../icon";
 import { classNames } from "@quillsocial/lib";
 import type { GroupBase, InputProps, OptionProps } from "react-select";
 import { components as reactSelectComponents } from "react-select";
-
-import { UpgradeTeamsBadge } from "../../badge";
-import { Check } from "../../icon";
 
 export const InputComponent = <
   Option,

@@ -1,7 +1,6 @@
-import { CSSProperties } from "react";
-
 import EmailCommonDivider from "./EmailCommonDivider";
 import RawHtml from "./RawHtml";
+import { CSSProperties } from "react";
 
 export const EmailSchedulingBodyDivider = (props: {
   headStyles?: CSSProperties;

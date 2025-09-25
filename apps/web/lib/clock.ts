@@ -1,4 +1,5 @@
 // handles logic related to user clock display using 24h display / timeZone options.
+import { getBrowerTimeZone } from "@components/timezone";
 import dayjs from "@quillsocial/dayjs";
 import {
   getIs24hClockFromLocalStorage,
@@ -6,8 +7,6 @@ import {
   setIs24hClockInLocalStorage,
 } from "@quillsocial/lib/timeFormat";
 import { localStorage } from "@quillsocial/lib/webstorage";
-
-import { getBrowerTimeZone } from "@components/timezone";
 
 interface TimeOptions {
   is24hClock: boolean;

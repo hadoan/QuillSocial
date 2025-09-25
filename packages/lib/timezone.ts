@@ -1,7 +1,6 @@
+import isProblematicTimezone from "./isProblematicTimezone";
 import type { ICity } from "@quillsocial/ui/components/form/timezone-select";
 import type { ITimezoneOption } from "react-timezone-select";
-
-import isProblematicTimezone from "./isProblematicTimezone";
 
 function findPartialMatch(itemsToSearch: string, searchString: string) {
   const searchItems = searchString.split(" ");

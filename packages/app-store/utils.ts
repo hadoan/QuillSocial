@@ -1,9 +1,9 @@
 // If you import this file on any app it should produce circular dependency
 // import appStore from "./index";
+import { Prisma } from "@prisma/client";
 import { appStoreMetadata } from "@quillsocial/app-store/appStoreMetaData";
 import { AppCategories } from "@quillsocial/prisma/enums";
 import type { App, AppMeta } from "@quillsocial/types/App";
-import { Prisma } from "@prisma/client";
 import type { TFunction } from "next-i18next";
 
 type LocationOption = {
@@ -64,7 +64,16 @@ export async function getLocationGroupedOptions(
       const option = { ...app.locationOption, icon: app.logo, slug: app.slug };
     }
   });
-  const locations: { label: string; options: { label: string; value: string; disabled?: boolean; icon?: string; slug?: string; }[] }[] = [];
+  const locations: {
+    label: string;
+    options: {
+      label: string;
+      value: string;
+      disabled?: boolean;
+      icon?: string;
+      slug?: string;
+    }[];
+  }[] = [];
 
   // Translating labels and pushing into array
   for (const category in apps) {

@@ -1,12 +1,11 @@
-import React, { FC } from "react";
-import { SupportedCommands } from "src/types";
-
 import Create from "./commandViews/Create";
 import CreateTemplate from "./commandViews/Create";
 import Delete from "./commandViews/Delete";
 import DeleteTemplate from "./commandViews/DeleteTemplate";
 import Edit from "./commandViews/Edit";
 import EditTemplate from "./commandViews/EditTemplate";
+import React, { FC } from "react";
+import { SupportedCommands } from "src/types";
 
 export const App: FC<{
   template: string;

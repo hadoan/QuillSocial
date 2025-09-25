@@ -1,12 +1,11 @@
+import { StepConnectionLoader } from "../components/StepConnectionLoader";
+import { AppConnectionItem } from "./AppConnectionItem";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { trpc } from "@quillsocial/trpc/react";
 import { List } from "@quillsocial/ui";
-import { ArrowRight } from "@quillsocial/ui/components/icon";
 import { Button } from "@quillsocial/ui";
-
-import { StepConnectionLoader } from "../components/StepConnectionLoader";
-import { AppConnectionItem } from "./AppConnectionItem";
+import { ArrowRight } from "@quillsocial/ui/components/icon";
 
 interface ConnectedAppStepProps {
   nextStep: () => void;

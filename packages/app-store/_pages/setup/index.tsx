@@ -1,6 +1,5 @@
-import dynamic from "next/dynamic";
-
 import { DynamicComponent } from "../../_components/DynamicComponent";
+import dynamic from "next/dynamic";
 
 export const AppSetupMap = {
   "xconsumerkeys-social": dynamic(

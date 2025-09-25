@@ -1,7 +1,6 @@
+import type { TGetVerifiedNumbersInputSchema } from "./getVerifiedNumbers.schema";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TGetVerifiedNumbersInputSchema } from "./getVerifiedNumbers.schema";
 
 type GetVerifiedNumbersOptions = {
   ctx: {

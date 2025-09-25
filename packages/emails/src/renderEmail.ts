@@ -1,6 +1,5 @@
-import * as ReactDOMServer from "react-dom/server";
-
 import * as templates from "./templates";
+import * as ReactDOMServer from "react-dom/server";
 
 function renderEmail<K extends keyof typeof templates>(
   template: K,

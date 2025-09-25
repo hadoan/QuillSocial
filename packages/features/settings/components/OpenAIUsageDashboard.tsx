@@ -1,15 +1,17 @@
-import { useState } from "react";
 import { trpc } from "@quillsocial/trpc/react";
 import { Badge, Button, Alert } from "@quillsocial/ui";
+import { useState } from "react";
 
 export function OpenAIUsageDashboard() {
   const [showHistory, setShowHistory] = useState(false);
 
-  const { data: stats, isLoading: isStatsLoading } = trpc.viewer.openaiUsage.getUsageStats.useQuery();
-  const { data: history, isLoading: isHistoryLoading } = trpc.viewer.openaiUsage.getUsageHistory.useQuery(
-    { limit: 20, offset: 0 },
-    { enabled: showHistory }
-  );
+  const { data: stats, isLoading: isStatsLoading } =
+    trpc.viewer.openaiUsage.getUsageStats.useQuery();
+  const { data: history, isLoading: isHistoryLoading } =
+    trpc.viewer.openaiUsage.getUsageHistory.useQuery(
+      { limit: 20, offset: 0 },
+      { enabled: showHistory }
+    );
 
   if (isStatsLoading) {
     return (
@@ -29,26 +31,29 @@ export function OpenAIUsageDashboard() {
     );
   }
 
-  const usagePercentage = stats.isLTD && stats.tokenLimit
-    ? Math.round((stats.monthlyTokens / stats.tokenLimit) * 100)
-    : 0;
+  const usagePercentage =
+    stats.isLTD && stats.tokenLimit
+      ? Math.round((stats.monthlyTokens / stats.tokenLimit) * 100)
+      : 0;
 
   return (
     <div className="space-y-6">
       {/* Main Stats Card */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">OpenAI Usage Statistics</h3>
-          <p className="text-gray-600">Your AI content generation usage for this month</p>
+          <h3 className="text-lg font-semibold text-gray-900">
+            OpenAI Usage Statistics
+          </h3>
+          <p className="text-gray-600">
+            Your AI content generation usage for this month
+          </p>
         </div>
 
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Monthly Usage */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-600">
-                This Month
-              </p>
+              <p className="text-sm font-medium text-gray-600">This Month</p>
               <p className="text-2xl font-bold">
                 {stats.monthlyTokens.toLocaleString()}
               </p>
@@ -82,7 +87,15 @@ export function OpenAIUsageDashboard() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium">Monthly Limit</p>
-                  <Badge variant={usagePercentage > 90 ? "red" : usagePercentage > 70 ? "orange" : "green"}>
+                  <Badge
+                    variant={
+                      usagePercentage > 90
+                        ? "red"
+                        : usagePercentage > 70
+                        ? "orange"
+                        : "green"
+                    }
+                  >
                     {usagePercentage}% used
                   </Badge>
                 </div>
@@ -130,8 +143,12 @@ export function OpenAIUsageDashboard() {
         <div className="mb-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Usage History</h3>
-              <p className="text-gray-600">Recent AI content generation requests</p>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Usage History
+              </h3>
+              <p className="text-gray-600">
+                Recent AI content generation requests
+              </p>
             </div>
             <Button
               onClick={() => setShowHistory(!showHistory)}

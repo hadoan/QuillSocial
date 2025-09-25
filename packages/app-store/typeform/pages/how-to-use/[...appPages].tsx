@@ -1,8 +1,7 @@
-import Link from "next/link";
-
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button } from "@quillsocial/ui";
 import { ExternalLink } from "@quillsocial/ui/components/icon";
+import Link from "next/link";
 
 export default function HowToUse() {
   const { t } = useLocale();

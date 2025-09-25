@@ -1,11 +1,7 @@
-import type { GetServerSidePropsContext } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
-import { usePathname, useRouter } from "next/navigation";
-import type { CSSProperties } from "react";
-import { Suspense } from "react";
-import { z } from "zod";
-
+import PageWrapper from "@components/PageWrapper";
+import { ConnectedLinkedinStep } from "@components/getting-started/steps-views/ConnectedLinkedinStep";
+import GhostWriteSetting from "@components/getting-started/steps-views/GhostWriteSetting";
+import { UserSettings } from "@components/getting-started/steps-views/UserSettings";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { APP_NAME } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
@@ -14,13 +10,14 @@ import prisma from "@quillsocial/prisma";
 import { trpc } from "@quillsocial/trpc";
 import { Button, StepCard, Steps } from "@quillsocial/ui";
 import { Loader } from "@quillsocial/ui/components/icon";
-
-import PageWrapper from "@components/PageWrapper";
-import { ConnectedLinkedinStep } from "@components/getting-started/steps-views/ConnectedLinkedinStep";
-import GhostWriteSetting from "@components/getting-started/steps-views/GhostWriteSetting";
-import { UserSettings } from "@components/getting-started/steps-views/UserSettings";
-
 import { ssrInit } from "@server/lib/ssr";
+import type { GetServerSidePropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
+import { usePathname, useRouter } from "next/navigation";
+import type { CSSProperties } from "react";
+import { Suspense } from "react";
+import { z } from "zod";
 
 const INITIAL_STEP = "user-settings";
 const steps = [

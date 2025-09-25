@@ -1,6 +1,6 @@
-import {
-  getAppRegistry,
-} from "@quillsocial/app-store/_appRegistry";
+import PageWrapper from "@components/PageWrapper";
+import AppsLayout from "@components/apps/layouts/AppsLayout";
+import { getAppRegistry } from "@quillsocial/app-store/_appRegistry";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { classNames } from "@quillsocial/lib";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
@@ -8,14 +8,10 @@ import type { inferSSRProps } from "@quillsocial/types/inferSSRProps";
 import type { HorizontalTabItemProps } from "@quillsocial/ui";
 import { AllApps, HorizontalTabs, TextField } from "@quillsocial/ui";
 import { Search } from "@quillsocial/ui/components/icon";
+import { ssrInit } from "@server/lib/ssr";
 import type { GetServerSidePropsContext } from "next";
 import type { ChangeEventHandler } from "react";
 import { useState } from "react";
-
-import PageWrapper from "@components/PageWrapper";
-import AppsLayout from "@components/apps/layouts/AppsLayout";
-
-import { ssrInit } from "@server/lib/ssr";
 
 const tabs: HorizontalTabItemProps[] = [
   {

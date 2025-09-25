@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-
+import { withQuery } from "./QueryCell";
 import { trpc } from "@quillsocial/trpc/react";
 import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
 import { Notifications } from "@quillsocial/ui";
-
-import { withQuery } from "./QueryCell";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export const BillingNotifications = ({ pricingData }: any) => {
   const [notificationBillingDays, setNotificationBillingDays] = useState<
@@ -15,15 +13,14 @@ export const BillingNotifications = ({ pricingData }: any) => {
   >(null);
   const [notificationBillingDaysExpired, setNotificationBillingDaysExpired] =
     useState<string | null>(null);
-  const [notificationDismissedToday, setNotificationDismissedToday] = useState<
-    boolean
-  >(false);
+  const [notificationDismissedToday, setNotificationDismissedToday] =
+    useState<boolean>(false);
 
   const router = useRouter();
 
   // Helper function to get today's date as a string
   const getTodayString = () => {
-    return new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    return new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
   };
 
   // Helper function to check if notification was dismissed today
@@ -52,7 +49,8 @@ export const BillingNotifications = ({ pricingData }: any) => {
   };
 
   // Calculate if notification should show
-  const shouldShowNotification = pricingData?.isRemind &&
+  const shouldShowNotification =
+    pricingData?.isRemind &&
     !notificationDismissedToday &&
     ((pricingData?.day < 14 && !notificationBillingDays) ||
       (pricingData?.day >= 14 && !notificationBillingDaysExpired));

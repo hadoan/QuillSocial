@@ -1,11 +1,10 @@
+import { BaseEmailHtml } from "../components";
 import {
   APP_NAME,
   SUPPORT_MAIL_ADDRESS,
   COMPANY_NAME,
 } from "@quillsocial/lib/constants";
 import type { TFunction } from "next-i18next";
-
-import { BaseEmailHtml } from "../components";
 
 export type OrganizationEmailVerify = {
   language: TFunction;

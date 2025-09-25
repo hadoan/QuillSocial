@@ -1,10 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
+import { getUserStats } from "./functCheck";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
 import prisma from "@quillsocial/prisma";
 import { PostStatus } from "@quillsocial/prisma/client";
-import { getUserStats } from "./functCheck";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {

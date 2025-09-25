@@ -1,6 +1,5 @@
-import { AppSettingsComponentsMap } from "@quillsocial/app-store/apps.browser.generated";
-
 import { DynamicComponent } from "./DynamicComponent";
+import { AppSettingsComponentsMap } from "@quillsocial/app-store/apps.browser.generated";
 
 export const AppSettings = (props: { slug: string }) => {
   return (

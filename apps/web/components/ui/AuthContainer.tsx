@@ -1,7 +1,6 @@
+import Loader from "@components/Loader";
 import { HeadSeo, Logo } from "@quillsocial/ui";
 import classNames from "classnames";
-
-import Loader from "@components/Loader";
 
 interface Props {
   title: string;

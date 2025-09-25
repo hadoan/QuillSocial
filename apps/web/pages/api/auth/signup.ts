@@ -1,6 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
-
+import { publicDomain } from "./pulic-email";
 import dayjs from "@quillsocial/dayjs";
 import { hashPassword } from "@quillsocial/features/auth/lib/hashPassword";
 import { sendEmailVerification } from "@quillsocial/features/auth/lib/verifyEmail";
@@ -12,8 +10,8 @@ import {
 import slugify from "@quillsocial/lib/slugify";
 import prisma from "@quillsocial/prisma";
 import { IdentityProvider } from "@quillsocial/prisma/enums";
-
-import { publicDomain } from "./pulic-email";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 const signupSchema = z.object({
   username: z.string().refine((value) => !value.includes("+"), {

@@ -1,8 +1,4 @@
-import { result } from "lodash";
-import { Check } from "lucide-react";
-import NextImage from "next/image";
-import { useState } from "react";
-
+import UnsplashImageSelector from "./UnsplashImageSelector";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import {
   Dialog,
@@ -14,8 +10,10 @@ import {
   showToast,
 } from "@quillsocial/ui";
 import { Upload } from "@quillsocial/ui/components/icon";
-
-import UnsplashImageSelector from "./UnsplashImageSelector";
+import { result } from "lodash";
+import { Check } from "lucide-react";
+import NextImage from "next/image";
+import { useState } from "react";
 
 interface AddImageDialogProps {
   open: boolean;

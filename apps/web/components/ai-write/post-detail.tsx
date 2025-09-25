@@ -1,7 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { useRouter } from "next/router";
-import { Fragment, useState, useEffect } from "react";
-
+import useMeQuery from "@lib/hooks/useMeQuery";
+import { FileEvent } from "@lib/types/FileEvent";
 import dayjs from "@quillsocial/dayjs";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { BillingType } from "@quillsocial/prisma/enums";
@@ -14,9 +13,8 @@ import {
   DialogFooter,
   showToast,
 } from "@quillsocial/ui";
-
-import useMeQuery from "@lib/hooks/useMeQuery";
-import { FileEvent } from "@lib/types/FileEvent";
+import { useRouter } from "next/router";
+import { Fragment, useState, useEffect } from "react";
 
 const tabs = [
   { name: "Write", href: "#", current: true },

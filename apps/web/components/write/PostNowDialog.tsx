@@ -1,11 +1,9 @@
-import { useState } from "react";
-
+import PluginComment from "./PluginComment";
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import { checkUserToUsePlug } from "@quillsocial/features/shell/SocialAvatar";
 import { Dialog, DialogContent, DialogFooter, Switch } from "@quillsocial/ui";
 import { Button, showToast } from "@quillsocial/ui";
-
-import PluginComment from "./PluginComment";
+import { useState } from "react";
 
 export type PluginState = {
   time: string;

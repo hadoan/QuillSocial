@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
 import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 

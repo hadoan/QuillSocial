@@ -1,10 +1,9 @@
 import prisma from "@quillsocial/prisma";
 import { appRouter } from "@quillsocial/trpc/server/routers/_app";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import type { GetStaticPropsContext } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import superjson from "superjson";
-
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { i18n } = require("@quillsocial/config/next-i18next.config");

@@ -1,3 +1,4 @@
+import { parseZone } from "./parse-zone";
 import type { Dayjs } from "@quillsocial/dayjs";
 import dayjs from "@quillsocial/dayjs";
 import {
@@ -5,8 +6,6 @@ import {
   TimeFormat,
 } from "@quillsocial/lib/timeFormat";
 import { RRule } from "rrule";
-
-import { parseZone } from "./parse-zone";
 
 type ExtraOptions = {
   withDefaultTimeFormat?: boolean;

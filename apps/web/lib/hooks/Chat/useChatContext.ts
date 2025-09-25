@@ -1,7 +1,6 @@
-import { useContext } from "react";
-
-import { ChatContextProps } from "@lib/types/chatDocProps";
 import { ChatContext } from "./ChatProvider";
+import { ChatContextProps } from "@lib/types/chatDocProps";
+import { useContext } from "react";
 
 export const useChatContext = (): ChatContextProps => {
   const context = useContext(ChatContext);

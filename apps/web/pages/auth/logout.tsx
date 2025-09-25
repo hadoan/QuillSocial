@@ -1,19 +1,15 @@
-import type { GetServerSidePropsContext } from "next";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
+import PageWrapper from "@components/PageWrapper";
+import AuthContainer from "@components/ui/AuthContainer";
+import type { inferSSRProps } from "@lib/types/inferSSRProps";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button } from "@quillsocial/ui";
 import { Check } from "@quillsocial/ui/components/icon";
-
-import type { inferSSRProps } from "@lib/types/inferSSRProps";
-
-import PageWrapper from "@components/PageWrapper";
-import AuthContainer from "@components/ui/AuthContainer";
-
 import { ssrInit } from "@server/lib/ssr";
+import type { GetServerSidePropsContext } from "next";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 type Props = inferSSRProps<typeof getServerSideProps>;
 

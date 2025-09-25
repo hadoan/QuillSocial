@@ -1,3 +1,4 @@
+import type { AppImageProps, MeetingImageProps } from "./OgImages";
 import {
   APP_NAME,
   SEO_IMG_DEFAULT,
@@ -5,8 +6,6 @@ import {
 } from "@quillsocial/lib/constants";
 import type { DefaultSeoProps, NextSeoProps } from "next-seo";
 import type { Router } from "next/router";
-
-import type { AppImageProps, MeetingImageProps } from "./OgImages";
 
 export type HeadSeoProps = {
   title: string;

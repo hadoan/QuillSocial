@@ -1,6 +1,7 @@
+import dayjs from "@quillsocial/dayjs";
 import prisma from "@quillsocial/prisma";
 import { BillingType } from "@quillsocial/prisma/enums";
-import dayjs from "@quillsocial/dayjs";
+
 //functions use to check billing
 export const getUserStats = async (userId: number) => {
   const today = new Date();

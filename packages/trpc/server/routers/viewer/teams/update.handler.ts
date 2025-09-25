@@ -1,13 +1,11 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TUpdateInputSchema } from "./update.schema";
+import type { Prisma } from "@prisma/client";
 import { IS_TEAM_BILLING_ENABLED } from "@quillsocial/lib/constants";
 import { isTeamAdmin } from "@quillsocial/lib/server/queries/teams";
 import { prisma } from "@quillsocial/prisma";
 import { teamMetadataSchema } from "@quillsocial/prisma/zod-utils";
-import type { Prisma } from "@prisma/client";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TUpdateInputSchema } from "./update.schema";
 
 type UpdateOptions = {
   ctx: {

@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable @next/next/no-html-link-for-pages */
+import PageWrapper from "@components/PageWrapper";
+import AuthContainer from "@components/ui/AuthContainer";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { Button, EmailField } from "@quillsocial/ui";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import type { SyntheticEvent } from "react";
 import React from "react";
-
-import PageWrapper from "@components/PageWrapper";
-import AuthContainer from "@components/ui/AuthContainer";
 
 export default function ForgotPassword({ csrfToken }: { csrfToken: string }) {
   const { t, i18n } = useLocale();

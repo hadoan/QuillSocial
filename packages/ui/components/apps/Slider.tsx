@@ -1,12 +1,11 @@
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { ArrowLeft, ArrowRight } from "../icon";
+import { SkeletonText } from "../skeleton";
 import type { Options } from "@glidejs/glide";
 import "@glidejs/glide/dist/css/glide.core.min.css";
 import "@glidejs/glide/dist/css/glide.theme.min.css";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { ComponentProps, FC } from "react";
 import { useRef } from "react";
-
-import { ArrowLeft, ArrowRight } from "../icon";
-import { SkeletonText } from "../skeleton";
 
 const SliderButton: FC<ComponentProps<"button">> = (props) => {
   const { children, ...rest } = props;

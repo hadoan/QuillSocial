@@ -1,10 +1,8 @@
+import type { ZVerifyCodeInputSchema } from "./verifyCode.schema";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
+import { TRPCError } from "@trpc/server";
 import { createHash } from "crypto";
 import { totp } from "otplib";
-
-import { TRPCError } from "@trpc/server";
-
-import type { ZVerifyCodeInputSchema } from "./verifyCode.schema";
 
 type VerifyCodeOptions = {
   ctx: {

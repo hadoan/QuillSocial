@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-
+import PluginComment from "./PluginComment";
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import { checkUserToUsePlug } from "@quillsocial/features/shell/SocialAvatar";
 import { BillingType } from "@quillsocial/prisma/enums";
@@ -16,8 +15,7 @@ import {
   Select,
 } from "@quillsocial/ui";
 import { Button, showToast, HeadSeo } from "@quillsocial/ui";
-
-import PluginComment from "./PluginComment";
+import { useEffect, useMemo, useState } from "react";
 
 export type PluginType = {
   time: string;

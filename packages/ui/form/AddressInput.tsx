@@ -1,7 +1,6 @@
-import cx from "@quillsocial/lib/classNames";
-
 import { Input } from "../components/form";
 import { MapPin } from "../components/icon";
+import cx from "@quillsocial/lib/classNames";
 
 export type AddressInputProps = {
   value: string;

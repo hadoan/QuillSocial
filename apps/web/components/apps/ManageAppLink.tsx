@@ -1,7 +1,6 @@
-import { useRouter } from "next/router";
-
 import type { App as AppType } from "@quillsocial/types/App";
 import { Button } from "@quillsocial/ui";
+import { useRouter } from "next/router";
 
 export default function ManageAppLink({ type }: { type: AppType["type"] }) {
   const router = useRouter();

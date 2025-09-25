@@ -1,5 +1,5 @@
-import prisma from "@quillsocial/prisma";
 import { User as PrismaUser } from "@prisma/client";
+import prisma from "@quillsocial/prisma";
 import {
   GetServerSidePropsContext,
   NextApiRequest,

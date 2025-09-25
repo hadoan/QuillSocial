@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import NextImage from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -7,6 +5,8 @@ import {
   Button,
   showToast,
 } from "@quillsocial/ui";
+import NextImage from "next/image";
+import React, { useState } from "react";
 
 interface ImageDetail {
   imageUrl: string;

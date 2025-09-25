@@ -1,6 +1,5 @@
-import { prisma } from "@quillsocial/prisma";
-
 import type { TrpcSessionUser } from "../../../trpc";
+import { prisma } from "@quillsocial/prisma";
 
 type CheckForGCalOptions = {
   ctx: {

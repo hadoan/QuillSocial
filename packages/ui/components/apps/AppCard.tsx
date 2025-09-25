@@ -1,15 +1,14 @@
 // import useAddAppMutation from "@quillsocial/app-store/_utils/useAddAppMutation";
 // import { InstallAppButton } from "@quillsocial/app-store/components";
+import { Button } from "../button";
+import { Plus } from "../icon";
+import { showToast } from "../toast";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { AppFrontendPayload as App } from "@quillsocial/types/App";
 import type { CredentialFrontendPayload as Credential } from "@quillsocial/types/Credential";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
-import { Button } from "../button";
-import { Plus } from "../icon";
-import { showToast } from "../toast";
 
 interface AppCardProps {
   app: App;

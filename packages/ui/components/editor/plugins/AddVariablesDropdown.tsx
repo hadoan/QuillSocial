@@ -1,5 +1,3 @@
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-
 import {
   Dropdown,
   DropdownMenuContent,
@@ -7,6 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "../../form/dropdown";
 import { ChevronDown } from "../../icon";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 
 interface IAddVariablesDropdown {
   addVariable: (variable: string) => void;

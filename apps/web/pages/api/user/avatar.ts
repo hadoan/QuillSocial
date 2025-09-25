@@ -1,10 +1,9 @@
+import { defaultAvatarSrc } from "@lib/profile";
 import { getPlaceholderAvatar } from "@quillsocial/lib/defaultAvatarImage";
 import prisma from "@quillsocial/prisma";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-
-import { defaultAvatarSrc } from "@lib/profile";
 
 const querySchema = z
   .object({

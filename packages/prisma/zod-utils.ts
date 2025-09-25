@@ -1,3 +1,4 @@
+import dayjs from "@quillsocial/dayjs";
 import z, { ZodNullable, ZodObject, ZodOptional } from "zod";
 
 /* eslint-disable no-underscore-dangle */
@@ -9,8 +10,6 @@ import type {
   ZodRawShape,
   ZodTypeAny,
 } from "zod";
-
-import dayjs from "@quillsocial/dayjs";
 
 // dayjs iso parsing is very buggy - cant use :( - turns ISO string into Date object
 export const iso8601 = z.string().transform((val, ctx) => {

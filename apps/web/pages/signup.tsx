@@ -1,15 +1,7 @@
+import { ssrInit } from "../server/lib/ssr";
+import PageWrapper from "@components/PageWrapper";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GetServerSidePropsContext } from "next";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
-import React from "react";
-import type { CSSProperties } from "react";
-import { useState, useEffect } from "react";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { inferSSRProps } from "@quillsocial/types/inferSSRProps";
@@ -22,10 +14,15 @@ import {
   TextField,
 } from "@quillsocial/ui";
 import { Dialog, DialogFooter, DialogContent } from "@quillsocial/ui";
-
-import PageWrapper from "@components/PageWrapper";
-
-import { ssrInit } from "../server/lib/ssr";
+import { GetServerSidePropsContext } from "next";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
+import React from "react";
+import type { CSSProperties } from "react";
+import { useState, useEffect } from "react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 const signupSchema = z.object({
   username: z.string().refine((value) => !value.includes("+"), {

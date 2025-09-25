@@ -1,14 +1,12 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TSaveKeysInputSchema } from "./saveKeys.schema";
+import type { Prisma } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
 import { appKeysSchemas } from "@quillsocial/app-store/apps.keys-schemas.generated";
 import { getLocalAppMetadata } from "@quillsocial/app-store/utils";
 import type { AppCategories } from "@quillsocial/prisma/enums";
-import type { Prisma } from "@prisma/client";
-import type { PrismaClient } from "@prisma/client";
-
 // import prisma from "@quillsocial/prisma";
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TSaveKeysInputSchema } from "./saveKeys.schema";
 
 type SaveKeysOptions = {
   ctx: {

@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { useEffect } from "react";
 import { useChatContext } from "./useChatContext";
 import { getChatItems, getChatNotifications } from "@lib/chat/chat";
 import { ChatMessage, ChatItem, Notification } from "@lib/types/chatDocProps";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChatNotificationsSync = () => {

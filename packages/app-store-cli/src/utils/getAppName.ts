@@ -1,6 +1,5 @@
-import path from "path";
-
 import { APP_STORE_PATH } from "../constants";
+import path from "path";
 
 export function getAppName(candidatePath) {
   function isValidAppName(candidatePath) {

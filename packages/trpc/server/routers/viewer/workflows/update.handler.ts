@@ -1,13 +1,3 @@
-import type { Prisma } from "@prisma/client";
-
-import { IS_SELF_HOSTED } from "@quillsocial/lib/constants";
-import hasKeyInMetadata from "@quillsocial/lib/hasKeyInMetadata";
-import type { PrismaClient } from "@quillsocial/prisma/client";
-import { WorkflowActions, WorkflowMethods } from "@quillsocial/prisma/enums";
-import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import { TRPCError } from "@trpc/server";
-
 import { hasTeamPlanHandler } from "../teams/hasTeamPlan.handler";
 import type { TUpdateInputSchema } from "./update.schema";
 import {
@@ -15,6 +5,13 @@ import {
   removeSmsReminderFieldForBooking,
   upsertSmsReminderFieldForBooking,
 } from "./util";
+import type { Prisma } from "@prisma/client";
+import { IS_SELF_HOSTED } from "@quillsocial/lib/constants";
+import hasKeyInMetadata from "@quillsocial/lib/hasKeyInMetadata";
+import type { PrismaClient } from "@quillsocial/prisma/client";
+import { WorkflowActions, WorkflowMethods } from "@quillsocial/prisma/enums";
+import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
+import { TRPCError } from "@trpc/server";
 
 type UpdateOptions = {
   ctx: {

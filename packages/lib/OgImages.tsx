@@ -1,6 +1,5 @@
-import React from "react";
-
 import { MY_APP_URL, LOGO } from "./constants";
+import React from "react";
 
 // Ensures tw prop is typed.
 declare module "react" {

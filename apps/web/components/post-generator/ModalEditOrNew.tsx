@@ -1,3 +1,4 @@
+import { Dialog as Delog, Listbox, Menu, Transition } from "@headlessui/react";
 import {
   Dialog,
   DialogContent,
@@ -5,11 +6,9 @@ import {
   Button,
   TextAreaField,
 } from "@quillsocial/ui";
-import { Dialog as Delog, Listbox, Menu, Transition } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
-
-import { useRouter } from "next/router";
 import { Pencil } from "lucide-react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 interface ModalEditOrNewCustomProps {
   open: boolean;

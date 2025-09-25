@@ -1,14 +1,12 @@
+import type { TRemoveMemberInputSchema } from "./removeMember.schema";
+import type { PrismaClient } from "@prisma/client";
 import {
   isTeamAdmin,
   isTeamOwner,
 } from "@quillsocial/lib/server/queries/teams";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-import type { PrismaClient } from "@prisma/client";
-
-import { TRPCError } from "@trpc/server";
-
-import type { TRemoveMemberInputSchema } from "./removeMember.schema";
 import { InputGroupBox } from "@quillsocial/ui";
+import { TRPCError } from "@trpc/server";
 
 type RemoveMemberOptions = {
   ctx: {

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Alert,
   Avatar,
@@ -16,6 +15,7 @@ import {
   XCircle,
   MoreHorizontal,
 } from "@quillsocial/ui/components/icon";
+import React, { useState } from "react";
 
 function EditUnchanged({
   unchangedValue,

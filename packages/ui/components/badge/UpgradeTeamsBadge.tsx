@@ -1,9 +1,8 @@
+import { Tooltip } from "../tooltip";
+import { Badge } from "./Badge";
 import { useHasPaidPlan } from "@quillsocial/lib/hooks/useHasPaidPlan";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import Link from "next/link";
-
-import { Tooltip } from "../tooltip";
-import { Badge } from "./Badge";
 
 export const UpgradeTeamsBadge = function UpgradeTeamsBadge() {
   const { t } = useLocale();

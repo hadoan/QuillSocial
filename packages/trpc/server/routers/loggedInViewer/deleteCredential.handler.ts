@@ -1,9 +1,7 @@
+import type { TDeleteCredentialInputSchema } from "./deleteCredential.schema";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TDeleteCredentialInputSchema } from "./deleteCredential.schema";
 
 type DeleteCredentialOptions = {
   ctx: {

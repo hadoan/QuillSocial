@@ -1,7 +1,6 @@
+import { webhookIdAndEventTypeIdSchema } from "./types";
 import { WEBHOOK_TRIGGER_EVENTS } from "@quillsocial/features/webhooks/lib/constants";
 import { z } from "zod";
-
-import { webhookIdAndEventTypeIdSchema } from "./types";
 
 export const ZCreateInputSchema = webhookIdAndEventTypeIdSchema.extend({
   subscriberUrl: z.string().url(),

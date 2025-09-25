@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import EmojiPicker from "emoji-picker-react";
 import { Dialog, DialogContent, DialogFooter } from "@quillsocial/ui";
+import EmojiPicker from "emoji-picker-react";
+import React, { useState } from "react";
 
 interface EmojiDialogProps {
   open: boolean;

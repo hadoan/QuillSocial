@@ -1,10 +1,9 @@
-import { useRouter } from "next/router";
-
+import PageWrapper from "@components/PageWrapper";
+import MainTemplate from "@components/post-generator/mainTemplate";
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { HeadSeo } from "@quillsocial/ui";
-import PageWrapper from "@components/PageWrapper";
-import MainTemplate from "@components/post-generator/mainTemplate";
+import { useRouter } from "next/router";
 
 const PostGeneratorPageTemplate = () => {
   const { t } = useLocale();

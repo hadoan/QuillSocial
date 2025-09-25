@@ -1,13 +1,12 @@
-import type { ResetPasswordRequest } from "@quillsocial/prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
-
 import dayjs from "@quillsocial/dayjs";
 import { sendPasswordResetEmail } from "@quillsocial/emails";
 import { PASSWORD_RESET_EXPIRY_HOURS } from "@quillsocial/emails/templates/forgot-password-email";
 import { defaultHandler } from "@quillsocial/lib/server";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import prisma from "@quillsocial/prisma";
+import type { ResetPasswordRequest } from "@quillsocial/prisma/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const t = await getTranslation(req.body.language ?? "en", "common");
@@ -32,8 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // 10 requests per minute
 
-
-
   try {
     const maybeUser = await prisma.user.findUnique({
       where: {
@@ -48,12 +45,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!maybeUser) {
       // Don't leak information about whether an email is registered or not
-      return res
-        .status(200)
-        .json({
-          message:
-            "If this email exists in our system, you should receive a Reset email.",
-        });
+      return res.status(200).json({
+        message:
+          "If this email exists in our system, you should receive a Reset email.",
+      });
     }
 
     const maybePreviousRequest = await prisma.resetPasswordRequest.findMany({
@@ -96,12 +91,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         resetLink,
       });
     } else {
-      return res
-        .status(201)
-        .json({
-          message:
-            "If this email exists in our system, you should receive a Reset email.",
-        });
+      return res.status(201).json({
+        message:
+          "If this email exists in our system, you should receive a Reset email.",
+      });
     }
   } catch (reason) {
     return res

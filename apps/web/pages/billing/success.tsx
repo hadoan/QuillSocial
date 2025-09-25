@@ -1,14 +1,12 @@
+import PageWrapper from "@components/PageWrapper";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import classNames from "classnames";
-import Link from "next/link";
-import { useRouter } from "next/router";
-
 import useGetBrandingColours from "@quillsocial/lib/getBrandColours";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import { HeadSeo, useAppDefaultTheme } from "@quillsocial/ui";
 import { ChevronLeft } from "@quillsocial/ui/components/icon";
-
-import PageWrapper from "@components/PageWrapper";
+import classNames from "classnames";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Success() {
   const { t } = useLocale();
@@ -69,8 +67,8 @@ export default function Success() {
                     <div className="col-span-3 font-medium">
                       If you have any questions or suggestions, don't hesitate
                       to reach out at{" "}
-                      <a href="mailto:team@workramen.com">hi@quillsocial.com</a>.
-                      Your feedback is invaluable to us. Welcome aboard! 🎉
+                      <a href="mailto:team@workramen.com">hi@quillsocial.com</a>
+                      . Your feedback is invaluable to us. Welcome aboard! 🎉
                     </div>
                     {/* <div className="col-span-3 mb-6 mt-2 last:mb-0"></div> */}
                   </div>

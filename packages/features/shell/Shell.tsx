@@ -107,7 +107,7 @@ function useRedirectToLoginIfUnauthenticated(isPublic = false) {
 
     // Don't redirect if we're on any navigation path or auth pages
     const currentPath = router.pathname;
-    const shouldSkipRedirect = NAVIGATION_PATHS.some(path =>
+    const shouldSkipRedirect = NAVIGATION_PATHS.some((path) =>
       currentPath.startsWith(path)
     );
 
@@ -147,7 +147,7 @@ function useRedirectToOnboardingIfNeeded() {
   useEffect(() => {
     // Don't redirect if we're on any navigation path, auth pages, or onboarding
     const currentPath = router.pathname;
-    const shouldSkipRedirect = NAVIGATION_PATHS.some(path =>
+    const shouldSkipRedirect = NAVIGATION_PATHS.some((path) =>
       currentPath.startsWith(path)
     );
 
@@ -626,17 +626,17 @@ const navigation: NavigationItemType[] = [
 const getNavigationPaths = () => {
   const paths = new Set<string>();
 
-  navigation.forEach(item => {
+  navigation.forEach((item) => {
     // Extract the base path from href (remove specific IDs/params)
-    const basePath = item.href.split('/').slice(0, 2).join('/');
-    if (basePath && basePath !== '/') {
+    const basePath = item.href.split("/").slice(0, 2).join("/");
+    if (basePath && basePath !== "/") {
       paths.add(basePath);
     }
   });
 
   // Add essential paths that should never trigger redirects
-  paths.add('/auth');
-  paths.add('/getting-started');
+  paths.add("/auth");
+  paths.add("/getting-started");
 
   return Array.from(paths);
 };

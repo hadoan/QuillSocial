@@ -1,9 +1,8 @@
 // @see: https://github.com/wojtekmaj/react-daterange-picker/issues/91
-import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
-import * as picker from "@wojtekmaj/react-daterange-picker";
-
 import { ArrowRight, Calendar, ChevronLeft, ChevronRight } from "../../icon";
 import "./styles.css";
+import * as picker from "@wojtekmaj/react-daterange-picker";
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import { Value } from "@wojtekmaj/react-daterange-picker/dist/cjs/shared/types";
 
 type Props = {

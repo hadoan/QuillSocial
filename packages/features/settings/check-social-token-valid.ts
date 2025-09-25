@@ -1,5 +1,5 @@
-import prisma from "@quillsocial/prisma";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
+import prisma from "@quillsocial/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Response = {

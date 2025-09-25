@@ -1,9 +1,9 @@
+import PageWrapper from "@components/PageWrapper";
 import Shell, {
   MobileNavigationMoreItems,
 } from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import useMeQuery from "@quillsocial/trpc/react/hooks/useMeQuery";
-import PageWrapper from "@components/PageWrapper";
 
 export default function MorePage() {
   const { t } = useLocale();

@@ -1,7 +1,6 @@
-import { APP_NAME } from "@quillsocial/lib/constants";
-
 import { renderEmail } from "../";
 import BaseEmail from "./_base-email";
+import { APP_NAME } from "@quillsocial/lib/constants";
 
 export interface Feedback {
   username: string;

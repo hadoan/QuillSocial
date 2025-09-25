@@ -1,8 +1,7 @@
+import "./next-auth";
 import type { PrismaClient } from "@quillsocial/prisma/client";
 import type { IncomingMessage } from "http";
 import type { Session } from "next-auth";
-
-import "./next-auth";
 
 export declare module "next" {
   interface NextApiRequest extends IncomingMessage {

@@ -1,10 +1,8 @@
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
-import { TwitterApi } from "twitter-api-v2";
-
-import prisma from "@quillsocial/prisma";
-
 import { getXAppKeys } from "./getXAppKeys";
 import { xCredentialSchema } from "./xCredentialSchema";
+import prisma from "@quillsocial/prisma";
+import { TwitterApi } from "twitter-api-v2";
 
 // const client = new Client(process.env.BEARER_TOKEN);
 let appKey = "";

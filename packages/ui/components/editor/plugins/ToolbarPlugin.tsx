@@ -1,3 +1,13 @@
+import { Button } from "../../button";
+import {
+  Dropdown,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../form/dropdown";
+import { Bold, ChevronDown, Italic, Link } from "../../icon";
+import type { TextEditorProps } from "../Editor";
+import { AddVariablesDropdown } from "./AddVariablesDropdown";
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
@@ -30,17 +40,6 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-
-import { Button } from "../../button";
-import {
-  Dropdown,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../form/dropdown";
-import { Bold, ChevronDown, Italic, Link } from "../../icon";
-import type { TextEditorProps } from "../Editor";
-import { AddVariablesDropdown } from "./AddVariablesDropdown";
 
 const LowPriority = 1;
 

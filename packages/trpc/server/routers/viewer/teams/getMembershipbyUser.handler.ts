@@ -1,9 +1,7 @@
+import type { TGetMembershipbyUserInputSchema } from "./getMembershipbyUser.schema";
 import { prisma } from "@quillsocial/prisma";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TGetMembershipbyUserInputSchema } from "./getMembershipbyUser.schema";
 
 type GetMembershipbyUserOptions = {
   ctx: {

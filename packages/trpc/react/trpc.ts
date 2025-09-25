@@ -1,6 +1,3 @@
-import type { NextPageContext } from "next/types";
-import superjson from "superjson";
-
 import { httpBatchLink } from "../client";
 import { httpLink } from "../client";
 import { loggerLink } from "../client";
@@ -12,6 +9,8 @@ import type { TRPCClientErrorLike } from "../react";
 import type { inferRouterInputs, inferRouterOutputs } from "../server";
 import type { AppRouter } from "../server/routers/_app";
 import { ENDPOINTS } from "./shared";
+import type { NextPageContext } from "next/types";
+import superjson from "superjson";
 
 type Maybe<T> = T | null | undefined;
 

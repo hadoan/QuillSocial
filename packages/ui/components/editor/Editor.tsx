@@ -1,4 +1,7 @@
-import { classNames } from "@quillsocial/lib";
+import ExampleTheme from "./ExampleTheme";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import "./stylesEditor.css";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { ListItemNode, ListNode } from "@lexical/list";
@@ -13,12 +16,8 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { classNames } from "@quillsocial/lib";
 import type { Dispatch, SetStateAction } from "react";
-
-import ExampleTheme from "./ExampleTheme";
-import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
-import "./stylesEditor.css";
 
 /*
  Detault toolbar items:

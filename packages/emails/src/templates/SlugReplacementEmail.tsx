@@ -1,8 +1,7 @@
+import { BaseEmailHtml, CallToAction } from "../components";
 import { MY_APP_URL } from "@quillsocial/lib/constants";
 import type { TFunction } from "next-i18next";
 import { Trans } from "next-i18next";
-
-import { BaseEmailHtml, CallToAction } from "../components";
 
 export const SlugReplacementEmail = (
   props: {

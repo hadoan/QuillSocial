@@ -1,12 +1,10 @@
+import { TrpcSessionUser } from "../../../trpc";
+import { getReminderType } from "../payments/remdinder-type";
 import dayjs from "@quillsocial/dayjs";
 import { prisma } from "@quillsocial/prisma";
 import { BillingStatus, BillingType } from "@quillsocial/prisma/client";
 import { MembershipRole } from "@quillsocial/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
-import { TrpcSessionUser } from "../../../trpc";
-import { getReminderType } from "../payments/remdinder-type";
 
 type GetCurrentUserBillingOptions = {
   ctx: {

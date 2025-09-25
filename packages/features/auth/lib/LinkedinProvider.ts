@@ -1,6 +1,6 @@
-import type { OAuthConfig } from "next-auth/providers/oauth";
-import type { LinkedInProfile } from "next-auth/providers/linkedin";
 import { LINKEDIN_SCOPES } from "@quillsocial/lib/constants";
+import type { LinkedInProfile } from "next-auth/providers/linkedin";
+import type { OAuthConfig } from "next-auth/providers/oauth";
 
 export const LinkedinProvider = (
   config: Partial<OAuthConfig<LinkedInProfile>>

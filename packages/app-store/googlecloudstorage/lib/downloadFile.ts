@@ -1,6 +1,6 @@
 // download.ts
-import fetch from "node-fetch";
 import { writeFile } from "fs/promises";
+import fetch from "node-fetch";
 
 async function downloadFile(fileUrl: string, outputPath: string) {
   const response = await fetch(fileUrl);

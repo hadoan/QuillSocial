@@ -1,8 +1,7 @@
 import * as trpcNext from "@quillsocial/trpc/server/adapters/next";
 import { createContext as createTrpcContext } from "@quillsocial/trpc/server/createContext";
-import { z } from "zod";
-
 import type { AnyRouter } from "@trpc/server";
+import { z } from "zod";
 
 /**
  * Creates an API handler executed by Next.js.

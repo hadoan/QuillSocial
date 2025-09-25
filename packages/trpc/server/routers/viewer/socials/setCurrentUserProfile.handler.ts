@@ -1,8 +1,8 @@
-import { prisma } from "@quillsocial/prisma";
-import { TRPCError } from "@trpc/server";
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TCurrentUserProfileInputSchema } from "./setCurrentUserProfile.schema";
 import { resetCachedSocialProfile } from "@quillsocial/features/auth/lib/socialProfiles";
+import { prisma } from "@quillsocial/prisma";
+import { TRPCError } from "@trpc/server";
 
 type UpdateOptions = {
   ctx: {

@@ -1,12 +1,11 @@
 // @ts-nocheck - Suppressing React component type errors
+import { APP_NAME } from "@quillsocial/lib/constants";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { Alert, Button, Form, TextField } from "@quillsocial/ui";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Toaster } from "react-hot-toast";
-
-import { APP_NAME } from "@quillsocial/lib/constants";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { Alert, Button, Form, TextField } from "@quillsocial/ui";
 
 export default function XConsumerKeysSetup() {
   const { t } = useLocale();
@@ -40,7 +39,9 @@ export default function XConsumerKeysSetup() {
             />
           </div>
           <div>
-            <h1 className="text-default">Configure X/Twitter API Credentials</h1>
+            <h1 className="text-default">
+              Configure X/Twitter API Credentials
+            </h1>
 
             <div className="mt-1 text-sm">
               Generate Consumer Keys and Access Tokens at
@@ -53,8 +54,10 @@ export default function XConsumerKeysSetup() {
                 &nbsp;https://developer.twitter.com/en/portal/projects-and-apps
               </a>
               . {t("credentials_stored_encrypted")} <br />
-              <strong>Consumer Keys:</strong> Required for API access<br />
-              <strong>Access Tokens:</strong> Required for posting tweets<br />
+              <strong>Consumer Keys:</strong> Required for API access
+              <br />
+              <strong>Access Tokens:</strong> Required for posting tweets
+              <br />
               Follow this guide to generate credentials
               <a
                 className="text-indigo-400"
@@ -65,18 +68,30 @@ export default function XConsumerKeysSetup() {
                 &nbsp;https://developer.x.com/en/docs/authentication/oauth-1-0a/api-key-and-secret
               </a>
               <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                <h3 className="font-semibold text-yellow-800 mb-2">⚠️ Important: App Permissions Required</h3>
+                <h3 className="font-semibold text-yellow-800 mb-2">
+                  ⚠️ Important: App Permissions Required
+                </h3>
                 <p className="text-sm text-yellow-700">
                   <strong>Before generating Access Tokens:</strong>
                 </p>
                 <ol className="text-sm text-yellow-700 ml-4 mt-1 list-decimal">
                   <li>Go to your Twitter Developer Portal</li>
-                  <li>Navigate to your app → <strong>App Settings → Set up</strong></li>
-                  <li>Change <strong>App permissions</strong> from "Read" to <strong>"Read and write"</strong></li>
-                  <li><strong>Then</strong> generate new Access Tokens (old tokens won't work)</li>
+                  <li>
+                    Navigate to your app →{" "}
+                    <strong>App Settings → Set up</strong>
+                  </li>
+                  <li>
+                    Change <strong>App permissions</strong> from "Read" to{" "}
+                    <strong>"Read and write"</strong>
+                  </li>
+                  <li>
+                    <strong>Then</strong> generate new Access Tokens (old tokens
+                    won't work)
+                  </li>
                 </ol>
                 <p className="text-sm text-yellow-700 mt-2">
-                  Without read and write permissions, posting tweets will fail with permission errors.
+                  Without read and write permissions, posting tweets will fail
+                  with permission errors.
                 </p>
               </div>
             </div>
@@ -134,7 +149,6 @@ export default function XConsumerKeysSetup() {
                     placeholder=""
                     required
                   />
-
                 </fieldset>
 
                 {errorMessage && (

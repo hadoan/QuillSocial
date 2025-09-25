@@ -1,10 +1,9 @@
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import Image from "next/image";
-import Link from "next/link";
-
 import { ArrowRight } from "../icon";
 import { SkeletonText } from "../skeleton";
 import { Slider } from "./Slider";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import Image from "next/image";
+import Link from "next/link";
 
 export function AppStoreCategories({
   categories,

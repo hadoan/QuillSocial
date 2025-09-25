@@ -1,3 +1,10 @@
+import PageWrapper from "@components/PageWrapper";
+import BillingHistory from "@components/billing/history";
+import ManageBilling from "@components/billing/manage";
+import BillingOverview from "@components/billing/overview";
+import PaymentMethods from "@components/billing/payment_methods";
+import { withQuery } from "@lib/QueryCell";
+import { OpenAIUsageDashboard } from "@quillsocial/features/settings/components/OpenAIUsageDashboard";
 import Shell from "@quillsocial/features/shell/Shell";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import useMediaQuery from "@quillsocial/lib/hooks/useMediaQuery";
@@ -11,16 +18,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { z } from "zod";
 
-import { withQuery } from "@lib/QueryCell";
-
-import PageWrapper from "@components/PageWrapper";
-import BillingHistory from "@components/billing/history";
-import BillingOverview from "@components/billing/overview";
-import PaymentMethods from "@components/billing/payment_methods";
-import ManageBilling from "@components/billing/manage";
-import { OpenAIUsageDashboard } from "@quillsocial/features/settings/components/OpenAIUsageDashboard";
-
-const validTabs = ["overview", "history", "payment_methods", "manage", "usage"] as const;
+const validTabs = [
+  "overview",
+  "history",
+  "payment_methods",
+  "manage",
+  "usage",
+] as const;
 
 const querySchema = z.object({
   tab: z.enum(validTabs),

@@ -1,7 +1,7 @@
+import { renderEmail } from "../";
 import BaseEmail from "./_base-email";
 import { APP_NAME } from "@quillsocial/lib/constants";
 
-import { renderEmail } from "../";
 export interface forHost {
   username: string;
   email: string;

@@ -1,6 +1,6 @@
+import { getCurrentSocialProfile } from "@quillsocial/features/users/lib/getCurrentSocialProfile";
 import { LRUCache } from "lru-cache";
 import { SocialProfile } from "next-auth";
-import { getCurrentSocialProfile } from "@quillsocial/features/users/lib/getCurrentSocialProfile";
 
 const PROFILE_CACHE = new LRUCache<string, SocialProfile>({ max: 1000 });
 

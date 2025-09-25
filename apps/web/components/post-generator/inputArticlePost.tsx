@@ -1,9 +1,7 @@
+import { InputTemplateProps } from "./constTemplateWrapper";
+import { TextAreaField, InputField, TextField } from "@quillsocial/ui";
 import React from "react";
 import { useState, useEffect } from "react";
-
-import { TextAreaField, InputField, TextField } from "@quillsocial/ui";
-
-import { InputTemplateProps } from "./constTemplateWrapper";
 
 const InputArticlePost: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [url, setUrl] = useState("");

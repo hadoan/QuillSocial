@@ -1,11 +1,9 @@
+import type { TrpcSessionUser } from "../../../trpc";
+import type { TGetInputSchema } from "./get.schema";
 import { markdownToSafeHTML } from "@quillsocial/lib/markdownToSafeHTML";
 import { getTeamWithMembers } from "@quillsocial/lib/server/queries/teams";
 import type { MembershipRole } from "@quillsocial/prisma/enums";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TrpcSessionUser } from "../../../trpc";
-import type { TGetInputSchema } from "./get.schema";
 
 type GetOptions = {
   ctx: {

@@ -1,3 +1,21 @@
+import PageWrapper from "@components/PageWrapper";
+import Card from "@components/post-generator/card";
+import { templatesInfo } from "@components/post-generator/constTemplateWrapper";
+import { ChatProvider } from "@lib/hooks/Chat/ChatProvider";
+import { BrainProvider } from "@lib/hooks/Chat/brain-provider";
+import useMeQuery from "@lib/hooks/useMeQuery";
+import dayjs from "@quillsocial/dayjs";
+import Shell from "@quillsocial/features/shell/Shell";
+import { useLocale } from "@quillsocial/lib/hooks/useLocale";
+import { trpc } from "@quillsocial/trpc/react";
+import { Button, HeadSeo, showToast } from "@quillsocial/ui";
+import { HorizontalTabs } from "@quillsocial/ui";
+import type {
+  VerticalTabItemProps,
+  HorizontalTabItemProps,
+} from "@quillsocial/ui";
+import { Dialog, DialogContent } from "@quillsocial/ui";
+import { Mail } from "@quillsocial/ui/components/icon";
 import { debounce } from "lodash";
 import {
   Heart,
@@ -10,27 +28,6 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { components } from "react-select";
-
-import dayjs from "@quillsocial/dayjs";
-import Shell from "@quillsocial/features/shell/Shell";
-import { useLocale } from "@quillsocial/lib/hooks/useLocale";
-import { Button, HeadSeo, showToast } from "@quillsocial/ui";
-import { HorizontalTabs } from "@quillsocial/ui";
-import type {
-  VerticalTabItemProps,
-  HorizontalTabItemProps,
-} from "@quillsocial/ui";
-import { Dialog, DialogContent } from "@quillsocial/ui";
-import { Mail } from "@quillsocial/ui/components/icon";
-
-import { ChatProvider } from "@lib/hooks/Chat/ChatProvider";
-import { BrainProvider } from "@lib/hooks/Chat/brain-provider";
-import useMeQuery from "@lib/hooks/useMeQuery";
-
-import PageWrapper from "@components/PageWrapper";
-import Card from "@components/post-generator/card";
-import { templatesInfo } from "@components/post-generator/constTemplateWrapper";
-import { trpc } from "@quillsocial/trpc/react";
 
 const PostGeneratorPage = () => {
   const { t } = useLocale();

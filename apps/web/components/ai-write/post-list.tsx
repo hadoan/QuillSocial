@@ -1,8 +1,7 @@
-import { debounce } from "lodash";
-import { ArrowLeft, ArrowRight, Search } from "lucide-react";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-
+import { Pagination } from "./Pagination";
+import PostDetail from "./post-detail";
+import TopicSuggestions from "./topic-suggestions";
+import useMeQuery from "@lib/hooks/useMeQuery";
 import dayjs from "@quillsocial/dayjs";
 import SocialAvatar from "@quillsocial/features/shell/SocialAvatar";
 import { TWITTER_APP_ID, WEBAPP_URL } from "@quillsocial/lib/constants";
@@ -10,12 +9,10 @@ import { trpc } from "@quillsocial/trpc/react";
 import { Post } from "@quillsocial/types/Posts";
 import { Button, showToast } from "@quillsocial/ui";
 import { Dialog, DialogContent } from "@quillsocial/ui";
-
-import useMeQuery from "@lib/hooks/useMeQuery";
-
-import { Pagination } from "./Pagination";
-import PostDetail from "./post-detail";
-import TopicSuggestions from "./topic-suggestions";
+import { debounce } from "lodash";
+import { ArrowLeft, ArrowRight, Search } from "lucide-react";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 
 function PostList() {
   const [isSlideOverOpen, setIsSlideOverOpen] = useState(false);
@@ -136,16 +133,18 @@ function PostList() {
       if (response.ok) {
         const responseData = await response.json();
         if (responseData.lastRecords) {
-          const createdPosts: Post[] = responseData.lastRecords.map((x: any) => ({
-            ...x,
-            emailOrUserName:
-              x.credential?.emailOrUserName ||
-              user?.currentSocialProfile?.emailOrUserName ||
-              "-",
-            id: x.id,
-            avatarUrl: x.credential.avatarUrl,
-            name: x.credential.name,
-          }));
+          const createdPosts: Post[] = responseData.lastRecords.map(
+            (x: any) => ({
+              ...x,
+              emailOrUserName:
+                x.credential?.emailOrUserName ||
+                user?.currentSocialProfile?.emailOrUserName ||
+                "-",
+              id: x.id,
+              avatarUrl: x.credential.avatarUrl,
+              name: x.credential.name,
+            })
+          );
           const updatedAllPosts = [...allPosts];
           updatedAllPosts.unshift(...createdPosts);
           setAllPosts(updatedAllPosts);

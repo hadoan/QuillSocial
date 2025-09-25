@@ -1,6 +1,5 @@
-import { ChatMessage } from "@lib/types/chatDocProps";
-
 import { useChatContext } from "./useChatContext";
+import { ChatMessage } from "@lib/types/chatDocProps";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useHandleStream = () => {

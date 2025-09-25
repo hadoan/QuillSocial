@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
-
 import { TEMPLATES_PATH } from "../constants";
 import { getAppName } from "./getAppName";
+import fs from "fs";
+import path from "path";
 
 const Templates = fs
   .readdirSync(TEMPLATES_PATH)

@@ -1,6 +1,5 @@
 import type { PrismaClient } from "@quillsocial/prisma/client";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
 
 type ListHandlerInput = {

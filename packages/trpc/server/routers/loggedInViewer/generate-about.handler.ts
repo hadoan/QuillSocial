@@ -1,11 +1,9 @@
-import type { NextApiResponse, GetServerSidePropsContext } from "next";
-import type { Session } from "next-auth";
-
-import { generateAbout } from "@quillsocial/app-store/chatgptai/lib/completions/generate-about";
-import { prisma } from "@quillsocial/prisma";
-
 import { TrpcSessionUser } from "../../trpc";
 import type { TGenerateAboutInputSchema } from "./generate-about.schema";
+import { generateAbout } from "@quillsocial/app-store/chatgptai/lib/completions/generate-about";
+import { prisma } from "@quillsocial/prisma";
+import type { NextApiResponse, GetServerSidePropsContext } from "next";
+import type { Session } from "next-auth";
 
 type UpdateAboutGeneratorOptions = {
   ctx: {

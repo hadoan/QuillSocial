@@ -1,3 +1,4 @@
+import type { TChangeMemberRoleInputSchema } from "./changeMemberRole.schema";
 import {
   isTeamAdmin,
   isTeamOwner,
@@ -5,10 +6,7 @@ import {
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TChangeMemberRoleInputSchema } from "./changeMemberRole.schema";
 
 type ChangeMemberRoleOptions = {
   ctx: {

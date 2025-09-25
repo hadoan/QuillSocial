@@ -1,12 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
-
-import { TextAreaField, TextField } from "@quillsocial/ui";
-
 import {
   InputTemplateProps,
   emotionsStartScratch,
 } from "./constTemplateWrapper";
+import { TextAreaField, TextField } from "@quillsocial/ui";
+import React from "react";
+import { useState, useEffect } from "react";
 
 const InputStartScratch: React.FC<InputTemplateProps> = ({ onInputData }) => {
   const [content, setContent] = useState("");

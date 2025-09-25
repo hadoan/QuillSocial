@@ -1,10 +1,8 @@
-import { verifyPassword } from "@quillsocial/features/auth/lib/verifyPassword";
-import { prisma } from "@quillsocial/prisma";
-
-import { TRPCError } from "@trpc/server";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TVerifyPasswordInputSchema } from "./verifyPassword.schema";
+import { verifyPassword } from "@quillsocial/features/auth/lib/verifyPassword";
+import { prisma } from "@quillsocial/prisma";
+import { TRPCError } from "@trpc/server";
 
 type VerifyPasswordOptions = {
   ctx: {

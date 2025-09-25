@@ -1,12 +1,10 @@
+import type { TUpdateUserDefaultConferencingAppInputSchema } from "./updateUserDefaultConferencingApp.schema";
 import getApps from "@quillsocial/app-store/utils";
 import { prisma } from "@quillsocial/prisma";
 import { userMetadata } from "@quillsocial/prisma/zod-utils";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-import z from "zod";
-
 import { TRPCError } from "@trpc/server";
-
-import type { TUpdateUserDefaultConferencingAppInputSchema } from "./updateUserDefaultConferencingApp.schema";
+import z from "zod";
 
 type UpdateUserDefaultConferencingAppOptions = {
   ctx: {

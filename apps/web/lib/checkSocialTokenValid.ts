@@ -19,6 +19,9 @@ export async function checkSocialTokenValid() {
     // so callers don't throw during module evaluation
     // eslint-disable-next-line no-console
     console.error("checkSocialTokenValid failed:", err);
-    return { response: undefined, data: { valid: false, message: "request_failed" } };
+    return {
+      response: undefined,
+      data: { valid: false, message: "request_failed" },
+    };
   }
 }

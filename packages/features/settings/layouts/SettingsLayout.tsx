@@ -1,9 +1,3 @@
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import type { ComponentProps } from "react";
-import React, { Suspense, useEffect, useState } from "react";
-
 import Shell from "@quillsocial/features/shell/Shell";
 import { classNames } from "@quillsocial/lib";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
@@ -32,6 +26,11 @@ import {
   Menu,
   Building,
 } from "@quillsocial/ui/components/icon";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import type { ComponentProps } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const tabs: VerticalTabItemProps[] = [
   {

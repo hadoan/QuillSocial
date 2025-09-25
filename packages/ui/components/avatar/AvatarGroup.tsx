@@ -1,6 +1,5 @@
-import classNames from "@quillsocial/lib/classNames";
-
 import { Avatar } from "./Avatar";
+import classNames from "@quillsocial/lib/classNames";
 
 export type AvatarGroupProps = {
   size: "sm" | "lg";

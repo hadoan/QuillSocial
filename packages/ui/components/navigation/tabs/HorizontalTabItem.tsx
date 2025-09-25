@@ -1,12 +1,11 @@
+import { Avatar } from "../../avatar";
+import { SkeletonText } from "../../skeleton";
 import classNames from "@quillsocial/lib/classNames";
 import { useLocale } from "@quillsocial/lib/hooks/useLocale";
 import type { SVGComponent } from "@quillsocial/types/SVGComponent";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { ComponentProps } from "react";
-
-import { Avatar } from "../../avatar";
-import { SkeletonText } from "../../skeleton";
 
 export type HorizontalTabItemProps = {
   name: string;

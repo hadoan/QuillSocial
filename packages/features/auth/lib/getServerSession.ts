@@ -1,3 +1,6 @@
+import { getCachedSocialProfile } from "./socialProfiles";
+import { MY_APP_URL } from "@quillsocial/lib/constants";
+import prisma from "@quillsocial/prisma";
 import { LRUCache } from "lru-cache";
 import type {
   GetServerSidePropsContext,
@@ -6,11 +9,6 @@ import type {
 } from "next";
 import { AuthOptions, Session } from "next-auth";
 import { getToken } from "next-auth/jwt";
-
-import { MY_APP_URL } from "@quillsocial/lib/constants";
-import prisma from "@quillsocial/prisma";
-
-import { getCachedSocialProfile } from "./socialProfiles";
 
 /**
  * Stores the session in memory using the stringified token as the key.

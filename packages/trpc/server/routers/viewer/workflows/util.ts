@@ -1,8 +1,8 @@
+import type { Workflow } from "@prisma/client";
 import { SENDER_ID, SENDER_NAME } from "@quillsocial/lib/constants";
 import type PrismaType from "@quillsocial/prisma";
 import type { WorkflowStep } from "@quillsocial/prisma/client";
 import { MembershipRole } from "@quillsocial/prisma/enums";
-import type { Workflow } from "@prisma/client";
 
 export function getSender(
   step: Pick<WorkflowStep, "action" | "sender"> & {

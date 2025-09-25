@@ -1,8 +1,7 @@
+import type { TAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
 import { prisma } from "@quillsocial/prisma";
 import { MembershipRole } from "@quillsocial/prisma/enums";
 import type { TrpcSessionUser } from "@quillsocial/trpc/server/trpc";
-
-import type { TAcceptOrLeaveInputSchema } from "./acceptOrLeave.schema";
 
 type AcceptOrLeaveOptions = {
   ctx: {

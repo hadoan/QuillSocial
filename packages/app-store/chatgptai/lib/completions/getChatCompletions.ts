@@ -1,5 +1,8 @@
 import { getEnvAppKeys } from "../getAppKeys";
-import { logOpenAIUsage, canUserMakeOpenAIRequest } from "@quillsocial/lib/openai-usage";
+import {
+  logOpenAIUsage,
+  canUserMakeOpenAIRequest,
+} from "@quillsocial/lib/openai-usage";
 import OpenAI from "openai";
 
 export const getChatCompletions = async (

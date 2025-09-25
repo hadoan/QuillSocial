@@ -1,8 +1,9 @@
+import { CACHE } from ".";
+import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import type { NextApiRequest, NextApiResponse } from "next";
-import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 import { TwitterApi } from "twitter-api-v2";
-import { CACHE } from ".";
+
 let client_id = "";
 let client_secret = "";
 

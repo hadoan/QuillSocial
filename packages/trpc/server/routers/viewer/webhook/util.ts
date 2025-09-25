@@ -1,11 +1,9 @@
-import { prisma } from "@quillsocial/prisma";
-import { MembershipRole } from "@quillsocial/prisma/enums";
-import type { Membership } from "@prisma/client";
-
-import { TRPCError } from "@trpc/server";
-
 import authedProcedure from "../../../procedures/authedProcedure";
 import { webhookIdAndEventTypeIdSchema } from "./types";
+import type { Membership } from "@prisma/client";
+import { prisma } from "@quillsocial/prisma";
+import { MembershipRole } from "@quillsocial/prisma/enums";
+import { TRPCError } from "@trpc/server";
 
 export const webhookProcedure = authedProcedure
   .input(webhookIdAndEventTypeIdSchema.optional())

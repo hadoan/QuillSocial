@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { classNames } from "@quillsocial/lib";
+import { useState } from "react";
 
 type UseMessageRowProps = {
   speaker: "user" | "assistant";

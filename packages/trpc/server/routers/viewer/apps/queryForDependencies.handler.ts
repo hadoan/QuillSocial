@@ -1,8 +1,7 @@
-import { getAppFromSlug } from "@quillsocial/app-store/utils";
-import { prisma } from "@quillsocial/prisma";
-
 import type { TrpcSessionUser } from "../../../trpc";
 import type { TQueryForDependenciesInputSchema } from "./queryForDependencies.schema";
+import { getAppFromSlug } from "@quillsocial/app-store/utils";
+import { prisma } from "@quillsocial/prisma";
 
 type QueryForDependenciesOptions = {
   ctx: {
