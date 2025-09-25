@@ -66,7 +66,8 @@ export function checkUserToUsePlug() {
   if (
     // currentUser?.appId == `linkedin-social` ||
     currentUser?.appId == `x-social` ||
-    currentUser?.appId == `twitterv1-social`
+    currentUser?.appId == `twitterv1-social` ||
+    currentUser?.appId == `xconsumerkeyssocial`
   ) {
     return true;
   }

@@ -1,19 +1,17 @@
-import { debounce } from "lodash";
-import { Smile } from "lucide-react";
-import {
-  Copy,
-  AlignStartVertical,
-  Image,
-  Paperclip,
-  Video,
-  Twitter,
-} from "lucide-react";
-import { useRouter } from "next/router";
-import { Editor } from "primereact/editor";
-import { useState } from "react";
-import { useEffect, useMemo } from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-
+import PageWrapper from "@components/PageWrapper";
+import { AddImageDialog } from "@components/write/AddImageDialog";
+import { DeletePostDialog } from "@components/write/DeletePostDialog";
+import { DropdownReWriteAI } from "@components/write/DropdownReWriteAI";
+import { EmojiDialog } from "@components/write/EmojiDialog";
+import { FormatPostDialog } from "@components/write/FormatPostDialog";
+import { PickDraftDialog } from "@components/write/PickDraftDialog";
+import { PostNowDialog } from "@components/write/PostNowDialog";
+import { PostPreview } from "@components/write/PostPreview";
+import { PluginType } from "@components/write/ScheduleDialog";
+import { ScheduleDialog } from "@components/write/ScheduleDialog";
+import { TwitterCharacterLimitDialog } from "@components/write/TwitterCharacterLimitDialog";
+import { UploadFileDialog } from "@components/write/UploadFileDialog";
+import { UploadVideoDialog } from "@components/write/UploadFileVideo";
 import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import Shell from "@quillsocial/features/shell/Shell";
@@ -40,20 +38,21 @@ import {
   DialogContent,
 } from "@quillsocial/ui";
 import { Tablet, Laptop } from "@quillsocial/ui/components/icon";
-
-import PageWrapper from "@components/PageWrapper";
-import { AddImageDialog } from "@components/write/AddImageDialog";
-import { DeletePostDialog } from "@components/write/DeletePostDialog";
-import { DropdownReWriteAI } from "@components/write/DropdownReWriteAI";
-import { EmojiDialog } from "@components/write/EmojiDialog";
-import { FormatPostDialog } from "@components/write/FormatPostDialog";
-import { PickDraftDialog } from "@components/write/PickDraftDialog";
-import { PostNowDialog } from "@components/write/PostNowDialog";
-import { PostPreview } from "@components/write/PostPreview";
-import { PluginType } from "@components/write/ScheduleDialog";
-import { ScheduleDialog } from "@components/write/ScheduleDialog";
-import { UploadFileDialog } from "@components/write/UploadFileDialog";
-import { UploadVideoDialog } from "@components/write/UploadFileVideo";
+import { debounce } from "lodash";
+import { Smile } from "lucide-react";
+import {
+  Copy,
+  AlignStartVertical,
+  Image,
+  Paperclip,
+  Video,
+  Twitter,
+} from "lucide-react";
+import { useRouter } from "next/router";
+import { Editor } from "primereact/editor";
+import { useState } from "react";
+import { useEffect, useMemo } from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const DeviceType = {
   PHONE: "phone",
@@ -93,6 +92,12 @@ const WritePage = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
   const [showModalAccounts, setShowModalAccounts] = useState(false);
   const [isModalUpgradeOpen, setIsModalUpgradeOpen] = useState(false);
+  const [
+    isTwitterCharacterLimitDialogOpen,
+    setIsTwitterCharacterLimitDialogOpen,
+  ] = useState(false);
+  const [showTwitterDialog, setShowTwitterDialog] = useState(false);
+  const [twitterCharacterCount, setTwitterCharacterCount] = useState(0);
   const [post, setPost] = useState<Post>({
     id: 0,
     idea: "",
@@ -400,12 +405,27 @@ const WritePage = () => {
   }
   const currentUser = useCurrentUserAccount();
   const isUsePlugDialog = checkUserToUsePlug();
-  const socialAccountsQuery = trpc.viewer.socials.getSocialNetWorking.useQuery();
+  const socialAccountsQuery =
+    trpc.viewer.socials.getSocialNetWorking.useQuery();
   const [showNoAccountDialog, setShowNoAccountDialog] = useState(false);
 
   const handleCheckPublishPost = () => {
-    if (isUsePlugDialog) {
-      setIsModalPostNow(true);
+    // Check if there's a Twitter/X credential selected
+    const currentSocialAccount = socialAccountsQuery.data?.find(
+      (account) => account.isUserCurrentProfile
+    );
+    const hasTwitterCredential =
+      currentSocialAccount?.appId?.toLowerCase() === "xconsumerkeys-social";
+
+    if (isUsePlugDialog || hasTwitterCredential) {
+      if (hasTwitterCredential && editorContent) {
+        const charCount = stripHtml(editorContent).length;
+        setTwitterCharacterCount(charCount);
+        setShowTwitterDialog(true);
+      } else {
+        // No Twitter credential or no content, proceed with normal publish
+        handlePostNow();
+      }
     } else {
       handlePostNow();
     }
@@ -424,18 +444,20 @@ const WritePage = () => {
     <>
       {isLoading && <LoadingDialog open={isLoading}></LoadingDialog>}
       <HeadSeo title={t("Posts")} description={""} />
-      <Shell
-        withoutSeo
-        heading={`Write Post`}
-        subtitle="Here are your Posts"
-      >
+      <Shell withoutSeo heading={`Write Post`} subtitle="Here are your Posts">
         <div className="">
-          <Dialog open={showNoAccountDialog} onOpenChange={setShowNoAccountDialog}>
+          <Dialog
+            open={showNoAccountDialog}
+            onOpenChange={setShowNoAccountDialog}
+          >
             <DialogContent className="max-w-md w-full">
               <div className="py-6">
-                <h3 className="mb-3 text-lg font-bold">Link a social account</h3>
+                <h3 className="mb-3 text-lg font-bold">
+                  Link a social account
+                </h3>
                 <p className="mb-4 text-sm text-gray-600">
-                  You must link at least one social account before writing content.
+                  You must link at least one social account before writing
+                  content.
                 </p>
                 <div className="flex justify-end">
                   <Button
@@ -811,6 +833,16 @@ const WritePage = () => {
                   <ModalUpgrade
                     isOpen={isModalUpgradeOpen}
                     onClose={() => setIsModalUpgradeOpen(false)}
+                  />
+                  <TwitterCharacterLimitDialog
+                    open={showTwitterDialog}
+                    onClose={() => setShowTwitterDialog(false)}
+                    content={editorContent}
+                    characterCount={twitterCharacterCount}
+                    onProceed={() => {
+                      setShowTwitterDialog(false);
+                      setIsModalPostNow(true);
+                    }}
                   />
                 </div>
               </div>

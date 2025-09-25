@@ -105,6 +105,16 @@ function useRedirectToLoginIfUnauthenticated(isPublic = false) {
       return;
     }
 
+    // Don't redirect if we're on any navigation path or auth pages
+    const currentPath = router.pathname;
+    const shouldSkipRedirect = NAVIGATION_PATHS.some(path =>
+      currentPath.startsWith(path)
+    );
+
+    if (shouldSkipRedirect) {
+      return;
+    }
+
     if (!loading && !session) {
       router.replace({
         pathname: "/auth/login",
@@ -135,6 +145,16 @@ function useRedirectToOnboardingIfNeeded() {
   const isRedirectingToOnboarding = user && shouldShowOnboarding(user);
 
   useEffect(() => {
+    // Don't redirect if we're on any navigation path, auth pages, or onboarding
+    const currentPath = router.pathname;
+    const shouldSkipRedirect = NAVIGATION_PATHS.some(path =>
+      currentPath.startsWith(path)
+    );
+
+    if (shouldSkipRedirect) {
+      return;
+    }
+
     if (isRedirectingToOnboarding && !needsEmailVerification) {
       router.replace({
         pathname: "/getting-started",
@@ -601,6 +621,27 @@ const navigation: NavigationItemType[] = [
     },
   },
 ];
+
+// Extract navigation paths for redirect exclusions
+const getNavigationPaths = () => {
+  const paths = new Set<string>();
+
+  navigation.forEach(item => {
+    // Extract the base path from href (remove specific IDs/params)
+    const basePath = item.href.split('/').slice(0, 2).join('/');
+    if (basePath && basePath !== '/') {
+      paths.add(basePath);
+    }
+  });
+
+  // Add essential paths that should never trigger redirects
+  paths.add('/auth');
+  paths.add('/getting-started');
+
+  return Array.from(paths);
+};
+
+const NAVIGATION_PATHS = getNavigationPaths();
 {
   /* Herocon have CreditCardIcon and BuildingOfficeIcon */
 }

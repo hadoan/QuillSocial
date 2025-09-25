@@ -12,15 +12,16 @@ interface UserData {
 }
 
 export function sendToJuneSo(userData: UserData) {
-  const { id, email, first_name, plan } = userData;
-  analytics.identify({
-    userId: id.toString(),
-    traits: {
-      email: email,
-      first_name: first_name,
-      plan: plan,
-    },
-  });
+  return; //June shutdown
+  // const { id, email, first_name, plan } = userData;
+  // analytics.identify({
+  //   userId: id.toString(),
+  //   traits: {
+  //     email: email,
+  //     first_name: first_name,
+  //     plan: plan,
+  //   },
+  // });
 }
 
 export const EVENTS = {
