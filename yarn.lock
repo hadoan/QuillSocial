@@ -4649,8 +4649,6 @@ __metadata:
     "@types/stripe": ^8.0.417
     "@types/turndown": ^5.0.1
     "@types/uuid": 8.3.1
-    "@upstash/ratelimit": ^0.4.3
-    "@upstash/redis": ^1.21.0
     "@vercel/edge-config": ^0.1.1
     "@vercel/edge-functions-ui": ^0.2.1
     "@vercel/og": ^0.5.0
@@ -8240,33 +8238,6 @@ __metadata:
   version: 1.11.1
   resolution: "@unrs/resolver-binding-win32-x64-msvc@npm:1.11.1"
   conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@upstash/core-analytics@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@upstash/core-analytics@npm:0.0.6"
-  dependencies:
-    "@upstash/redis": ^1.19.3
-  checksum: 4d952984b1a7dd6c9b7d2ed6e597b6d64909ab3ed822088a0e014f6598f0c8cf25ac39ec6b72481c67ba9ea27afce1596c18ecb6e5f5f0837811cc600660f137
-  languageName: node
-  linkType: hard
-
-"@upstash/ratelimit@npm:^0.4.3":
-  version: 0.4.4
-  resolution: "@upstash/ratelimit@npm:0.4.4"
-  dependencies:
-    "@upstash/core-analytics": ^0.0.6
-  checksum: 3d80c14dacf137089662757a0ee29ddb88d4074d9a662ee405b766943d1b2215d76a4244b88b85dd93eff0ccd0e4b1157a68990195215431b89f5b42c0d6aeb8
-  languageName: node
-  linkType: hard
-
-"@upstash/redis@npm:^1.19.3, @upstash/redis@npm:^1.21.0":
-  version: 1.35.3
-  resolution: "@upstash/redis@npm:1.35.3"
-  dependencies:
-    uncrypto: ^0.1.3
-  checksum: c0a2195af506dd5a84d6366cc4bb5081bfefbf5f950d4a25a74f2a451d5627e4b6f6a8259403273d1b6d9e4815ac9b30c08d9e3ad790cc06329e4d07cfb684e2
   languageName: node
   linkType: hard
 
@@ -21245,13 +21216,6 @@ turbo@latest:
     has-symbols: ^1.1.0
     which-boxed-primitive: ^1.1.1
   checksum: 729f13b84a5bfa3fead1d8139cee5c38514e63a8d6a437819a473e241ba87eeb593646568621c7fc7f133db300ef18d65d1a5a60dc9c7beb9000364d93c581df
-  languageName: node
-  linkType: hard
-
-"uncrypto@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "uncrypto@npm:0.1.3"
-  checksum: 07160e08806dd6cea16bb96c3fd54cd70fc801e02fc3c6f86980144d15c9ebbd1c55587f7280a207b3af6cd34901c0d0b77ada5a02c2f7081a033a05acf409e2
   languageName: node
   linkType: hard
 
