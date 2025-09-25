@@ -695,21 +695,21 @@ model UserExtraData {
 }
 
 model OpenAIUsage {
-  id                Int      @id @default(autoincrement())
-  userId            Int
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  teamId            Int?
-  team              Team?    @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  prompt            String   @db.Text
-  result            String   @db.Text
-  promptTokens      Int      @default(0)
-  completionTokens  Int      @default(0)
-  totalTokens       Int      @default(0)
-  requestType       String   // 'chat_completion', 'rewrite', 'ai_write', etc.
-  apiEndpoint       String?  // which API endpoint was used
-  model             String   @default("gpt-4o-mini")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  userId           Int
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId           Int?
+  team             Team?    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  prompt           String   @db.Text
+  result           String   @db.Text
+  promptTokens     Int      @default(0)
+  completionTokens Int      @default(0)
+  totalTokens      Int      @default(0)
+  requestType      String // 'chat_completion', 'rewrite', 'ai_write', etc.
+  apiEndpoint      String? // which API endpoint was used
+  model            String   @default("gpt-4o-mini")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@index([userId])
   @@index([teamId])

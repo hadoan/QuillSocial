@@ -29,7 +29,7 @@ gcloud run deploy ${SERVICE_NAME} \
   --port 3000 \
   --memory 1Gi \
   --cpu 1 \
-  --set-env-vars "NODE_ENV=production,PORT=3000"
+  --set-env-vars "NODE_ENV=production"
 
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} --format="value(status.url)")
 

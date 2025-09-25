@@ -4,9 +4,17 @@ import { PASSWORD_RESET_EXPIRY_HOURS } from "@quillsocial/emails/templates/forgo
 import { defaultHandler } from "@quillsocial/lib/server";
 import { getTranslation } from "@quillsocial/lib/server/i18n";
 import prisma from "@quillsocial/prisma";
-import type { ResetPasswordRequest } from "@quillsocial/prisma/client";
+import type { Prisma } from "@quillsocial/prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+
+type ResetPasswordRequest = {
+  id: string;
+  email: string;
+  expires: Date;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const t = await getTranslation(req.body.language ?? "en", "common");

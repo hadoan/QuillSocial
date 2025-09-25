@@ -1,8 +1,8 @@
 import { getUserStats } from "./functCheck";
 import { getServerSession } from "@quillsocial/features/auth/lib/getServerSession";
 import { defaultResponder } from "@quillsocial/lib/server";
+import { PostStatus } from "@quillsocial/lib/constants/enums";
 import prisma from "@quillsocial/prisma";
-import { PostStatus } from "@quillsocial/prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

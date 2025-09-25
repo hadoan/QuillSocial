@@ -3,21 +3,25 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
 
 # Production builds
 .next/
 dist/
 build/
+out/
 
 # Environment variables (keep production env for Docker build)
 .env.local
 .env*.local
+.env.development
 
 # IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.vim
 
 # OS generated files
 .DS_Store
@@ -31,11 +35,18 @@ Thumbs.db
 # Git
 .git/
 .gitignore
+.gitattributes
 
 # Testing
 coverage/
 .nyc_output/
 jest.config.js
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+cypress/
+__tests__/
 
 # Logs
 logs
@@ -51,6 +62,8 @@ pids
 README.md
 *.md
 docs/
+CHANGELOG.md
+LICENSE
 
 # Temporary files
 *.tmp
@@ -59,19 +72,49 @@ docs/
 # Cache directories
 .cache/
 .turbo/
+.eslintcache
+.stylelintcache
 
 # Prisma
 prisma/migrations/
+packages/prisma/migrations/
 
 # Build artifacts
 *.tsbuildinfo
+.tsbuildinfo
 
 # Deployment files
 docker-compose*.yml
 Dockerfile*
 .dockerignore
+scripts/deploy-*.sh
 
 # Development tools
 .editorconfig
 .eslintrc*
 .prettierrc*
+tsconfig.json
+vitest.config.ts
+vitest.workspace.ts
+
+# Assets and media (exclude large files)
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.svg
+**/*.webp
+# But include essential assets
+!apps/web/public/**
+!packages/*/assets/**
+
+# Development only packages
+packages/app-store-cli/
+**/*.stories.tsx
+**/*.stories.ts
+
+# Miscellaneous
+.turbo
+.vercel
+.yarn/cache
+.yarn/install-state.gz
