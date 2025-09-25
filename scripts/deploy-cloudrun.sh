@@ -28,8 +28,7 @@ gcloud run deploy ${SERVICE_NAME} \
   --allow-unauthenticated \
   --port 3000 \
   --memory 1Gi \
-  --cpu 1 \
-  --set-env-vars "NODE_ENV=production"
+  --cpu 1
 
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} --format="value(status.url)")
 
