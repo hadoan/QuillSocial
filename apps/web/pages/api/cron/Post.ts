@@ -13,7 +13,6 @@ export default async function handler(
   console.log("---------------");
   const apiKey = req.headers.authorization || req.query.apiKey;
   console.log(apiKey);
-  console.log(process.env);
   if (process.env.CRON_API_KEY !== apiKey) {
     res.status(401).json({ message: "Not authenticated" });
     return;
@@ -22,12 +21,17 @@ export default async function handler(
     res.status(405).json({ message: "Invalid method" });
     return;
   }
+  // Ensure we compare schedule times against an explicit UTC 'now'
+  const nowUtc = new Date(new Date().toISOString());
+  console.log("Cron UTC now:", nowUtc.toISOString());
+
   const posts = await prisma.post.findMany({
     where: {
       status: "SCHEDULED",
       schedulePostDate: {
         not: null,
-        lte: new Date(),
+        // compare using UTC 'now'
+        lte: nowUtc,
       },
       credential: {
         appId: {

@@ -7,8 +7,8 @@ const getMessageTexts = (idea: string, format?: string) => {
   const instruction = format
     ? `complete the content "${idea}" to a better format so that I can share it to my audience in social networks, then convert the paragraph into the pre-defined format as below:
     ${format}.
-    Remove opening and closing curly brace`
-    : `complete and format the content "${idea}" to a better format so that I can share it to my audience in social networks`;
+    Remove opening and closing curly brace and only return raw data without any explanation.`
+    : `complete and format the content "${idea}" to a better format so that I can share it to my audience in social networks and only return raw data without any explanation.`;
   return `${instruction}: '${idea}''`;
 };
 

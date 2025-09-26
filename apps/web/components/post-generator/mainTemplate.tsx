@@ -44,6 +44,7 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
   const [isDataValid, setIsDataValid] = useState(false);
   const [activeTab, setActiveTab] = useState(Tab.NewOutput);
   const [isButtonSave, setIsButtonSave] = useState(false);
+  const [isGenerateLoading, setIsGenerateLoading] = useState(false);
 
   const [post, setPost] = useState<Post>({
     id: 0,
@@ -124,7 +125,12 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
   const handleGenerate = async () => {
     const isDataValid = checkInputData(inputCustomData);
     if (isDataValid) {
-      await getDataOpenAI(code, selectFormat, inputCustomData!);
+      setIsGenerateLoading(true);
+      try {
+        await getDataOpenAI(code, selectFormat, inputCustomData!);
+      } finally {
+        setIsGenerateLoading(false);
+      }
     } else {
       showToast("Please fill in the form correctly.", "error");
     }
@@ -136,7 +142,7 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
     inputs: InputData
   ) => {
     setIsDataValid(false);
-    const response = await fetch(`/api/openai/quillsocial`, {
+    const response = await fetch(`/api/openai/mysticQuill`, {
       credentials: "include",
       method: "POST",
       headers: {
@@ -323,6 +329,19 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
         <div
           className={`col-span-12 mt-10 h-[700px] bg-slate-50 sm:col-span-7 sm:mt-0`}
         >
+          {/* Generate Loading Dialog */}
+          <Dialog open={isGenerateLoading}>
+            <DialogContent className="w-full max-w-md">
+              <div className="flex flex-col items-center justify-center py-8">
+                <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+                <div className="text-center">
+                  <h3 className="mb-2 text-lg font-semibold">Generating content</h3>
+                  <p className="text-sm text-gray-600">Please wait while we generate content for you...</p>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           <div className="flex flex-col p-2">
             <span className="font-bold">Output </span>
             <span>
@@ -359,7 +378,7 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                     History
                   </a>
                 </li>
-              </ul> 
+              </ul>
             </div> */}
             <div className="mt-5 rounded-lg border p-4  shadow">
               {/* {activeTab === Tab.NewOutput ? ( */}
@@ -367,7 +386,7 @@ const MainTemplate: React.FC<TemplateProps> = ({ id: code }) => {
                 <div className="flex py-3 text-sm font-medium text-gray-500">
                   <span>{post.content.length} characters</span>
                   {/* <span className='ml-auto'>
-                                            <button type="button" className="p-1.5 inline-flex items-center justify-center text-gray-500 transition-all duration-150 rounded-full hover:bg-green-200 hover:text-green-600"><span className="sr-only">Like</span><svg aria-hidden="true" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg></button>          
+                                            <button type="button" className="p-1.5 inline-flex items-center justify-center text-gray-500 transition-all duration-150 rounded-full hover:bg-green-200 hover:text-green-600"><span className="sr-only">Like</span><svg aria-hidden="true" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg></button>
                                             <button type="button" className="p-1.5 inline-flex items-center justify-center text-gray-500 transition-all duration-150 rounded-full hover:bg-red-200 hover:text-red-600"><span className="sr-only">Dislike</span><svg aria-hidden="true" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"></path></svg></button>
                                             </span> */}
                 </div>
