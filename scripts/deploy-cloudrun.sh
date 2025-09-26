@@ -21,20 +21,31 @@ echo "Pushing image to Container Registry: ${BUILD_TAG}"
 docker push ${BUILD_TAG}
 
 echo "Deploying to Cloud Run: ${SERVICE_NAME} in ${REGION}"
-gcloud run deploy ${SERVICE_NAME} \
-  --image ${BUILD_TAG} \
-  --platform managed \
-  --region ${REGION} \
-  --allow-unauthenticated \
-  --port 3000 \
-  --memory 1Gi \
-  --cpu 1
+
+# Check if service already exists to preserve configuration
+if gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} &>/dev/null; then
+  echo "Service exists, preserving existing configuration..."
+  gcloud run deploy ${SERVICE_NAME} \
+    --image ${BUILD_TAG} \
+    --platform managed \
+    --region ${REGION}
+else
+  echo "Creating new service with default configuration..."
+  gcloud run deploy ${SERVICE_NAME} \
+    --image ${BUILD_TAG} \
+    --platform managed \
+    --region ${REGION} \
+    --allow-unauthenticated \
+    --port 3000 \
+    --memory 1Gi \
+    --cpu 1
+fi
 
 SERVICE_URL=$(gcloud run services describe ${SERVICE_NAME} --platform managed --region ${REGION} --format="value(status.url)")
 
 echo "Deployed. Service URL: ${SERVICE_URL}"
 
-echo "Updating service with CLOUD_RUN_URL env var"
-gcloud run services update ${SERVICE_NAME} --region ${REGION} --set-env-vars "CLOUD_RUN_URL=${SERVICE_URL}"
+echo "Updating service with CLOUD_RUN_URL env var (preserving existing variables)"
+gcloud run services update ${SERVICE_NAME} --region ${REGION} --update-env-vars "CLOUD_RUN_URL=${SERVICE_URL}"
 
 echo "Done."
