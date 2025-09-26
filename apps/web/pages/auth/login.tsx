@@ -31,7 +31,7 @@ interface LoginValues {
   email: string;
   password: string;
   totpCode: string;
-  csrfToken: string;
+  csrfToken: string | null;
 }
 export default function Login({
   csrfToken,
@@ -344,7 +344,7 @@ const _getServerSideProps = async function getServerSideProps(
   const csrfToken = await getCsrfToken(context);
   return {
     props: {
-      csrfToken,
+      csrfToken: csrfToken || null,
       trpcState: ssr.dehydrate(),
       isGoogleLoginEnabled: true,
       totpEmail,

@@ -1,15 +1,35 @@
-import type { GetServerSidePropsContext } from "next";
+import PageWrapper from "@components/PageWrapper";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import React from "react";
 
-export default function HomePage() {
-  // This component should never render due to the redirect in getServerSideProps
-  return null;
+function HomePage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") {
+      // Still loading, don't redirect yet
+      return;
+    }
+
+    if (session) {
+      // User is authenticated, redirect to write page
+      router.replace("/write/0");
+    } else {
+      // User is not authenticated, redirect to login
+      router.replace("/auth/login");
+    }
+  }, [session, status, router]);
+
+  // Show loading while determining authentication status
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+    </div>
+  );
 }
 
-export async function getServerSideProps({
-  req,
-  res,
-}: GetServerSidePropsContext) {
-  // Always redirect to the write page
-  return { redirect: { permanent: false, destination: "/write/0" } };
-}
+HomePage.PageWrapper = PageWrapper;
+export default HomePage;

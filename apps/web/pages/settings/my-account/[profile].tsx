@@ -392,7 +392,7 @@ const ProfileView = () => {
                 </div>
               </div>
 
-              <div className="bg-default flex flex-col rounded-s p-6 shadow">
+              {/* <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">
                   <img src="/logo/facebook-social-logo.svg"></img>
                 </div>
@@ -412,7 +412,7 @@ const ProfileView = () => {
                     allowedMultipleInstalls={true}
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="bg-default flex flex-col rounded-s p-6 shadow">
                 <div className="h-[50px] w-[50px]">
