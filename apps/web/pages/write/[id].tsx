@@ -260,7 +260,7 @@ const WritePage = () => {
       return "";
     } else {
       const responseData = await response.json();
-      if (instruction === ReWriteAI.ConverTwitter) {
+      if (instruction === ReWriteAI.ConvertTwitter) {
         setEditorContent(responseData.post);
       }
       return responseData.post;
@@ -619,7 +619,7 @@ const WritePage = () => {
                   <ReactTooltip content="Add Video" id="addVideo" place="top" />
                   <button
                     data-tooltip-id="convertTwitter"
-                    onClick={() => rewriteAction(ReWriteAI.ConverTwitter)}
+                    onClick={() => rewriteAction(ReWriteAI.ConvertTwitter)}
                     className="hover:bg-awst flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm hover:text-white"
                   >
                     <Twitter className="h-5 w-5" />

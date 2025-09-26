@@ -4,5 +4,5 @@ export enum ReWriteAI {
   GenerateHook = "Generate a hook",
   GenerateCTA = "Generate a CTA",
   ImproveStructure = "Improve Structure",
-  ConverTwitter = "Convert to twitter status with max 280 charaters",
+  ConvertTwitter = "Convert to twitter status, the length of final result is max 280 characters, only return result with no explaination here is the paragraph to convert ",
 }

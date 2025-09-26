@@ -248,6 +248,7 @@ const CalendarPage = () => {
                 -social-logo.svg`;
       case "x-social":
       case "twitterv1-social":
+      case "xconsumerkeys-social":
         return `${WEBAPP_URL}/logo/twitterv1-social-logo.svg`;
       case "linkedin-social":
         return `${WEBAPP_URL}/logo/linkedin-social-logo.svg`;

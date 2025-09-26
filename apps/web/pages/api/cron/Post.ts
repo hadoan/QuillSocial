@@ -1,5 +1,6 @@
 import { LinkedinManager } from "@quillsocial/app-store/linkedinsocial/lib";
 import { TwitterV1Manager } from "@quillsocial/app-store/twitterv1social/lib";
+import { post } from "@quillsocial/app-store/xconsumerkeyssocial/lib";
 import { TWITTER_APP_ID } from "@quillsocial/lib/constants";
 import prisma from "@quillsocial/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -48,6 +49,7 @@ export default async function handler(
       },
     },
   });
+  console.log(`Found ${posts.length} posts to update `, posts);
   if (posts.length > 0) {
     await Promise.all(
       posts.map((p) => {
@@ -55,6 +57,8 @@ export default async function handler(
           return TwitterV1Manager.post(p.id);
         } else if (p.credential?.appId === "linkedin-social") {
           return LinkedinManager.post(p.id);
+        } else if (p.credential?.appId === "xconsumerkeys-social") {
+          post(p.id);
         }
         return;
       })
