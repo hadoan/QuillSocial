@@ -1,6 +1,77 @@
 import { getXConsumerKeysClient } from "./getClient";
 import prisma from "@quillsocial/prisma";
 
+// Add this below your imports (reuse existing imports)
+import axios from "axios"; // you already import axios above; if not, keep this
+
+/**
+ * Search X Community ID by name (keyword).
+ * Tries OAuth2 Bearer (v2). If no bearerToken in credentials, auto-mints one
+ * from consumer key/secret via oauth2/token (client_credentials) and uses it.
+ */
+export async function searchXCommunityIdByName(
+  credentialId: number,
+  name: string
+): Promise<{ id?: string; name?: string; error?: string; raw?: any }> {
+  try {
+    if (!name || !name.trim()) {
+      return { error: "Community name (query) is required." };
+    }
+
+    const { client, credentials } = await getXConsumerKeysClient(credentialId);
+    if (!client || !credentials) {
+      return { error: "Could not create X client with provided credentials." };
+    }
+
+    const communities = await client.searchCommunities(name);
+
+    // Try to handle multiple possible response shapes from the client.
+    // Common shapes:
+    // - { data: [ { id, name, ... }, ... ] }
+    // - [ { id, name, ... }, ... ]
+    // - { communities: [ ... ] }
+    // - single object
+    const pickFirst = (obj: any) => {
+      if (!obj) return null;
+      if (Array.isArray(obj) && obj.length > 0) return obj[0];
+      if (obj.data && Array.isArray(obj.data) && obj.data.length > 0)
+        return obj.data[0];
+      if (obj.communities && Array.isArray(obj.communities) && obj.communities.length > 0)
+        return obj.communities[0];
+      if (obj.result) return obj.result;
+      // fallback: if it's an object with id/name
+      if (obj.id || obj.name || obj.title) return obj;
+      return null;
+    };
+
+    const first = pickFirst(communities);
+    if (!first) {
+      return { raw: communities, error: "No communities found for that query." };
+    }
+
+    const id = first.id || first.community_id || first.communityId || first.id_str;
+    const nameResult = first.name || first.title || first.community_name || first.username || first.handle;
+
+    return {
+      id: id ? String(id) : undefined,
+      name: nameResult ? String(nameResult) : undefined,
+      raw: communities,
+    };
+  } catch (err: any) {
+    const status = err?.response?.status;
+    const detail =
+      err?.response?.data?.detail ||
+      err?.response?.data?.title ||
+      err?.message ||
+      "Unknown error";
+    return {
+      error: `Failed to search community: ${status || ""} ${detail}`.trim(),
+      raw: err?.response?.data,
+    };
+  }
+}
+
+
 export const post = async (
   postId: number
 ): Promise<{ success: boolean; error?: string }> => {

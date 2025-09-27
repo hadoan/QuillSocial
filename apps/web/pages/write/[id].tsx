@@ -7,6 +7,7 @@ import { FormatPostDialog } from "@components/write/FormatPostDialog";
 import { PickDraftDialog } from "@components/write/PickDraftDialog";
 import { PostNowDialog } from "@components/write/PostNowDialog";
 import { PostPreview } from "@components/write/PostPreview";
+import Community from "@components/write/Community";
 import { PluginType } from "@components/write/ScheduleDialog";
 import { ScheduleDialog } from "@components/write/ScheduleDialog";
 import { TwitterCharacterLimitDialog } from "@components/write/TwitterCharacterLimitDialog";
@@ -813,6 +814,16 @@ const WritePage = () => {
                     imageSrc={imageSrc}
                     fileInfo={fileInfo}
                     onDelete={handleRemoveImage}
+                  />
+                  <Community
+                    appId={appId}
+                    credentialId={credentialId as any}
+                    onSelect={(community) => {
+                      // You can decide how to use selected community (e.g., inject into editorContent or post data)
+                      if (community) {
+                        showToast(`Selected community: ${community.name}`, "success");
+                      }
+                    }}
                   />
                   <ScheduleDialog
                     open={isModalShowDay}
