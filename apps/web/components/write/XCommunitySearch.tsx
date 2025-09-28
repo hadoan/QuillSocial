@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, TextArea, showToast } from "@quillsocial/ui";
+import { Button, Input, showToast } from "@quillsocial/ui";
 
 type Props = {
   appId?: string | null;
@@ -16,7 +16,7 @@ const APP_TO_ENDPOINT: Record<string, string> = {
   "twitterv1_social": "twitterv1social",
 };
 
-export default function Community({ appId, credentialId, onSelect }: Props) {
+export default function XCommunitySearch({ appId, credentialId, onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ id?: string; name?: string } | null>(
@@ -71,26 +71,52 @@ export default function Community({ appId, credentialId, onSelect }: Props) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // If Enter is pressed without Shift (i.e. submit), trigger search
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      void doSearch();
+    }
+  };
+
   return (
-    <div className="m-3 rounded border bg-white p-3">
-      <label className="mb-2 block text-sm font-medium text-gray-700">
-        Community
-      </label>
-      <div className="flex gap-2">
-        <TextArea
-          value={query}
-          onChange={(e: any) => setQuery(e.target.value)}
-          placeholder="Search community by name"
-          className="h-10"
-        />
-        <Button onClick={doSearch} disabled={loading}>
-          {loading ? "Searching..." : "Search"}
-        </Button>
+    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      {/* Community section with improved layout */}
+      <div className="space-y-3">
+        <label className="block text-sm font-medium text-gray-700">
+          Community
+        </label>
+
+        {/* Search input with better alignment */}
+        <div className="flex items-stretch gap-3">
+          <div className="flex-1">
+            <Input
+              value={query}
+              onChange={(e: any) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search community by name"
+              className="w-full h-10"
+            />
+          </div>
+
+          <div className="flex-shrink-0">
+            <Button
+              onClick={doSearch}
+              disabled={loading}
+              className="h-10 px-4"
+            >
+              {loading ? "Searching..." : "Search"}
+            </Button>
+          </div>
+        </div>
       </div>
+
+
+      {/* Search results with improved styling */}
       {result && (
-        <div className="mt-2 rounded border p-2">
-          <div className="text-sm font-medium">{result.name}</div>
-          <div className="text-xs text-gray-500">id: {result.id}</div>
+        <div className="mt-4 rounded-md border border-gray-200 bg-gray-50 p-3">
+          <div className="text-sm font-medium text-gray-900">{result.name}</div>
+          <div className="text-xs text-gray-500 mt-1">id: {result.id}</div>
         </div>
       )}
     </div>

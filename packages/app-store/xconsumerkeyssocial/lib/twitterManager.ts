@@ -1,8 +1,120 @@
 import { getXConsumerKeysClient } from "./getClient";
+// you already import axios above; if not, keep this
+import logger from "@quillsocial/lib/logger";
 import prisma from "@quillsocial/prisma";
-
 // Add this below your imports (reuse existing imports)
-import axios from "axios"; // you already import axios above; if not, keep this
+import axios from "axios";
+
+// Simple sleep helper
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+/**
+ * Retry a function that may throw HTTP errors (from twitter-api-v2).
+ * On 429 responses, it will respect `Retry-After` (seconds) or `x-rate-limit-reset` headers when available.
+ * Falls back to exponential backoff with jitter.
+ */
+export async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  opts: { retries?: number; baseDelayMs?: number } = {}
+): Promise<T> {
+  const retries = opts.retries ?? 4;
+  const base = opts.baseDelayMs ?? 500; // 500ms
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      // Determine if it's a 429 / rate-limit error
+      const status = err?.response?.status ?? err?.code;
+      const is429 = status === 429 || String(status) === "429" || err?.code === 429;
+
+      // If not rate-limited, rethrow immediately
+      if (!is429) throw err;
+
+      // If this was the last attempt, rethrow
+      if (attempt === retries) throw err;
+
+      // Try to get Retry-After (seconds) header
+      const headers = err?.response?.headers || {};
+      let waitMs: number | undefined;
+
+      const retryAfter = headers["retry-after"] || headers["Retry-After"];
+      if (retryAfter) {
+        const seconds = Number(retryAfter);
+        if (!Number.isNaN(seconds) && seconds >= 0) waitMs = Math.ceil(seconds * 1000);
+      }
+
+      // Twitter sometimes provides x-rate-limit-reset as unix epoch seconds
+      const reset = headers["x-rate-limit-reset"] || headers["X-Rate-Limit-Reset"];
+      if (!waitMs && reset) {
+        const epoch = Number(reset);
+        if (!Number.isNaN(epoch) && epoch > 0) {
+          const now = Math.floor(Date.now() / 1000);
+          const secs = Math.max(0, epoch - now) + 1;
+          waitMs = secs * 1000;
+        }
+      }
+
+      // fallback exponential backoff with jitter
+      if (!waitMs) {
+        const exp = Math.pow(2, attempt) * base;
+        const jitter = Math.floor(Math.random() * base);
+        waitMs = exp + jitter;
+      }
+
+      const log = logger.getChildLogger({ prefix: ["[xconsumerkeys/twitterManager/retry]"] });
+      log.warn(`Rate limited (429). Retrying attempt=${attempt + 1}/${retries} after ${waitMs}ms`, {
+        attempt,
+        retries,
+        waitMs,
+        error: serializeError(err),
+      });
+
+      await sleep(waitMs);
+      // continue loop to retry
+    }
+  }
+
+  // unreachable
+  throw new Error("retryWithBackoff: exhausted retries");
+}
+
+// Helper to safely serialize Error-like objects for structured logging
+function serializeError(err: any) {
+  if (!err) return undefined;
+  try {
+    const safe: any = {
+      message: err.message || err.msg || undefined,
+      name: err.name,
+      stack: err.stack,
+      code: err.code || err.status || undefined,
+    };
+
+    // Include HTTP response details if present, but avoid deep/circular structures
+    if (err.response) {
+      safe.response = {
+        status: err.response.status,
+        // try to stringify response data safely
+        data:
+          typeof err.response.data === "string"
+            ? err.response.data
+            : (() => {
+                try {
+                  return JSON.stringify(err.response.data);
+                } catch (e) {
+                  return "[unserializable response data]";
+                }
+              })(),
+      };
+    }
+
+    // Attach any other useful shallow properties
+    if (err.data && typeof err.data !== "object") safe.data = err.data;
+    return safe;
+  } catch (e) {
+    return { message: "[error serializing error]" };
+  }
+}
 
 /**
  * Search X Community ID by name (keyword).
@@ -23,7 +135,11 @@ export async function searchXCommunityIdByName(
       return { error: "Could not create X client with provided credentials." };
     }
 
-    const communities = await client.searchCommunities(name);
+    // Use retry wrapper to handle rate limits (429) more gracefully.
+    const communities = await retryWithBackoff(() => client.searchCommunities(name), {
+      retries: 4,
+      baseDelayMs: 500,
+    });
 
     // Try to handle multiple possible response shapes from the client.
     // Common shapes:
@@ -36,7 +152,11 @@ export async function searchXCommunityIdByName(
       if (Array.isArray(obj) && obj.length > 0) return obj[0];
       if (obj.data && Array.isArray(obj.data) && obj.data.length > 0)
         return obj.data[0];
-      if (obj.communities && Array.isArray(obj.communities) && obj.communities.length > 0)
+      if (
+        obj.communities &&
+        Array.isArray(obj.communities) &&
+        obj.communities.length > 0
+      )
         return obj.communities[0];
       if (obj.result) return obj.result;
       // fallback: if it's an object with id/name
@@ -46,11 +166,20 @@ export async function searchXCommunityIdByName(
 
     const first = pickFirst(communities);
     if (!first) {
-      return { raw: communities, error: "No communities found for that query." };
+      return {
+        raw: communities,
+        error: "No communities found for that query.",
+      };
     }
 
-    const id = first.id || first.community_id || first.communityId || first.id_str;
-    const nameResult = first.name || first.title || first.community_name || first.username || first.handle;
+    const id =
+      first.id || first.community_id || first.communityId || first.id_str;
+    const nameResult =
+      first.name ||
+      first.title ||
+      first.community_name ||
+      first.username ||
+      first.handle;
 
     return {
       id: id ? String(id) : undefined,
@@ -64,13 +193,20 @@ export async function searchXCommunityIdByName(
       err?.response?.data?.title ||
       err?.message ||
       "Unknown error";
+    const log = logger.getChildLogger({
+      prefix: ["[xconsumerkeys/twitterManager/search]"],
+    });
+    log.error("Failed to search community", {
+      status,
+      detail,
+      error: serializeError(err),
+    });
     return {
       error: `Failed to search community: ${status || ""} ${detail}`.trim(),
       raw: err?.response?.data,
     };
   }
 }
-
 
 export const post = async (
   postId: number
@@ -83,14 +219,19 @@ export const post = async (
       },
     });
 
+    const log = logger.getChildLogger({
+      prefix: ["[xconsumerkeys/twitterManager/post]"],
+    });
     if (!twitterPost || !twitterPost.credentialId) {
-      console.error("Post not found or no credential ID");
+      log.error("Post not found or no credential ID", { postId });
       return { success: false, error: "Post not found or no credential ID" };
     }
 
     // Check if this is an xconsumerkeys-social credential
     if (twitterPost.credential?.appId !== "xconsumerkeys-social") {
-      console.error("This post is not associated with xconsumerkeys-social");
+      log.error("This post is not associated with xconsumerkeys-social", {
+        credentialAppId: twitterPost.credential?.appId,
+      });
       return {
         success: false,
         error: "This post is not associated with xconsumerkeys-social",
@@ -105,7 +246,7 @@ export const post = async (
         where: { id: twitterPost.id },
         data: { status: "ERROR" },
       });
-      console.error("Could not create Twitter client with consumer keys");
+      log.error("Could not create Twitter client with consumer keys");
       return {
         success: false,
         error: "Could not create Twitter client with consumer keys",
@@ -139,12 +280,12 @@ export const post = async (
           where: { id: twitterPost.id },
           data: { status: "ERROR" },
         });
-        console.error("No content to post");
+        log.error("No content to post", { postId: twitterPost.id });
         return { success: false, error: "No content to post" };
       }
 
       // Post the tweet
-      console.log(
+      log.info(
         "Attempting to post tweet with access tokens. If you get a 403 error after this, your access tokens were generated BEFORE changing app permissions to read-write."
       );
       const tweet = await client.tweet(tweetText);
@@ -157,8 +298,8 @@ export const post = async (
         },
       });
 
-      console.log(
-        "Tweet posted successfully with consumer keys and access tokens:"
+      log.info(
+        "Tweet posted successfully with consumer keys and access tokens"
       );
       return { success: true };
     } catch (error: any) {
@@ -166,7 +307,7 @@ export const post = async (
         where: { id: twitterPost.id },
         data: { status: "ERROR" },
       });
-      console.error("Error posting tweet:", error);
+      log.error("Error posting tweet", { error: serializeError(error) });
 
       // Check if it's a permissions error
       if (error.code === 403) {
@@ -181,11 +322,12 @@ export const post = async (
             "You are not permitted to perform this action"
           )
         ) {
-          console.error(
-            "⚠️  IMPORTANT: This error typically means your access tokens were generated BEFORE you changed app permissions to read-write."
+          log.warn(
+            "IMPORTANT: Access tokens were likely generated BEFORE changing app permissions to read-write",
+            { error: serializeError(error) }
           );
-          console.error(
-            "📝 SOLUTION: Go to Twitter Developer Portal → Your App → Keys and tokens → Regenerate Access Token & Secret"
+          log.info(
+            "SOLUTION: Go to Twitter Developer Portal → Your App → Keys and tokens → Regenerate Access Token & Secret"
           );
           return {
             success: false,
@@ -208,7 +350,11 @@ export const post = async (
       }
     }
   } catch (error) {
-    console.error("Error posting with consumer keys:", error);
+    logger
+      .getChildLogger({ prefix: ["[xconsumerkeys/twitterManager/post]"] })
+      .error("Error posting with consumer keys:", {
+        error: serializeError(error),
+      });
     await prisma.post.update({
       where: { id: postId },
       data: { status: "ERROR" },
