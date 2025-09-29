@@ -35,6 +35,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         title: true,
         createdDate: true,
         imagesDataURL: true,
+        xcommunity: true,
+        appId: true,
+        credentialId: true,
         credential: {
           select: {
             avatarUrl: true,

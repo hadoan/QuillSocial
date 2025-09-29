@@ -7,12 +7,12 @@ import { FormatPostDialog } from "@components/write/FormatPostDialog";
 import { PickDraftDialog } from "@components/write/PickDraftDialog";
 import { PostNowDialog } from "@components/write/PostNowDialog";
 import { PostPreview } from "@components/write/PostPreview";
-import XCommunitySearch from "@components/write/XCommunitySearch";
 import { PluginType } from "@components/write/ScheduleDialog";
 import { ScheduleDialog } from "@components/write/ScheduleDialog";
 import { TwitterCharacterLimitDialog } from "@components/write/TwitterCharacterLimitDialog";
 import { UploadFileDialog } from "@components/write/UploadFileDialog";
 import { UploadVideoDialog } from "@components/write/UploadFileVideo";
+import XCommunitySearch from "@components/write/XCommunitySearch";
 import { TrackEventJuneSo, EVENTS } from "@quillsocial/features/june.so/juneso";
 import ModalUpgrade from "@quillsocial/features/payments/ModalUpgrade";
 import Shell from "@quillsocial/features/shell/Shell";
@@ -110,6 +110,7 @@ const WritePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPublishLoading, setIsPublishLoading] = useState(false);
   const [firstRender, setFirstRender] = useState(true);
+  const [selectedCommunity, setSelectedCommunity] = useState<{id?: string; name?: string} | null>(null);
 
   const { isLoading: ischeckForAIAppsLoading, data: isAIPresent } =
     trpc.viewer.appsRouter.checkForAIApps.useQuery();
@@ -217,6 +218,15 @@ const WritePage = () => {
             setEditorContent(postFromDb.content);
             const images = data.imagesDataURL as string[];
             setImageSrc(images && images.length > 0 ? images[0] : "");
+
+            // Load selected community if it exists
+            if (data.xcommunity) {
+              // We only have the ID, so we need to create a minimal community object
+              // The name can be loaded later if needed, or we can store both ID and name
+              setSelectedCommunity({ id: data.xcommunity, name: `Community ${data.xcommunity}` });
+            } else {
+              setSelectedCommunity(null);
+            }
           }
         }
       }
@@ -281,6 +291,7 @@ const WritePage = () => {
       imagesDataURL: imageSrc ? [imageSrc] : undefined,
       pageId,
       fileInfo,
+      xcommunity: selectedCommunity?.id || null,
     };
     const response = await fetch(`/api/posts/saveDraft`, {
       credentials: "include",
@@ -696,10 +707,17 @@ const WritePage = () => {
                     <XCommunitySearch
                       appId={appId}
                       credentialId={credentialId as any}
+                      selectedCommunity={selectedCommunity}
                       onSelect={(community) => {
-                        // You can decide how to use selected community (e.g., inject into editorContent or post data)
+                        // Save selected community to state and show confirmation
+                        setSelectedCommunity(community);
                         if (community) {
-                          showToast(`Selected community: ${community.name}`, "success");
+                          showToast(
+                            `Selected community: ${community.name}`,
+                            "success"
+                          );
+                        } else {
+                          showToast("Community selection cleared", "success");
                         }
                       }}
                     />

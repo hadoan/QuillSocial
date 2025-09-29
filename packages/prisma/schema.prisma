@@ -633,6 +633,7 @@ model Post {
   cloudFiles       PostCloudFile[]
   title            String?
   tagOrKeywords    String?
+  xcommunity       String?
 }
 
 enum PostStatus {

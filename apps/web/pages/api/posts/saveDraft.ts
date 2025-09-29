@@ -39,12 +39,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       idea: existedPost?.idea ?? "",
       content: data.content,
       title: data.title,
-      appId: data.appId,
       userId: session?.user?.id,
-      credentialId: data.credentialId,
       usageTokens: existedPost?.usageTokens ?? undefined,
       imagesDataURL: imagesDataURL,
       pageId: data.pageId,
+      xcommunity: data.xcommunity,
+      app: data.appId ? {
+        connect: {
+          slug: data.appId
+        }
+      } : undefined,
+      credential: data.credentialId ? {
+        connect: {
+          id: data.credentialId
+        }
+      } : undefined,
     };
 
     const createCloudFiles = data.fileInfo?.id

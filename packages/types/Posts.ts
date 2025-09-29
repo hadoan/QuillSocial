@@ -11,4 +11,5 @@ export type Post = {
   createdDate?: Date;
   appId: string;
   pageId?: string;
+  xcommunity?: string | null;
 };

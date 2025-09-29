@@ -288,7 +288,29 @@ export const post = async (
       log.info(
         "Attempting to post tweet with access tokens. If you get a 403 error after this, your access tokens were generated BEFORE changing app permissions to read-write."
       );
-      const tweet = await client.tweet(tweetText);
+
+      // Check if there's a community to post to
+      let tweet;
+      if (twitterPost.xcommunity && twitterPost.xcommunity.trim() !== "") {
+        log.info("Posting to community", { communityId: twitterPost.xcommunity });
+        // Post to community with retry logic
+        tweet = await retryWithBackoff(
+          () => client.tweet(tweetText, {
+            community_id: twitterPost.xcommunity!
+          }),
+          { retries: 3, baseDelayMs: 1000 }
+        );
+        log.info("Tweet posted successfully to community", {
+          communityId: twitterPost.xcommunity
+        });
+      } else {
+        // Post regular tweet with retry logic
+        tweet = await retryWithBackoff(
+          () => client.tweet(tweetText),
+          { retries: 3, baseDelayMs: 1000 }
+        );
+        log.info("Tweet posted successfully (no community)");
+      }
 
       await prisma.post.update({
         where: { id: twitterPost.id },
@@ -298,9 +320,10 @@ export const post = async (
         },
       });
 
-      log.info(
-        "Tweet posted successfully with consumer keys and access tokens"
-      );
+      const communityInfo = twitterPost.xcommunity
+        ? ` to community ${twitterPost.xcommunity}`
+        : "";
+      log.info(`Tweet posted successfully with consumer keys and access tokens${communityInfo}`);
       return { success: true };
     } catch (error: any) {
       await prisma.post.update({
@@ -310,17 +333,26 @@ export const post = async (
       log.error("Error posting tweet", { error: serializeError(error) });
 
       // Check if it's a permissions error
-      if (error.code === 403) {
-        if (error.data?.detail?.includes("oauth1 app permissions")) {
+      if (error.code === 403 || error?.response?.status === 403) {
+        // Handle twitter-api-v2 error structure - check multiple possible locations for error details
+        const errorDetail =
+          error.data?.detail ||
+          error.data?.title ||
+          error?.response?.data?.detail ||
+          error?.response?.data?.title ||
+          error?.response?.data?.errors?.[0]?.message ||
+          error.message ||
+          "";
+
+        if (errorDetail.includes("oauth1 app permissions")) {
           return {
             success: false,
             error:
               "Twitter app permission error: Your Twitter app only has read permissions. Please go to Twitter Developer Portal → App Settings → Set up → App permissions → Change to 'Read and write' permissions, then regenerate your access tokens.",
           };
         } else if (
-          error.data?.detail?.includes(
-            "You are not permitted to perform this action"
-          )
+          errorDetail.includes("You are not permitted to perform this action") ||
+          error.code === 403 // Default to token regeneration advice for any 403
         ) {
           log.warn(
             "IMPORTANT: Access tokens were likely generated BEFORE changing app permissions to read-write",
@@ -337,9 +369,7 @@ export const post = async (
         } else {
           return {
             success: false,
-            error: `Twitter permission error (403): ${
-              error.data?.detail || error.data?.title || "Access denied"
-            }. Please check your app permissions and regenerate access tokens in Twitter Developer Portal.`,
+            error: `Twitter permission error (403): ${errorDetail || "Access denied"}. Please check your app permissions and regenerate access tokens in Twitter Developer Portal.`,
           };
         }
       } else {
