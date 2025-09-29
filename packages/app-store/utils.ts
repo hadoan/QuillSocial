@@ -96,6 +96,7 @@ export async function getLocationGroupedOptions(
  * credentials, this should also get globally available apps.
  */
 function getApps(userCredentials: CredentialData[]) {
+  console.log("All_APPS", ALL_APPS);
   const apps = ALL_APPS.map((appMeta) => {
     const credentials = userCredentials.filter(
       (credential) => credential.type === appMeta.type

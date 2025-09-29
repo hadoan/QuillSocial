@@ -89,6 +89,17 @@ async function createApp(
 
 export default async function main() {
   await createApp(
+    "threads-social",
+    "threadssocial",
+    ["social"],
+    "threads_social",
+    {
+      app_id: process.env.THREADS_APP_ID,
+      app_secret: process.env.THREADS_APP_SECRET,
+    }
+  );
+  return;
+  await createApp(
     "xconsumerkeys-social",
     "xconsumerkeyssocial",
     ["social"],
