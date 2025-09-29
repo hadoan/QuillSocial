@@ -6,8 +6,7 @@
   "main": "./index.ts",
   "description": "",
   "dependencies": {
-    "@quillsocial/prisma": "*",
-
+    "@quillsocial/prisma": "*"
   },
   "devDependencies": {
     "@quillsocial/types": "*"

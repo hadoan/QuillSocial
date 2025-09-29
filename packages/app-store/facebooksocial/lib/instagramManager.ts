@@ -1,5 +1,5 @@
 import axios from "axios";
-import prisma from "@mysticquill/prisma";
+import prisma from "@quillsocial/prisma";
 import { facebookCredentialSchema } from "./facebookCredentialSchema";
 import fs from "fs";
 import path from "path";

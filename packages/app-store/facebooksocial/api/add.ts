@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { WEBAPP_URL } from "@mysticquill/lib/constants";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
 
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 

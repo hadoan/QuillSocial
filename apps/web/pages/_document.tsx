@@ -6,7 +6,7 @@ const TAWK_TO_WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_TO_WIDGET_ID;
 
 export default function Document() {
   return (
-    <html lang="en-US" className="notranslate" translate="no">
+    <Html lang="en-US" className="notranslate" translate="no">
       <Head>
         <meta charSet="utf-8" />
         <meta name="google" content="notranslate" />
@@ -52,6 +52,6 @@ export default function Document() {
         <Main />
         <NextScript />
       </body>
-    </html>
+    </Html>
   );
 }

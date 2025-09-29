@@ -1,5 +1,5 @@
-import { validJson } from "@mysticquill/lib/jsonUtils";
-import type { AppMeta } from "@mysticquill/types/App";
+import { validJson } from "@quillsocial/lib/jsonUtils";
+import type { AppMeta } from "@quillsocial/types/App";
 
 import _package from "./package.json";
 
@@ -15,7 +15,7 @@ export const metadata = {
   publisher: "Ha Doan",
   slug: "facebook-social",
   url: "https://mysticquill.co/",
-  email: "help@mysticquill.co",
+  email: "help@quillsocial.co",
   dirName: "facebooksocial",
 } as AppMeta;
 
