@@ -54,21 +54,11 @@ export default function XCommunitySearch({ appId, credentialId, onSelect, select
     }
   }, [selectedCommunity]);
 
-  console.log("XCommunitySearch - AppId:", appId);
-  console.log("XCommunitySearch - Available endpoints:", Object.keys(APP_TO_ENDPOINT));
-  console.log("XCommunitySearch - CredentialId:", credentialId);
-
   const shouldRender =
     !!appId &&
     Object.keys(APP_TO_ENDPOINT).includes(appId as string);
 
-  console.log("XCommunitySearch - Should render:", shouldRender);
-
   if (!shouldRender) {
-    // Show debug info for non-supported appIds
-    if (appId && !Object.keys(APP_TO_ENDPOINT).includes(appId as string)) {
-      console.warn("XCommunitySearch - Unsupported appId:", appId, "Available:", Object.keys(APP_TO_ENDPOINT));
-    }
     return null;
   }
 
@@ -110,7 +100,6 @@ export default function XCommunitySearch({ appId, credentialId, onSelect, select
         showToast("Found community", "success");
       }
     } catch (err) {
-      console.error(err);
       showToast("Search failed", "error");
       setResult(null);
       onSelect?.(null);

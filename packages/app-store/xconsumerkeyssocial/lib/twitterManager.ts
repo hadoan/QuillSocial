@@ -6,7 +6,105 @@ import prisma from "@quillsocial/prisma";
 import axios from "axios";
 
 // Simple sleep helper
-const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));/**
+ * Analyze and classify different types of 403 errors from Twitter API.
+ * Returns a structured error response with specific guidance.
+ *
+ * @param error - Error object from Twitter API
+ * @returns Classification with type, message, detail, and solution
+ */
+export function classifyTwitter403Error(error: any): {
+  type: 'duplicate' | 'permissions' | 'auth_scope' | 'length' | 'generic';
+  message: string;
+  detail: string;
+  solution: string;
+} {
+  // Extract error details from various possible locations
+  const errorDetail =
+    error.data?.detail ||
+    error.data?.title ||
+    error?.response?.data?.detail ||
+    error?.response?.data?.title ||
+    error?.response?.data?.errors?.[0]?.message ||
+    error.message ||
+    "";
+
+  const errorCode = error?.response?.data?.errors?.[0]?.code || error.code;
+
+  // Log the raw error for debugging
+  const log = logger.getChildLogger({ prefix: ["[xconsumerkeys/twitterManager/errorClassifier]"] });
+  log.info("Analyzing 403 error", {
+    errorDetail,
+    errorCode,
+    rawError: serializeError(error)
+  });
+
+  // Check for duplicate content (most specific)
+  if (
+    errorDetail.includes("duplicate content") ||
+    errorDetail.includes("Status is a duplicate") ||
+    errorCode === 187 // v1.1 duplicate status code
+  ) {
+    return {
+      type: 'duplicate',
+      message: '🔄 Duplicate Content Detected',
+      detail: errorDetail,
+      solution: 'This tweet appears to be identical to a recent post. Consider modifying the content or adding a timestamp/ID to make it unique.'
+    };
+  }
+
+  // Check for app permissions issues
+  if (errorDetail.includes("oauth1 app permissions")) {
+    return {
+      type: 'permissions',
+      message: '🔑 App Permissions Error',
+      detail: errorDetail,
+      solution: 'Your Twitter app only has read permissions. Go to Twitter Developer Portal → App Settings → Set up → App permissions → Change to "Read and write" permissions, then regenerate your access tokens.'
+    };
+  }
+
+  // Check for access token issues (most common case)
+  if (
+    errorDetail.includes("You are not permitted to perform this action") ||
+    errorDetail.includes("not authorized") ||
+    errorDetail.includes("not permitted") ||
+    (!errorDetail && error.code === 403)
+  ) {
+    return {
+      type: 'auth_scope',
+      message: '❌ Access Token Issue',
+      detail: errorDetail || 'You are not permitted to perform this action',
+      solution: 'Your access tokens were likely generated before changing app permissions to read-write. Go to Twitter Developer Portal → Your App → Keys and tokens → Regenerate Access Token & Secret → Update your QuillSocial credentials with the NEW tokens.'
+    };
+  }
+
+  // Check for length/content restrictions (often vague "Forbidden")
+  if (
+    errorDetail.includes("Forbidden") &&
+    !errorDetail.includes("duplicate") &&
+    !errorDetail.includes("permitted")
+  ) {
+    return {
+      type: 'length',
+      message: '📝 Content Restriction',
+      detail: errorDetail,
+      solution: 'This may be a content length issue or posting restriction. Try shortening your tweet or check if your account has posting limitations.'
+    };
+  }
+
+  // Generic 403 fallback
+  return {
+    type: 'generic',
+    message: '🚫 Access Denied (403)',
+    detail: errorDetail || 'Unknown 403 error',
+    solution: 'Please check your Twitter app permissions, regenerate access tokens, and ensure your account has posting privileges.'
+  };
+}
+
+/**
+ * Retry a function that may throw HTTP errors (from twitter-api-v2).
+ * On 429 responses, it will respect `Retry-After` (seconds) or `x-rate-limit-reset` headers when available.
+ * Falls back to exponential backoff with jitter.
 
 /**
  * Retry a function that may throw HTTP errors (from twitter-api-v2).
@@ -332,46 +430,44 @@ export const post = async (
       });
       log.error("Error posting tweet", { error: serializeError(error) });
 
-      // Check if it's a permissions error
+      // Check if it's a 403 error and classify it
       if (error.code === 403 || error?.response?.status === 403) {
-        // Handle twitter-api-v2 error structure - check multiple possible locations for error details
+        // Enhanced error detail extraction for better debugging
         const errorDetail =
           error.data?.detail ||
           error.data?.title ||
+          error.data?.message ||
           error?.response?.data?.detail ||
           error?.response?.data?.title ||
+          error?.response?.data?.message ||
           error?.response?.data?.errors?.[0]?.message ||
+          error?.response?.data?.errors?.[0]?.detail ||
           error.message ||
-          "";
+          "Unknown 403 error";
 
-        if (errorDetail.includes("oauth1 app permissions")) {
-          return {
-            success: false,
-            error:
-              "Twitter app permission error: Your Twitter app only has read permissions. Please go to Twitter Developer Portal → App Settings → Set up → App permissions → Change to 'Read and write' permissions, then regenerate your access tokens.",
-          };
-        } else if (
-          errorDetail.includes("You are not permitted to perform this action") ||
-          error.code === 403 // Default to token regeneration advice for any 403
-        ) {
-          log.warn(
-            "IMPORTANT: Access tokens were likely generated BEFORE changing app permissions to read-write",
-            { error: serializeError(error) }
-          );
-          log.info(
-            "SOLUTION: Go to Twitter Developer Portal → Your App → Keys and tokens → Regenerate Access Token & Secret"
-          );
-          return {
-            success: false,
-            error:
-              "❌ Access Token Issue: Your access tokens were generated before changing app permissions to read-write. SOLUTION: Go to Twitter Developer Portal → Your App → Keys and tokens → Click 'Regenerate' for Access Token & Secret → Update your QuillSocial credentials with the NEW tokens.",
-          };
-        } else {
-          return {
-            success: false,
-            error: `Twitter permission error (403): ${errorDetail || "Access denied"}. Please check your app permissions and regenerate access tokens in Twitter Developer Portal.`,
-          };
-        }
+        // Log the raw 403 error for debugging
+        log.error("Raw 403 error details for debugging", {
+          errorCode: error.code,
+          responseStatus: error?.response?.status,
+          errorData: error.data,
+          responseData: error?.response?.data,
+          errorMessage: error.message,
+          extractedDetail: errorDetail
+        });
+
+        const errorClassification = classifyTwitter403Error(error);
+
+        log.error("403 Error Classification", {
+          type: errorClassification.type,
+          message: errorClassification.message,
+          detail: errorClassification.detail,
+          solution: errorClassification.solution
+        });
+
+        return {
+          success: false,
+          error: `${errorClassification.message}: ${errorClassification.solution}`
+        };
       } else {
         return {
           success: false,
