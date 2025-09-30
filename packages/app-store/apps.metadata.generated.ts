@@ -5,6 +5,7 @@
 import { metadata as chatgptai__metadata_ts } from "./chatgptai/_metadata";
 import { metadata as facebooksocial__metadata_ts } from "./facebooksocial/_metadata";
 import { metadata as googlecloudstorage__metadata_ts } from "./googlecloudstorage/_metadata";
+import { metadata as instagramsocial__metadata_ts } from "./instagramsocial/_metadata";
 import { metadata as linkedinsocial__metadata_ts } from "./linkedinsocial/_metadata";
 import { metadata as threadssocial__metadata_ts } from "./threadssocial/_metadata";
 import { metadata as twitterv1social__metadata_ts } from "./twitterv1social/_metadata";
@@ -16,6 +17,7 @@ export const appStoreMetadata = {
   chatgptai: chatgptai__metadata_ts,
   facebooksocial: facebooksocial__metadata_ts,
   googlecloudstorage: googlecloudstorage__metadata_ts,
+  instagramsocial: instagramsocial__metadata_ts,
   linkedinsocial: linkedinsocial__metadata_ts,
   threadssocial: threadssocial__metadata_ts,
   twitterv1social: twitterv1social__metadata_ts,

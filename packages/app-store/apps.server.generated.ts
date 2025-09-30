@@ -6,6 +6,7 @@ export const apiHandlers = {
   chatgptai: import("./chatgptai/api"),
   facebooksocial: import("./facebooksocial/api"),
   googlecloudstorage: import("./googlecloudstorage/api"),
+  instagramsocial: import("./instagramsocial/api"),
   linkedinsocial: import("./linkedinsocial/api"),
   stripepayment: import("./stripepayment/api"),
   threadssocial: import("./threadssocial/api"),

@@ -61,6 +61,18 @@ const apps: AppListItem[] = [
       allowedMultipleInstalls: true,
     },
   },
+  {
+    title: "Instagram",
+    description:
+      "Instagram is a photo and video sharing social platform owned by Meta. It supports posts, stories, reels, and direct messaging and is often used for visual-first brand and creator content.",
+    logoSrc: "/logo/instagram-social-logo.svg",
+    installProps: {
+      type: "instagram_social",
+      slug: "instagram-social",
+      variant: "social",
+      allowedMultipleInstalls: true,
+    },
+  },
 ];
 
 export default apps;

@@ -4066,6 +4066,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@quillsocial/instagramsocial@workspace:packages/app-store/instagramsocial":
+  version: 0.0.0-use.local
+  resolution: "@quillsocial/instagramsocial@workspace:packages/app-store/instagramsocial"
+  dependencies:
+    "@quillsocial/prisma": "*"
+    "@quillsocial/types": "*"
+  languageName: unknown
+  linkType: soft
+
 "@quillsocial/lib@*, @quillsocial/lib@workspace:packages/lib":
   version: 0.0.0-use.local
   resolution: "@quillsocial/lib@workspace:packages/lib"
