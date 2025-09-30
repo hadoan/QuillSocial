@@ -1,2 +1,2 @@
-export * as FacebookManager from "./facebookManager";
-export { facebookCredentialSchema } from "./facebookCredentialSchema";
+export * as ThreadsManager from "./threadsManager";
+export { threadsCredentialSchema  } from "./threadsCredentialSchema";
