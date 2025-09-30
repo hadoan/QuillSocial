@@ -34,9 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!code) {
     return res.status(400).send("Authorization code missing");
   }
-  // https://graph.facebook.com/v19.0/oauth/access_token?client_id=776354511178147&client_secret=83d152a1ac3c2809f6589a60221e8a5a&code=AQA6BfIuTqCc_r13UjJ5CsVLxc9pgghibUU1Y8pq-QhJ-To07p6kg1CiyglpXim4DbuzRpspi0g_EQPySCx82Qxrdasbf-SfdMVadw1Ij7tK1xhNZiKjQqGaZoONQO4RrB1FXu_M-MVuRxXL9DEVhABeWQpi5OMeePKTgETfXIEjnJ6d3TID09IAexMBc1xCmQoVQLGGcBoX6XwVGKxa5-gw3lkf0CPqjrnXiNIYgCQsschPJXIxpfZP_wzdEZKoV0crtksXdRC_nAh-VKNGTDviLJSdWESiI4KCzjDtwWJfnHKt4tJrMfKnDNGtnFaRnHA55PNNU-pB3g48ZxBzTChDXoltxzL0M6dkJBtFakE9HMynrrqC18DtnBFbxd_JoVdzKHCEpM158bQJw7dicCWjQPUdgl15izucP9ucEfkqoQ
   try {
-    const tokenResponse = await axios.get("https://graph.facebook.com/v19.0/oauth/access_token", {
+    const tokenResponse = await axios.get("https://graph.facebook.com/v23.0/oauth/access_token", {
       params: {
         client_id: app_id,
         client_secret: app_secret,
@@ -151,7 +150,7 @@ async function getUserData(accessToken: string) {
 
 async function getAllPages(
   accessToken: string,
-  url = "https://graph.facebook.com/v19.0/me/accounts",
+  url = "https://graph.facebook.com/v21.0/me/accounts",
   pages: any[] = []
 ): Promise<any[]> {
   try {
