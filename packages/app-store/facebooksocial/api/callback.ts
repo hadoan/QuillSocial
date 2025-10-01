@@ -1,31 +1,36 @@
-import axios from "axios";
-import type { NextApiRequest, NextApiResponse } from "next";
-
-import { WEBAPP_URL } from "@quillsocial/lib/constants";
-import prisma from "@quillsocial/prisma";
-
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { facebookCredentialSchema } from "../lib/facebookCredentialSchema";
+import { WEBAPP_URL } from "@quillsocial/lib/constants";
+import prisma from "@quillsocial/prisma";
+import axios from "axios";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 let app_id = "";
 let app_secret = "";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { code } = req.query;
   if (code && typeof code !== "string") {
     res.status(400).json({ message: "`code` must be a string" });
     return;
   }
   if (!req.session?.user?.id) {
-    return res.status(401).json({ message: "You must be logged in to do this" });
+    return res
+      .status(401)
+      .json({ message: "You must be logged in to do this" });
   }
 
   const appKeys = await getAppKeysFromSlug("facebook-social");
   if (typeof appKeys.app_id === "string") app_id = appKeys.app_id;
   if (typeof appKeys.app_secret === "string") app_secret = appKeys.app_secret;
-  if (!app_id) return res.status(400).json({ message: "Facebook app_id missing." });
-  if (!app_secret) return res.status(400).json({ message: "Facebook app_secret missing." });
+  if (!app_id)
+    return res.status(400).json({ message: "Facebook app_id missing." });
+  if (!app_secret)
+    return res.status(400).json({ message: "Facebook app_secret missing." });
 
   const redirectUri = WEBAPP_URL + "/api/integrations/facebooksocial/callback";
 
@@ -35,14 +40,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).send("Authorization code missing");
   }
   try {
-    const tokenResponse = await axios.get("https://graph.facebook.com/v23.0/oauth/access_token", {
-      params: {
-        client_id: app_id,
-        client_secret: app_secret,
-        redirect_uri: redirectUri,
-        code,
-      },
-    });
+    const tokenResponse = await axios.get(
+      "https://graph.facebook.com/v23.0/oauth/access_token",
+      {
+        params: {
+          client_id: app_id,
+          client_secret: app_secret,
+          redirect_uri: redirectUri,
+          code,
+        },
+      }
+    );
     key = tokenResponse?.data;
     const userData = await getUserData(key?.access_token);
     // const profileUrl = await getProfilePictureUrl(userData?.id, key.access_token);
@@ -58,7 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
     const existed = existedCredentials?.find(
-      (x) => x.appId === "facebook-social" && x.emailOrUserName == userData?.email
+      (x) =>
+        x.appId === "facebook-social" && x.emailOrUserName == userData?.email
     );
     const id = existed?.id ?? 0;
     let isUserCurrentProfile: boolean | null =
@@ -116,7 +125,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       );
     }
 
-    res.redirect(getInstalledAppPath({ variant: "social", slug: "facebook-social" }));
+    res.redirect(
+      getInstalledAppPath({ variant: "social", slug: "facebook-social" })
+    );
   } catch (error: any) {
     console.error("Error exchanging code for token:", error.message);
     return res.status(500).send("Error exchanging code for token");
@@ -125,18 +136,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 async function getProfilePictureUrl(userId: string, access_token: string) {
   try {
-    const response = await axios.get(`https://graph.facebook.com/v19.0/${userId}/picture`, {
-      params: {
-        type: "normal", // You can specify 'small', 'normal', 'large', or 'square'
-        access_token,
-      },
-      responseType: "json",
-    });
+    const response = await axios.get(
+      `https://graph.facebook.com/v19.0/${userId}/picture`,
+      {
+        params: {
+          type: "normal", // You can specify 'small', 'normal', 'large', or 'square'
+          access_token,
+        },
+        responseType: "json",
+      }
+    );
 
     const pictureUrl = response.data.data.url;
     return pictureUrl;
   } catch (error: any) {
-    console.error("Error fetching profile picture:", error.response?.data || error.message);
+    console.error(
+      "Error fetching profile picture:",
+      error.response?.data || error.message
+    );
     return undefined;
   }
 }
@@ -156,7 +173,8 @@ async function getAllPages(
   try {
     const response = await axios.get(url, {
       params: {
-        fields: "name,id,picture,access_token",
+        // Include instagram_business_account so we can detect connected IG business accounts
+        fields: "name,id,picture,access_token,instagram_business_account",
         access_token: accessToken,
       },
     });
@@ -167,98 +185,103 @@ async function getAllPages(
     // Check if there are more pages to fetch (pagination)
     if (response.data.paging && response.data.paging.next) {
       // Recursively fetch the next page
-      return await getAllPages(accessToken, response.data.paging.next, combinedPages);
+      return await getAllPages(
+        accessToken,
+        response.data.paging.next,
+        combinedPages
+      );
     } else {
       // No more pages, return the full result
       return combinedPages;
     }
   } catch (error: any) {
-    console.error("Error fetching pages:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error fetching pages:",
+      error.response ? error.response.data : error.message
+    );
     return [];
   }
 }
 
-async function getManagedPages(accessToken: string): Promise<any[] | undefined> {
+async function getManagedPages(accessToken: string): Promise<any[]> {
   try {
-    // const response = await axios.get(`https://graph.facebook.com/v19.0/me/accounts?fields=name,id,picture,access_token`, {
-    //   params: {
-    //     access_token: accessToken,
-    //   },
-    // });
-
-    try {
-      const allPages = await getAllPages(accessToken);
-      console.log("All Pages:", allPages);
-
-      // const allIntagramAccounts = await getAllPagesWithInstagram(accessToken);
-      if (allPages) {
-        const pageInfoes = allPages.map((x: any) => ({
-          id: x.id,
-          name: x.name,
-          info: x,
-          isCurrent: x.id === allPages[0].id,
-        }));
-
-        await Promise.all(
-          pageInfoes.map(async (page: { id: string }) => {
-            const instagramAcocunts = await getConnectedInstagramAccounts(accessToken, page.id);
-            return instagramAcocunts;
-          })
-        );
-
-        return pageInfoes;
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    const allPages = await getAllPages(accessToken);
+    // Debug: log the raw response for /me/accounts so we can inspect presence of instagram_business_account
+    console.debug("getManagedPages: fetched allPages", { length: Array.isArray(allPages) ? allPages.length : 0, allPages });
+    // allPages contains Facebook Pages; we need to return Instagram business accounts connected to those pages
+    if (!Array.isArray(allPages) || allPages.length === 0) {
+      console.debug("getManagedPages: no facebook pages found", { allPages });
+      return [];
     }
 
-    return undefined;
+    // For each FB page that has an instagram_business_account, fetch IG info and page access token in parallel
+    const pagesWithIg = allPages.filter((p: any) => p.instagram_business_account);
+    console.debug("getManagedPages: pages that claim instagram_business_account", { count: pagesWithIg.length, pages: pagesWithIg.map((p: any) => ({ id: p.id, instagram_business_account: p.instagram_business_account })) });
+
+    const igPromises = pagesWithIg
+      .map(async (p: any) => {
+        try {
+          const igId = p.instagram_business_account?.id;
+          if (!igId) return null;
+
+          const [instagramInfoResp, pageTokenInfoResp] = await Promise.all([
+            axios.get(
+              `https://graph.facebook.com/v21.0/${igId}?fields=name,profile_picture_url,username&access_token=${accessToken}`
+            ),
+            axios.get(
+              `https://graph.facebook.com/v21.0/${p.id}?fields=access_token,name,picture.type(large)&access_token=${accessToken}`
+            ),
+          ]);
+
+          const instagramInfo = instagramInfoResp.data ?? {};
+          const pageTokenInfo = pageTokenInfoResp.data ?? {};
+
+          return {
+            pageId: p.id,
+            id: igId,
+            name: instagramInfo.name,
+            username: instagramInfo.username,
+            profile_picture_url: instagramInfo.profile_picture_url,
+            access_token: pageTokenInfo.access_token,
+            info: {
+              ...instagramInfo,
+              access_token: pageTokenInfo.access_token,
+              pageId: p.id,
+            },
+          };
+        } catch (err: any) {
+          console.warn(
+            "getManagedPages: failed to fetch IG info for page",
+            p?.id,
+            err?.response?.data ?? err?.message ?? err
+          );
+          return null;
+        }
+      });
+
+    const settled = await Promise.allSettled(igPromises);
+    const onlyConnectedAccounts = settled
+      .filter((s: any) => s.status === "fulfilled" && s.value)
+      .map((s: any) => s.value);
+
+    if (!onlyConnectedAccounts || onlyConnectedAccounts.length === 0) {
+      console.debug("getManagedPages: no connected Instagram accounts found", {
+        allPages,
+      });
+      return [];
+    }
+
+    return onlyConnectedAccounts.map((p: any, index: number) => ({
+      id: p.id,
+      name: p.name,
+      info: p.info,
+      isCurrent: index === 0,
+    }));
   } catch (error: any) {
-    console.error("Error fetching managed pages:", error.response?.data || error.message);
-    return undefined;
+    console.error(
+      "Error fetching managed pages:",
+      error.response?.data || error.message
+    );
+    return [];
   }
 }
-
-async function getConnectedInstagramAccounts(accessToken: string, pageId: string) {
-  const instagramBusinessAccountUrl = `https://graph.facebook.com/v19.0/${pageId}?fields=instagram_business_account,access_token,name&access_token=${accessToken}`;
-  console.log(instagramBusinessAccountUrl);
-  axios
-    .get(instagramBusinessAccountUrl)
-    .then((response) => {
-      console.log(response.data, "---", pageId);
-      // This response should include the Instagram business account details
-    })
-    .catch((error) => {
-      console.error("Error fetching Instagram business account details:", error);
-    });
-}
-
-// async function getAllPagesWithInstagram(
-//   accessToken: string,
-//   url = "https://graph.facebook.com/v19.0/me/accounts",
-//   pages: any = []
-// ) {
-//   try {
-//     const response = await axios.get(url, {
-//       params: {
-//         fields: "name,id,picture,access_token,instagram_business_account",
-//         access_token: accessToken,
-//       },
-//     });
-
-//     // Combine current response data with the previously fetched pages
-//     const combinedPages = [...pages, ...response.data.data];
-
-//     // Check if there are more pages to fetch (pagination)
-//     if (response.data.paging && response.data.paging.next) {
-//       // Recursively fetch the next page
-//       return await getAllPagesWithInstagram(accessToken, response.data.paging.next, combinedPages);
-//     } else {
-//       // No more pages, return the full result
-//       return combinedPages;
-//     }
-//   } catch (error: any) {
-//     console.error("Error fetching pages:", error.response ? error.response.data : error.message);
-//     throw error;
-//   }
-// }

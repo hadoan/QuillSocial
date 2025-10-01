@@ -25,7 +25,14 @@ export default async function handler(
     const redirectUri =
       WEBAPP_URL + "/api/integrations/instagramsocial/callback";
 
-    const scopes = ["instagram_basic"];
+    const scopes = [
+      "instagram_basic",
+      "pages_show_list",
+      "pages_read_engagement",
+      "instagram_content_publish",
+      "instagram_manage_comments",
+      "instagram_manage_insights",
+    ];
     // allow client to pass a state and codeVerifier; if missing generate simple ones to return
 
     const codeVerifier =
@@ -33,7 +40,7 @@ export default async function handler(
       `cv_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
     const state = makeId(6);
     const oauthUrl =
-      `https://www.facebook.com/v20.0/dialog/oauth?client_id=734048535498013` +
+      `https://www.facebook.com/v23.0/dialog/oauth?client_id=${appKeys.app_id}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&scope=${encodeURIComponent(scopes.join(","))}` +
       `&state=${encodeURIComponent(state)}`;

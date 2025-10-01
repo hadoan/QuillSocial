@@ -39,7 +39,6 @@ export const integrationsHandler = async ({
       };
     }
   );
-console.log("apps", apps);
   if (variant) {
     // `flatMap()` these work like `.filter()` but infers the types correctly
     apps = apps
