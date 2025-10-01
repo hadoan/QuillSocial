@@ -353,9 +353,12 @@ const WritePage: React.FC & { PageWrapper?: any } = () => {
                 <AddImageDialog
                   open={isModalAddImage}
                   onClose={() => setIsModalAddImage(false)}
-                  handleImageChange={async (img: string) => {
+                  handleImageChange={async (img: string, cloudFileId?: number) => {
                     setIsModalAddImage(false);
                     setImageSrc(img);
+                    if (cloudFileId) {
+                      setFileInfo({ id: cloudFileId });
+                    }
                     await handleSaveDraft(img);
                   }}
                 />

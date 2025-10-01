@@ -181,6 +181,16 @@ export function useWritePage() {
     try {
       setIsPublishLoading(true);
       setIsModalPostNow(false);
+
+      // Validate Instagram posts require images
+      const currentAppId = user?.currentSocialProfile?.appId;
+      const isInstagram = currentAppId === "instagram-social" || currentAppId === "instagramsocial";
+      if (isInstagram && !imageSrc) {
+        showToast("Instagram requires at least one image. Please add an image to your post.", "error");
+        setIsPublishLoading(false);
+        return;
+      }
+
       const result = await saveDraft();
       if (!result) {
         showToast("Failed to save draft before publishing", "error");

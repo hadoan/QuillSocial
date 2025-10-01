@@ -53,19 +53,27 @@ export const getSocialHanlder = async ({ ctx }: GetSocialOptions) => {
       ) {
         listCredentials.push(credential);
       } else {
-        const pageCredentials = credential.pageInfoes.map((p) => ({
-          ...credential,
-          id: credential.id,
-          pageId: p.id,
-          name: p.name,
-          avatarUrl:
-            credential.appId === "facebook-social"
-              ? (p.info as any)?.picture?.data?.url ?? credential.avatarUrl
-              : credential.avatarUrl,
-          isUserCurrentProfile: credential.isUserCurrentProfile
-            ? p.id === credential.currentPageId
-            : false,
-        }));
+        const pageCredentials = credential.pageInfoes.map((p) => {
+          // For Instagram, display both name and username if available
+          let displayName = p.name;
+          if (credential.appId === "instagram-social" && (p.info as any)?.username) {
+            displayName = `${p.name} (@${(p.info as any).username})`;
+          }
+
+          return {
+            ...credential,
+            id: credential.id,
+            pageId: p.id,
+            name: displayName,
+            avatarUrl:
+              credential.appId === "facebook-social"
+                ? (p.info as any)?.picture?.data?.url ?? credential.avatarUrl
+                : credential.avatarUrl,
+            isUserCurrentProfile: credential.isUserCurrentProfile
+              ? p.id === credential.currentPageId
+              : false,
+          };
+        });
         listCredentials.push(...pageCredentials);
       }
     });

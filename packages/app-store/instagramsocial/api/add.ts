@@ -1,4 +1,5 @@
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
+import logger from "@quillsocial/lib/logger";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import { makeId } from "@quillsocial/lib/make.is";
 import axios from "axios";
@@ -45,7 +46,7 @@ export default async function handler(
       `&scope=${encodeURIComponent(scopes.join(","))}` +
       `&state=${encodeURIComponent(state)}`;
 
-    console.log("oauthUrl", oauthUrl);
+    logger.info("oauthUrl", oauthUrl);
 
     // We don't need to call Instagram here; just return the constructed url and the generated state/codeVerifier
     res.status(200).json({ url: oauthUrl, state: state, codeVerifier });

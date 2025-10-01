@@ -1,6 +1,7 @@
 import getAppKeysFromSlug from "../../_utils/getAppKeysFromSlug";
 import getInstalledAppPath from "../../_utils/getInstalledAppPath";
 import { instagramCredentialSchema } from "../lib/instagramCredentialSchema";
+import logger from "@quillsocial/lib/logger";
 import { WEBAPP_URL } from "@quillsocial/lib/constants";
 import prisma from "@quillsocial/prisma";
 import axios from "axios";
@@ -58,7 +59,7 @@ export default async function handler(
   try {
     // Diagnostic info: log app id and redirectUri to help debug invalid app errors.
     // Do NOT log app_secret.
-    console.info(
+    logger.info(
       "Instagram OAuth exchange: app_id=",
       app_id,
       "redirectUri=",
@@ -195,7 +196,7 @@ export default async function handler(
       }
     );
 
-    console.log(`📊 Found ${pagesData.data?.length ?? 0} Facebook Page(s)`);
+    logger.info(`📊 Found ${pagesData.data?.length ?? 0} Facebook Page(s)`);
 
     const instagramAccountUpserts: Promise<any>[] = [];
     const pageInfoUpserts: Promise<any>[] = [];
@@ -222,7 +223,7 @@ export default async function handler(
                          || pageDetail.connected_instagram_account?.id;
 
         if (!igAccountId) {
-          console.log(`⚠️ Page "${pageName}" has no Instagram account linked`);
+          logger.info(`⚠️ Page "${pageName}" has no Instagram account linked`);
           continue;
         }
 
@@ -237,7 +238,7 @@ export default async function handler(
           }
         );
 
-        console.log(`✅ Found Instagram account: @${igDetail.username} (${igAccountId})`);
+        logger.info(`✅ Found Instagram account: @${igDetail.username} (${igAccountId})`);
 
         // Upsert InstagramAccount record
         instagramAccountUpserts.push(
@@ -303,7 +304,7 @@ export default async function handler(
           })
         );
       } catch (error: any) {
-        console.error(
+        logger.error(
           `❌ Failed to process page "${pageName}" (${pageId}):`,
           error.response?.data || error.message
         );
@@ -313,7 +314,7 @@ export default async function handler(
     // Execute all upserts in parallel
     await Promise.all([...instagramAccountUpserts, ...pageInfoUpserts]);
 
-    console.log(`🎉 Successfully stored ${instagramAccountUpserts.length} Instagram account(s)`);
+    logger.info(`🎉 Successfully stored ${instagramAccountUpserts.length} Instagram account(s)`);
 
     res.redirect(
       getInstalledAppPath({ variant: "social", slug: "instagram-social" })
@@ -321,7 +322,7 @@ export default async function handler(
   } catch (error: any) {
     // Surface the full response from Facebook/Instagram when possible to aid debugging.
     const fbData = error?.response?.data;
-    console.error("Error exchanging code for token:", fbData || error.message);
+    logger.error("Error exchanging code for token:", fbData || error.message);
     const message =
       fbData?.error?.message || fbData || error.message || "Unknown error";
     return res.status(500).send(`Error exchanging code for token: ${message}`);
