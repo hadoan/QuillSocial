@@ -424,11 +424,34 @@ export const post = async (
       log.info(`Tweet posted successfully with consumer keys and access tokens${communityInfo}`);
       return { success: true };
     } catch (error: any) {
+      // Save full error response to database
       await prisma.post.update({
         where: { id: twitterPost.id },
-        data: { status: "ERROR" },
+        data: {
+          status: "ERROR",
+          result: {
+            error: true,
+            errorCode: error.code,
+            errorStatus: error?.response?.status,
+            errorMessage: error.message,
+            errorData: error.data,
+            responseData: error?.response?.data,
+            timestamp: new Date().toISOString(),
+          } as any,
+        },
       });
-      log.error("Error posting tweet", { error: serializeError(error) });
+
+      // Log complete error response from Twitter
+      log.error("Error posting tweet - Full error details", {
+        error: serializeError(error),
+        errorCode: error.code,
+        errorStatus: error?.response?.status,
+        errorData: error.data,
+        responseData: error?.response?.data,
+        responseHeaders: error?.response?.headers,
+        errorMessage: error.message,
+        errorStack: error.stack,
+      });
 
       // Check if it's a 403 error and classify it
       if (error.code === 403 || error?.response?.status === 403) {
@@ -469,21 +492,54 @@ export const post = async (
           error: `${errorClassification.message}: ${errorClassification.solution}`
         };
       } else {
+        // Log non-403 errors with full response details
+        log.error("Non-403 error posting tweet", {
+          errorCode: error.code,
+          errorStatus: error?.response?.status,
+          errorData: error.data,
+          responseData: error?.response?.data,
+          responseHeaders: error?.response?.headers,
+          errorMessage: error.message,
+          fullError: serializeError(error),
+        });
+
         return {
           success: false,
           error: `Failed to post tweet: ${error.message || "Unknown error"}`,
         };
       }
     }
-  } catch (error) {
-    logger
-      .getChildLogger({ prefix: ["[xconsumerkeys/twitterManager/post]"] })
-      .error("Error posting with consumer keys:", {
-        error: serializeError(error),
-      });
+  } catch (error: any) {
+    const log = logger.getChildLogger({ prefix: ["[xconsumerkeys/twitterManager/post]"] });
+
+    // Log outer catch block errors with full details
+    log.error("Unexpected error posting with consumer keys - Full details:", {
+      error: serializeError(error),
+      errorCode: error?.code,
+      errorStatus: error?.response?.status,
+      errorData: error?.data,
+      responseData: error?.response?.data,
+      responseHeaders: error?.response?.headers,
+      errorMessage: error?.message,
+      errorStack: error?.stack,
+    });
+
+    // Save full error to database
     await prisma.post.update({
       where: { id: postId },
-      data: { status: "ERROR" },
+      data: {
+        status: "ERROR",
+        result: {
+          error: true,
+          unexpected: true,
+          errorCode: error?.code,
+          errorStatus: error?.response?.status,
+          errorMessage: error?.message,
+          errorData: error?.data,
+          responseData: error?.response?.data,
+          timestamp: new Date().toISOString(),
+        } as any,
+      },
     });
     return {
       success: false,
