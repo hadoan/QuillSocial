@@ -43,6 +43,7 @@ model Credential {
   posts                Post[]
   pageInfoes           PageInfo[]
   currentPageId        String?
+  instagramAccounts    InstagramAccount[]
 
   @@unique([userId, appId, emailOrUserName])
   @@index([userId])
@@ -136,6 +137,7 @@ model User {
   userExtraDataId      Int?
   userExtraData        UserExtraData?          @relation(fields: [userExtraDataId], references: [id])
   openAIUsages         OpenAIUsage[]
+  instagramAccounts    InstagramAccount[]
 
   @@unique([email])
   @@unique([email, username])
@@ -716,4 +718,28 @@ model OpenAIUsage {
   @@index([teamId])
   @@index([createdAt])
   @@index([userId, createdAt])
+}
+
+model InstagramAccount {
+  id              Int         @id @default(autoincrement())
+  userId          Int
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialId    Int
+  credential      Credential  @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  // Facebook Page that owns the IG account:
+  pageId          String
+  pageName        String
+  pageAccessToken String      // long-lived page token (refresh as needed)
+
+  // Instagram Business/Creator identity:
+  igUserId        String      // {ig-user-id} used in Graph calls
+  igUsername      String?     // fetched via /{ig-user-id}?fields=username
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([credentialId])
+  @@unique([userId, igUserId]) // avoid duplicates
 }

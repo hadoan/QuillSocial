@@ -60,7 +60,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       ? {
           cloudFiles: {
             create: {
-              cloudFileId: data.fileInfo.id,
+              cloudFile: {
+                connect: {
+                  id: data.fileInfo.id,
+                },
+              },
             },
           },
         }
@@ -72,7 +76,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ? {
             cloudFiles: {
               create: {
-                cloudFileId: data.fileInfo.id,
+                cloudFile: {
+                  connect: {
+                    id: data.fileInfo.id,
+                  },
+                },
               },
             },
           }

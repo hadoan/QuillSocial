@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "private": true,
+  "name": "@quillsocial/threadssocial",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "description": "Threads social media integration for QuillSocial",
+  "dependencies": {
+    "@quillsocial/prisma": "*"
+  },
+  "devDependencies": {
+    "@quillsocial/types": "*"
+  }
+}

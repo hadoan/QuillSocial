@@ -61,24 +61,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     appName.split("_")[0].slice(1);
   if (nameApp === `Twitterv1`) nameApp = "Twitter";
 
-  if (apiEndpoint === "add") {
-    TrackEventJuneSo({
-      id: userId!.toString(),
-      event: `${EVENTS.ADD_NEW_ACCOUNT} ${nameApp}`,
-    });
-    // if (!checkAccount.accountIsTrue) {
-    //   res.status(400).json({ message: "Please update subscription plan to use" });
-    //   return;
-    // }
-  }
-
-  // if (apiEndpoint === "post") {
-  //   if (!checkAccount.postIsTrue) {
-  //     res.status(400).json({ message: "Please update subscription plan to use" });
-  //     return;
-  //   }
-  // }
-
   try {
     /* Absolute path didn't work */
     const handlerMap = (

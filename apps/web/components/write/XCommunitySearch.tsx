@@ -32,7 +32,14 @@ export default function XCommunitySearch({ appId, credentialId, onSelect, select
 
   // Load cached community from localStorage for new posts (id === 0)
   useEffect(() => {
-    if (postId === 0 && !selectedCommunity && typeof window !== "undefined") {
+    // Only auto-apply cached community for new posts when this component is intended to render
+    // (i.e. appId maps to a known X/Twitter endpoint). This prevents other apps (e.g. Threads)
+    // from receiving the cached community selection.
+    const shouldApplyCache =
+      postId === 0 && !selectedCommunity && typeof window !== "undefined" &&
+      !!appId && Object.keys(APP_TO_ENDPOINT).includes(appId as string);
+
+    if (shouldApplyCache) {
       const cached = localStorage.getItem("xcommunity_search_cache");
       if (cached) {
         try {

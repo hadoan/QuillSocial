@@ -41,7 +41,7 @@ import {
   Video,
 } from "@quillsocial/ui/components/icon";
 import { useRouter } from "next/router";
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import z from "zod";
 
 function ConnectOrDisconnectIntegrationMenuItem(props: {
@@ -114,44 +114,31 @@ interface IntegrationsListProps {
 }
 
 const IntegrationsList = ({
-  data,
   handleDisconnect,
-  variant,
+  data,
 }: IntegrationsListProps) => {
-  const utils = trpc.useContext();
-  const [bulkUpdateModal, setBulkUpdateModal] = useState(false);
-
-  const listAccount = trpc.viewer.socials.getSocialNetWorking.useQuery();
-
-  const onSuccessCallback = useCallback(() => {
-    setBulkUpdateModal(true);
-    showToast("Default app updated successfully", "success");
-  }, []);
-
-  const updateDefaultAppMutation =
-    trpc.viewer.updateUserDefaultConferencingApp.useMutation({
-      onSuccess: () => {
-        showToast("Default app updated successfully", "success");
-        utils.viewer.getUsersDefaultConferencingApp.invalidate();
-      },
-      onError: (error) => {
-        showToast(`Error: ${error.message}`, "error");
-      },
-    });
+  const [listAccount, setListAccount] = useState<any>();
+  const socialAccounts = trpc.viewer.socials.getSocialNetWorking.useQuery();
+  useEffect(() => {
+    if (socialAccounts.data) {
+      setListAccount(socialAccounts.data);
+    }
+  }, [socialAccounts.data]);
 
   const { t } = useLocale();
+
+  const integrations = data?.items || [];
+
   return (
     <>
       <div>
-        {data.items
-          .filter((item) => item.invalidCredentialIds)
+        {integrations
+          // .filter((item) => (item.invalidCredentialIds || []).length > 0)
           .map((item) => {
-            const appSlug = item?.slug;
-
             let emailOrUserName = "";
-            if (listAccount.data) {
-              const accounts = listAccount.data.find(
-                (a) => a.id === item.credentialIds[0]
+            if (listAccount) {
+              const accounts = listAccount.find(
+                (a: any) => a.id === item.credentialIds[0]
               );
               if (accounts) {
                 emailOrUserName = accounts.emailOrUserName || "";
@@ -170,7 +157,9 @@ const IntegrationsList = ({
                   isDefault={false}
                   shouldHighlight
                   slug={item.slug}
-                  invalidCredential={item.invalidCredentialIds.length > 0}
+                  invalidCredential={
+                    (item.invalidCredentialIds || []).length > 0
+                  }
                   actions={
                     <div className="flex justify-end">
                       <Dropdown modal={false}>
@@ -195,20 +184,6 @@ const IntegrationsList = ({
                     </div>
                   }
                 >
-                  {/* <hr/>
-                <div className="ml-3 text-sm text-subtle mt-2">Select page to post your status</div>
-                <div className="ml-3 pb-2">
-                  {fakeData.map((i) => (
-                    <PageSwitch
-                      key={i.externalId}
-                      externalId={i.externalId}
-                      title={i.name || "Nameless calendar"}
-                      name={i.name || "Nameless calendar"}
-                      type={`text`}
-                      isChecked={i.isSelected}
-                    />
-                  ))}
-                </div> */}
                   <AppSettings slug={item.slug} />
                 </AppListCard>
               </div>
@@ -257,6 +232,7 @@ const IntegrationsContainer = ({
       query={query}
       customLoader={<SkeletonLoader />}
       success={({ data }) => {
+        console.log("data", data);
         if (!data.items.length) {
           return (
             <EmptyScreen
@@ -269,14 +245,6 @@ const IntegrationsContainer = ({
               description={t(
                 `no_category_apps_description_${variant || "other"}`
               )}
-              // buttonRaw={
-              //   <Button
-              //     color="secondary"
-              //     data-testid={`connect-${variant || "other"}-apps`}
-              //     href={variant ? `/apps/categories/${variant}` : "/apps/categories/other"}>
-              //     {t(`connect_${variant || "other"}_apps`)}
-              //   </Button>
-              // }
             />
           );
         }
@@ -286,19 +254,11 @@ const IntegrationsContainer = ({
               title={t(variant || "other")}
               subtitle={t(`installed_app_${variant || "other"}_description`)}
               className="mb-6"
-              // actions={
-              //   <Button
-              //     href={variant ? `/apps/categories/${variant}` : "/apps"}
-              //     color="secondary"
-              //     StartIcon={Plus}>
-              //     {t("add")}
-              //   </Button>
-              // }
             />
             <IntegrationsList
               handleDisconnect={handleDisconnect}
-              data={data}
               variant={variant}
+              data={data}
             />
           </div>
         );

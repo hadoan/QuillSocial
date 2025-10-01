@@ -4007,6 +4007,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@quillsocial/facebooksocial@workspace:packages/app-store/facebooksocial":
+  version: 0.0.0-use.local
+  resolution: "@quillsocial/facebooksocial@workspace:packages/app-store/facebooksocial"
+  dependencies:
+    "@quillsocial/prisma": "*"
+    "@quillsocial/types": "*"
+  languageName: unknown
+  linkType: soft
+
 "@quillsocial/feature-auth@workspace:packages/features/auth":
   version: 0.0.0-use.local
   resolution: "@quillsocial/feature-auth@workspace:packages/features/auth"
@@ -4054,6 +4063,15 @@ __metadata:
     "@types/formidable": ^3.4.3
     formidable: ^3.5.1
     googleapis: ^84.0.0
+  languageName: unknown
+  linkType: soft
+
+"@quillsocial/instagramsocial@workspace:packages/app-store/instagramsocial":
+  version: 0.0.0-use.local
+  resolution: "@quillsocial/instagramsocial@workspace:packages/app-store/instagramsocial"
+  dependencies:
+    "@quillsocial/prisma": "*"
+    "@quillsocial/types": "*"
   languageName: unknown
   linkType: soft
 
@@ -4125,6 +4143,15 @@ __metadata:
     ts-node: ^10.9.1
     zod: ^3.20.2
     zod-prisma: ^0.5.4
+  languageName: unknown
+  linkType: soft
+
+"@quillsocial/threadssocial@workspace:packages/app-store/threadssocial":
+  version: 0.0.0-use.local
+  resolution: "@quillsocial/threadssocial@workspace:packages/app-store/threadssocial"
+  dependencies:
+    "@quillsocial/prisma": "*"
+    "@quillsocial/types": "*"
   languageName: unknown
   linkType: soft
 

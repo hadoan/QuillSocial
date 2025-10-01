@@ -40,7 +40,6 @@ export const ModalAccount = ({
   });
   useEffect(() => {
     if (socialAccounts.data) {
-      console.log("socialAccounts.data", socialAccounts.data);
       setListAccount(socialAccounts.data);
     }
   }, [socialAccounts.data]);
@@ -144,16 +143,7 @@ export const ModalAccount = ({
                     </div>
                   );
                 })}
-              {/* <div className="hover:bg-awst mt-5 flex min-h-[70px] cursor-pointer items-center justify-center rounded-lg border  bg-white text-center shadow hover:text-white">
-                  <span
-                    className="my-auto text-center font-bold"
-                    onClick={() => {
-                      handleAddNewAccount("x_social", "x", "social");
-                    }}>
-                    {" "}
-                    Add New Twitter Account
-                  </span>
-                </div> */}
+
               <div className="mt-6 flex min-h-[60px] cursor-pointer items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-center shadow-sm transition-all hover:bg-blue-100">
                 <span
                   className="my-auto text-center font-bold text-lg text-blue-700"

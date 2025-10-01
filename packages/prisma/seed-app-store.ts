@@ -7,8 +7,6 @@ import { AppCategories } from "./enums";
 import type { Prisma } from "@prisma/client";
 import { appStoreMetadata } from "@quillsocial/app-store/appStoreMetaData";
 import {
-  FACEBOOK_APP_ID,
-  FACEBOOK_APP_SECRET,
   LINKEDIN_CLIENT_ID,
   LINKEDIN_CLIENT_SECRET,
   TIKTOK_CLIENT_ID,
@@ -88,6 +86,27 @@ async function createApp(
 }
 
 export default async function main() {
+  await createApp(
+    "instagram-social",
+    "instagram_social",
+    ["social"],
+    "instagram_social",
+    {
+      app_id: process.env.INSTAGRAM_APP_ID,
+      app_secret: process.env.INSTAGRAM_APP_SECRET
+    }
+  );
+  return;
+  await createApp(
+    "threads-social",
+    "threadssocial",
+    ["social"],
+    "threads_social",
+    {
+      app_id: process.env.THREADS_APP_ID,
+      app_secret: process.env.THREADS_APP_SECRET,
+    }
+  );
   await createApp(
     "xconsumerkeys-social",
     "xconsumerkeyssocial",

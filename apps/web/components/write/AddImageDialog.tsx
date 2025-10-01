@@ -18,7 +18,7 @@ import { useState } from "react";
 interface AddImageDialogProps {
   open: boolean;
   onClose: () => void;
-  handleImageChange: (imageSrc: string) => Promise<void>;
+  handleImageChange: (imageSrc: string, cloudFileId?: number) => Promise<void>;
 }
 enum SourceType {
   Upload = "upload",
@@ -33,6 +33,7 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
   const [activeTab, setActiveTab] = useState(SourceType.Upload);
   const { t } = useLocale();
   const [imageSrc, setImageSrc] = useState<string>("");
+  const [cloudFileId, setCloudFileId] = useState<number | undefined>(undefined);
   const [imagesUnsplash, setImagesUnsplash] = useState([]);
   const [searchImage, setSearchImage] = useState("");
   const [searchLink, setSearchLink] = useState("");
@@ -71,7 +72,38 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
 
   const handleImageUnsplashResult = async (imageUrl: string) => {
     const base64 = await convertImageToBase64(imageUrl);
-    setImageSrc(base64 as string);
+
+    // Upload to Google Cloud Storage for Instagram compatibility
+    try {
+      const response = await fetch('/api/integrations/googlecloudstorage/uploadBase64', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          base64Image: base64,
+          originalFileName: 'unsplash-image.jpg',
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Use public URL instead of base64
+        setImageSrc(data.publicUrl);
+        setCloudFileId(data.id);
+      } else {
+        // Fallback to base64 if upload fails
+        setImageSrc(base64 as string);
+        setCloudFileId(undefined);
+        showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+      }
+    } catch (error) {
+      // Fallback to base64 if upload fails
+      setImageSrc(base64 as string);
+      setCloudFileId(undefined);
+      showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+    }
+
     setShowUnsplashModal(false);
   };
 
@@ -79,11 +111,41 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
     const base64 = await convertImageToBase64(searchLink);
     if (base64) {
       const image = new window.Image();
-      image.onload = () => {
-        setImageSrc(base64 as string);
+      image.onload = async () => {
+        // Upload to Google Cloud Storage for Instagram compatibility
+        try {
+          const response = await fetch('/api/integrations/googlecloudstorage/uploadBase64', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              base64Image: base64,
+              originalFileName: 'embedded-image.jpg',
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            // Use public URL instead of base64
+            setImageSrc(data.publicUrl);
+            setCloudFileId(data.id);
+          } else {
+            // Fallback to base64 if upload fails
+            setImageSrc(base64 as string);
+            setCloudFileId(undefined);
+            showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+          }
+        } catch (error) {
+          // Fallback to base64 if upload fails
+          setImageSrc(base64 as string);
+          setCloudFileId(undefined);
+          showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+        }
       };
       image.onerror = () => {
         setImageSrc("");
+        setCloudFileId(undefined);
         showToast("Invalid url", "error");
       };
       image.src = base64 as string;
@@ -99,6 +161,7 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
 
   function clearData() {
     setImageSrc("");
+    setCloudFileId(undefined);
     setImagesUnsplash([]);
     setSearchImage("");
     setSearchLink("");
@@ -174,8 +237,37 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
                   id="avatar-upload"
                   disableCropTool={true}
                   buttonMsg={<Upload />}
-                  handleImageChange={(imgeDataUrl) => {
-                    setImageSrc(imgeDataUrl);
+                  handleImageChange={async (imgeDataUrl) => {
+                    // Upload to Google Cloud Storage for Instagram compatibility
+                    try {
+                      const response = await fetch('/api/integrations/googlecloudstorage/uploadBase64', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          base64Image: imgeDataUrl,
+                          originalFileName: 'uploaded-image.jpg',
+                        }),
+                      });
+
+                      if (response.ok) {
+                        const data = await response.json();
+                        // Use public URL instead of base64
+                        setImageSrc(data.publicUrl);
+                        setCloudFileId(data.id);
+                      } else {
+                        // Fallback to base64 if upload fails
+                        setImageSrc(imgeDataUrl);
+                        setCloudFileId(undefined);
+                        showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+                      }
+                    } catch (error) {
+                      // Fallback to base64 if upload fails
+                      setImageSrc(imgeDataUrl);
+                      setCloudFileId(undefined);
+                      showToast("Image uploaded locally (Instagram posting may fail)", "warning");
+                    }
                   }}
                   imageSrc={imageSrc}
                 />
@@ -292,8 +384,9 @@ export const AddImageDialog: React.FC<AddImageDialogProps> = ({
             className="rounded-xl"
             disabled={!imageSrc}
             onClick={async () => {
-              await handleImageChange(imageSrc);
+              await handleImageChange(imageSrc, cloudFileId);
               setImageSrc("");
+              setCloudFileId(undefined);
             }}
           >
             Use this Image
