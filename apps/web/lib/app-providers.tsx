@@ -1,17 +1,9 @@
-// import { OrgBrandingProvider } from "@quillsocial/features/ee/organizations/context/provider";
-// import { useOrgBrandingValues } from "@quillsocial/features/ee/organizations/hooks";
-// import DynamicHelpscoutProvider from "@quillsocial/features/ee/support/lib/helpscout/providerDynamic";
-// import DynamicIntercomProvider from "@quillsocial/features/ee/support/lib/intercom/providerDynamic";
-// import { FeatureProvider } from "@quillsocial/features/flags/context/provider";
-// import { useFlags } from "@quillsocial/features/flags/hooks";
 import { useViewerI18n } from "@components/I18nLanguageHandler";
 import usePublicPage from "@lib/hooks/usePublicPage";
 import type { WithNonceProps } from "@lib/withNonce";
-import { trpc } from "@quillsocial/trpc/react";
 import { MetaProvider } from "@quillsocial/ui";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { SessionProvider } from "next-auth/react";
-import { EventCollectionProvider } from "next-collect/client";
 import type { SSRConfig } from "next-i18next";
 import { appWithTranslation } from "next-i18next";
 import { ThemeProvider } from "next-themes";
@@ -51,18 +43,31 @@ type AppPropsWithChildren = AppProps & {
 };
 
 const CustomI18nextProvider = (props: AppPropsWithChildren) => {
-  const { i18n, locale } = useViewerI18n().data ?? {
-    locale: "en",
-  };
+  const viewerI18n = useViewerI18n();
+  const locale = viewerI18n.data?.locale ?? props.router?.locale ?? "en";
+  const i18n = viewerI18n.data?.i18n;
+
+  const pageProps = i18n
+    ? {
+        ...props.pageProps,
+        ...i18n,
+      }
+    : props.pageProps;
+
+  const routerWithLocale =
+    props.router && locale
+      ? ({
+          ...props.router,
+          locale,
+        } as typeof props.router)
+      : props.router;
 
   const passedProps = {
     ...props,
-    pageProps: {
-      ...props.pageProps,
-      ...i18n,
-    },
-    router: locale ? { locale } : props.router,
+    pageProps,
+    router: routerWithLocale,
   } as unknown as ComponentProps<typeof I18nextAdapter>;
+
   return <I18nextAdapter {...passedProps} />;
 };
 
@@ -82,20 +87,15 @@ type MyAppThemeProps = PropsWithChildren<
 const MyAppThemeProvider = (props: MyAppThemeProps) => {
   const router = useRouter();
 
-  // Use namespace of embed to ensure same namespaced embed are displayed with same theme. This allows different embeds on the same website to be themed differently
-  // One such example is our Embeds Demo and Testing page at http://localhost:3100
-  // Having `getEmbedNamespace` defined on window before react initializes the app, ensures that embedNamespace is available on the first mount and can be used as part of storageKey
-  // const embedNamespace = typeof window !== "undefined" ? window.getEmbedNamespace() : null;
-  const embedNamespace = null;
-  const isEmbedMode = typeof embedNamespace === "string";
+  const { key, ...themeProviderProps } = getThemeProviderProps({
+    props,
+    router,
+  });
 
   return (
-    <ThemeProvider
-      {...getThemeProviderProps({ props, isEmbedMode, embedNamespace, router })}
-    >
-      {/* Embed Mode can be detected reliably only on client side here as there can be static generated pages as well which can't determine if it's embed mode at backend */}
-      {/* color-scheme makes background:transparent not work in iframe which is required by embed. */}
-      {typeof window !== "undefined" && !isEmbedMode && (
+    <ThemeProvider key={key} {...themeProviderProps}>
+  {/* color-scheme makes background:transparent not work in iframe. */}
+      {typeof window !== "undefined" && (
         <style jsx global>
           {`
             .dark {
@@ -109,42 +109,7 @@ const MyAppThemeProvider = (props: MyAppThemeProps) => {
   );
 };
 
-/**
- * The most important job for this fn is to generate correct storageKey for theme persistenc.
- * `storageKey` is important because that key is listened for changes(using [`storage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event) event) and any pages opened will change it's theme based on that(as part of next-themes implementation).
- * Choosing the right storageKey avoids theme flickering caused by another page using different theme
- * So, we handle all the cases here namely,
- * - Both Booking Pages, /free/30min and /pro/30min but configured with different themes but being operated together.
- * - Embeds using different namespace. They can be completely themed different on the same page.
- * - Embeds using the same namespace but showing different quillsocial.com links with different themes
- * - Embeds using the same namespace and showing same quillsocial.com links with different themes(Different theme is possible for same quillsocial.com link in case of embed because of theme config available in embed)
- * - App has different theme then Booking Pages.
- *
- * All the above cases have one thing in common, which is the origin and thus localStorage is shared and thus `storageKey` is critical to avoid theme flickering.
- *
- * Some things to note:
- * - There is a side effect of so many factors in `storageKey` that many localStorage keys will be created if a user goes through all these scenarios(e.g like booking a lot of different users)
- * - Some might recommend disabling localStorage persistence but that doesn't give good UX as then we would default to light theme always for a few seconds before switching to dark theme(if that's the user's preference).
- * - We can't disable [`storage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event) event handling as well because changing theme in one tab won't change the theme without refresh in other tabs. That's again a bad UX
- * - Theme flickering becomes infinitely ongoing in case of embeds because of the browser's delay in processing `storage` event within iframes. Consider two embeds simulatenously opened with pages A and B. Note the timeline and keep in mind that it happened
- *  because 'setItem(A)' and 'Receives storageEvent(A)' allowed executing setItem(B) in b/w because of the delay.
- *    - t1 -> setItem(A) & Fires storageEvent(A) - On Page A) - Current State(A)
- *    - t2 -> setItem(B) & Fires storageEvent(B) - On Page B) - Current State(B)
- *    - t3 -> Receives storageEvent(A) & thus setItem(A) & thus fires storageEvent(A) (On Page B) - Current State(A)
- *    - t4 -> Receives storageEvent(B) & thus setItem(B) & thus fires storageEvent(B) (On Page A) - Current State(B)
- *    - ... and so on ...
- */
-function getThemeProviderProps({
-  props,
-  isEmbedMode,
-  embedNamespace,
-  router,
-}: {
-  props: Omit<MyAppThemeProps, "children">;
-  isEmbedMode: boolean;
-  embedNamespace: string | null;
-  router: NextRouter;
-}) {
+function getThemeProviderProps({ props, router }: { props: Omit<MyAppThemeProps, "children">; router: NextRouter; }) {
   const isBookingPage = (() => {
     if (typeof props.isBookingPage === "function") {
       return props.isBookingPage({ router: router });
@@ -163,32 +128,15 @@ function getThemeProviderProps({
     themeSupport === ThemeSupport.Booking;
   const themeBasis = props.themeBasis;
 
-  if ((isBookingPageThemSupportRequired || isEmbedMode) && !themeBasis) {
+  if (isBookingPageThemSupportRequired && !themeBasis) {
     console.warn(
       "`themeBasis` is required for booking page theme support. Not providing it will cause theme flicker."
     );
   }
 
-  const appearanceIdSuffix = themeBasis ? ":" + themeBasis : "";
   const forcedTheme = themeSupport === ThemeSupport.None ? "light" : undefined;
-  const embedExplicitlySetThemeSuffix = "";
 
-  if (typeof window !== "undefined") {
-    // const embedTheme = window.getEmbedTheme();
-    // if (embedTheme) {
-    //   embedExplicitlySetThemeSuffix = ":" + embedTheme;
-    // }
-  }
-
-  const storageKey = isEmbedMode
-    ? // Same Namespace, Same Organizer but different themes would still work seamless and not cause theme flicker
-      // Even though it's recommended to use different namespaces when you want to theme differently on the same page but if the embeds are on different pages, the problem can still arise
-      `embed-theme-${embedNamespace}${appearanceIdSuffix}${embedExplicitlySetThemeSuffix}`
-    : themeSupport === ThemeSupport.App
-    ? "app-theme"
-    : isBookingPageThemSupportRequired
-    ? `booking-theme${appearanceIdSuffix}`
-    : undefined;
+  const storageKey = "app-theme";
 
   return {
     storageKey,
@@ -204,58 +152,30 @@ function getThemeProviderProps({
   };
 }
 
-// function FeatureFlagsProvider({ children }: { children: React.ReactNode }) {
-//   const flags = useFlags();
-//   // return <FeatureProvider value={flags}>{children}</FeatureProvider>;
-//   return <FeatureProvider value={flags}>{children}</FeatureProvider>;
-// }
-
-// function OrgBrandProvider({ children }: { children: React.ReactNode }) {
-//   const orgBrand = useOrgBrandingValues();
-//   return <OrgBrandingProvider value={orgBrand}>{children}</OrgBrandingProvider>;
-// }
-
 const AppProviders = (props: AppPropsWithChildren) => {
-  // Remove the tRPC session query dependency that was causing session status to be stuck in loading
-  // NextAuth SessionProvider should handle session state internally
-  // const session = trpc.viewer.public.session.useQuery().data;
-
-  // No need to have intercom on public pages - Good for Page Performance
   const isPublicPage = usePublicPage();
 
   const RemainingProviders = (
-    <EventCollectionProvider options={{ apiPath: "/api/collect-events" }}>
-      <SessionProvider>
-        <CustomI18nextProvider {...props}>
-          <TooltipProvider>
-            {/* color-scheme makes background:transparent not work which is required by embed. We need to ensure next-theme adds color-scheme to `body` instead of `html`(https://github.com/pacocoursey/next-themes/blob/main/src/index.tsx#L74). Once that's done we can enable color-scheme support */}
-            <MyAppThemeProvider
-              themeBasis={props.pageProps.themeBasis}
-              nonce={props.pageProps.nonce}
-              isThemeSupported={props.Component.isThemeSupported}
-              isBookingPage={props.Component.isBookingPage}
-            >
-              {/* <FeatureFlagsProvider> */}
-              {/* <OrgBrandProvider> */}
-              <MetaProvider>{props.children}</MetaProvider>
-              {/* </OrgBrandProvider> */}
-              {/* </FeatureFlagsProvider> */}
-            </MyAppThemeProvider>
-          </TooltipProvider>
-        </CustomI18nextProvider>
-      </SessionProvider>
-    </EventCollectionProvider>
+    <SessionProvider>
+      <CustomI18nextProvider {...props}>
+        <TooltipProvider>
+          {/* color-scheme makes background:transparent not work which is required by embed. We need to ensure next-theme adds color-scheme to `body` instead of `html`(https://github.com/pacocoursey/next-themes/blob/main/src/index.tsx#L74). Once that's done we can enable color-scheme support */}
+          <MyAppThemeProvider
+            themeBasis={props.pageProps.themeBasis}
+            nonce={props.pageProps.nonce}
+            isThemeSupported={props.Component.isThemeSupported}
+            isBookingPage={props.Component.isBookingPage}
+          >
+            <MetaProvider>{props.children}</MetaProvider>
+          </MyAppThemeProvider>
+        </TooltipProvider>
+      </CustomI18nextProvider>
+    </SessionProvider>
   );
 
   if (isPublicPage) {
     return RemainingProviders;
   }
-
-  // return (
-  //   <DynamicHelpscoutProvider>
-  //     <DynamicIntercomProvider>{RemainingProviders}</DynamicIntercomProvider>
-  //   </DynamicHelpscoutProvider>
-  // );
   return RemainingProviders;
 };
 

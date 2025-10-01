@@ -19,9 +19,7 @@ generator zod {
   relationModel = "default"
 }
 
-generator enums {
-  provider = "ts-node --transpile-only ./enum-generator.ts"
-}
+
 
 model Credential {
   id                   Int        @id @default(autoincrement())

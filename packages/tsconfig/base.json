@@ -2,9 +2,10 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
-    "composite": false,
-    "declaration": false,
-    "declarationMap": true,
+  "composite": false,
+  "declaration": false,
+  "declarationMap": false,
+  "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,

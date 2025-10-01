@@ -1,4 +1,9 @@
 {
   "extends": "@quillsocial/tsconfig/react-library.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "ignoreDeprecations": "6.0"
+  },
   "include": ["client", "next", "react", "server"]
 }

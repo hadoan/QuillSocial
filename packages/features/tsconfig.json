@@ -6,7 +6,10 @@
       "~/*": ["/*"]
     },
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": false,
+    "declarationMap": false,
+    "ignoreDeprecations": "6.0"
   },
   "include": [".", "../types/next-auth.d.ts"],
   "exclude": ["dist", "build", "node_modules"]
