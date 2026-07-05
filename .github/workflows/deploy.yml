@@ -47,6 +47,9 @@ jobs:
           yarn set version 3.4.1
           yarn install
 
+      - name: Generate Prisma Client
+        run: yarn workspace @quillsocial/prisma generate-schemas
+
       - name: Build Application
         env:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
