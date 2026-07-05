@@ -96,7 +96,6 @@ export default async function main() {
       app_secret: process.env.INSTAGRAM_APP_SECRET
     }
   );
-  return;
   await createApp(
     "threads-social",
     "threadssocial",

@@ -232,6 +232,9 @@ function IdeasPillarsPage() {
             <div>
               <h2 className="text-2xl font-bold text-gray-900">Ideas & Pillars</h2>
               <p className="mt-1 text-sm text-gray-600">Drop a note, link, or reply. We'll shape it.</p>
+              <div className="mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-md border border-gray-200 max-w-3xl">
+                <strong>💡 What is a Pillar?</strong> Pillars are the core themes or topics that your content revolves around (e.g., "Company Culture", "Product Updates", "Industry Tips"). Grouping your ideas into pillars helps you maintain a consistent and organized content strategy.
+              </div>
             </div>
             <Dialog open={addIdeaOpen} onOpenChange={setAddIdeaOpen}>
               <DialogTrigger asChild>

@@ -247,6 +247,18 @@ export function OutlineDrawer({
 
         {/* Editor */}
         <div className="flex-1 overflow-y-auto py-4">
+          <div className="mb-4">
+            <Button
+              color="secondary"
+              onClick={handleRegenerate}
+              disabled={actuallyGenerating || !onGenerate}
+              StartIcon={!actuallyGenerating ? RefreshCw : undefined}
+              data-testid="outline-regenerate"
+            >
+              {actuallyGenerating ? "Processing…" : "Generate Outline"}
+            </Button>
+          </div>
+
           <div className="border border-slate-200 rounded-lg overflow-hidden">
             <BlogMarkdownEditor
               value={outlineDraft}
@@ -258,17 +270,6 @@ export function OutlineDrawer({
             />
           </div>
 
-          <div className="mt-4">
-            <Button
-              color="secondary"
-              onClick={handleRegenerate}
-              disabled={actuallyGenerating || !onGenerate}
-              StartIcon={!actuallyGenerating ? RefreshCw : undefined}
-              data-testid="outline-regenerate"
-            >
-              {actuallyGenerating ? "Processing…" : "Generate Outline"}
-            </Button>
-          </div>
         </div>
 
         {/* Actions Footer */}

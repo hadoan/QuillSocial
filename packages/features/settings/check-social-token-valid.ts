@@ -6,7 +6,15 @@ type Response = {
   valid: boolean;
   message?: string;
 };
-const typeValues = ["linkedin_social", "x_social", "facebook_social"];
+const typeValues = [
+  "linkedin_social",
+  "x_social",
+  "xconsumerkeys_social",
+  "facebook_social",
+  "instagram_social",
+  "threads_social",
+  "tiktok_social"
+];
 
 export default async function handler(
   req: NextApiRequest,
