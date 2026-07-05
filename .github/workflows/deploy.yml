@@ -52,6 +52,7 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           DATABASE_URL: ${{ env.DATABASE_URL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MY_APP_ENCRYPTION_KEY: "12345678901234567890123456789012"
         run: yarn build
 
       - name: Set up Docker Buildx
@@ -86,6 +87,7 @@ jobs:
             DATABASE_URL=${{ env.DATABASE_URL }}
             OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
             NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+            MY_APP_ENCRYPTION_KEY="12345678901234567890123456789012"
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
