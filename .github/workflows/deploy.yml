@@ -101,73 +101,7 @@ jobs:
         with:
           project_id: ${{ env.PROJECT_ID }}
 
-      - name: Run DB migrations (Cloud Run job)
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          IMAGE="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
-          SERVICE_ENV_JSON="$(gcloud run services describe "${{ env.SERVICE_NAME }}" --region "${{ env.REGION }}" --format=json)"
-          SERVICE_ACCOUNT="$(jq -r '.spec.template.spec.serviceAccountName // .template.serviceAccount // empty' <<<"$SERVICE_ENV_JSON")"
-
-          job_identity_args=()
-          if [ -n "$SERVICE_ACCOUNT" ]; then
-            job_identity_args=(--service-account "$SERVICE_ACCOUNT")
-          fi
-          
-          # Pass the DATABASE_URL directly to the migration job since it needs to run migrations
-          job_env_args=(--update-env-vars "^__ENV_DELIM__^NODE_ENV=production__ENV_DELIM__DATABASE_URL=${{ env.DATABASE_URL }}")
-
-          if gcloud run jobs describe "${{ env.JOB_NAME }}" --region "${{ env.REGION }}" >/dev/null 2>&1; then
-            gcloud run jobs update "${{ env.JOB_NAME }}" \
-              --region "${{ env.REGION }}" \
-              --image "$IMAGE" \
-              --command "npx" \
-              --args "prisma,migrate,deploy,--schema=./prisma/schema.prisma" \
-              --cpu=1 \
-              --memory=1Gi \
-              --task-timeout=15m \
-              --max-retries=0 \
-              "${job_identity_args[@]}" \
-              "${job_env_args[@]}"
-          else
-            gcloud run jobs create "${{ env.JOB_NAME }}" \
-              --region "${{ env.REGION }}" \
-              --image "$IMAGE" \
-              --command "npx" \
-              --args "prisma,migrate,deploy,--schema=./prisma/schema.prisma" \
-              --cpu=1 \
-              --memory=1Gi \
-              --task-timeout=15m \
-              --max-retries=0 \
-              "${job_identity_args[@]}" \
-              "${job_env_args[@]}"
-          fi
-
-          set +e
-          execution_output="$(gcloud run jobs execute "${{ env.JOB_NAME }}" --region "${{ env.REGION }}" --wait 2>&1)"
-          execution_status=$?
-          set -e
-
-          echo "$execution_output"
-
-          if [ "$execution_status" -ne 0 ]; then
-            execution_name="$(printf '%s\n' "$execution_output" | grep -Eo '${{ env.JOB_NAME }}-[a-z0-9]+' | tail -1 || true)"
-
-            if [ -n "$execution_name" ]; then
-              echo "::group::Cloud Run migration execution"
-              gcloud run jobs executions describe "$execution_name" \
-                --region "${{ env.REGION }}" \
-                --format "yaml(name,completionTime,conditions,status)"
-              echo "::endgroup::"
-
-              echo "::group::Cloud Run migration logs"
-              gcloud logging read \
-                'resource.type="cloud_run_job" AND labels."run.googleapis.com/execution_name"="'"$execution_name"'"' \
-                --limit=100 \
-                --format='value(timestamp,severity,textPayload,jsonPayload.message,protoPayload.status.message)'
-              echo "::endgroup::"
-            fi
-
-            exit "$execution_status"
-          fi
+      - name: Run DB migrations
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+        run: yarn workspace @quillsocial/prisma db-deploy
