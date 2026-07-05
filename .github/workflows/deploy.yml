@@ -48,6 +48,10 @@ jobs:
           yarn install
 
       - name: Build Application
+        env:
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: yarn build
 
       - name: Set up Docker Buildx
